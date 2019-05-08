@@ -5,37 +5,24 @@ mongoose.set('useCreateIndex', true);
 
 let mangaSchema = new mongoose.Schema({
     name: String,
-    image: Buffer,
-
-    source: {
-        type: String,
-        enum: ['MR', 'HVTT', 'MKL', 'NT']
-    },
-    code: String,
+    link: String,
+    image: String,
 
     chapters: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Chapter'
     }],
-    currentChap: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Chapter'
-    },
-    latestChap: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Chapter'
-    },
-    finalChap: mongoose.Schema.Types.Mixed,
 
     note: String,
-    genres: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Genre'
-    }]
+    // genres: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Genre'
+    // }]
 });
 
 mangaSchema.index({name: 1});
-mangaSchema.index({genres: 1});
+// mangaSchema.index({genres: 1});
+mangaSchema.index({link: 1}, {unique: true});
 
 let Manga = mongoose.model('Manga', mangaSchema);
 

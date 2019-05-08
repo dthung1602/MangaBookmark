@@ -5,21 +5,12 @@ mongoose.set('useCreateIndex', true);
 
 let chapterSchema = new mongoose.Schema(
     {
-        manga: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Manga'
-        },
         name: String,
-
-        no: Number,
-        next: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Chapter'
-        },
-        prev: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Chapter'
-        },
+        link: String,
+        isRead: {
+            type: Boolean,
+            default: false
+        }
     },
     {
         timestamps: {
@@ -29,9 +20,8 @@ let chapterSchema = new mongoose.Schema(
     }
 );
 
-chapterSchema.index({'manga': 1});
-chapterSchema.index({'lastUpdated': 1});
+chapterSchema.index({link: 1}, {unique: true});
 
-var Chapter = mongoose.model('Chapter', chapterSchema);
+let Chapter = mongoose.model('Chapter', chapterSchema);
 
 module.exports = Chapter;
