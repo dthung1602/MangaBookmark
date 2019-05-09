@@ -1,4 +1,4 @@
-const URLRegex = /https?:\/\/mangarock.com\/manga\/mrs-serie-[0-9]+$/;
+const URLRegex = /https?:\/\/mangarock\.com\/manga\/mrs-serie-[0-9]+$/;
 
 const executeJS = true;
 

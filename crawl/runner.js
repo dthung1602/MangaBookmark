@@ -8,7 +8,9 @@ const Chapter = require('../models/Chapter');
 
 const parsers = [
     require('./HocVienTruyenTranh'),
-    require('./MangaRock')
+    require('./MangaRock'),
+    require('./Mangakakalot'),
+    require('./NetTruyen')
 ];
 
 mongoose.set('useNewUrlParser', true);
