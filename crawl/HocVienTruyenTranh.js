@@ -1,12 +1,12 @@
-const cheerio = require('cheerio');
-
 const URLRegex = /https?:\/\/hocvientruyentranh.net\/truyen\/[0-9]+\/.*/;
 
+const executeJS = false;
+
 function parseChapters($) {
-    let rows = cheerio('tr', $('.table-hover')[1]);
+    let rows = $('.table-hover tr');
 
     let chapters = [];
-    for (let i = 0; i < rows.length; i++) {
+    for (let i = 1; i < rows.length; i++) {
         const aTag = rows[i].children[1].children[0];
         chapters.push({
             name: aTag.attribs.title,
@@ -27,6 +27,7 @@ function parseManga($) {
 
 module.exports = {
     URLRegex,
+    executeJS,
     parseManga,
     parseChapters
 };
