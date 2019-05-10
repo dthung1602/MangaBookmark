@@ -1,26 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import NavBar from './NavBar'
+import Header from './Header'
+import MangaTable from "./MangaTable";
+import LoadMore from "./LoadMore";
+import FloatButtons from "./FloatButtons";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+function App(props) {
+    return (
+        <div>
+            <NavBar username="hung"/>
+            <Header/>
+            <MangaTable/>
+            <LoadMore/>
+            <FloatButtons/>
+        </div>
+    );
 }
 
 export default App;
