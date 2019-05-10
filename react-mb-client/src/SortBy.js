@@ -14,21 +14,20 @@ const styles = theme => ({
 class SortBy extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            sortby: props.sortby
-        }
     }
 
     render() {
         const {classes} = this.props;
-        const sortby = this.state.sortby;
+        const onChange = this.props.onChange;
+        const sortby = this.props.sortby;
 
         return (
             <div className={classes.sortby}>
                 <Typography variant={"subtitle1"}>
                     Sort by
                 </Typography>
-                <Select value={sortby}>
+                <Select value={sortby} onChange={onChange}>
+                    <MenuItem value="status">Status</MenuItem>
                     <MenuItem value="name">Name</MenuItem>
                     <MenuItem value="latest">Latest</MenuItem>
                     <MenuItem value="many">Many to read</MenuItem>
@@ -37,5 +36,6 @@ class SortBy extends React.Component {
         )
     }
 }
+
 
 export default withStyles(styles)(SortBy);

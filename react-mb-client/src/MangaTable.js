@@ -12,8 +12,7 @@ class MangaTable extends React.Component {
     }
 
     render() {
-        const sorter = this.props.sorter;
-        const data = sorter(this.props.data);
+        const data = this.props.data;
 
         return (
             <Table>

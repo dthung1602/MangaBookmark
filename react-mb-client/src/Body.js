@@ -1,13 +1,33 @@
 import React from 'react';
-import Header from './Header'
 import MangaTable from "./MangaTable";
 import LoadMore from "./LoadMore";
+import SortBy from "./SortBy";
+import SearchBar from "./SearchBar";
+import withStyles from "@material-ui/core/styles/withStyles";
+
+const styles = theme => ({
+    header: {
+        display: 'flex',
+        paddingTop: 100
+    },
+    grow: {
+        flexGrow: 1
+    }
+});
 
 class Body extends React.Component {
     constructor(props) {
         super(props);
-
+        this.state = {
+            sortby: 'status',
+        }
     }
+
+    onSortByChange = (event) => {
+        this.setState({
+            sortby: event.target.value
+        })
+    };
 
     render() {
         const data = [
@@ -51,13 +71,25 @@ class Body extends React.Component {
             }
         ];
 
-        const sorter = (x) => x;
+        const {classes} = this.props;
+        const sortby = this.state.sortby;
+
+        const sort = {
+            'status': sortByStatus,
+            'name': sortByName,
+            'latest': sortByLatest,
+            'many': sortByManyToRead
+        }[sortby];
+        sort(data);
 
         return (
             <div>
-                <Header/>
+                <div className={classes.header}>
+                    <SortBy sortby={sortby} onChange={this.onSortByChange}/>
+                    <div className={classes.grow}/>
+                    <SearchBar/>
+                </div>
                 <MangaTable
-                    sorter={sorter}
                     data={data}
                 />
                 <LoadMore/>
@@ -66,4 +98,29 @@ class Body extends React.Component {
     }
 }
 
-export default Body;
+function sortByStatus(mangas) {
+    // TODO
+}
+
+function sortByName(mangas) {
+    mangas.sort((a, b) => a.name > b.name);
+}
+
+function sortByLatest(mangas) {
+    const latestChap = (manga) => {
+        let latest = '2000-01-01';
+        for (let i = 0; i < manga.chapters.length; i++) {
+            if (manga.chapters[i].createAt > latest)
+                latest = manga.chapters[i]
+        }
+        return latest;
+    };
+
+    mangas.sort((a, b) => latestChap(a) > latestChap(b));
+}
+
+function sortByManyToRead(mangas) {
+    mangas.sort((a, b) => a.chapters.length > b.chapters.length);
+}
+
+export default withStyles(styles)(Body);
