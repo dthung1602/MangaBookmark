@@ -2,16 +2,19 @@ import React from "react"
 import {withStyles} from "@material-ui/styles";
 import {Table, TableBody, TableHead, TableRow} from "@material-ui/core";
 import TableCell from "@material-ui/core/TableCell";
+import Row from "./Row";
 
 const styles = theme => ({});
 
 class MangaTable extends React.Component {
     constructor(props) {
         super(props);
-        // fetch data here
     }
 
     render() {
+        const sorter = this.props.sorter;
+        const data = sorter(this.props.data);
+
         return (
             <Table>
                 <TableHead>
@@ -19,113 +22,11 @@ class MangaTable extends React.Component {
                         <TableCell> Status </TableCell>
                         <TableCell> Name </TableCell>
                         <TableCell> Last read chapter </TableCell>
-                        <TableCell> Lastest chapter </TableCell>
+                        <TableCell> Latest chapter </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    <TableRow>
-                        <TableCell>skdsadf</TableCell>
-                        <TableCell>skd sdf dfasfsafasasff</TableCell>
-                        <TableCell>skd</TableCell>
-                        <TableCell>skd</TableCell>
-                    </TableRow>
-                     <TableRow>
-                        <TableCell>skdsadf</TableCell>
-                        <TableCell>skd sdf dfasfsafasasff</TableCell>
-                        <TableCell>skd</TableCell>
-                        <TableCell>skd</TableCell>
-                    </TableRow>
-                     <TableRow>
-                        <TableCell>skdsadf</TableCell>
-                        <TableCell>skd sdf dfasfsafasasff</TableCell>
-                        <TableCell>skd</TableCell>
-                        <TableCell>skd</TableCell>
-                    </TableRow>
-                     <TableRow>
-                        <TableCell>skdsadf</TableCell>
-                        <TableCell>skd sdf dfasfsafasasff</TableCell>
-                        <TableCell>skd</TableCell>
-                        <TableCell>skd</TableCell>
-                    </TableRow>
-                     <TableRow>
-                        <TableCell>skdsadf</TableCell>
-                        <TableCell>skd sdf dfasfsafasasff</TableCell>
-                        <TableCell>skd</TableCell>
-                        <TableCell>skd</TableCell>
-                    </TableRow>
-                     <TableRow>
-                        <TableCell>skdsadf</TableCell>
-                        <TableCell>skd sdf dfasfsafasasff</TableCell>
-                        <TableCell>skd</TableCell>
-                        <TableCell>skd</TableCell>
-                    </TableRow>
-                     <TableRow>
-                        <TableCell>skdsadf</TableCell>
-                        <TableCell>skd sdf dfasfsafasasff</TableCell>
-                        <TableCell>skd</TableCell>
-                        <TableCell>skd</TableCell>
-                    </TableRow>
-                     <TableRow>
-                        <TableCell>skdsadf</TableCell>
-                        <TableCell>skd sdf dfasfsafasasff</TableCell>
-                        <TableCell>skd</TableCell>
-                        <TableCell>skd</TableCell>
-                    </TableRow>
-                     <TableRow>
-                        <TableCell>skdsadf</TableCell>
-                        <TableCell>skd sdf dfasfsafasasff</TableCell>
-                        <TableCell>skd</TableCell>
-                        <TableCell>skd</TableCell>
-                    </TableRow>
-                     <TableRow>
-                        <TableCell>skdsadf</TableCell>
-                        <TableCell>skd sdf dfasfsafasasff</TableCell>
-                        <TableCell>skd</TableCell>
-                        <TableCell>skd</TableCell>
-                    </TableRow>
-                     <TableRow>
-                        <TableCell>skdsadf</TableCell>
-                        <TableCell>skd sdf dfasfsafasasff</TableCell>
-                        <TableCell>skd</TableCell>
-                        <TableCell>skd</TableCell>
-                    </TableRow>
-                     <TableRow>
-                        <TableCell>skdsadf</TableCell>
-                        <TableCell>skd sdf dfasfsafasasff</TableCell>
-                        <TableCell>skd</TableCell>
-                        <TableCell>skd</TableCell>
-                    </TableRow>
-                     <TableRow>
-                        <TableCell>skdsadf</TableCell>
-                        <TableCell>skd sdf dfasfsafasasff</TableCell>
-                        <TableCell>skd</TableCell>
-                        <TableCell>skd</TableCell>
-                    </TableRow>
-                     <TableRow>
-                        <TableCell>skdsadf</TableCell>
-                        <TableCell>skd sdf dfasfsafasasff</TableCell>
-                        <TableCell>skd</TableCell>
-                        <TableCell>skd</TableCell>
-                    </TableRow>
-                     <TableRow>
-                        <TableCell>skdsadf</TableCell>
-                        <TableCell>skd sdf dfasfsafasasff</TableCell>
-                        <TableCell>skd</TableCell>
-                        <TableCell>skd</TableCell>
-                    </TableRow>
-                     <TableRow>
-                        <TableCell>skdsadf</TableCell>
-                        <TableCell>skd sdf dfasfsafasasff</TableCell>
-                        <TableCell>skd</TableCell>
-                        <TableCell>skd</TableCell>
-                    </TableRow>
-                     <TableRow>
-                        <TableCell>skdsadf</TableCell>
-                        <TableCell>skd sdf dfasfsafasasff</TableCell>
-                        <TableCell>skd</TableCell>
-                        <TableCell>skd</TableCell>
-                    </TableRow>
-
+                    {data.map(d => <Row manga={d}/>)}
                 </TableBody>
             </Table>
         )

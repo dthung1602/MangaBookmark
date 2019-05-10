@@ -12,7 +12,10 @@ let mangaSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Chapter'
     }],
-
+    isCompleted: {
+        type: Boolean,
+        default: false
+    },
     note: String,
     // genres: [{
     //     type: mongoose.Schema.Types.ObjectId,
