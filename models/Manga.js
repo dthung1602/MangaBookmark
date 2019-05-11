@@ -19,7 +19,10 @@ let mangaSchema = new mongoose.Schema({
         enum: ['toread', 'following', 'waiting', 'dropped'],
         default: 'following'
     },
-    note: String,
+    note: {
+        type: String,
+        default: ''
+    },
     // genres: [{
     //     type: mongoose.Schema.Types.ObjectId,
     //     ref: 'Genre'

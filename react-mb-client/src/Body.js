@@ -151,7 +151,12 @@ class Body extends React.Component {
 
             // change note => no need to change
             // drop + delete => remove manga
-            const filter = (updatedValues.note === undefined) ? (m => m._id !== mangaID) : (m => m);
+            const filter = (updatedValues.note === undefined)
+                ? (m => m._id !== mangaID)
+                : (m => {
+                    m.note = updatedValues.note;
+                    return true
+                });
             const mangas = this.state.data.filter(filter);
 
             this.setState({data: mangas});
@@ -214,6 +219,7 @@ class Body extends React.Component {
                             <TableCell> Name </TableCell>
                             <TableCell> Last read chapter </TableCell>
                             <TableCell> Latest chapter </TableCell>
+                            <TableCell> Note </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

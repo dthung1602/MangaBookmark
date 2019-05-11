@@ -7,6 +7,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import ListItemText from "@material-ui/core/ListItemText";
 
 import Utils from "./Utils"
+import Textarea from "@material-ui/core/es/InputBase/Textarea";
 
 const styles = theme => ({
     F: {
@@ -31,7 +32,8 @@ class Row extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            chapters: props.manga.chapters
+            chapters: props.manga.chapters,
+            note: null
         }
     }
 
@@ -72,24 +74,47 @@ class Row extends React.Component {
         this.setState({chapters: this.state.chapters});
     };
 
+    dropManga = () => {
+        if (!window.confirm('Are you sure to drop this manga?'))
+            return;
+        const editManga = this.props.onEditManga;
+        const manga = this.props.manga;
+        editManga(manga._id, {following: 'dropped'})
+    };
+
+    saveNote = async () => {
+        const note = this.state.note;
+        const editManga = this.props.onEditManga;
+        const manga = this.props.manga;
+        await editManga(manga._id, {note: note});
+        this.setState({note: null});
+    };
+
+    onNoteEdited = (event) => {
+        this.setState({note: event.target.value})
+    };
+
+    editNote = () => {
+        this.setState({note: this.props.manga.note})
+    };
+
+    cancelEditNote = () => {
+        this.setState({note: null})
+    };
+
+    deleteManga = () => {
+        if (!window.confirm('Are you sure to delete this manga?'))
+            return;
+        const deleteManga = this.props.onDeleteManga;
+        const manga = this.props.manga;
+        deleteManga(manga._id)
+    };
+
     render() {
         const {classes} = this.props;
         const manga = this.props.manga;
         const chapters = this.state.chapters;
         const chapterCount = chapters.length;
-        const editManga = this.props.onEditManga;
-
-        const dropManga = () => {
-            if (!window.confirm('Are you sure to drop this manga?'))
-                return;
-            editManga(manga._id, {following: 'dropped'})
-        };
-
-        const deleteManga = () => {
-            if (!window.confirm('Are you sure to delete this manga?'))
-                return;
-            this.props.onDeleteManga(manga._id)
-        };
 
         const status = Utils.getMangaStatus(manga);
         const colorClass = {
@@ -137,9 +162,21 @@ class Row extends React.Component {
                 </TableCell>
                 <TableCell>
                     <Button><a href={nextChapToRead.link}>Read</a></Button>
-                    <Button onClick={dropManga}>Drop</Button>
-                    <Button onClick={deleteManga}>Delete</Button>
+                    <Button onClick={this.dropManga}>Drop</Button>
+                    <Button onClick={this.deleteManga}>Delete</Button>
                 </TableCell>
+                {
+                    (this.state.note === null) ?
+                        (<TableCell>
+                            <div> {manga.note} </div>
+                            <Button onClick={this.editNote}> Edit </Button>
+                        </TableCell>) :
+                        (<TableCell>
+                            <Textarea value={this.state.note} onChange={this.onNoteEdited} variant='outlined'/>
+                            <Button onClick={this.cancelEditNote}> Cancel </Button>
+                            <Button onClick={this.saveNote}> Save </Button>
+                        </TableCell>)
+                }
             </TableRow>
         )
     }
