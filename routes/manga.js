@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 const Manga = require('../models/Manga');
-require('../models/Chapter');
+const Chapter = require('../models/Chapter');
+const mongoose = require('mongoose');
 
 const {connectToDB} = require('./utils');
 
@@ -31,6 +32,16 @@ router.post('/edit/:mangaID', async function (req, res, next) {
     await Manga
         .findByIdAndUpdate(req.params.mangaID, updatedValue)
         .select('-__v');
+
+    res.send('');
+});
+
+
+router.post('/delete/:mangaID', async function (req, res, next) {
+    connectToDB(next);
+
+    const manga = await Manga.findByIdAndDelete(req.params.mangaID);
+    await Chapter.deleteMany({_id: {$in: manga.chapters.map(ch => ch._id)}});
 
     res.send('');
 });

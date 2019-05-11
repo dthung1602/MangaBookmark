@@ -77,7 +77,19 @@ class Row extends React.Component {
         const manga = this.props.manga;
         const chapters = this.state.chapters;
         const chapterCount = chapters.length;
-        const dropManga = this.props.onDropManga;
+        const editManga = this.props.onEditManga;
+
+        const dropManga = () => {
+            if (!window.confirm('Are you sure to drop this manga?'))
+                return;
+            editManga(manga._id, {following: 'dropped'})
+        };
+
+        const deleteManga = () => {
+            if (!window.confirm('Are you sure to delete this manga?'))
+                return;
+            this.props.onDeleteManga(manga._id)
+        };
 
         const status = Utils.getMangaStatus(manga);
         const colorClass = {
@@ -125,8 +137,8 @@ class Row extends React.Component {
                 </TableCell>
                 <TableCell>
                     <Button><a href={nextChapToRead.link}>Read</a></Button>
-                    <Button onClick={() => dropManga(manga._id)}>Drop</Button>
-                    <Button>Delete</Button>
+                    <Button onClick={dropManga}>Drop</Button>
+                    <Button onClick={deleteManga}>Delete</Button>
                 </TableCell>
             </TableRow>
         )

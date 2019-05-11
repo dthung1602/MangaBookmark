@@ -1,10 +1,12 @@
 import React from 'react';
-import MangaTable from "./MangaTable";
 import LoadMore from "./LoadMore";
 import SortBy from "./SortBy";
 import SearchBar from "./SearchBar";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Utils from "./Utils";
+import {Table, TableBody, TableHead, TableRow} from "@material-ui/core";
+import TableCell from "@material-ui/core/TableCell";
+import Row from "./Row";
 
 const styles = theme => ({
     header: {
@@ -130,17 +132,14 @@ class Body extends React.Component {
         })
     };
 
-    onDropManga = async (mangaID) => {
-        if (!window.confirm("Are you sure to drop this manga?"))
-            return;
-
+    onEditManga = async (mangaID, updatedValues) => {
         try {
             const url = `/api/manga/edit/${mangaID}`;
             const fetchOptions = {
                 method: 'POST',
                 credentials: "same-origin",
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({following: 'dropped'})
+                body: JSON.stringify(updatedValues)
             };
             const response = await fetch(url, fetchOptions);
 
@@ -150,7 +149,35 @@ class Body extends React.Component {
                 return
             }
 
-            const mangas = this.state.data.filter(manga => manga._id !== mangaID);
+            // change note => no need to change
+            // drop + delete => remove manga
+            const filter = (updatedValues.note === undefined) ? (m => m._id !== mangaID) : (m => m);
+            const mangas = this.state.data.filter(filter);
+
+            this.setState({data: mangas});
+
+        } catch (e) {
+            alert("ERROR: Cannot load data. Check your Internet connection.");
+        }
+    };
+
+    onDeleteManga = async (mangaID) => {
+        try {
+            const url = `/api/manga/delete/${mangaID}`;
+            const fetchOptions = {
+                method: 'POST',
+                credentials: "same-origin"
+            };
+            const response = await fetch(url, fetchOptions);
+
+            if (!response.ok) {
+                const text = await response.text();
+                alert("ERROR: " + text);
+                return
+            }
+
+            const mangas = this.state.data.filter(m => m._id !== mangaID);
+
             this.setState({data: mangas});
 
         } catch (e) {
@@ -162,6 +189,8 @@ class Body extends React.Component {
         const data = this.state.data;
         const {classes} = this.props;
         const sortby = this.state.sortby;
+        const onEditManga = this.onEditManga;
+        const onDeleteManga = this.onDeleteManga;
 
         const sort = {
             'status': sortByStatus,
@@ -178,10 +207,22 @@ class Body extends React.Component {
                     <div className={classes.grow}/>
                     <SearchBar/>
                 </div>
-                <MangaTable
-                    data={data}
-                    onDropManga={this.onDropManga}
-                />
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell> Status </TableCell>
+                            <TableCell> Name </TableCell>
+                            <TableCell> Last read chapter </TableCell>
+                            <TableCell> Latest chapter </TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {data.map(d => <Row manga={d} key={d._id}
+                                            onEditManga={onEditManga}
+                                            onDeleteManga={onDeleteManga}
+                        />)}
+                    </TableBody>
+                </Table>
                 <LoadMore/>
             </div>
         );
