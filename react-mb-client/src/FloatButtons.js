@@ -1,7 +1,7 @@
 import React from "react"
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import AddIcon from "@material-ui/icons/Add";
-import {Button, Fab} from "@material-ui/core";
+import {Fab} from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 

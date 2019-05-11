@@ -13,6 +13,7 @@ class MangaTable extends React.Component {
 
     render() {
         const data = this.props.data;
+        const onDropManga = this.props.onDropManga;
 
         return (
             <Table>
@@ -25,7 +26,7 @@ class MangaTable extends React.Component {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {data.map(d => <Row manga={d} key={d._id}/>)}
+                    {data.map(d => <Row manga={d} key={d._id} onDropManga={onDropManga} />)}
                 </TableBody>
             </Table>
         )

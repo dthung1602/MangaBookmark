@@ -5,6 +5,7 @@ import {Button, Select, TableRow} from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import Checkbox from "@material-ui/core/Checkbox";
 import ListItemText from "@material-ui/core/ListItemText";
+
 import Utils from "./Utils"
 
 const styles = theme => ({
@@ -34,7 +35,7 @@ class Row extends React.Component {
         }
     }
 
-    onChange = async (event) => {
+    onChangeChapter = async (event) => {
         const chapters = this.state.chapters;
         const newValues = event.target.value;
         let oldValues = chapters.filter(ch => ch.isRead).map(ch => ch._id);
@@ -75,8 +76,8 @@ class Row extends React.Component {
         const {classes} = this.props;
         const manga = this.props.manga;
         const chapters = this.state.chapters;
-
         const chapterCount = chapters.length;
+        const dropManga = this.props.onDropManga;
 
         const status = Utils.getMangaStatus(manga);
         const colorClass = {
@@ -111,7 +112,7 @@ class Row extends React.Component {
                     <Select
                         multiple
                         value={readChaptersId}
-                        onChange={this.onChange}
+                        onChange={this.onChangeChapter}
                         renderValue={() => <span>{lastChapRead.name}</span>}
                     >
                         {chapters.map(chap => (
@@ -123,8 +124,9 @@ class Row extends React.Component {
                     </Select>
                 </TableCell>
                 <TableCell>
-                    <Button><a href={nextChapToRead.link}>{nextChapToRead.name}</a></Button>
-                    <Button>Drop</Button>
+                    <Button><a href={nextChapToRead.link}>Read</a></Button>
+                    <Button onClick={() => dropManga(manga._id)}>Drop</Button>
+                    <Button>Delete</Button>
                 </TableCell>
             </TableRow>
         )

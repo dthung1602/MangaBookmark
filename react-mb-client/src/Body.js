@@ -110,7 +110,7 @@ class Body extends React.Component {
                 method: 'GET',
                 credentials: "same-origin"
             };
-            const response = await fetch(url,fetchOptions);
+            const response = await fetch(url, fetchOptions);
 
             if (!response.ok) {
                 alert('ERROR: Failed to load mangas.');
@@ -128,6 +128,34 @@ class Body extends React.Component {
         this.setState({
             sortby: event.target.value
         })
+    };
+
+    onDropManga = async (mangaID) => {
+        if (!window.confirm("Are you sure to drop this manga?"))
+            return;
+
+        try {
+            const url = `/api/manga/edit/${mangaID}`;
+            const fetchOptions = {
+                method: 'POST',
+                credentials: "same-origin",
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({following: 'dropped'})
+            };
+            const response = await fetch(url, fetchOptions);
+
+            if (!response.ok) {
+                const text = await response.text();
+                alert("ERROR: " + text);
+                return
+            }
+
+            const mangas = this.state.data.filter(manga => manga._id !== mangaID);
+            this.setState({data: mangas});
+
+        } catch (e) {
+            alert("ERROR: Cannot load data. Check your Internet connection.");
+        }
     };
 
     render() {
@@ -152,6 +180,7 @@ class Body extends React.Component {
                 </div>
                 <MangaTable
                     data={data}
+                    onDropManga={this.onDropManga}
                 />
                 <LoadMore/>
             </div>
@@ -194,7 +223,7 @@ function sortByManyToRead(mangas) {
     mangas.sort((a, b) => {
         a = a.chapters.length;
         b = b.chapters.length;
-        return (a > b) ? -1 : ((a < b) ? 1 : 0);
+        return (a > b) ? 1 : ((a < b) ? -1 : 0);
     });
 }
 
