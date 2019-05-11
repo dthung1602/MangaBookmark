@@ -25,7 +25,7 @@ async function get$(url, executeJS) {
     let content;
 
     if (executeJS) {
-        const instance = await phantom.create();
+        const instance = await phantom.create(['--load-images=no']);
         const page = await instance.createPage();
         await page.open(url);
 
@@ -69,6 +69,13 @@ async function updateChapters(manga, parser) {
     return manga.save()
 }
 
+function getParser(url) {
+    for (let i = 0; i < parsers.length; i++)
+        if (url.match(parsers[i].URLRegex))
+            return parsers[i];
+    return null;
+}
+
 async function main() {
     if (process.argv.length < 4)
         throw "Missing args";
@@ -78,13 +85,7 @@ async function main() {
     if (action !== 'create' && action !== 'update')
         throw "Invalid action";
 
-    let parser = null;
-    for (let i = 0; i < parsers.length; i++) {
-        if (url.match(parsers[i].URLRegex)) {
-            parser = parsers[i];
-            break;
-        }
-    }
+    const parser = getParser(url);
 
     if (parser === null)
         throw "Not supported manga source";
@@ -113,4 +114,4 @@ async function main() {
 if (require.main === module)
     main();
 
-module.exports = {createManga, updateChapters};
+module.exports = {createManga, updateChapters, get$, getParser};

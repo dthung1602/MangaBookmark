@@ -3,7 +3,7 @@ const router = express.Router();
 
 const Manga = require('../models/Manga');
 const Chapter = require('../models/Chapter');
-const mongoose = require('mongoose');
+const {get$, getParser} = require('../crawl/runner');
 
 const {connectToDB} = require('./utils');
 
@@ -16,6 +16,23 @@ router.get('/', async function (req, res, next) {
         .populate('chapters', '-__v');
 
     res.json(mangas);
+});
+
+router.post('/info', async function (req, res, next) {
+    const link = req.body.link;
+    const parser = getParser(link);
+
+    if (parser === null) {
+        res.json({manga: 'Unsupported manga source'});
+        return
+    }
+
+    const $ = await get$(link, parser.executeJS);
+    const chapters = parser.parseChapters($);
+    const manga = parser.parseManga($);
+    manga.chapterCount = chapters.length;
+
+    res.json({manga:manga});
 });
 
 router.post('/edit/:mangaID', async function (req, res, next) {
@@ -35,7 +52,6 @@ router.post('/edit/:mangaID', async function (req, res, next) {
 
     res.send('');
 });
-
 
 router.post('/delete/:mangaID', async function (req, res, next) {
     connectToDB(next);

@@ -1,9 +1,9 @@
 import React from "react"
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
-import AddIcon from "@material-ui/icons/Add";
 import {Fab} from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
+import Add from "./Add"
 
 const styles = theme => ({
     floatButtonGroup: {
@@ -31,7 +31,7 @@ class FloatButtons extends React.Component {
                     </Grid>
                     <Grid item>
                         <Fab>
-                            <AddIcon/>
+                            <Add/>
                         </Fab>
                     </Grid>
                 </Grid>
