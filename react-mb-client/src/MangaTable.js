@@ -25,7 +25,7 @@ class MangaTable extends React.Component {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {data.map(d => <Row manga={d} key={d.id}/>)}
+                    {data.map(d => <Row manga={d} key={d._id}/>)}
                 </TableBody>
             </Table>
         )

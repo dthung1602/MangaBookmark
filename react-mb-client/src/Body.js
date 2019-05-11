@@ -105,7 +105,13 @@ class Body extends React.Component {
 
     fetchMangas = async () => {
         try {
-            const response = await fetch('/api/manga');
+            const url = '/api/manga';
+            const fetchOptions = {
+                method: 'GET',
+                credentials: "same-origin"
+            };
+            const response = await fetch(url,fetchOptions);
+
             if (!response.ok) {
                 alert('ERROR: Failed to load mangas.');
                 return;

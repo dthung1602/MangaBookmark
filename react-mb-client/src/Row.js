@@ -37,7 +37,7 @@ class Row extends React.Component {
     onChange = async (event) => {
         const chapters = this.state.chapters;
         const newValues = event.target.value;
-        let oldValues = chapters.filter(ch => ch.isRead).map(ch => ch.id);
+        let oldValues = chapters.filter(ch => ch.isRead).map(ch => ch._id);
 
         let chap;
         let action;
@@ -50,7 +50,13 @@ class Row extends React.Component {
         }
 
         try {
-            let response = await fetch(`/api/chapter/${action}/${chap}`, {credentials: "same-origin"});
+            const url = `/api/chapter/${action}/${chap}`;
+            const fetchOptions = {
+                method: 'POST',
+                credentials: "same-origin"
+            };
+            const response = await fetch(url, fetchOptions);
+
             if (!response.ok) {
                 const text = await response.text();
                 alert("ERROR: " + text);
@@ -61,7 +67,7 @@ class Row extends React.Component {
             return;
         }
 
-        chapters.forEach(ch => ch.isRead = newValues.indexOf(ch.id) !== -1);
+        chapters.forEach(ch => ch.isRead = newValues.indexOf(ch._id) !== -1);
         this.setState({chapters: this.state.chapters});
     };
 
@@ -80,7 +86,7 @@ class Row extends React.Component {
             'New chap': classes.NC
         }[status];
 
-        const readChaptersId = chapters.filter(ch => ch.isRead).map(ch => ch.id);
+        const readChaptersId = chapters.filter(ch => ch.isRead).map(ch => ch._id);
 
         let lastChapRead = chapters[chapterCount - 1];
         let nextChapToRead = chapters[chapterCount - 1];
@@ -109,7 +115,7 @@ class Row extends React.Component {
                         renderValue={() => <span>{lastChapRead.name}</span>}
                     >
                         {chapters.map(chap => (
-                            <MenuItem key={chap.id} value={chap.id}>
+                            <MenuItem key={chap._id} value={chap._id}>
                                 <Checkbox checked={chap.isRead}/>
                                 <ListItemText primary={<a href={chap.link}>{chap.name}</a>}/>
                             </MenuItem>

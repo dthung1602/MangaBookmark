@@ -1,7 +1,4 @@
 const mongoose = require('mongoose');
-mongoose.set('useNewUrlParser', true);
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
 
 let mangaSchema = new mongoose.Schema({
     name: String,
@@ -15,6 +12,12 @@ let mangaSchema = new mongoose.Schema({
     isCompleted: {
         type: Boolean,
         default: false
+    },
+
+    following: {
+        type: String,
+        enum: ['toread', 'following', 'waiting', 'dropped'],
+        default: 'following'
     },
     note: String,
     // genres: [{
