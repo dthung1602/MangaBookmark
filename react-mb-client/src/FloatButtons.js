@@ -1,7 +1,7 @@
 import React from "react"
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import AddIcon from "@material-ui/icons/Add";
-import {Button} from "@material-ui/core";
+import {Button, Fab} from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 
@@ -25,14 +25,14 @@ class FloatButtons extends React.Component {
             <div className={classes.floatButtonGroup}>
                 <Grid container direction='column'>
                     <Grid item>
-                        <Button variant={"fab"}>
+                        <Fab>
                             <ArrowUpwardIcon/>
-                        </Button>
+                        </Fab>
                     </Grid>
                     <Grid item>
-                        <Button variant={"fab"}>
+                        <Fab>
                             <AddIcon/>
-                        </Button>
+                        </Fab>
                     </Grid>
                 </Grid>
             </div>

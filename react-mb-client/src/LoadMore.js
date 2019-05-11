@@ -22,7 +22,7 @@ class LoadMore extends React.Component {
         return (
             <div className={classes.flex}>
                 <div className={classes.grow}/>
-                <Button variant={"raised"} color={"primary"}>Load more</Button>
+                <Button variant={"contained"} color={"primary"}>Load more</Button>
                 <div className={classes.grow}/>
             </div>
         )
