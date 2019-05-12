@@ -13,6 +13,7 @@ class Add extends React.Component {
         this.state = {
             open: false,
             link: undefined,
+            isCompleted: false,
             manga: null
         }
     }
@@ -67,6 +68,8 @@ class Add extends React.Component {
 
     render() {
         const {classes} = this.props;
+        const manga = this.state.manga;
+        const showAddButton = (manga !== null && manga !== undefined && typeof manga !== "string");
         return (
             <div>
                 <AddIcon onClick={this.onClickOpen}/>
@@ -81,9 +84,10 @@ class Add extends React.Component {
                     <DialogContent>
                         <InputLabel>Enter link</InputLabel>
                         <Input onChange={this.onChangeLink} value={this.state.link}/>
+
                         <MangaInfo manga={this.state.manga}/>
                     </DialogContent>
-                    {(typeof this.state.manga !== 'string') ?
+                    {(showAddButton) ?
                         <DialogActions>
                             <Button onClick={this.addManga}>Add</Button>
                         </DialogActions> : ''

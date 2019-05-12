@@ -21,6 +21,7 @@ function parseManga($) {
         name: $('h1').text(),
         link: $('meta[property="og:url"]').attr('content'),
         image: $('.detail-info img')[0].attribs.src,
+        isCompleted: $('.status p:last-child').text() === "Hoàn thành"
     };
 }
 

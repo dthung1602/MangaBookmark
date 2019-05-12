@@ -32,13 +32,14 @@ class Row extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            chapters: props.manga.chapters,
+            manga: props.manga,
             note: null
         }
     }
 
     onChangeChapter = async (event) => {
-        const chapters = this.state.chapters;
+        const manga = this.state.manga;
+        const chapters = this.state.manga.chapters;
         const newValues = event.target.value;
         let oldValues = chapters.filter(ch => ch.isRead).map(ch => ch._id);
 
@@ -71,31 +72,28 @@ class Row extends React.Component {
         }
 
         chapters.forEach(ch => ch.isRead = newValues.indexOf(ch._id) !== -1);
-        this.setState({chapters: this.state.chapters});
-    };
-
-    dropManga = () => {
-        if (!window.confirm('Are you sure to drop this manga?'))
-            return;
-        const editManga = this.props.onEditManga;
-        const manga = this.props.manga;
-        editManga(manga._id, {following: 'dropped'})
+        this.setState({manga: manga});
     };
 
     saveNote = async () => {
+        const manga = this.state.manga;
         const note = this.state.note;
-        const editManga = this.props.onEditManga;
-        const manga = this.props.manga;
-        await editManga(manga._id, {note: note});
-        this.setState({note: null});
+
+        try {
+            await this.props.onEditManga(manga._id, {note: note});
+            manga.note = note;
+            this.setState({manga: manga, note: null});
+        } catch (e) {
+            alert('ERROR: ' + e);
+        }
     };
 
     onNoteEdited = (event) => {
         this.setState({note: event.target.value})
     };
 
-    editNote = () => {
-        this.setState({note: this.props.manga.note})
+    editNoteClicked = () => {
+        this.setState({note: this.state.manga.note})
     };
 
     cancelEditNote = () => {
@@ -105,16 +103,44 @@ class Row extends React.Component {
     deleteManga = () => {
         if (!window.confirm('Are you sure to delete this manga?'))
             return;
-        const deleteManga = this.props.onDeleteManga;
-        const manga = this.props.manga;
-        deleteManga(manga._id)
+        this.props.onDeleteManga(this.state.manga._id)
+    };
+
+    onChangeCompleted = async () => {
+        const manga = this.state.manga;
+
+        try {
+            await this.props.onEditManga(manga._id, {completed: true});
+            manga.isCompleted = true;
+            this.setState({manga: manga});
+        } catch (e) {
+            alert('ERROR: ' + e);
+        }
+    };
+
+    onChangeFollowing = async (event) => {
+        const manga = this.state.manga;
+        const following = event.target.value;
+
+        try {
+            await this.props.onEditManga(manga._id, {following: following});
+            manga.following = following;
+            this.setState({manga: manga});
+        } catch (e) {
+            alert('ERROR: ' + e);
+        }
     };
 
     render() {
         const {classes} = this.props;
-        const manga = this.props.manga;
-        const chapters = this.state.chapters;
+        const manga = this.state.manga;
+        const chapters = manga.chapters;
         const chapterCount = chapters.length;
+
+        const followingOptions = ['toread', 'following', 'waiting', 'dropped', 'finished'];
+
+        const note = this.state.note;
+        const isCompleted = manga.isCompleted;
 
         const status = Utils.getMangaStatus(manga);
         const colorClass = {
@@ -161,18 +187,30 @@ class Row extends React.Component {
                     </Select>
                 </TableCell>
                 <TableCell>
+                    <Select
+                        value={manga.following}
+                        onChange={this.onChangeFollowing}
+                    >
+                        {followingOptions.map(option => (
+                            <MenuItem key={option} value={option}>
+                                {option}
+                            </MenuItem>
+                        ))}
+                    </Select>
                     <Button><a href={nextChapToRead.link}>Read</a></Button>
-                    <Button onClick={this.dropManga}>Drop</Button>
+                    {(isCompleted) ? '' :
+                        <Button onClick={this.onChangeCompleted}>Mark completed</Button>
+                    }
                     <Button onClick={this.deleteManga}>Delete</Button>
                 </TableCell>
                 {
-                    (this.state.note === null) ?
+                    (note === null) ?
                         (<TableCell>
                             <div> {manga.note} </div>
-                            <Button onClick={this.editNote}> Edit </Button>
+                            <Button onClick={this.editNoteClicked}> Edit </Button>
                         </TableCell>) :
                         (<TableCell>
-                            <Textarea value={this.state.note} onChange={this.onNoteEdited} variant='outlined'/>
+                            <Textarea value={note} onChange={this.onNoteEdited} variant='outlined'/>
                             <Button onClick={this.cancelEditNote}> Cancel </Button>
                             <Button onClick={this.saveNote}> Save </Button>
                         </TableCell>)

@@ -43,7 +43,7 @@ class FloatButtons extends React.Component {
 function scrollToTop() {
     let offset = document.getElementById('page-top').offsetTop;
     let diff = (offset - window.pageYOffset) / 16;
-    if ( Math.abs(diff) > 1 ) {
+    if ( Math.abs(diff) > 0.25 ) {
         window.scrollTo(0, (diff + window.pageYOffset));
         setTimeout(scrollToTop, 8);
     } else {

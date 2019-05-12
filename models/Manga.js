@@ -16,7 +16,7 @@ let mangaSchema = new mongoose.Schema({
 
     following: {
         type: String,
-        enum: ['toread', 'following', 'waiting', 'dropped'],
+        enum: ['toread', 'following', 'waiting', 'dropped', 'finished'],
         default: 'following'
     },
     note: {

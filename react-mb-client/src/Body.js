@@ -59,38 +59,22 @@ class Body extends React.Component {
     };
 
     onEditManga = async (mangaID, updatedValues) => {
-        try {
-            const url = `/api/manga/edit/${mangaID}`;
-            const fetchOptions = {
-                method: 'POST',
-                credentials: "same-origin",
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(updatedValues)
-            };
-            const response = await fetch(url, fetchOptions);
+        const url = `/api/manga/edit/${mangaID}`;
+        const fetchOptions = {
+            method: 'POST',
+            credentials: "same-origin",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(updatedValues)
+        };
+        const response = await fetch(url, fetchOptions);
 
-            if (!response.ok) {
-                const text = await response.text();
-                alert("ERROR: " + text);
-                return
-            }
-
-            // change note => no need to change
-            // drop + delete => remove manga
-            const filter = (updatedValues.note === undefined)
-                ? (m => m._id !== mangaID)
-                : ((m) => {
-                    if (m._id === mangaID)
-                        m.note = updatedValues.note;
-                    return true;
-                });
-            const mangas = this.state.data.filter(filter);
-
-            this.setState({data: mangas});
-
-        } catch (e) {
-            alert("ERROR: Cannot load data. Check your Internet connection.");
+        if (!response.ok) {
+            const text = await response.text();
+            alert("ERROR: " + text);
+            // return
         }
+
+        // this.setState({data: this.state.data});
     };
 
     onDeleteManga = async (mangaID) => {
@@ -192,7 +176,11 @@ function sortByStatus(mangas) {
 }
 
 function sortByName(mangas) {
-    mangas.sort((a, b) => (a.name > b.name) ? 1 : ((a.name < b.name) ? -1 : 0));
+    mangas.sort((a, b) => {
+        a = a.name.toLowerCase().trim();
+        b = b.name.toLowerCase().trim();
+        return (a > b) ? 1 : ((a < b) ? -1 : 0)
+    });
 }
 
 function sortByLatest(mangas) {

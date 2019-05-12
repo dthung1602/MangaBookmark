@@ -22,6 +22,7 @@ function parseManga($) {
         name: $('h3')[0].children[0].data,
         link: $('meta[property="og:url"]').attr('content'),
         image: $('.__image img')[0].attribs.src,
+        isCompleted: $('.__info p')[4].children[1].data.trim() === 'Đã hoàn thành'
     };
 }
 

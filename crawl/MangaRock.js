@@ -21,6 +21,7 @@ function parseManga($) {
         name: $('h1').text(),
         link: $('meta[property="og:url"]').attr('content'),
         image: $('img')[1].attribs.src,
+        isCompleted:  $('._2jVBw span:first-child').text() === 'Completed'
     };
 }
 
