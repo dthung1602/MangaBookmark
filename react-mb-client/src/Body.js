@@ -80,7 +80,8 @@ class Body extends React.Component {
             const filter = (updatedValues.note === undefined)
                 ? (m => m._id !== mangaID)
                 : ((m) => {
-                    m.note = updatedValues.note;
+                    if (m._id === mangaID)
+                        m.note = updatedValues.note;
                     return true;
                 });
             const mangas = this.state.data.filter(filter);
@@ -152,7 +153,7 @@ class Body extends React.Component {
 
         return (
             <div>
-                <div className={classes.header}>
+                <div className={classes.header} id={'page-top'}>
                     <SortBy sortby={sortby} onChange={this.onSortByChange}/>
                     <div className={classes.grow}/>
                     <SearchBar/>
@@ -214,9 +215,9 @@ function sortByLatest(mangas) {
 
 function sortByManyToRead(mangas) {
     mangas.sort((a, b) => {
-        a = a.chapters.length;
-        b = b.chapters.length;
-        return (a > b) ? 1 : ((a < b) ? -1 : 0);
+        a = a.chapters.filter(ch => !ch.isRead).length;
+        b = b.chapters.filter(ch => !ch.isRead).length;
+        return (a > b) ? -1 : ((a < b) ? 1 : 0);
     });
 }
 

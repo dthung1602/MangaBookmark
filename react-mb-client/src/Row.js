@@ -126,7 +126,7 @@ class Row extends React.Component {
 
         const readChaptersId = chapters.filter(ch => ch.isRead).map(ch => ch._id);
 
-        let lastChapRead = chapters[chapterCount - 1];
+        let lastChapRead = chapters[0];
         let nextChapToRead = chapters[chapterCount - 1];
         if (!manga.isCompleted) {
             for (let i = chapterCount - 2; i >= 0; i--)

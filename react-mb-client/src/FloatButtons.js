@@ -25,7 +25,7 @@ class FloatButtons extends React.Component {
             <div className={classes.floatButtonGroup}>
                 <Grid container direction='column'>
                     <Grid item>
-                        <Fab>
+                        <Fab onClick={scrollToTop}>
                             <ArrowUpwardIcon/>
                         </Fab>
                     </Grid>
@@ -37,6 +37,17 @@ class FloatButtons extends React.Component {
                 </Grid>
             </div>
         )
+    }
+}
+
+function scrollToTop() {
+    let offset = document.getElementById('page-top').offsetTop;
+    let diff = (offset - window.pageYOffset) / 16;
+    if ( Math.abs(diff) > 1 ) {
+        window.scrollTo(0, (diff + window.pageYOffset));
+        setTimeout(scrollToTop, 8);
+    } else {
+        window.scrollTo(0, offset);
     }
 }
 
