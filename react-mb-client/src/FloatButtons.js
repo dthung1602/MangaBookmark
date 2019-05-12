@@ -31,7 +31,7 @@ class FloatButtons extends React.Component {
                     </Grid>
                     <Grid item>
                         <Fab>
-                            <Add/>
+                            <Add onAddManga={this.props.onAddManga}/>
                         </Fab>
                     </Grid>
                 </Grid>

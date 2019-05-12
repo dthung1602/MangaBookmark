@@ -7,6 +7,7 @@ import Utils from "./Utils";
 import {Table, TableBody, TableHead, TableRow} from "@material-ui/core";
 import TableCell from "@material-ui/core/TableCell";
 import Row from "./Row";
+import FloatButtons from "./FloatButtons";
 
 const styles = theme => ({
     header: {
@@ -78,9 +79,9 @@ class Body extends React.Component {
             // drop + delete => remove manga
             const filter = (updatedValues.note === undefined)
                 ? (m => m._id !== mangaID)
-                : (m => {
+                : ((m) => {
                     m.note = updatedValues.note;
-                    return true
+                    return true;
                 });
             const mangas = this.state.data.filter(filter);
 
@@ -113,6 +114,25 @@ class Body extends React.Component {
         } catch (e) {
             alert("ERROR: Cannot load data. Check your Internet connection.");
         }
+    };
+
+    onAddManga = async (link) => {
+        const url = '/api/manga/add';
+        const fetchOptions = {
+            method: 'POST',
+            credentials: "same-origin",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({link: link})
+        };
+
+        const response = await fetch(url, fetchOptions);
+        if (response.ok) {
+            const manga = await response.json();
+            const data = this.state.data;
+            data.push(manga);
+            this.setState({data: data});
+        } else
+            throw await response.text();
     };
 
     render() {
@@ -155,6 +175,7 @@ class Body extends React.Component {
                     </TableBody>
                 </Table>
                 <LoadMore/>
+                <FloatButtons onAddManga={this.onAddManga}/>
             </div>
         );
     }

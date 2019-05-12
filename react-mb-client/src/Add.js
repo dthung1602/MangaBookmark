@@ -42,9 +42,6 @@ class Add extends React.Component {
                 const response = await fetch(url, fetchOptions);
                 if (response.ok) {
                     const result = await response.json();
-                    console.log(result);
-                    console.log(result.manga);
-                    console.log(typeof result.manga);
                     this.setState({manga: result.manga})
                 } else
                     this.setState({manga: 'ERROR: Server error'});
@@ -53,6 +50,18 @@ class Add extends React.Component {
             }
         } else {
             this.setState({link: link, manga: null});
+        }
+    };
+
+    addManga = async () => {
+        const link = this.state.link;
+
+        try {
+            this.setState({manga: "Adding manga ..."});
+            await this.props.onAddManga(link);
+            this.setState({open: false, link: undefined, manga: null});
+        } catch (e) {
+            alert("ERROR: " + e);
         }
     };
 
@@ -74,9 +83,9 @@ class Add extends React.Component {
                         <Input onChange={this.onChangeLink} value={this.state.link}/>
                         <MangaInfo manga={this.state.manga}/>
                     </DialogContent>
-                    {(!(this.state.manga instanceof String)) ?
+                    {(typeof this.state.manga !== 'string') ?
                         <DialogActions>
-                            <Button>Add</Button>
+                            <Button onClick={this.addManga}>Add</Button>
                         </DialogActions> : ''
                     }
                 </Dialog>

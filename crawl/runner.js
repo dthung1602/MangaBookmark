@@ -39,6 +39,11 @@ async function get$(url, executeJS) {
 }
 
 async function createManga(url, parser) {
+    if (parser === undefined)
+        parser = getParser(url);
+    if (parser === null)
+        throw "Unsupported manga source";
+
     let $ = await get$(url, parser.executeJS);
 
     let manga = new Manga(parser.parseManga($));
@@ -49,6 +54,11 @@ async function createManga(url, parser) {
 }
 
 async function updateChapters(manga, parser) {
+    if (parser === undefined)
+        parser = getParser(url);
+    if (parser === null)
+        throw "Unsupported manga source";
+
     let $ = await get$(manga.link, parser.executeJS);
 
     let crawledChapters = parser.parseChapters($);
@@ -85,19 +95,14 @@ async function main() {
     if (action !== 'create' && action !== 'update')
         throw "Invalid action";
 
-    const parser = getParser(url);
-
-    if (parser === null)
-        throw "Not supported manga source";
-
     try {
         await mongoose.connect('mongodb://localhost/MangaBookmark');
 
         if (action === 'create') {
-            await createManga(url, parser)
+            await createManga(url)
         } else {
             let manga = await Manga.findOne({link: url}).populate('chapters');
-            await updateChapters(manga, parser)
+            await updateChapters(manga)
         }
 
         mongoose.connection.close();

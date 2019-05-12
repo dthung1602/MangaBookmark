@@ -3,7 +3,7 @@ const router = express.Router();
 
 const Manga = require('../models/Manga');
 const Chapter = require('../models/Chapter');
-const {get$, getParser} = require('../crawl/runner');
+const {get$, getParser, createManga, updateChapters} = require('../crawl/runner');
 
 const {connectToDB} = require('./utils');
 
@@ -32,7 +32,13 @@ router.post('/info', async function (req, res, next) {
     const manga = parser.parseManga($);
     manga.chapterCount = chapters.length;
 
-    res.json({manga:manga});
+    res.json({manga: manga});
+});
+
+router.post('/add', async function (req, res, next) {
+    connectToDB(next);
+    const manga = await createManga(req.body.link);
+    res.json(manga);
 });
 
 router.post('/edit/:mangaID', async function (req, res, next) {

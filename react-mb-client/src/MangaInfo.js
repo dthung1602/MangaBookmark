@@ -23,7 +23,7 @@ class MangaInfo extends React.Component {
 
         if (manga === undefined)
             return (
-                <Typography>Loading manga info</Typography>
+                <Typography>Loading manga info ...</Typography>
             );
 
         if (typeof manga === 'string')
