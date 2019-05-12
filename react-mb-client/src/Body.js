@@ -8,6 +8,7 @@ import {Table, TableBody, TableHead, TableRow} from "@material-ui/core";
 import TableCell from "@material-ui/core/TableCell";
 import Row from "./Row";
 import FloatButtons from "./FloatButtons";
+import SelectFollowing from "./SelectFollowing";
 
 const styles = theme => ({
     header: {
@@ -23,32 +24,36 @@ class Body extends React.Component {
     constructor(props) {
         super(props);
 
-        this.fetchMangas();
-
         this.state = {
             sortby: 'status',
             data: [],
-        }
+        };
+
+        this.onChangeFollowing({target: {value: 'following'}})
     }
 
-    fetchMangas = async () => {
-        try {
-            const url = '/api/manga';
-            const fetchOptions = {
-                method: 'GET',
-                credentials: "same-origin"
-            };
-            const response = await fetch(url, fetchOptions);
+    onChangeFollowing = async (event) => {
+        const following = event.target.value;
+        const url = '/api/manga?following=' + following;
+        const fetchOptions = {
+            method: 'GET',
+            credentials: "same-origin",
+        };
 
+        try {
+            const response = await fetch(url, fetchOptions);
             if (!response.ok) {
                 alert('ERROR: Failed to load mangas.');
                 return;
             }
+
             this.setState({
+                following: following,
                 data: await response.json()
             })
+
         } catch (e) {
-            alert('ERROR: ' + e)
+            alert('ERROR: ' + e);
         }
     };
 
@@ -71,10 +76,13 @@ class Body extends React.Component {
         if (!response.ok) {
             const text = await response.text();
             alert("ERROR: " + text);
-            // return
+            return
         }
 
-        // this.setState({data: this.state.data});
+        let data = this.state.data;
+        if (updatedValues.hasOwnProperty('following'))
+            data = data.filter((manga) => (manga._id !== mangaID || manga.following === updatedValues.following));
+        this.setState({data: data});
     };
 
     onDeleteManga = async (mangaID) => {
@@ -124,8 +132,6 @@ class Body extends React.Component {
         const data = this.state.data;
         const {classes} = this.props;
         const sortby = this.state.sortby;
-        const onEditManga = this.onEditManga;
-        const onDeleteManga = this.onDeleteManga;
 
         const sort = {
             'status': sortByStatus,
@@ -138,6 +144,7 @@ class Body extends React.Component {
         return (
             <div>
                 <div className={classes.header} id={'page-top'}>
+                    <SelectFollowing following={this.state.following} onChange={this.onChangeFollowing}/>
                     <SortBy sortby={sortby} onChange={this.onSortByChange}/>
                     <div className={classes.grow}/>
                     <SearchBar/>
@@ -154,8 +161,8 @@ class Body extends React.Component {
                     </TableHead>
                     <TableBody>
                         {data.map(d => <Row manga={d} key={d._id}
-                                            onEditManga={onEditManga}
-                                            onDeleteManga={onDeleteManga}
+                                            onEditManga={this.onEditManga}
+                                            onDeleteManga={this.onDeleteManga}
                         />)}
                     </TableBody>
                 </Table>
@@ -168,9 +175,8 @@ class Body extends React.Component {
 
 function sortByStatus(mangas) {
     mangas.sort((a, b) => {
-        const statuses = ['New Chap', 'Last chap reached', 'To read', 'Finished'];
-        a = statuses.indexOf(Utils.getMangaStatus(a));
-        b = statuses.indexOf(Utils.getMangaStatus(b));
+        a = Utils.mangaStatuses.indexOf(Utils.getMangaStatus(a));
+        b = Utils.mangaStatuses.indexOf(Utils.getMangaStatus(b));
         return (a > b) ? 1 : ((a < b) ? -1 : 0);
     });
 }

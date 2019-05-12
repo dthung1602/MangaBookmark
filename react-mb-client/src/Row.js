@@ -13,7 +13,7 @@ const styles = theme => ({
     F: {
         background: 'grey',
     },
-    TR: {
+    MTR: {
         background: 'yellow',
     },
     LCR: {
@@ -110,7 +110,7 @@ class Row extends React.Component {
         const manga = this.state.manga;
 
         try {
-            await this.props.onEditManga(manga._id, {completed: true});
+            await this.props.onEditManga(manga._id, {isCompleted: true});
             manga.isCompleted = true;
             this.setState({manga: manga});
         } catch (e) {
@@ -145,7 +145,7 @@ class Row extends React.Component {
         const status = Utils.getMangaStatus(manga);
         const colorClass = {
             'Finished': classes.F,
-            'To read': classes.TR,
+            'Many to read': classes.MTR,
             'Last chap reached': classes.LCR,
             'New chap': classes.NC
         }[status];

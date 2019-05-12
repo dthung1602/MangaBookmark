@@ -5,7 +5,7 @@ function getMangaStatus(manga) {
         if (allRead)
             return 'Finished';
         else
-            return 'To read';
+            return 'Many to read';
 
     else if (allRead)
         return 'Last chap reached';
@@ -13,4 +13,9 @@ function getMangaStatus(manga) {
         return 'New chap';
 }
 
-export default {getMangaStatus}
+const mangaStatuses = [
+    'New chap', 'Many to read',
+    'Last chap reached', 'Finished'
+];
+
+export default {getMangaStatus, mangaStatuses}
