@@ -10,22 +10,32 @@ import Row from "./Row";
 import FloatButtons from "./FloatButtons";
 import SelectFollowing from "./SelectFollowing";
 
-const styles = theme => ({
+const styles = () => ({
+    body: {
+        paddingLeft: 25,
+        paddingRight: 25,
+        paddingTop: 90,
+    },
     header: {
         display: 'flex',
-        paddingTop: 100
+        justifyContent: 'space-between'
     },
-    grow: {
-        flexGrow: 1
+    table: {
+        marginTop: 25
+    },
+    tableHeaderCell: {
+        fontSize: '110%'
     }
 });
 
 class Body extends React.Component {
+
     constructor(props) {
         super(props);
 
         this.state = {
             sortby: 'status',
+            following: 'following',
             data: [],
         };
 
@@ -142,21 +152,26 @@ class Body extends React.Component {
         sort(data);
 
         return (
-            <div>
+            <div className={classes.body}>
                 <div className={classes.header} id={'page-top'}>
-                    <SelectFollowing following={this.state.following} onChange={this.onChangeFollowing}/>
-                    <SortBy sortby={sortby} onChange={this.onSortByChange}/>
-                    <div className={classes.grow}/>
+                    <SelectFollowing
+                        following={this.state.following}
+                        onChange={this.onChangeFollowing}
+                    />
+                    <SortBy
+                        sortby={sortby}
+                        onChange={this.onSortByChange}
+                    />
                     <SearchBar/>
                 </div>
-                <Table>
+                <Table className={classes.table}>
                     <TableHead>
                         <TableRow>
-                            <TableCell> Status </TableCell>
-                            <TableCell> Name </TableCell>
-                            <TableCell> Last read chapter </TableCell>
-                            <TableCell> Latest chapter </TableCell>
-                            <TableCell> Note </TableCell>
+                            <TableCell className={classes.tableHeaderCell}> Status </TableCell>
+                            <TableCell className={classes.tableHeaderCell}> Name </TableCell>
+                            <TableCell className={classes.tableHeaderCell}> Last read chapter </TableCell>
+                            <TableCell className={classes.tableHeaderCell}> Latest chapter </TableCell>
+                            <TableCell className={classes.tableHeaderCell}> Note </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -171,6 +186,7 @@ class Body extends React.Component {
             </div>
         );
     }
+
 }
 
 function sortByStatus(mangas) {

@@ -2,11 +2,15 @@ import React from "react"
 import {MenuItem, Select, Typography} from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
 
-const styles = theme => ({
-    following: {
+const styles = () => ({
+    root: {
         display: 'flex',
-        spacing: 20
+        alignItems: 'flex-end'
     },
+    label: {
+        paddingRight: 15,
+        paddingBottom: 3
+    }
 });
 
 class SelectFollowing extends React.Component {
@@ -18,8 +22,8 @@ class SelectFollowing extends React.Component {
         const {classes} = this.props;
 
         return (
-            <div className={classes.following}>
-                <Typography variant={"subtitle1"}>
+            <div className={classes.root}>
+                <Typography className={classes.label} variant={"subtitle1"}>
                     Following status
                 </Typography>
                 <Select value={this.props.following} onChange={this.props.onChange}>

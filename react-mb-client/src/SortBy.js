@@ -2,13 +2,15 @@ import React from "react"
 import {MenuItem, Select, Typography} from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
 
-const styles = theme => ({
-    sortby: {
+const styles = () => ({
+    root: {
         display: 'flex',
-        spacing: 20
+        alignItems: 'flex-end'
     },
-    inputRoot: {},
-    inputInput: {}
+    label: {
+        paddingRight: 15,
+        paddingBottom: 3
+    }
 });
 
 class SortBy extends React.Component {
@@ -22,11 +24,11 @@ class SortBy extends React.Component {
         const sortby = this.props.sortby;
 
         return (
-            <div className={classes.sortby}>
-                <Typography variant={"subtitle1"}>
+            <div className={classes.root}>
+                <Typography className={classes.label} variant={"subtitle1"}>
                     Sort by
                 </Typography>
-                <Select value={sortby} onChange={onChange}>
+                <Select value={sortby} onChange={onChange} variant={"filled"}>
                     <MenuItem value="status">Status</MenuItem>
                     <MenuItem value="name">Name</MenuItem>
                     <MenuItem value="latest">Latest</MenuItem>

@@ -3,15 +3,26 @@ import {withStyles} from "@material-ui/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 
-const styles = theme => ({
-    sortby: {
-        display: 'flex',
-        spacing: 20
+const styles = () => ({
+    search: {
+        border: '1px solid #00bea6',
+        borderRadius: 5,
+        display: 'flex'
     },
-    search: {}
+    searchIcon: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingLeft: 5,
+        paddingRight: 5,
+    },
+    input: {
+        // display: 'flex'
+    }
 });
 
 class SearchBar extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -25,11 +36,14 @@ class SearchBar extends React.Component {
 
         return (
             <div className={classes.search}>
-                <SearchIcon/>
-                <InputBase placeholder="Search…" value={searchTerm}/>
+                <span className={classes.searchIcon}>
+                    <SearchIcon/>
+                </span>
+                <InputBase className={classes.input} placeholder="Search…" value={searchTerm}/>
             </div>
         )
     }
+
 }
 
 export default withStyles(styles)(SearchBar);
