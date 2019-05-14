@@ -6,6 +6,8 @@ const phantom = require('phantom');
 const Manga = require('../models/Manga');
 const Chapter = require('../models/Chapter');
 
+const {DB_URL} = require('../config');
+
 const parsers = [
     require('./HocVienTruyenTranh'),
     require('./MangaRock'),
@@ -55,7 +57,7 @@ async function createManga(url, parser) {
 
 async function updateChapters(manga, parser) {
     if (parser === undefined)
-        parser = getParser(url);
+        parser = getParser(manga.link);
     if (parser === null)
         throw "Unsupported manga source";
 
@@ -73,7 +75,7 @@ async function updateChapters(manga, parser) {
         if (crawledChapters[i].id === undefined)
             crawledChapters[i] = new Chapter(crawledChapters[i]);
 
-    await Promise.all(crawledChapters.map(ch => new Chapter(ch).save()));
+    await Promise.all(crawledChapters.map(ch => ch.save()));
 
     manga.chapters = crawledChapters;
     return manga.save()
@@ -96,7 +98,7 @@ async function main() {
         throw "Invalid action";
 
     try {
-        await mongoose.connect('mongodb://localhost/MangaBookmark');
+        await mongoose.connect(DB_URL);
 
         if (action === 'create') {
             await createManga(url)
@@ -111,8 +113,6 @@ async function main() {
         console.error(e);
         mongoose.connection.close();
         process.exit(1);
-    } finally {
-        mongoose.connection.close();
     }
 }
 

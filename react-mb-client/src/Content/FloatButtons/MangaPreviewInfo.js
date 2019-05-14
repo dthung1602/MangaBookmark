@@ -52,7 +52,7 @@ class MangaPreviewInfo extends React.Component {
                 </Grid>
             );
 
-        throw "Invalid mangaStatus property";
+        throw new Error("Invalid mangaStatus property");
     }
 
 }
