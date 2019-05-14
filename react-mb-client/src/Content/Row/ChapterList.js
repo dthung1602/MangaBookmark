@@ -3,7 +3,7 @@ import {MenuItem, Select} from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
 import Checkbox from "@material-ui/core/Checkbox/index";
 import ListItemText from "@material-ui/core/ListItemText/index";
-import ReadIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import ReadIcon from "@material-ui/icons/ArrowForwardIos";
 
 const styles = () => ({
     noWrap: {

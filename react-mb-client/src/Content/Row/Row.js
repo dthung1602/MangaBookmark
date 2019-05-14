@@ -8,6 +8,7 @@ import ChapterList from "./ChapterList";
 import MangaActions from "./MangaActions";
 import MangaNote from "./MangaNote";
 import utils from "../../utils"
+import MangaInfoCell from "./MangaInfoCell";
 
 const styles = () => ({
     F: {
@@ -29,16 +30,7 @@ const styles = () => ({
         fontSize: '120%',
         textTransform: 'capitalize'
     },
-    mangaName: {
-        color: '#525252',
-        fontSize: '130%',
-        fontWeight: 900,
-        textDecoration: 'none',
-        '&:hover': {
-            textDecoration: 'underline',
-            color: '#000'
-        }
-    },
+
     mangaImg: {
         width: 100
     }
@@ -139,7 +131,7 @@ class Row extends React.Component {
         const {classes} = this.props;
         const manga = this.state.manga;
         const chapters = manga.chapters;
-        const chapterCount = chapters.length;
+
         const status = utils.getMangaStatus(manga);
         const colorClass = {
             'Finished': classes.F,
@@ -149,7 +141,6 @@ class Row extends React.Component {
         }[status];
 
         const numberUnreadChap = chapters.filter(ch => !ch.isRead).length;
-        const mangaSource = utils.getMangaSource(manga.link);
 
         return (
             <TableRow>
@@ -165,12 +156,7 @@ class Row extends React.Component {
                 </TableCell>
 
                 <TableCell>
-                    <div>
-                        <a className={classes.mangaName} href={manga.link}>{manga.name}</a>
-                    </div>
-                    <div>Source: {mangaSource} </div>
-                    <div>Total chapters: {chapterCount}</div>
-                    <div>Read chapters: {chapterCount - numberUnreadChap}</div>
+                   <MangaInfoCell manga={manga}/>
                 </TableCell>
 
                 <TableCell>

@@ -40,7 +40,7 @@ let timeout = 0;
 function scrollToTop() {
     let offset = document.getElementById('page-top').offsetTop;
     let diff = (offset - window.pageYOffset) / 16;
-    if (Math.abs(diff) > 5) {
+    if (Math.abs(diff) > 3) {
         window.scrollTo(0, (diff + window.pageYOffset));
         clearTimeout(timeout);
         setTimeout(scrollToTop, 16);

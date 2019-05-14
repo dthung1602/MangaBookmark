@@ -11,8 +11,10 @@ router.get('/', async function (req, res, next) {
     connectToDB(next);
 
     const following = req.query.following;
-    if (following === undefined)
-        throw "Missing following type";
+    if (following === undefined) {
+        res.status(400).send("Missing following type");
+        return
+    }
 
     const mangas = await Manga
         .find({following: following})
@@ -27,7 +29,7 @@ router.post('/info', async function (req, res) {
     const parser = getParser(link);
 
     if (parser === null) {
-        res.json({manga: 'Unsupported manga source'});
+        res.status(400).send('Unsupported manga source');
         return
     }
 
