@@ -1,9 +1,10 @@
 import React from "react"
-import {AppBar, Toolbar, Typography} from "@material-ui/core";
 
-import LOGO from './logo.png'
-import Grow from "./Grow";
+import {AppBar, Toolbar, Typography} from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
+
+import Grow from "./Grow";
+import LOGO from '../logo.png'
 
 const styles = () => ({
     logo: {

@@ -1,8 +1,10 @@
 import React from "react"
+
 import AddIcon from "@material-ui/icons/Add";
 import {withStyles} from "@material-ui/styles";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@material-ui/core";
-import MangaInfo from "./MangaInfo"
+
+import MangaPreviewInfo from "./MangaPreviewInfo"
 
 const styles = () => ({});
 
@@ -114,7 +116,7 @@ class Add extends React.Component {
                             label={"Manga link"}
                             onChange={this.onChangeLink}
                             value={this.state.link}/>
-                        <MangaInfo
+                        <MangaPreviewInfo
                             mangaStatus={this.state.mangaStatus}
                             data={this.state.manga}
                         />

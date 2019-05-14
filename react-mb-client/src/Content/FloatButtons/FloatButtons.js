@@ -1,7 +1,9 @@
 import React from "react"
+
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import {Fab} from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
+
 import Add from "./Add"
 
 const styles = () => ({
@@ -34,12 +36,14 @@ class FloatButtons extends React.Component {
 
 }
 
+let timeout = 0;
 function scrollToTop() {
     let offset = document.getElementById('page-top').offsetTop;
     let diff = (offset - window.pageYOffset) / 16;
-    if (Math.abs(diff) > 0.25) {
+    if (Math.abs(diff) > 5) {
         window.scrollTo(0, (diff + window.pageYOffset));
-        setTimeout(scrollToTop, 8);
+        clearTimeout(timeout);
+        setTimeout(scrollToTop, 16);
     } else {
         window.scrollTo(0, offset);
     }

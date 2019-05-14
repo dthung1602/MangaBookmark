@@ -1,7 +1,7 @@
 import React from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
 import {Table, TableBody, TableHead, TableRow, Typography} from "@material-ui/core";
-import TableCell from "@material-ui/core/TableCell";
+import TableCell from "@material-ui/core/TableCell/index";
 import Row from "./Row";
 
 const styles = () => ({

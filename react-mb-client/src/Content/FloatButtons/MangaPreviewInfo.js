@@ -1,6 +1,6 @@
 import React from "react";
 import {Typography} from "@material-ui/core";
-import Grid from "@material-ui/core/Grid";
+import Grid from "@material-ui/core/Grid/index";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 const styles = () => ({
@@ -19,7 +19,7 @@ const styles = () => ({
     }
 });
 
-class MangaInfo extends React.Component {
+class MangaPreviewInfo extends React.Component {
 
     render() {
         const {classes} = this.props;
@@ -57,4 +57,4 @@ class MangaInfo extends React.Component {
 
 }
 
-export default withStyles(styles)(MangaInfo);
+export default withStyles(styles)(MangaPreviewInfo);

@@ -1,6 +1,6 @@
 import React from "react"
 import {withStyles} from "@material-ui/styles";
-import TextField from "@material-ui/core/TextField";
+import TextField from "@material-ui/core/TextField/index";
 import SaveIcon from "@material-ui/icons/Save"
 import CancelIcon from "@material-ui/icons/Cancel"
 import EditIcon from "@material-ui/icons/Edit"

@@ -1,14 +1,14 @@
 import React from 'react';
-import SortBy from "./SortBy";
-import SearchBar from "./SearchBar";
+
 import withStyles from "@material-ui/core/styles/withStyles";
-import Utils from "./Utils";
+
 import FloatButtons from "./FloatButtons";
-import SelectFollowing from "./SelectFollowing";
+import Header from "./Header";
 import MangaTable from "./MangaTable";
+import Utils from "../utils";
 
 const styles = () => ({
-    body: {
+    content: {
         paddingLeft: 25,
         paddingRight: 25,
         paddingTop: 110,
@@ -19,7 +19,7 @@ const styles = () => ({
     }
 });
 
-class Body extends React.Component {
+class Content extends React.Component {
 
     constructor(props) {
         super(props);
@@ -60,38 +60,41 @@ class Body extends React.Component {
 
     render() {
         const {classes} = this.props;
+        const following = this.state.following;
+        const sortby = this.state.sortby;
+
         const sortMethod = {
             'status': sortByStatus,
             'name': sortByName,
             'latest': sortByLatest,
             'many': sortByManyToRead
-        }[this.state.sortby];
+        }[sortby];
 
         return (
-            <div className={classes.body}>
-                <div className={classes.header} id={'page-top'}>
-                    <SelectFollowing
-                        following={this.state.following}
-                        onChange={this.onFollowingChange}
-                    />
-                    <SortBy
-                        sortby={this.state.sortby}
-                        onChange={this.onSortByChange}
-                    />
-                    <SearchBar/>
-                </div>
+            <div className={classes.content}>
+                <Header
+                    sortby={sortby}
+                    following={following}
+                    onFollowingChange={this.onFollowingChange}
+                    onSortByChange={this.onSortByChange}
+                    // key={new Date()} /* re-generate manga table every time state.sortby or state.following changes */
+                />
                 <MangaTable
                     sortMethod={sortMethod}
                     following={this.state.following}
-                    key={new Date()} /* re-generate manga table every time state.sortby or state.following changes
-                                        https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html#recommendation-fully-uncontrolled-component-with-a-key*/
+                    key={new Date()}  /* re-generate manga table every time state.sortby or state.following changes */
                 />
-                <FloatButtons onAddManga={this.onAddManga}/>
+                <FloatButtons
+                    onAddManga={this.onAddManga}
+                />
             </div>
         );
     }
 
 }
+
+/* NOTE: re-generate manga table every time state.sortby or state.following changes
+   https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html#recommendation-fully-uncontrolled-component-with-a-key*/
 
 function sortByStatus(mangas) {
     mangas.sort((a, b) => {
@@ -135,4 +138,4 @@ function sortByManyToRead(mangas) {
     });
 }
 
-export default withStyles(styles)(Body);
+export default withStyles(styles)(Content);

@@ -1,7 +1,7 @@
 import React from "react"
 import {withStyles} from "@material-ui/styles";
 import SearchIcon from "@material-ui/icons/Search";
-import InputBase from "@material-ui/core/InputBase";
+import InputBase from "@material-ui/core/InputBase/index";
 
 const styles = () => ({
     search: {

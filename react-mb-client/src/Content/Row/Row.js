@@ -1,14 +1,15 @@
 import React from "react"
-import {withStyles} from "@material-ui/styles";
-import TableCell from "@material-ui/core/TableCell";
-import {Badge, TableRow} from "@material-ui/core";
 
-import Utils from "./Utils"
+import {Badge, TableRow} from "@material-ui/core";
+import TableCell from "@material-ui/core/TableCell/index";
+import {withStyles} from "@material-ui/styles";
+
 import ChapterList from "./ChapterList";
 import MangaActions from "./MangaActions";
 import MangaNote from "./MangaNote";
+import utils from "../../utils"
 
-const styles = theme => ({
+const styles = () => ({
     F: {
         color: '#999999'
     },
@@ -139,7 +140,7 @@ class Row extends React.Component {
         const manga = this.state.manga;
         const chapters = manga.chapters;
         const chapterCount = chapters.length;
-        const status = Utils.getMangaStatus(manga);
+        const status = utils.getMangaStatus(manga);
         const colorClass = {
             'Finished': classes.F,
             'Many to read': classes.MTR,
@@ -148,7 +149,7 @@ class Row extends React.Component {
         }[status];
 
         const numberUnreadChap = chapters.filter(ch => !ch.isRead).length;
-        const mangaSource = Utils.getMangaSource(manga.link);
+        const mangaSource = utils.getMangaSource(manga.link);
 
         return (
             <TableRow>
@@ -194,6 +195,7 @@ class Row extends React.Component {
                         saveNote={this.saveNote}
                     />
                 </TableCell>
+
             </TableRow>
         )
     }

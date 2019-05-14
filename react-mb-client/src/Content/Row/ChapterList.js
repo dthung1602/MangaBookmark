@@ -1,8 +1,8 @@
 import React from "react"
 import {MenuItem, Select} from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
-import Checkbox from "@material-ui/core/Checkbox";
-import ListItemText from "@material-ui/core/ListItemText";
+import Checkbox from "@material-ui/core/Checkbox/index";
+import ListItemText from "@material-ui/core/ListItemText/index";
 import ReadIcon from "@material-ui/core/SvgIcon/SvgIcon";
 
 const styles = () => ({
