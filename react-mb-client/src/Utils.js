@@ -18,4 +18,18 @@ const mangaStatuses = [
     'Last chap reached', 'Finished'
 ];
 
-export default {getMangaStatus, mangaStatuses}
+const mangaSourceRegex = {
+    'Hoc vien truyen tranh': /^https?:\/\/hocvientruyentranh\.net\/truyen\/[0-9]+\/.*$/,
+    'Mangakakalot': /^https?:\/\/mangakakalot\.com\/manga\/[a-z0-9]+$/,
+    'Mangarock': /^https?:\/\/mangarock\.com\/manga\/mrs-serie-[0-9]+$/,
+    'Nettruyen': /^https?:\/\/www\.nettruyen\.com\/truyen-tranh\/.+$/
+};
+
+function getMangaSource(link) {
+    for (let src in mangaSourceRegex)
+        if (link.match(mangaSourceRegex[src]))
+            return src;
+    return null;
+}
+
+export default {getMangaStatus, mangaStatuses, getMangaSource}

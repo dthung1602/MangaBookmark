@@ -1,4 +1,4 @@
-const URLRegex = /https?:\/\/www\.nettruyen\.com\/truyen-tranh\/.+/;
+const URLRegex = /^https?:\/\/www\.nettruyen\.com\/truyen-tranh\/.+$/;
 
 const executeJS = false;
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import LoadMore from "./LoadMore";
 import SortBy from "./SortBy";
 import SearchBar from "./SearchBar";
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -14,19 +13,161 @@ const styles = () => ({
     body: {
         paddingLeft: 25,
         paddingRight: 25,
-        paddingTop: 90,
+        paddingTop: 110,
     },
     header: {
         display: 'flex',
         justifyContent: 'space-between'
     },
     table: {
-        marginTop: 25
+        marginTop: 45
+    },
+    tableHeader: {
+        background: '#00bea6',
+        '&:hover': {
+            background: '#00bea6'
+        }
     },
     tableHeaderCell: {
-        fontSize: '110%'
+        fontSize: '110%',
+        fontWeight: 800,
+        color: 'rgba(51,51,51,0.89)'
     }
 });
+
+const dummy = [
+    {
+        id: "0",
+        chapters: [
+            {
+                id: "5cd3cb713615403f7bdc0e9d",
+                isRead: false,
+                createAt: '2020-05-16',
+                "name": "Chapter 3B",
+                "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-3/465979",
+            },
+            {
+                id: "5cd3cb713615403f7bdc0e9e",
+                isRead: false,
+                createAt: '2015-05-16',
+                "name": "Chapter 2B",
+                "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-2/465978",
+            },
+            {
+                id: "5cd3cb713615403f7bdc0e9f",
+                isRead: false,
+                createAt: '2014-05-16',
+                "name": "Chapter 1B",
+                "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-1/465210",
+            }
+        ],
+        following: 'following',
+        isCompleted: false,
+        note: 'This is a note',
+        name: "AAA The Shocking Reality Of A Loan Shark Collecting Money",
+        link: "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money",
+        image: "http://st.nettruyen.com/data/comics/203/the-shocking-reality-of-a-loan-shark-col-6168.jpg",
+    },
+    {
+        id: "1",
+        chapters: [
+            {
+                id: "5cd3cb713615403f7bdc0e9d",
+                isRead: false,
+                createAt: '2020-05-16',
+                "name": "Chapter 3B",
+                "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-3/465979",
+            },
+            {
+                id: "5cd3cb713615403f7bdc0e9e",
+                isRead: true,
+                createAt: '2015-05-16',
+                "name": "this is a chapter name with very long linesss",
+                "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-2/465978",
+            },
+            {
+                id: "5cd3cb713615403f7bdc0e9f",
+                isRead: true,
+                createAt: '2014-05-16',
+                "name": "Chapter 1B",
+                "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-1/465210",
+            }
+        ],
+        following: 'following',
+        isCompleted: true,
+        note: 'A looooooooooong long sdkfj sdlfjlskdj flksdjlkfjsdlkjf klsd fsadjfsd note sadf asdfs',
+        name: "AAA The Shocking Reality Of A Loan Shark Collecting Money",
+        link: "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money",
+        image: "http://st.nettruyen.com/data/comics/203/the-shocking-reality-of-a-loan-shark-col-6168.jpg",
+
+    },
+    {
+        id: "2",
+        chapters: [
+            {
+                id: "5cd3cb713615403f7bdc0e9d",
+                isRead: true,
+                createAt: '2020-05-16',
+                "name": "Chapter 3B",
+                "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-3/465979",
+            },
+            {
+                id: "5cd3cb713615403f7bdc0e9e",
+                isRead: true,
+                createAt: '2015-05-16',
+                "name": "Chapter 2B",
+                "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-2/465978",
+            },
+            {
+                id: "5cd3cb713615403f7bdc0e9f",
+                isRead: true,
+                createAt: '2014-05-16',
+                "name": "Chapter 1B",
+                "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-1/465210",
+            }
+        ],
+        following: 'following',
+        isCompleted: false,
+        note: '',
+        name: "AAA The Shocking Reality Of A Loan Shark Collecting Money",
+        link: "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money",
+        image: "http://st.nettruyen.com/data/comics/203/the-shocking-reality-of-a-loan-shark-col-6168.jpg",
+
+    },
+    {
+        id: "3",
+        chapters: [
+            {
+                id: "5cd3cb713615403f7bdc0e9d",
+                isRead: true,
+                createAt: '2020-05-16',
+                "name": "Chapter 3B",
+                "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-3/465979",
+            },
+            {
+                id: "5cd3cb713615403f7bdc0e9e",
+                isRead: true,
+                createAt: '2015-05-16',
+                "name": "Chapter 2B",
+                "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-2/465978",
+            },
+            {
+                id: "5cd3cb713615403f7bdc0e9f",
+                isRead: true,
+                createAt: '2014-05-16',
+                "name": "Chapter 1B",
+                "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-1/465210",
+            }
+        ],
+        following: 'following',
+        isCompleted: true,
+        note: '',
+        name: "AAA The Shocking Reality Of A Loan Shark Collecting Money",
+        link: "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money",
+        image: "http://st.nettruyen.com/data/comics/203/the-shocking-reality-of-a-loan-shark-col-6168.jpg",
+
+    },
+];
 
 class Body extends React.Component {
 
@@ -36,35 +177,39 @@ class Body extends React.Component {
         this.state = {
             sortby: 'status',
             following: 'following',
-            data: [],
+            data: dummy,
         };
 
-        this.onChangeFollowing({target: {value: 'following'}})
+        // this.fetchManga('following')
+        //     .catch(alert)
     }
 
-    onChangeFollowing = async (event) => {
-        const following = event.target.value;
+    fetchManga = async (following) => {
         const url = '/api/manga?following=' + following;
         const fetchOptions = {
             method: 'GET',
             credentials: "same-origin",
         };
 
-        try {
-            const response = await fetch(url, fetchOptions);
-            if (!response.ok) {
-                alert('ERROR: Failed to load mangas.');
-                return;
-            }
-
+        const response = await fetch(url, fetchOptions);
+        if (response.ok) {
+            const data = await response.json();
             this.setState({
-                following: following,
-                data: await response.json()
+                data: data,
+                following: following
             })
-
-        } catch (e) {
-            alert('ERROR: ' + e);
         }
+
+        throw await response.text();
+    };
+
+    onChangeFollowing = async (event) => {
+        // this.fetchManga(event.target.value)
+        //     .catch(alert);
+        this.setState({
+            following: event.target.value,
+            data: dummy
+        })
     };
 
     onSortByChange = (event) => {
@@ -166,11 +311,11 @@ class Body extends React.Component {
                 </div>
                 <Table className={classes.table}>
                     <TableHead>
-                        <TableRow>
+                        <TableRow className={classes.tableHeader}>
                             <TableCell className={classes.tableHeaderCell}> Status </TableCell>
-                            <TableCell className={classes.tableHeaderCell}> Name </TableCell>
-                            <TableCell className={classes.tableHeaderCell}> Last read chapter </TableCell>
-                            <TableCell className={classes.tableHeaderCell}> Latest chapter </TableCell>
+                            <TableCell className={classes.tableHeaderCell} colSpan={2}> Name </TableCell>
+                            <TableCell className={classes.tableHeaderCell}> Chapters </TableCell>
+                            <TableCell className={classes.tableHeaderCell}> Action </TableCell>
                             <TableCell className={classes.tableHeaderCell}> Note </TableCell>
                         </TableRow>
                     </TableHead>
@@ -181,7 +326,6 @@ class Body extends React.Component {
                         />)}
                     </TableBody>
                 </Table>
-                <LoadMore/>
                 <FloatButtons onAddManga={this.onAddManga}/>
             </div>
         );

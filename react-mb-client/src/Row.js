@@ -1,30 +1,79 @@
 import React from "react"
 import {withStyles} from "@material-ui/styles";
 import TableCell from "@material-ui/core/TableCell";
-import {Button, Select, TableRow} from "@material-ui/core";
+import {Badge, Select, TableRow} from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import Checkbox from "@material-ui/core/Checkbox";
 import ListItemText from "@material-ui/core/ListItemText";
+import DeleteIcon from "@material-ui/icons/DeleteForever"
+import DoneIcon from "@material-ui/icons/Done"
+import ReadIcon from "@material-ui/icons/ArrowForwardIos"
+import EditIcon from "@material-ui/icons/Edit"
+import SaveIcon from "@material-ui/icons/Save"
+import CancelIcon from "@material-ui/icons/Cancel"
 
 import Utils from "./Utils"
-import Textarea from "@material-ui/core/es/InputBase/Textarea";
+import TextField from "@material-ui/core/TextField";
 
 const styles = theme => ({
     F: {
-        background: 'grey',
+        color: '#999999'
     },
     MTR: {
-        background: 'yellow',
+        color: '#efa230'
     },
     LCR: {
-        background: 'white',
+        color: 'rgba(37,68,111,0.95)'
     },
     NC: {
-        background: 'green',
+        color: '#07853a'
     },
 
+    mangaStatus: {
+        margin: '5px 12px',
+        fontWeight: 900,
+        fontSize: '120%',
+        textTransform: 'capitalize'
+    },
+    mangaName: {
+        color: '#525252',
+        fontSize: '130%',
+        fontWeight: 900,
+        textDecoration: 'none',
+        '&:hover': {
+            textDecoration: 'underline',
+            color: '#000'
+        }
+    },
     mangaImg: {
         width: 100
+    },
+
+    noWrap: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        whiteSpace: 'nowrap'
+    },
+    actionBtn: {
+        padding: 2,
+        margin: '3px 0px 0px 15px',
+        borderRadius: 3,
+        display: 'inline-block',
+        '&:hover': {
+            cursor: 'pointer',
+            background: '#efa230',
+            color: '#fff'
+        }
+    },
+
+    noteBtnGroup: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+        margin: '10px 0 15px 0'
+    },
+    noteTextField: {
+        minWidth: 175
     }
 });
 
@@ -97,7 +146,7 @@ class Row extends React.Component {
     };
 
     cancelEditNote = () => {
-        this.setState({note: null})
+        this.setState({note: null});
     };
 
     deleteManga = () => {
@@ -151,73 +200,132 @@ class Row extends React.Component {
         }[status];
 
         const readChaptersId = chapters.filter(ch => ch.isRead).map(ch => ch._id);
+        const numberUnreadChap = chapters.filter(ch => !ch.isRead).length;
+        const mangaSource = Utils.getMangaSource(manga.link);
 
-        let lastChapRead = chapters[0];
-        let nextChapToRead = chapters[chapterCount - 1];
-        if (!manga.isCompleted) {
-            for (let i = chapterCount - 2; i >= 0; i--)
-                if (!chapters[i].isRead && chapters[i + 1].isRead) {
-                    lastChapRead = chapters[i + 1];
-                    nextChapToRead = chapters[i];
-                }
-        }
+        let lastChapRead = {name: 'xxxx'};
+        for (let i = 0; i < chapterCount; i++)
+            if (chapters[i].isRead) {
+                lastChapRead = chapters[i];
+                break;
+            }
+
+        // console.log(shortenString(lastChapRead.name));
+
+        let nextChapToRead;
+        for (let i = 0; i < chapterCount - 1; i++)
+            if (!chapters[i].isRead && chapters[i + 1].isRead) {
+                nextChapToRead = chapters[i];
+                break;
+            }
+        if (!chapters[chapterCount - 1].isRead)
+            nextChapToRead = chapters[chapterCount - 1];
 
         return (
             <TableRow>
-                <TableCell className={colorClass}>
-                    {status}
+                <TableCell>
+                    <Badge badgeContent={numberUnreadChap} color="error" max={10}>
+                        <div className={[colorClass, classes.mangaStatus].join(' ')}>{status}</div>
+                    </Badge>
                 </TableCell>
                 <TableCell>
-                    <img src={manga.image} alt={manga.name} className={classes.mangaImg}/>
-                    <a href={manga.link}>{manga.name}</a>
+                    <img src={manga.image} alt='img' className={classes.mangaImg}/>
                 </TableCell>
                 <TableCell>
-                    <Select
-                        multiple
-                        value={readChaptersId}
-                        onChange={this.onChangeChapter}
-                        renderValue={() => <span>{lastChapRead.name}</span>}
-                    >
-                        {chapters.map(chap => (
-                            <MenuItem key={chap._id} value={chap._id}>
-                                <Checkbox checked={chap.isRead}/>
-                                <ListItemText primary={<a href={chap.link}>{chap.name}</a>}/>
-                            </MenuItem>
-                        ))}
-                    </Select>
+                    <div>
+                        <a className={classes.mangaName} href={manga.link}>{manga.name}</a>
+                    </div>
+                    <div>Source: {mangaSource} </div>
+                    <div>Total chapters: {chapterCount}</div>
+                    <div>Read chapters: {chapterCount - numberUnreadChap}</div>
                 </TableCell>
                 <TableCell>
-                    <Select
-                        value={manga.following}
-                        onChange={this.onChangeFollowing}
-                    >
-                        {followingOptions.map(option => (
-                            <MenuItem key={option} value={option}>
-                                {option}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                    <Button><a href={nextChapToRead.link}>Read</a></Button>
-                    {(isCompleted) ? '' :
-                        <Button onClick={this.onChangeCompleted}>Mark completed</Button>
-                    }
-                    <Button onClick={this.deleteManga}>Delete</Button>
+                    <div className={classes.noWrap}>
+                        <Select
+                            multiple
+                            value={readChaptersId}
+                            onChange={this.onChangeChapter}
+                            renderValue={() => <span>{shortenString(lastChapRead.name)}</span>}
+                        >
+                            {chapters.map(chap => (
+                                <MenuItem key={chap._id} value={chap._id}>
+                                    <Checkbox checked={chap.isRead}/>
+                                    <ListItemText primary={<a href={chap.link}>{chap.name}</a>}/>
+                                </MenuItem>
+                            ))}
+                        </Select>
+                        {(nextChapToRead === undefined) ? '' :
+                            <div className={classes.actionBtn}
+                                 title={"Read " + nextChapToRead.name}
+                                 onClick={() => window.open(nextChapToRead.link, '_blank')}>
+                                <ReadIcon/>
+                            </div>
+                        }
+                    </div>
+                </TableCell>
+                <TableCell>
+                    <div className={classes.noWrap}>
+                        <Select
+                            value={manga.following}
+                            onChange={this.onChangeFollowing}>
+                            {followingOptions.map(option => (
+                                <MenuItem key={option} value={option}>
+                                    {option}
+                                </MenuItem>
+                            ))}
+                        </Select>
+
+                        {(isCompleted) ? '' :
+                            <div className={classes.actionBtn}
+                                 title="Mark manga as completed"
+                                 onClick={this.onChangeCompleted}>
+                                <DoneIcon/>
+                            </div>
+                        }
+
+                        {/*<Button onClick={this.deleteManga}><DeleteIcon/></Button>*/}
+                        <div className={classes.actionBtn}
+                             title="Delete manga"
+                             onClick={this.deleteManga}>
+                            <DeleteIcon/>
+                        </div>
+                    </div>
                 </TableCell>
                 {
                     (note === null) ?
                         (<TableCell>
-                            <div> {manga.note} </div>
-                            <Button onClick={this.editNoteClicked}> Edit </Button>
+                            <div>
+                                {(manga.note === '') ? (<i>Nothing to show</i>) : manga.note}
+                            </div>
+                            <div className={classes.noteBtnGroup} onClick={this.editNoteClicked}>
+                                <EditIcon className={classes.actionBtn} fontSize={"small"}/>
+                            </div>
                         </TableCell>) :
                         (<TableCell>
-                            <Textarea value={note} onChange={this.onNoteEdited} variant='outlined'/>
-                            <Button onClick={this.cancelEditNote}> Cancel </Button>
-                            <Button onClick={this.saveNote}> Save </Button>
+                            <TextField
+                                className={classes.noteTextField}
+                                value={note}
+                                onChange={this.onNoteEdited}
+                                multiline
+                                rows={2}
+                            />
+                            <div className={classes.noteBtnGroup}>
+                                <SaveIcon className={classes.actionBtn} onClick={this.saveNote}/>
+                                <CancelIcon className={classes.actionBtn} onClick={this.cancelEditNote}/>
+                            </div>
                         </TableCell>)
                 }
             </TableRow>
         )
     }
+
+}
+
+function shortenString(str) {
+    const MAX_LENGTH = 20;
+    if (str.length <= MAX_LENGTH)
+        return str;
+    return str.slice(0, MAX_LENGTH) + " ..."
 }
 
 export default withStyles(styles)(Row);

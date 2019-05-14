@@ -1,4 +1,4 @@
-const URLRegex = /https?:\/\/mangakakalot\.com\/manga\/[a-z0-9]+/;
+const URLRegex = /^https?:\/\/mangakakalot\.com\/manga\/[a-z0-9]+$/;
 
 const executeJS = false;
 

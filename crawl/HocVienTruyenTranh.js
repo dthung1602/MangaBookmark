@@ -1,4 +1,4 @@
-const URLRegex = /https?:\/\/hocvientruyentranh\.net\/truyen\/[0-9]+\/.*/;
+const URLRegex = /^https?:\/\/hocvientruyentranh\.net\/truyen\/[0-9]+\/.*$/;
 
 const executeJS = false;
 
