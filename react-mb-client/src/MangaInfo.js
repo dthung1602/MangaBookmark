@@ -3,7 +3,7 @@ import {Typography} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import withStyles from "@material-ui/core/styles/withStyles";
 
-const styles = theme => ({
+const styles = () => ({
     mangaImg: {
         width: 150
     },
@@ -15,44 +15,46 @@ const styles = theme => ({
         color: '#f00'
     },
     mangaName: {
-        color:'#009d8a'
+        color: '#009d8a'
     }
 });
 
 class MangaInfo extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         const {classes} = this.props;
-        const manga = this.props.manga;
+        const data = this.props.data;
+        const mangaStatus = this.props.mangaStatus;
 
-        if (manga === null)
-            return <span/>;
+        if (mangaStatus === 'none')
+            return '';
 
-        if (manga === undefined)
+        if (mangaStatus === 'waiting')
             return (
-                <Typography className={classes.mangaInfo}>Loading manga info ...</Typography>
+                <Typography className={classes.mangaInfo}>{data}</Typography>
             );
 
-        if (typeof manga === 'string')
+        if (mangaStatus === 'error')
             return (
-                <Typography className={classes.error}>{manga}</Typography>
+                <Typography className={classes.error}>{data}</Typography>
             );
 
-        return (
-            <Grid className={classes.mangaInfo} container>
-                <Grid item md={4}>
-                    <img className={classes.mangaImg} src={manga.image} alt={manga.name}/>
+        if (mangaStatus === 'ok')
+            return (
+                <Grid className={classes.mangaInfo} container>
+                    <Grid item md={4}>
+                        <img className={classes.mangaImg} src={data.image} alt={data.name}/>
+                    </Grid>
+                    <Grid item md={8}>
+                        <Typography variant={"h6"}>{data.name}</Typography>
+                        <Typography variant={"subtitle1"}>Number of chapters: {data.chapterCount}</Typography>
+                    </Grid>
                 </Grid>
-                <Grid item md={8}>
-                    <Typography variant={"h6"}>{manga.name}</Typography>
-                    <Typography variant={"subtitle1"}>Number of chapters: {manga.chapterCount}</Typography>
-                </Grid>
-            </Grid>
-        )
+            );
+
+        throw "Invalid mangaStatus property";
     }
+
 }
 
 export default withStyles(styles)(MangaInfo);

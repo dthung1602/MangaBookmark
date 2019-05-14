@@ -4,7 +4,7 @@ import {Fab} from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
 import Add from "./Add"
 
-const styles = theme => ({
+const styles = () => ({
     floatButtonGroup: {
         position: "fixed",
         bottom: 30,
@@ -17,10 +17,6 @@ const styles = theme => ({
 });
 
 class FloatButtons extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
 
     render() {
         const {classes} = this.props;
@@ -35,6 +31,7 @@ class FloatButtons extends React.Component {
             </div>
         )
     }
+
 }
 
 function scrollToTop() {

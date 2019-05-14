@@ -36,7 +36,7 @@ router.post('/info', async function (req, res) {
     const manga = parser.parseManga($);
     manga.chapterCount = chapters.length;
 
-    res.json({manga: manga});
+    res.json(manga);
 });
 
 router.post('/add', async function (req, res, next) {

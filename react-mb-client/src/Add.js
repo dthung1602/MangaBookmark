@@ -1,20 +1,19 @@
 import React from "react"
 import AddIcon from "@material-ui/icons/Add";
 import {withStyles} from "@material-ui/styles";
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, InputLabel, TextField} from "@material-ui/core";
-import Input from "@material-ui/core/Input";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@material-ui/core";
 import MangaInfo from "./MangaInfo"
 
-const styles = theme => ({});
+const styles = () => ({});
 
 class Add extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
             open: false,
-            link: undefined,
-            isCompleted: false,
-            manga: null
+            link: '',
+            mangaStatus: 'none', // none, waiting, ok, error
         }
     }
 
@@ -30,7 +29,11 @@ class Add extends React.Component {
         const link = event.target.value.trim();
 
         if (link !== '') {
-            this.setState({link: link, manga: undefined});
+            this.setState({
+                link: link,
+                mangaStatus: 'waiting',
+                manga: 'Loading manga info ...'
+            });
 
             const url = '/api/manga/info';
             const fetchOptions = {
@@ -41,16 +44,27 @@ class Add extends React.Component {
             };
             try {
                 const response = await fetch(url, fetchOptions);
-                if (response.ok) {
-                    const result = await response.json();
-                    this.setState({manga: result.manga})
-                } else
-                    this.setState({manga: 'ERROR: Server error'});
+                if (response.ok)
+                    this.setState({
+                        mangaStatus: 'ok',
+                        manga: await response.json()
+                    });
+                else
+                    this.setState({
+                        mangaStatus: 'error',
+                        manga: await response.text(),
+                    });
             } catch (e) {
-                this.setState({manga: 'ERROR: Cannot connect to the server'});
+                this.setState({
+                    mangaStatus: 'error',
+                    manga: 'ERROR: Network error ' + e
+                });
             }
         } else {
-            this.setState({link: link, manga: null});
+            this.setState({
+                link: link,
+                mangaStatus: 'none'
+            });
         }
     };
 
@@ -58,25 +72,36 @@ class Add extends React.Component {
         const link = this.state.link;
 
         try {
-            this.setState({manga: "Adding manga ..."});
+            this.setState({
+                mangaStatus: 'waiting',
+                manga: 'Adding manga ...'
+            });
             await this.props.onAddManga(link);
-            this.setState({open: false, link: undefined, manga: null});
+            this.setState({
+                open: false,
+                link: '',
+                mangaStatus: 'none'
+            });
         } catch (e) {
             alert("ERROR: " + e);
         }
     };
 
     render() {
-        const {classes} = this.props;
-        const manga = this.state.manga;
-        const showAddButton = (manga !== null && manga !== undefined && typeof manga !== "string");
+        let addButton = '';
+        if (this.state.mangaStatus === 'ok')
+            addButton =
+                <DialogActions>
+                    <Button variant={"raised"} color={"secondary"} onClick={this.addManga}>Add</Button>
+                </DialogActions>;
+
         return (
             <div>
                 <AddIcon onClick={this.onClickOpen}/>
                 <Dialog
                     open={this.state.open}
                     onClose={this.onClose}
-                    fullWidth={true}
+                    fullWidth
                     maxWidth='sm'
                     aria-labelledby="add-form-dialog-title"
                 >
@@ -89,18 +114,17 @@ class Add extends React.Component {
                             label={"Manga link"}
                             onChange={this.onChangeLink}
                             value={this.state.link}/>
-                        <MangaInfo manga={this.state.manga}/>
+                        <MangaInfo
+                            mangaStatus={this.state.mangaStatus}
+                            data={this.state.manga}
+                        />
                     </DialogContent>
-                    {(showAddButton) ?
-                        <DialogActions>
-                            <Button variant={"raised"}  color={"secondary"} onClick={this.addManga}>Add</Button>
-                        </DialogActions> : ''
-                    }
+                    {addButton}
                 </Dialog>
             </div>
         )
     }
-}
 
+}
 
 export default withStyles(styles)(Add);
