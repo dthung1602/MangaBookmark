@@ -1,7 +1,7 @@
 import React from "react"
 import AddIcon from "@material-ui/icons/Add";
 import {withStyles} from "@material-ui/styles";
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, InputLabel} from "@material-ui/core";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, InputLabel, TextField} from "@material-ui/core";
 import Input from "@material-ui/core/Input";
 import MangaInfo from "./MangaInfo"
 
@@ -82,14 +82,18 @@ class Add extends React.Component {
                 >
                     <DialogTitle id="add-form-dialog-title"> Add new manga </DialogTitle>
                     <DialogContent>
-                        <InputLabel>Enter link</InputLabel>
-                        <Input onChange={this.onChangeLink} value={this.state.link}/>
-
+                        <TextField
+                            fullWidth
+                            multiline
+                            rows={2}
+                            label={"Manga link"}
+                            onChange={this.onChangeLink}
+                            value={this.state.link}/>
                         <MangaInfo manga={this.state.manga}/>
                     </DialogContent>
                     {(showAddButton) ?
                         <DialogActions>
-                            <Button onClick={this.addManga}>Add</Button>
+                            <Button variant={"raised"}  color={"secondary"} onClick={this.addManga}>Add</Button>
                         </DialogActions> : ''
                     }
                 </Dialog>

@@ -12,12 +12,12 @@ export default createMuiTheme({
     overrides: {
         MuiTableCell: {
             head: {
-                paddingRight: 30,
-                paddingLeft: 20
+                paddingRight: 25,
+                paddingLeft: 15
             },
             body: {
-                paddingRight: 30,
-                paddingLeft: 20,
+                paddingRight: 25,
+                paddingLeft: 15,
                 // verticalAlign: "top"
             }
         },

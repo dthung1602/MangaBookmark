@@ -5,7 +5,17 @@ import withStyles from "@material-ui/core/styles/withStyles";
 
 const styles = theme => ({
     mangaImg: {
-        width: 100
+        width: 150
+    },
+    mangaInfo: {
+        padding: '30px 20px 0 20px'
+    },
+    error: {
+        padding: '30px 20px 0 0',
+        color: '#f00'
+    },
+    mangaName: {
+        color:'#009d8a'
     }
 });
 
@@ -23,16 +33,16 @@ class MangaInfo extends React.Component {
 
         if (manga === undefined)
             return (
-                <Typography>Loading manga info ...</Typography>
+                <Typography className={classes.mangaInfo}>Loading manga info ...</Typography>
             );
 
         if (typeof manga === 'string')
             return (
-                <Typography>{manga}</Typography>
+                <Typography className={classes.error}>{manga}</Typography>
             );
 
         return (
-            <Grid container>
+            <Grid className={classes.mangaInfo} container>
                 <Grid item md={4}>
                     <img className={classes.mangaImg} src={manga.image} alt={manga.name}/>
                 </Grid>

@@ -303,11 +303,10 @@ class Row extends React.Component {
                         </TableCell>) :
                         (<TableCell>
                             <TextField
+                                fullWidth
                                 className={classes.noteTextField}
                                 value={note}
                                 onChange={this.onNoteEdited}
-                                multiline
-                                rows={2}
                             />
                             <div className={classes.noteBtnGroup}>
                                 <SaveIcon className={classes.actionBtn} onClick={this.saveNote}/>
