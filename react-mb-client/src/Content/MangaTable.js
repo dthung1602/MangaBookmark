@@ -23,29 +23,29 @@ const styles = () => ({
 
 const dummy = [
     {
-        id: "0",
+        _id: "0",
         chapters: [
-            {
-                id: "5cd3cb713615403f7bdc0e9d",
-                isRead: false,
-                createAt: '2020-05-16',
-                "name": "Chapter 3B",
-                "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-3/465979",
-            },
-            {
-                id: "5cd3cb713615403f7bdc0e9e",
-                isRead: false,
-                createAt: '2015-05-16',
-                "name": "Chapter 2B",
-                "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-2/465978",
-            },
-            {
-                id: "5cd3cb713615403f7bdc0e9f",
-                isRead: false,
-                createAt: '2014-05-16',
-                "name": "Chapter 1B",
-                "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-1/465210",
-            }
+            // {
+            //     _id: "5cd3cb713615403f7bdc0e9d",
+            //     isRead: false,
+            //     createAt: '2020-05-16',
+            //     "name": "Chapter 3B",
+            //     "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-3/465979",
+            // },
+            // {
+            //     _id: "5cd3cb713615403f7bdc0e9e",
+            //     isRead: false,
+            //     createAt: '2015-05-16',
+            //     "name": "Chapter 2B",
+            //     "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-2/465978",
+            // },
+            // {
+            //     _id: "5cd3cb713615403f7bdc0e9f",
+            //     isRead: false,
+            //     createAt: '2014-05-16',
+            //     "name": "Chapter 1B",
+            //     "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-1/465210",
+            // }
         ],
         following: 'following',
         isCompleted: false,
@@ -55,24 +55,24 @@ const dummy = [
         image: "http://st.nettruyen.com/data/comics/203/the-shocking-reality-of-a-loan-shark-col-6168.jpg",
     },
     {
-        id: "1",
+        _id: "1",
         chapters: [
             {
-                id: "5cd3cb713615403f7bdc0e9d",
+                _id: "5cd3cb713615403f7bdc0e9d",
                 isRead: false,
                 createAt: '2020-05-16',
                 "name": "Chapter 3B",
                 "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-3/465979",
             },
             {
-                id: "5cd3cb713615403f7bdc0e9e",
+                _id: "5cd3cb713615403f7bdc0e9e",
                 isRead: true,
                 createAt: '2015-05-16',
                 "name": "this is a chapter name with very long linesss",
                 "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-2/465978",
             },
             {
-                id: "5cd3cb713615403f7bdc0e9f",
+                _id: "5cd3cb713615403f7bdc0e9f",
                 isRead: true,
                 createAt: '2014-05-16',
                 "name": "Chapter 1B",
@@ -88,24 +88,24 @@ const dummy = [
 
     },
     {
-        id: "2",
+        _id: "2",
         chapters: [
             {
-                id: "5cd3cb713615403f7bdc0e9d",
+                _id: "5cd3cb713615403f7bdc0e9d",
                 isRead: true,
                 createAt: '2020-05-16',
                 "name": "Chapter 3B",
                 "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-3/465979",
             },
             {
-                id: "5cd3cb713615403f7bdc0e9e",
+                _id: "5cd3cb713615403f7bdc0e9e",
                 isRead: true,
                 createAt: '2015-05-16',
                 "name": "Chapter 2B",
                 "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-2/465978",
             },
             {
-                id: "5cd3cb713615403f7bdc0e9f",
+                _id: "5cd3cb713615403f7bdc0e9f",
                 isRead: true,
                 createAt: '2014-05-16',
                 "name": "Chapter 1B",
@@ -121,24 +121,24 @@ const dummy = [
 
     },
     {
-        id: "3",
+        _id: "3",
         chapters: [
             {
-                id: "5cd3cb713615403f7bdc0e9d",
+                _id: "5cd3cb713615403f7bdc0e9d",
                 isRead: true,
                 createAt: '2020-05-16',
                 "name": "Chapter 3B",
                 "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-3/465979",
             },
             {
-                id: "5cd3cb713615403f7bdc0e9e",
+                _id: "5cd3cb713615403f7bdc0e9e",
                 isRead: true,
                 createAt: '2015-05-16',
                 "name": "Chapter 2B",
                 "link": "http://www.nettruyen.com/truyen-tranh/the-shocking-reality-of-a-loan-shark-collecting-money/chap-2/465978",
             },
             {
-                id: "5cd3cb713615403f7bdc0e9f",
+                _id: "5cd3cb713615403f7bdc0e9f",
                 isRead: true,
                 createAt: '2014-05-16',
                 "name": "Chapter 1B",
@@ -165,7 +165,7 @@ class MangaTable extends React.Component {
     componentDidMount() {
         this.fetchManga(this.props.following)
             .catch(alert)
-        // this.state = {data: dummy};
+        // this.setState({data: dummy})
     }
 
     fetchManga = async () => {
@@ -197,11 +197,8 @@ class MangaTable extends React.Component {
         };
         const response = await fetch(url, fetchOptions);
 
-        if (!response.ok) {
-            const text = await response.text();
-            alert("ERROR: " + text);
-            return
-        }
+        if (!response.ok)
+            throw await response.text();
 
         let data = this.state.data;
         if (updatedValues.hasOwnProperty('following'))

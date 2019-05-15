@@ -9,9 +9,8 @@ import Utils from "../utils";
 
 const styles = () => ({
     content: {
-        paddingLeft: 25,
-        paddingRight: 25,
-        paddingTop: 110,
+        paddingLeft: 24,
+        paddingRight: 24
     },
     header: {
         display: 'flex',

@@ -32,7 +32,8 @@ const styles = () => ({
     },
 
     mangaImg: {
-        width: 100
+        width: 100,
+        minHeight: 100
     }
 });
 
@@ -152,11 +153,13 @@ class Row extends React.Component {
                 </TableCell>
 
                 <TableCell>
-                    <img src={manga.image} alt='img' className={classes.mangaImg}/>
+                    <div className={classes.mangaImg}>
+                        <img src={manga.image} alt='img' className={classes.mangaImg}/>
+                    </div>
                 </TableCell>
 
                 <TableCell>
-                   <MangaInfoCell manga={manga}/>
+                    <MangaInfoCell manga={manga}/>
                 </TableCell>
 
                 <TableCell>

@@ -5,7 +5,8 @@ import utils from "../../utils"
 
 const styles = () => ({
     infoHeader: {
-        fontWeight: 550
+        fontWeight: 550,
+        whiteSpace: 'nowrap'
     },
     mangaName: {
         color: '#525252',
@@ -19,7 +20,7 @@ const styles = () => ({
     },
     mangaDetails: {
         marginTop: 20
-    }
+    },
 });
 
 class MangaInfoCell extends React.Component {
@@ -36,11 +37,11 @@ class MangaInfoCell extends React.Component {
                 </div>
                 <Grid container  className={classes.mangaDetails}>
 
-                    <Grid item xs={3} className={classes.infoHeader}>Source</Grid>
-                    <Grid item xs={9}>{mangaSource}</Grid>
+                    <Grid item xs={4} className={classes.infoHeader}>Source</Grid>
+                    <Grid item xs={8}>{mangaSource}</Grid>
 
-                    <Grid item xs={3} className={classes.infoHeader}>Total chapters</Grid>
-                    <Grid item xs={9}>{manga.chapters.length}</Grid>
+                    <Grid item xs={4} className={classes.infoHeader}>Total chapters</Grid>
+                    <Grid item xs={8}>{manga.chapters.length}</Grid>
 
                 </Grid>
             </div>

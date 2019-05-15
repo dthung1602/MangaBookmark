@@ -15,22 +15,26 @@ function chunkArray(array, chunkSize) {
 }
 
 async function main() {
+    console.log('Connecting to database');
     await mongoose.connect(DB_URL);
 
+    console.log('Fetching mangas to update');
     const mangasToUpdate = await Manga
-        .find({following: {$in: ['following', 'toread', 'waiting']}})
+        .find({
+            following: {$in: ['toread', 'following', 'waiting']},
+            isCompleted: false
+        })
         .populate('chapters');
     const chunks = chunkArray(mangasToUpdate, CRAWL_MAX_THREADS);
 
     console.log(`Start updating ${mangasToUpdate.length} mangas`);
-
     for (let i = 0; i < chunks.length; i++)
         await Promise.all(chunks[i].map(async manga => {
             await updateChapters(manga);
             console.log(`    - Update: '${manga.name}'`);
         }));
 
-    console.log('Done!');
+    console.log('\nDone!');
     mongoose.connection.close();
 }
 

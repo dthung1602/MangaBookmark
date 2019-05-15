@@ -23,6 +23,10 @@ const styles = () => ({
             color: '#fff'
         }
     },
+    noChap: {
+        fontSize: '125%',
+        fontStyle: 'italic'
+    }
 });
 
 const MAX_CHAP_NAME_LENGTH = 20;
@@ -33,8 +37,11 @@ class ChapterList extends React.Component {
         const {classes} = this.props;
 
         const chapters = this.props.chapters;
-
         const chapterCount = chapters.length;
+
+        if (chapterCount === 0)
+            return <div className={classes.noChap}>No chapter available</div>;
+
         const readChaptersId = chapters.filter(ch => ch.isRead).map(ch => ch._id);
 
         let lastChapRead = {name: '-----'};
@@ -52,7 +59,7 @@ class ChapterList extends React.Component {
                 nextChapToRead = chapters[i];
                 break;
             }
-        if (!chapters[chapterCount - 1].isRead)
+        if (nextChapToRead === undefined && !chapters[chapterCount - 1].isRead)
             nextChapToRead = chapters[chapterCount - 1];
 
         let nextChapBtn = '';
