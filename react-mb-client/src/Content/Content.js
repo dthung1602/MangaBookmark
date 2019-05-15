@@ -5,7 +5,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import FloatButtons from "./FloatButtons";
 import Header from "./Header";
 import MangaTable from "./MangaTable";
-import Utils from "../utils";
+import utils from "../utils";
 
 const styles = () => ({
     content: {
@@ -76,12 +76,10 @@ class Content extends React.Component {
                     following={following}
                     onFollowingChange={this.onFollowingChange}
                     onSortByChange={this.onSortByChange}
-                    // key={new Date()} /* re-generate manga table every time state.sortby or state.following changes */
                 />
                 <MangaTable
                     sortMethod={sortMethod}
                     following={this.state.following}
-                    key={new Date()}  /* re-generate manga table every time state.sortby or state.following changes */
                 />
                 <FloatButtons
                     onAddManga={this.onAddManga}
@@ -92,21 +90,18 @@ class Content extends React.Component {
 
 }
 
-/* NOTE: re-generate manga table every time state.sortby or state.following changes
-   https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html#recommendation-fully-uncontrolled-component-with-a-key*/
-
 function sortByStatus(mangas) {
     mangas.sort((a, b) => {
-        a = Utils.mangaStatuses.indexOf(Utils.getMangaStatus(a));
-        b = Utils.mangaStatuses.indexOf(Utils.getMangaStatus(b));
+        a = utils.mangaStatuses.indexOf(utils.getMangaStatus(a));
+        b = utils.mangaStatuses.indexOf(utils.getMangaStatus(b));
         return (a > b) ? 1 : ((a < b) ? -1 : 0);
     });
 }
 
 function sortByName(mangas) {
     mangas.sort((a, b) => {
-        a = a.name.toLowerCase().trim();
-        b = b.name.toLowerCase().trim();
+        a = utils.removeDiacritics(a.name.toLowerCase().trim());
+        b = utils.removeDiacritics(b.name.toLowerCase().trim());
         return (a > b) ? 1 : ((a < b) ? -1 : 0)
     });
 }

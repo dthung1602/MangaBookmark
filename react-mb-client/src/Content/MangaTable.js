@@ -168,6 +168,18 @@ class MangaTable extends React.Component {
         // this.setState({data: dummy})
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.following !== prevProps.following) {
+            this.fetchManga(this.props.following)
+                .catch(alert)
+        }
+        if (this.props.sort !== prevProps.following) {
+            const data = this.state.data;
+            this.props.sortMethod(data);
+            this.setState({data: data});
+        }
+    }
+
     fetchManga = async () => {
         const following = this.props.following;
         const url = '/api/manga?following=' + following;
