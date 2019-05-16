@@ -6,7 +6,7 @@ import Row from "./Row";
 
 const styles = () => ({
     table: {
-        marginTop: 45
+        marginTop: 45,
     },
     tableHeader: {
         background: '#00bea6',
@@ -18,6 +18,9 @@ const styles = () => ({
         fontSize: '110%',
         fontWeight: 800,
         color: 'rgba(51,51,51,0.89)'
+    },
+    blur: {
+        filter: 'opacity(50%) blur(0.25px)'
     }
 });
 
@@ -159,24 +162,42 @@ class MangaTable extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {data: []}
+        this.state = {
+            fetchData: [],
+            searchData: []
+        }
     }
 
     componentDidMount() {
         this.fetchManga(this.props.following)
             .catch(alert)
+        // TODO
         // this.setState({data: dummy})
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.following !== prevProps.following) {
-            this.fetchManga(this.props.following)
-                .catch(alert)
+        if (this.props.sortMethod !== prevProps.sortMethod) {
+            const {fetchData, searchData} = this.state;
+            this.props.sortMethod(fetchData);
+            this.props.sortMethod(searchData);
+            this.setState({fetchData: fetchData, searchData: searchData});
         }
-        if (this.props.sort !== prevProps.following) {
-            const data = this.state.data;
-            this.props.sortMethod(data);
-            this.setState({data: data});
+
+        const {dataSource} = this.props;
+        if (dataSource !== prevProps.dataSource) {
+            if (dataSource === 'fetch' && this.props.following !== prevProps.following)
+                this.fetchManga().catch(alert);
+            if (dataSource === 'fetch' && this.props.searchTerm !== prevProps.searchTerm)
+                this.searchManga().catch(alert);
+            return
+        }
+
+        if (this.props.following !== prevProps.following && this.props.dataSource === 'fetch') {
+            this.fetchManga().catch(alert)
+        }
+
+        if (this.props.searchTerm !== prevProps.searchTerm && this.props.dataSource === 'search') {
+            this.searchManga().catch(alert);
         }
     }
 
@@ -188,11 +209,37 @@ class MangaTable extends React.Component {
             credentials: "same-origin",
         };
 
+        this.setState({disable: true});
         const response = await fetch(url, fetchOptions);
+
         if (response.ok) {
             const data = await response.json();
             this.props.sortMethod(data);
-            this.setState({data: data});
+            this.setState({fetchData: data, disable: false});
+            return;
+        }
+
+        throw await response.text();
+    };
+
+    searchManga = async () => {
+        const searchTerm = encodeURIComponent(this.props.searchTerm.trim());
+        if (searchTerm === '')
+            return;
+
+        const url = '/api/manga/search?term=' + searchTerm;
+        const fetchOptions = {
+            method: 'GET',
+            credentials: "same-origin",
+        };
+
+        this.setState({disable: true});
+        const response = await fetch(url, fetchOptions);
+
+        if (response.ok) {
+            const data = await response.json();
+            this.props.sortMethod(data);
+            this.setState({searchData: data, disable: false});
             return;
         }
 
@@ -212,10 +259,13 @@ class MangaTable extends React.Component {
         if (!response.ok)
             throw await response.text();
 
-        let data = this.state.data;
+        let {fetchData} = this.state;
+
+        // filter out fetched mangas that do not have matching following attribute
         if (updatedValues.hasOwnProperty('following'))
-            data = data.filter((manga) => (manga._id !== mangaID || manga.following === updatedValues.following));
-        this.setState({data: data});
+            fetchData = fetchData.filter((m) => (m._id !== mangaID || m.following === updatedValues.following));
+
+        this.setState({fetchData: fetchData});
     };
 
     onDeleteManga = async (mangaID) => {
@@ -233,8 +283,9 @@ class MangaTable extends React.Component {
                 return
             }
 
-            const data = this.state.data.filter(m => m._id !== mangaID);
-            this.setState({data: data});
+            const fetchData = this.state.fetchData.filter(m => m._id !== mangaID);
+            const searchData = this.state.searchData.filter(m => m._id !== mangaID);
+            this.setState({fetchData: fetchData, searchData: searchData});
 
         } catch (e) {
             alert("ERROR: Network error " + e);
@@ -243,7 +294,13 @@ class MangaTable extends React.Component {
 
     render() {
         const {classes} = this.props;
-        const data = this.state.data;
+        const data = (this.props.dataSource === 'fetch')
+            ? this.state.fetchData
+            : this.state.searchData;
+
+        let tableClass = classes.table;
+        // if (disable)
+        //     tableClass += ' ' + classes.blur;
 
         let rows =
             <TableRow>
@@ -260,7 +317,7 @@ class MangaTable extends React.Component {
             );
 
         return (
-            <Table className={classes.table}>
+            <Table className={tableClass}>
                 <TableHead>
                     <TableRow className={classes.tableHeader}>
                         <TableCell className={classes.tableHeaderCell}> Status </TableCell>

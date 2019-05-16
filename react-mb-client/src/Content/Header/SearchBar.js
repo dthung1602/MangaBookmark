@@ -1,15 +1,16 @@
 import React from "react"
 import {withStyles} from "@material-ui/styles";
 import SearchIcon from "@material-ui/icons/Search";
-import InputBase from "@material-ui/core/InputBase/index";
+import CloseIcon from "@material-ui/icons/Close";
 
 const styles = () => ({
     search: {
         border: '1px solid #00bea6',
         borderRadius: 5,
+        paddingLeft: 15,
         display: 'flex'
     },
-    searchIcon: {
+    icon: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -17,7 +18,15 @@ const styles = () => ({
         paddingRight: 5,
     },
     input: {
-        // display: 'flex'
+        width: 100,
+        border: 'none',
+        transition: 'width 0.5s',
+        fontSize: '90%',
+        outline: 'none',
+        '&:focus': {
+            border: 'none',
+            width: 250,
+        },
     }
 });
 
@@ -25,21 +34,49 @@ class SearchBar extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            searchTerm: props.searchTerm
-        }
+        this.state = {searchTerm: ''}
     }
 
+    onSearchTermChange = (event) => {
+        this.setState({searchTerm: event.target.value})
+    };
+
+    onKeyPress = (event) => {
+        if (event.key === 'Enter')
+            this.search();
+    };
+
+    search = () => {
+        this.props.onSearch(this.state.searchTerm);
+    };
+
+    close = () => {
+        this.setState({searchTerm: ''});
+        this.props.closeSearchResult();
+    };
+
     render() {
-        const {classes} = this.props;
-        const searchTerm = this.state.searchTerm;
+        const {classes, isSearching} = this.props;
+        const {searchTerm} = this.state;
+
+        let icon = (isSearching)
+            ? (<CloseIcon onClick={this.close}/>)
+            : (<SearchIcon onClick={this.search}/>);
+
+        // let inputClass = classes.input
 
         return (
             <div className={classes.search}>
-                <span className={classes.searchIcon}>
-                    <SearchIcon/>
+                <input
+                    className={classes.input}
+                    placeholder="Search…"
+                    value={searchTerm}
+                    onChange={this.onSearchTermChange}
+                    onKeyPress={this.onKeyPress}
+                />
+                <span className={classes.icon}>
+                    {icon}
                 </span>
-                <InputBase className={classes.input} placeholder="Search…" value={searchTerm}/>
             </div>
         )
     }

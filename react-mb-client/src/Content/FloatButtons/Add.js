@@ -37,12 +37,10 @@ class Add extends React.Component {
                 manga: 'Loading manga info ...'
             });
 
-            const url = '/api/manga/info';
+            const url = '/api/manga/info?link=' + encodeURIComponent(link);
             const fetchOptions = {
-                method: 'POST',
+                method: 'GET',
                 credentials: "same-origin",
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({link: link})
             };
             try {
                 const response = await fetch(url, fetchOptions);

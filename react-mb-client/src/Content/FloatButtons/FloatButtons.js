@@ -10,7 +10,7 @@ const styles = () => ({
     floatButtonGroup: {
         position: "fixed",
         bottom: 30,
-        right: 20,
+        right: 10,
         display: 'flex',
         flexDirection: 'column',
         height: 90,

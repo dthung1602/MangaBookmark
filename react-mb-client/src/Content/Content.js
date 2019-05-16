@@ -25,19 +25,37 @@ class Content extends React.Component {
 
         this.state = {
             sortby: 'status',
-            following: 'following'
+            dataSource: 'fetch', // fetch or search
+            following: 'following',
+            searchTerm: ''
         };
     }
-
-    onFollowingChange = (event) => {
-        this.setState({
-            following: event.target.value
-        });
-    };
 
     onSortByChange = (event) => {
         this.setState({
             sortby: event.target.value
+        })
+    };
+
+    onFollowingChange = (event) => {
+        this.setState({
+            dataSource: 'fetch',
+            following: event.target.value
+        });
+    };
+
+    onSearch = (searchTerm) => {
+        this.setState({
+            dataSource: 'search',
+            searchTerm: searchTerm,
+        })
+    };
+
+    closeSearchResult = () => {
+        console.log('ok');
+        this.setState({
+            dataSource: 'fetch',
+            searchTerm: ''
         })
     };
 
@@ -52,15 +70,15 @@ class Content extends React.Component {
 
         const response = await fetch(url, fetchOptions);
         if (response.ok)
-            this.setState({following: 'following'});
+            this.setState({following: 'following'}); // TODO do not reload after adding
         else
             throw await response.text();
     };
 
+
     render() {
         const {classes} = this.props;
-        const following = this.state.following;
-        const sortby = this.state.sortby;
+        const {following, sortby, dataSource, searchTerm} = this.state;
 
         const sortMethod = {
             'status': sortByStatus,
@@ -72,14 +90,19 @@ class Content extends React.Component {
         return (
             <div className={classes.content}>
                 <Header
-                    sortby={sortby}
+                    dataSource={dataSource}
                     following={following}
                     onFollowingChange={this.onFollowingChange}
+                    sortby={sortby}
                     onSortByChange={this.onSortByChange}
+                    onSearch={this.onSearch}
+                    closeSearchResult={this.closeSearchResult}
                 />
                 <MangaTable
                     sortMethod={sortMethod}
-                    following={this.state.following}
+                    following={following}
+                    searchTerm={searchTerm}
+                    dataSource={dataSource}
                 />
                 <FloatButtons
                     onAddManga={this.onAddManga}

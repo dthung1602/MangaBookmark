@@ -22,15 +22,10 @@ let mangaSchema = new mongoose.Schema({
     note: {
         type: String,
         default: ''
-    },
-    // genres: [{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Genre'
-    // }]
+    }
 });
 
-mangaSchema.index({name: 1});
-// mangaSchema.index({genres: 1});
+mangaSchema.index({name: 'text'});
 mangaSchema.index({link: 1}, {unique: true});
 
 let Manga = mongoose.model('Manga', mangaSchema);

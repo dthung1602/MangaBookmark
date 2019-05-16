@@ -10,7 +10,7 @@ const {connectToDB} = require('./utils');
 router.get('/', async function (req, res, next) {
     connectToDB(next);
 
-    const following = req.query.following;
+    const {following} = req.query;
     if (following === undefined) {
         res.status(400).send("Missing following type");
         return
@@ -24,8 +24,8 @@ router.get('/', async function (req, res, next) {
     res.json(mangas);
 });
 
-router.post('/info', async function (req, res) {
-    const link = req.body.link;
+router.get('/info', async function (req, res) {
+    const {link} = req.query;
     const parser = getParser(link);
 
     if (parser === null) {
@@ -40,6 +40,24 @@ router.post('/info', async function (req, res) {
 
     res.json(manga);
 });
+
+
+router.get('/search', async function (req, res, next) {
+    const {term} = req.query;
+    if (term === undefined || term === '') {
+        res.status(400).send('Missing search term');
+        return
+    }
+
+    connectToDB(next);
+
+    const mangas = await Manga.find({
+        $text: {$search: term,}
+    }).populate('chapters');
+
+    res.json(mangas);
+});
+
 
 router.post('/add', async function (req, res, next) {
     connectToDB(next);

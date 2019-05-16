@@ -16,8 +16,16 @@ const styles = () => ({
 
 class Header extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            openSearchBox: false
+        }
+    }
+
     render() {
-        const {classes} = this.props;
+        const {classes, dataSource} = this.props;
+        const isSearching = (dataSource === 'search');
 
         return (
             <div>
@@ -26,15 +34,20 @@ class Header extends React.Component {
                     <SelectFollowing
                         following={this.props.following}
                         onChange={this.props.onFollowingChange}
+                        disable={isSearching}
                     />
                     <SortBy
                         sortby={this.props.sortby}
                         onChange={this.props.onSortByChange}
                     />
-                    <SearchBar/>
+                    <SearchBar
+                        onSearch={this.props.onSearch}
+                        closeSearchResult={this.props.closeSearchResult}
+                        isSearching={isSearching}
+                    />
                 </div>
             </div>
-        )
+        );
     }
 
 }
