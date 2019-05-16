@@ -27,7 +27,8 @@ class Content extends React.Component {
             sortby: 'status',
             dataSource: 'fetch', // fetch or search
             following: 'following',
-            searchTerm: ''
+            searchTerm: '',
+            mangaTableKey: new Date()
         };
     }
 
@@ -52,7 +53,6 @@ class Content extends React.Component {
     };
 
     closeSearchResult = () => {
-        console.log('ok');
         this.setState({
             dataSource: 'fetch',
             searchTerm: ''
@@ -69,16 +69,20 @@ class Content extends React.Component {
         };
 
         const response = await fetch(url, fetchOptions);
-        if (response.ok)
-            this.setState({following: 'following'}); // TODO do not reload after adding
-        else
-            throw await response.text();
-    };
 
+        if (!response.ok)
+            throw await response.text();
+
+        this.setState({
+            dataSource: 'fetch',
+            following: 'following',
+            mangaTableKey: new Date() // force re generate
+        });
+    };
 
     render() {
         const {classes} = this.props;
-        const {following, sortby, dataSource, searchTerm} = this.state;
+        const {following, sortby, dataSource, searchTerm, mangaTableKey} = this.state;
 
         const sortMethod = {
             'status': sortByStatus,
@@ -99,6 +103,7 @@ class Content extends React.Component {
                     closeSearchResult={this.closeSearchResult}
                 />
                 <MangaTable
+                    key={mangaTableKey}
                     sortMethod={sortMethod}
                     following={following}
                     searchTerm={searchTerm}

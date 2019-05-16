@@ -187,16 +187,16 @@ class MangaTable extends React.Component {
         if (dataSource !== prevProps.dataSource) {
             if (dataSource === 'fetch' && this.props.following !== prevProps.following)
                 this.fetchManga().catch(alert);
-            if (dataSource === 'fetch' && this.props.searchTerm !== prevProps.searchTerm)
+            if (dataSource === 'search' && this.props.searchTerm !== prevProps.searchTerm)
                 this.searchManga().catch(alert);
             return
         }
 
-        if (this.props.following !== prevProps.following && this.props.dataSource === 'fetch') {
+        if (this.props.following !== prevProps.following && dataSource === 'fetch') {
             this.fetchManga().catch(alert)
         }
 
-        if (this.props.searchTerm !== prevProps.searchTerm && this.props.dataSource === 'search') {
+        if (this.props.searchTerm !== prevProps.searchTerm && dataSource === 'search') {
             this.searchManga().catch(alert);
         }
     }
@@ -293,14 +293,12 @@ class MangaTable extends React.Component {
     };
 
     render() {
-        const {classes} = this.props;
-        const data = (this.props.dataSource === 'fetch')
+        const {classes, dataSource, key} = this.props;
+        const data = (dataSource === 'fetch')
             ? this.state.fetchData
             : this.state.searchData;
 
         let tableClass = classes.table;
-        // if (disable)
-        //     tableClass += ' ' + classes.blur;
 
         let rows =
             <TableRow>
