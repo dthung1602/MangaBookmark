@@ -5,7 +5,8 @@ import {withStyles} from "@material-ui/styles";
 const styles = () => ({
     root: {
         display: 'flex',
-        alignItems: 'flex-end'
+        alignItems: 'flex-end',
+        justifyContent: 'space-between',
     },
     label: {
         paddingRight: 15,

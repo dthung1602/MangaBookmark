@@ -58,7 +58,9 @@ router.get('/search', async function (req, res, next) {
 
 router.post('/add', async function (req, res, next) {
     connectToDB(next);
-    const manga = await createManga(req.body.link);
+    const {link, chapters, note, following, isCompleted} = req.body.manga;
+    const readChapters = chapters.filter(ch => ch.isRead).map(ch => ch.link);
+    const manga = await createManga(link, isCompleted, following, readChapters, note);
     res.json(manga);
 });
 

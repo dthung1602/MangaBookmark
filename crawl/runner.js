@@ -23,20 +23,26 @@ function saveChapters(chapters) {
     return Promise.all(chapters.map(chapter => new Chapter(chapter).save()));
 }
 
-async function createManga(url, parser) {
-    if (parser === undefined)
-        parser = getParser(url);
+async function createManga(url, isCompleted = false, following = 'following',
+                           readChapters = [], note = '') {
+    const parser = getParser(url);
     if (parser === null)
         throw "Unsupported manga source";
 
     let manga = await parser.parseManga(url);
+
+    manga.chapters.forEach(chap => chap.isRead = readChapters.indexOf(chap.link) > -1);
     manga.chapters = await saveChapters(manga.chapters);
+
+    manga.following = following;
+    manga.note = note;
+    manga.isCompleted = isCompleted;
+
     return new Manga(manga).save()
 }
 
-async function updateChapters(manga, parser) {
-    if (parser === undefined)
-        parser = getParser(manga.link);
+async function updateChapters(manga) {
+    const parser = getParser(manga.link);
     if (parser === null)
         throw "Unsupported manga source";
 

@@ -64,12 +64,10 @@ class Row extends React.Component {
         const {chapters} = manga;
         const newValues = event.target.value;
         let oldValues = chapters.filter(ch => ch.isRead).map(ch => ch._id);
-        console.log(newValues);
-        console.log(oldValues);
+
         const markRead = utils.minusArray(newValues, oldValues);
         const markUnread = utils.minusArray(oldValues, newValues);
-        console.log(markRead);
-        console.log(markUnread);
+
         try {
             await Promise.all([
                 this.markChapterReadStatus(markRead, 'read'),
@@ -85,7 +83,7 @@ class Row extends React.Component {
     };
 
     onMarkAllChaptersRead = async () => {
-        const {manga} = this.props;
+        const {manga} = this.state;
         const {chapters} = manga;
         const markRead = chapters.filter(ch => !ch.isRead).map(ch => ch._id);
         try {
@@ -178,13 +176,15 @@ class Row extends React.Component {
                     <ChapterList
                         chapters={chapters}
                         onChangeChapter={this.onChangeChapter}
+                        onMarkAllChaptersRead={this.onMarkAllChaptersRead}
+                        showNextChapBtn={true}
+                        markAllRead='after'
                     />
                 </TableCell>
 
                 <TableCell>
                     <MangaActions
                         manga={manga}
-                        onMarkAllChaptersRead={this.onMarkAllChaptersRead}
                         onChangeCompleted={this.onChangeCompleted}
                         onChangeFollowing={this.onChangeFollowing}
                         deleteManga={this.deleteManga}

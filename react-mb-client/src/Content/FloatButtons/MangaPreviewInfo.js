@@ -1,7 +1,10 @@
 import React from "react";
-import {Typography} from "@material-ui/core";
+import {Input, Select, Switch, Typography} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid/index";
 import withStyles from "@material-ui/core/styles/withStyles";
+
+import SelectFollowing from "../Header/SelectFollowing"
+import ChapterList from "../Row/ChapterList";
 
 const styles = () => ({
     mangaImg: {
@@ -16,44 +19,78 @@ const styles = () => ({
     },
     mangaName: {
         color: '#009d8a'
-    }
+    },
+    flex: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'baseline'
+    },
+    label: {
+        paddingRight: 15,
+        paddingBottom: 3
+    },
 });
 
 class MangaPreviewInfo extends React.Component {
 
     render() {
-        const {classes} = this.props;
-        const data = this.props.data;
-        const mangaStatus = this.props.mangaStatus;
+        const {classes, manga, mangaStatus} = this.props;
 
         if (mangaStatus === 'none')
             return '';
 
         if (mangaStatus === 'waiting')
             return (
-                <Typography className={classes.mangaInfo}>{data}</Typography>
+                <Typography className={classes.mangaInfo}>{manga}</Typography>
             );
 
         if (mangaStatus === 'error')
             return (
-                <Typography className={classes.error}>{data}</Typography>
+                <Typography className={classes.error}>{manga}</Typography>
             );
+
+        const {chapters} = manga;
 
         if (mangaStatus === 'ok')
             return (
                 <Grid className={classes.mangaInfo} container>
                     <Grid item md={4}>
-                        <img className={classes.mangaImg} src={data.image} alt={data.name}/>
+                        <img className={classes.mangaImg} src={manga.image} alt={manga.name}/>
                     </Grid>
                     <Grid item md={8}>
-                        <Typography variant={"h6"}>{data.name}</Typography>
-                        <Typography variant={"subtitle1"}>Number of chapters: {data.chapters.length}</Typography>
-                        <Typography variant={"subtitle1"}>Is completed: {'' + data.isCompleted}</Typography>
+                        <Typography variant={"h5"}><b>{manga.name}</b></Typography>
+                        <div className={classes.flex}>
+                            <Typography variant={"subtitle1"}>Is completed: {'' + manga.isCompleted}</Typography>
+                            <Switch
+                                checked={manga.isCompleted}
+                                onChange={this.props.onCompletedChange}
+                                color={"secondary"}
+                            />
+                        </div>
+                        <SelectFollowing
+                            following={manga.following}
+                            onChange={this.props.onFollowingChange}
+                        />
+                        <div className={classes.flex}>
+                            <Typography className={classes.label} variant={"subtitle1"}>Chapter list</Typography>
+                            <ChapterList
+                                chapters={chapters}
+                                onChangeChapter={this.props.onChangeChapter}
+                                onMarkAllChaptersRead={this.props.onMarkAllChaptersRead}
+                                showNextChapBtn={false}
+                                markAllRead='before'
+                            />
+                        </div>
+                        <div className={classes.flex}>
+                            <Typography className={classes.label} variant={"subtitle1"}>Note</Typography>
+                            <Input
+                                value={manga.note}
+                                onChange={this.props.onChangeNote}
+                            />
+                        </div>
                     </Grid>
                 </Grid>
             );
-
-        throw new Error("Invalid mangaStatus property");
     }
 
 }

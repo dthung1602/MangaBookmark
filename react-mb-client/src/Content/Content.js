@@ -59,13 +59,15 @@ class Content extends React.Component {
         })
     };
 
-    onAddManga = async (link) => {
+    onAddManga = async (manga) => {
         const url = '/api/manga/add';
         const fetchOptions = {
             method: 'POST',
             credentials: "same-origin",
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({link: link})
+            body: JSON.stringify({
+                manga: manga
+            })
         };
 
         const response = await fetch(url, fetchOptions);
@@ -76,7 +78,7 @@ class Content extends React.Component {
         this.setState({
             dataSource: 'fetch',
             following: 'following',
-            mangaTableKey: new Date() // force re generate
+            mangaTableKey: new Date() // force re-generate
         });
     };
 

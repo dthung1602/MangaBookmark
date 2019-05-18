@@ -4,6 +4,7 @@ import {withStyles} from "@material-ui/styles";
 import Checkbox from "@material-ui/core/Checkbox/index";
 import ListItemText from "@material-ui/core/ListItemText/index";
 import ReadIcon from "@material-ui/icons/ArrowForwardIos";
+import ReadAll from "@material-ui/icons/BookmarkBorderOutlined"
 
 const styles = () => ({
     noWrap: {
@@ -14,7 +15,7 @@ const styles = () => ({
     },
     actionBtn: {
         padding: 2,
-        margin: '3px 0px 0px 15px',
+        margin: '3px 8px 0px 8px',
         borderRadius: 3,
         display: 'inline-block',
         '&:hover': {
@@ -34,15 +35,13 @@ const MAX_CHAP_NAME_LENGTH = 20;
 class ChapterList extends React.Component {
 
     render() {
-        const {classes} = this.props;
-
-        const chapters = this.props.chapters;
+        const {classes, chapters, showNextChapBtn, markAllRead} = this.props;
         const chapterCount = chapters.length;
 
         if (chapterCount === 0)
             return <div className={classes.noChap}>No chapter available</div>;
 
-        const readChaptersId = chapters.filter(ch => ch.isRead).map(ch => ch._id);
+        const readChaptersId = chapters.filter(ch => ch.isRead).map(ch => ch._id || ch.link);
 
         let lastChapRead = {name: '-----'};
         for (let i = 0; i < chapterCount; i++)
@@ -63,7 +62,7 @@ class ChapterList extends React.Component {
             nextChapToRead = chapters[chapterCount - 1];
 
         let nextChapBtn = '';
-        if (nextChapToRead !== undefined)
+        if (showNextChapBtn && nextChapToRead !== undefined)
             nextChapBtn =
                 <div className={classes.actionBtn}
                      title={"Read " + nextChapToRead.name}
@@ -71,22 +70,50 @@ class ChapterList extends React.Component {
                     <ReadIcon/>
                 </div>;
 
+
+        let markAllReadBtn = '';
+        if (markAllRead !== undefined && !chapters.every(chap => chap.isRead))
+            markAllReadBtn =
+                <div
+                    className={classes.actionBtn}
+                    title="Mark all chapters as read"
+                    onClick={this.props.onMarkAllChaptersRead}
+                >
+                    <ReadAll/>
+                </div>;
+
+        const select =
+            <Select
+                multiple
+                value={readChaptersId}
+                onChange={this.props.onChangeChapter}
+                renderValue={displayLastChapRead}
+            >
+                {chapters.map(chap => (
+                    <MenuItem key={chap._id || chap.link} value={chap._id || chap.link}>
+                        <Checkbox checked={chap.isRead}/>
+                        <ListItemText primary={<a href={chap.link}>{chap.name}</a>}/>
+                    </MenuItem>
+                ))}
+            </Select>;
+
+
+        if (markAllRead === 'before')
+            return (
+                <div className={classes.noWrap}>
+                    {markAllReadBtn}
+                    {select}
+                    {nextChapBtn}
+                </div>
+            );
+
         return (
             <div className={classes.noWrap}>
-                <Select
-                    multiple
-                    value={readChaptersId}
-                    onChange={this.props.onChangeChapter}
-                    renderValue={displayLastChapRead}
-                >
-                    {chapters.map(chap => (
-                        <MenuItem key={chap._id} value={chap._id}>
-                            <Checkbox checked={chap.isRead}/>
-                            <ListItemText primary={<a href={chap.link}>{chap.name}</a>}/>
-                        </MenuItem>
-                    ))}
-                </Select>
-                {nextChapBtn}
+                {select}
+                <div>
+                    {markAllReadBtn}
+                    {nextChapBtn}
+                </div>
             </div>
         )
     }

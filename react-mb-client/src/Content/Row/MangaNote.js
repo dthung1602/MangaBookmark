@@ -8,7 +8,7 @@ import EditIcon from "@material-ui/icons/Edit"
 const styles = () => ({
     actionBtn: {
         padding: 2,
-        margin: '3px 0px 0px 15px',
+        margin: '3px 8px 0px 8px',
         borderRadius: 3,
         display: 'inline-block',
         '&:hover': {

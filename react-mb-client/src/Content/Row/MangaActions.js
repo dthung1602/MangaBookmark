@@ -3,7 +3,6 @@ import {MenuItem, Select} from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
 import DeleteIcon from "@material-ui/icons/DeleteForever"
 import DoneIcon from "@material-ui/icons/Done"
-import ReadAll from "@material-ui/icons/BookmarkBorderOutlined"
 
 const styles = () => ({
     noWrap: {
@@ -14,7 +13,7 @@ const styles = () => ({
     },
     actionBtn: {
         padding: 2,
-        margin: '3px 0px 0px 15px',
+        margin: '3px 8px 0px 8px',
         borderRadius: 3,
         display: 'inline-block',
         '&:hover': {
@@ -29,7 +28,6 @@ class MangaActions extends React.Component {
 
     render() {
         const {classes, manga} = this.props;
-        const {chapters} = manga;
 
         let markMangaCompletedBtn = '';
         if (!manga.isCompleted)
@@ -39,17 +37,6 @@ class MangaActions extends React.Component {
                      onClick={this.props.onChangeCompleted}
                 >
                     <DoneIcon/>
-                </div>;
-
-        let markAllReadBtn = '';
-        if (!chapters.every(chap => chap.isRead))
-            markAllReadBtn =
-                <div
-                    className={classes.actionBtn}
-                    title="Mark all chapters as read"
-                    onClick={this.props.onMarkAllChaptersRead}
-                >
-                    <ReadAll/>
                 </div>;
 
         const deleteMangaBtn =
@@ -74,7 +61,6 @@ class MangaActions extends React.Component {
                 </Select>
 
                 <div>
-                    {markAllReadBtn}
                     {markMangaCompletedBtn}
                     {deleteMangaBtn}
                 </div>

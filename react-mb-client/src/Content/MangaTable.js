@@ -171,7 +171,6 @@ class MangaTable extends React.Component {
     componentDidMount() {
         this.fetchManga(this.props.following)
             .catch(alert)
-        // TODO
         // this.setState({fetchData: dummy})
     }
 
@@ -293,7 +292,7 @@ class MangaTable extends React.Component {
     };
 
     render() {
-        const {classes, dataSource, key} = this.props;
+        const {classes, dataSource} = this.props;
         const data = (dataSource === 'fetch')
             ? this.state.fetchData
             : this.state.searchData;
