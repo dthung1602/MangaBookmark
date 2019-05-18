@@ -298,9 +298,14 @@ function removeDiacritics(str) {
     return str;
 }
 
+function minusArray(arr1, arr2) {
+    return arr1.filter(e => arr2.indexOf(e) === -1);
+}
+
 export default {
     getMangaStatus,
     mangaStatuses,
     getMangaSource,
-    removeDiacritics
+    removeDiacritics,
+    minusArray
 }

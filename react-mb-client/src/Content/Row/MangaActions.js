@@ -3,6 +3,7 @@ import {MenuItem, Select} from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
 import DeleteIcon from "@material-ui/icons/DeleteForever"
 import DoneIcon from "@material-ui/icons/Done"
+import ReadAll from "@material-ui/icons/BookmarkBorderOutlined"
 
 const styles = () => ({
     noWrap: {
@@ -27,12 +28,12 @@ const styles = () => ({
 class MangaActions extends React.Component {
 
     render() {
-        const {classes} = this.props;
-        const manga = this.props.manga;
+        const {classes, manga} = this.props;
+        const {chapters} = manga;
 
-        let markMangaCompleted = '';
+        let markMangaCompletedBtn = '';
         if (!manga.isCompleted)
-            markMangaCompleted =
+            markMangaCompletedBtn =
                 <div className={classes.actionBtn}
                      title="Mark manga as completed"
                      onClick={this.props.onChangeCompleted}
@@ -40,6 +41,24 @@ class MangaActions extends React.Component {
                     <DoneIcon/>
                 </div>;
 
+        let markAllReadBtn = '';
+        if (!chapters.every(chap => chap.isRead))
+            markAllReadBtn =
+                <div
+                    className={classes.actionBtn}
+                    title="Mark all chapters as read"
+                    onClick={this.props.onMarkAllChaptersRead}
+                >
+                    <ReadAll/>
+                </div>;
+
+        const deleteMangaBtn =
+            <div className={classes.actionBtn}
+                 title="Delete manga"
+                 onClick={this.props.deleteManga}
+            >
+                <DeleteIcon/>
+            </div>;
 
         return (
             <div className={classes.noWrap}>
@@ -55,13 +74,9 @@ class MangaActions extends React.Component {
                 </Select>
 
                 <div>
-                    {markMangaCompleted}
-                    <div className={classes.actionBtn}
-                         title="Delete manga"
-                         onClick={this.props.deleteManga}
-                    >
-                        <DeleteIcon/>
-                    </div>
+                    {markAllReadBtn}
+                    {markMangaCompletedBtn}
+                    {deleteMangaBtn}
                 </div>
             </div>
         )

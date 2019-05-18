@@ -47,42 +47,54 @@ class Row extends React.Component {
         }
     }
 
+    markChapterReadStatus = (chapters, action) => {
+        if (chapters.length === 0) return;
+        const url = `/api/chapter/${action}`;
+        const fetchOptions = {
+            method: 'POST',
+            credentials: "same-origin",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({chapters: chapters})
+        };
+        return fetch(url, fetchOptions);
+    };
+
     onChangeChapter = async (event) => {
-        const manga = this.state.manga;
-        const chapters = this.state.manga.chapters;
+        const {manga} = this.state;
+        const {chapters} = manga;
         const newValues = event.target.value;
         let oldValues = chapters.filter(ch => ch.isRead).map(ch => ch._id);
-
-        let chap;
-        let action;
-        if (newValues.length > oldValues.length) {
-            chap = newValues.filter(ch => oldValues.indexOf(ch) === -1)[0];
-            action = 'read';
-        } else {
-            chap = oldValues.filter(ch => newValues.indexOf(ch) === -1)[0];
-            action = 'unread';
-        }
-
+        console.log(newValues);
+        console.log(oldValues);
+        const markRead = utils.minusArray(newValues, oldValues);
+        const markUnread = utils.minusArray(oldValues, newValues);
+        console.log(markRead);
+        console.log(markUnread);
         try {
-            const url = `/api/chapter/${action}/${chap}`;
-            const fetchOptions = {
-                method: 'POST',
-                credentials: "same-origin"
-            };
-            const response = await fetch(url, fetchOptions);
+            await Promise.all([
+                this.markChapterReadStatus(markRead, 'read'),
+                this.markChapterReadStatus(markUnread, 'unread')
+            ]);
 
-            if (!response.ok) {
-                const text = await response.text();
-                alert("ERROR: " + text);
-                return
-            }
+            chapters.forEach(chap => chap.isRead = newValues.indexOf(chap._id) > -1);
+            this.setState({manga: manga});
+
         } catch (e) {
-            alert("ERROR: Cannot load data. Check your Internet connection.");
-            return;
+            alert('ERROR ' + e);
         }
+    };
 
-        chapters.forEach(ch => ch.isRead = newValues.indexOf(ch._id) !== -1);
-        this.setState({manga: manga});
+    onMarkAllChaptersRead = async () => {
+        const {manga} = this.props;
+        const {chapters} = manga;
+        const markRead = chapters.filter(ch => !ch.isRead).map(ch => ch._id);
+        try {
+            await this.markChapterReadStatus(markRead, 'read');
+            chapters.forEach(ch => ch.isRead = true);
+            this.setState({manga: manga})
+        } catch (e) {
+            alert('ERROR ' + e);
+        }
     };
 
     saveNote = async (note) => {
@@ -172,6 +184,7 @@ class Row extends React.Component {
                 <TableCell>
                     <MangaActions
                         manga={manga}
+                        onMarkAllChaptersRead={this.onMarkAllChaptersRead}
                         onChangeCompleted={this.onChangeCompleted}
                         onChangeFollowing={this.onChangeFollowing}
                         deleteManga={this.deleteManga}

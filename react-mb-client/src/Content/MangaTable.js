@@ -172,7 +172,7 @@ class MangaTable extends React.Component {
         this.fetchManga(this.props.following)
             .catch(alert)
         // TODO
-        // this.setState({data: dummy})
+        // this.setState({fetchData: dummy})
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

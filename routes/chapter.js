@@ -5,15 +5,15 @@ const Chapter = require('../models/Chapter');
 
 const {connectToDB} = require('./utils');
 
-router.post('/read/:chapID', async function (req, res, next) {
+router.post('/read', async function (req, res, next) {
     connectToDB(next);
-    await Chapter.findByIdAndUpdate(req.params.chapID, {isRead: true});
+    await Chapter.updateMany({_id: {$in: req.body.chapters}}, {isRead: true});
     res.send('')
 });
 
-router.post('/unread/:chapID', async function (req, res, next) {
+router.post('/unread', async function (req, res, next) {
     connectToDB(next);
-    await Chapter.findByIdAndUpdate(req.params.chapID, {isRead: false});
+    await Chapter.updateMany({_id: {$in: req.body.chapters}}, {isRead: false});
     res.send('')
 });
 
