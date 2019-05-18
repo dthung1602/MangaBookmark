@@ -6,7 +6,6 @@ import utils from "../../utils"
 const styles = () => ({
     infoHeader: {
         fontWeight: 550,
-        whiteSpace: 'nowrap'
     },
     mangaName: {
         color: '#525252',

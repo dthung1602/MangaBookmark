@@ -47,7 +47,7 @@ class MangaPreviewInfo extends React.Component {
                     </Grid>
                     <Grid item md={8}>
                         <Typography variant={"h6"}>{data.name}</Typography>
-                        <Typography variant={"subtitle1"}>Number of chapters: {data.chapterCount}</Typography>
+                        <Typography variant={"subtitle1"}>Number of chapters: {data.chapters.length}</Typography>
                         <Typography variant={"subtitle1"}>Is completed: {'' + data.isCompleted}</Typography>
                     </Grid>
                 </Grid>

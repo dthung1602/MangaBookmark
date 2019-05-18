@@ -3,7 +3,7 @@ const router = express.Router();
 
 const Manga = require('../models/Manga');
 const Chapter = require('../models/Chapter');
-const {get$, getParser, createManga, updateChapters} = require('../crawl/runner');
+const {getParser, createManga} = require('../crawl/runner');
 
 const {connectToDB} = require('./utils');
 
@@ -33,10 +33,7 @@ router.get('/info', async function (req, res) {
         return
     }
 
-    const $ = await get$(link, parser.executeJS);
-    const chapters = parser.parseChapters($);
-    const manga = parser.parseManga($);
-    manga.chapterCount = chapters.length;
+    const manga = await parser.parseManga(link);
 
     res.json(manga);
 });

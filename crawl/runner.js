@@ -23,36 +23,15 @@ function saveChapters(chapters) {
     return Promise.all(chapters.map(chapter => new Chapter(chapter).save()));
 }
 
-async function get$(url, executeJS) {
-    let content;
-
-    if (executeJS) {
-        const instance = await phantom.create(['--load-images=no']);
-        const page = await instance.createPage();
-        await page.open(url);
-
-        content = await page.property('content');
-        await instance.exit();
-    } else {
-        content = await rp(url);
-    }
-
-    return cheerio.load(content);
-}
-
 async function createManga(url, parser) {
     if (parser === undefined)
         parser = getParser(url);
     if (parser === null)
         throw "Unsupported manga source";
 
-    let $ = await get$(url, parser.executeJS);
-
-    let manga = new Manga(parser.parseManga($));
-    let chapters = parser.parseChapters($);
-
-    manga.chapters = await saveChapters(chapters);
-    return manga.save()
+    let manga = await parser.parseManga(url);
+    manga.chapters = await saveChapters(manga.chapters);
+    return new Manga(manga).save()
 }
 
 async function updateChapters(manga, parser) {
@@ -61,9 +40,7 @@ async function updateChapters(manga, parser) {
     if (parser === null)
         throw "Unsupported manga source";
 
-    let $ = await get$(manga.link, parser.executeJS);
-
-    let crawledChapters = parser.parseChapters($);
+    let crawledChapters = await parser.parseChapters(url);
 
     for (let i = 0; i < manga.chapters.length; i++) {
         let pos = crawledChapters.findIndex(ch => ch.link === manga.chapters[i].link);
@@ -119,4 +96,4 @@ async function main() {
 if (require.main === module)
     main();
 
-module.exports = {createManga, updateChapters, get$, getParser};
+module.exports = {createManga, updateChapters, getParser};

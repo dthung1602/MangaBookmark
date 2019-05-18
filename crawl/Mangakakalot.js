@@ -1,11 +1,24 @@
-const URLRegex = /^https?:\/\/mangakakalot\.com\/manga\/[a-z0-9]+$/;
+const rq = require('request-promise');
+const cheerio = require('cheerio');
 
-const executeJS = false;
+const URLRegex = /^https?:\/\/mangakakalot\.com\/manga\/.+$/;
 
-function parseChapters($) {
-    let rows = $('.chapter-list a');
+async function loadData(dataSource) {
+    return cheerio.load(await rq(dataSource));
+}
 
-    let chapters = [];
+function normalizeDataSource(dataSource) {
+    return (typeof dataSource === 'string' && dataSource.trim().startsWith('http'))
+        ? loadData(dataSource)
+        : dataSource
+}
+
+async function parseChapters(dataSource) {
+    const $ = await normalizeDataSource(dataSource);
+
+    const rows = $('.chapter-list a');
+
+    const chapters = [];
     for (let i = 0; i < rows.length; i++) {
         chapters.push({
             name: rows[i].children[0].data,
@@ -16,18 +29,20 @@ function parseChapters($) {
     return chapters;
 }
 
-function parseManga($) {
+async function parseManga(dataSource) {
+    const $ = await normalizeDataSource(dataSource);
+
     return {
         name: $('h1').text(),
         link: $('meta[property="og:url"]').attr('content'),
         image: $('.manga-info-pic img')[0].attribs.src,
-        isCompleted: $('.manga-info-text li')[2].children[0].data === "Status : Completed"
+        isCompleted: $('.manga-info-text li')[2].children[0].data === "Status : Completed",
+        chapters: await parseChapters($)
     };
 }
 
 module.exports = {
     URLRegex,
-    executeJS,
     parseManga,
     parseChapters
 };

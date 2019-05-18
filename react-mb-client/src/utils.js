@@ -19,8 +19,8 @@ const mangaStatuses = [
 ];
 
 const mangaSourceRegex = {
-    'Hoc vien truyen tranh': /^https?:\/\/hocvientruyentranh\.net\/truyen\/[0-9]+\/.*$/,
-    'Mangakakalot': /^https?:\/\/mangakakalot\.com\/manga\/[a-z0-9]+$/,
+    'Hoc vien truyen tranh': /^https?:\/\/hocvientruyentranh\.(com|net)\/(index.php\/)?truyen\/[0-9]+\/.+$/,
+    'Mangakakalot': /^https?:\/\/mangakakalot\.com\/manga\/.+$/,
     'Mangarock': /^https?:\/\/mangarock\.com\/manga\/mrs-serie-[0-9]+$/,
     'Nettruyen': /^https?:\/\/www\.nettruyen\.com\/truyen-tranh\/.+$/
 };
