@@ -1,7 +1,4 @@
-const rp = require('request-promise');
-const cheerio = require('cheerio');
 const mongoose = require('mongoose');
-const phantom = require('phantom');
 
 const Manga = require('../models/Manga');
 const Chapter = require('../models/Chapter');

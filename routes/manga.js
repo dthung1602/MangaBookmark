@@ -5,7 +5,7 @@ const Manga = require('../models/Manga');
 const Chapter = require('../models/Chapter');
 const {getParser, createManga} = require('../crawl/runner');
 
-const {connectToDB} = require('./utils');
+const {connectToDB} = require('../models');
 
 router.get('/', async function (req, res, next) {
     connectToDB(next);

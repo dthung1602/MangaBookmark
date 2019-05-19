@@ -3,7 +3,7 @@ const router = express.Router();
 
 const Chapter = require('../models/Chapter');
 
-const {connectToDB} = require('./utils');
+const {connectToDB} = require('../models');
 
 router.post('/read', async function (req, res, next) {
     connectToDB(next);

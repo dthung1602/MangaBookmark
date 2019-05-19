@@ -1,28 +1,39 @@
-let express = require('express');
-let path = require('path');
-let cookieParser = require('cookie-parser');
-let logger = require('morgan');
+const express = require('express');
+const path = require('path');
+const passport = require('passport');
+const cookieSession = require('cookie-session');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-let mangaRouter = require('./routes/manga');
-let chapterRouter = require('./routes/chapter');
-let app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+const config = require('./config');
+const authRouter = require('./routes/auth');
+const mangaRouter = require('./routes/manga');
+const chapterRouter = require('./routes/chapter');
+const authCheck = require('./auth');
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 
+// set up session cookies
+app.use(cookieSession({
+    maxAge: config.COOKIE_MAX_AGE,
+    keys: [config.SECRET_KEY]
+}));
 
-// Static files handled by React
+// initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Static files & index.html handled by React
 app.use(express.static(path.join(__dirname, 'react-mb-client/build')));
 
 // API
-app.use('/api/manga', mangaRouter);
-app.use('/api/chapter', chapterRouter);
+app.use('/auth', authRouter);
+app.use('/api/manga', authCheck, mangaRouter);
+app.use('/api/chapter', authCheck, chapterRouter);
 
 // Any request that doesn't match one above, send back React's index.html file
 // app.get('*', (req, res) => {
