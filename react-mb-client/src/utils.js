@@ -22,7 +22,10 @@ const mangaSourceRegex = {
     'Hoc vien truyen tranh': /^https?:\/\/hocvientruyentranh\.(com|net)\/(index.php\/)?truyen\/[0-9]+\/.+$/,
     'Mangakakalot': /^https?:\/\/mangakakalot\.com\/manga\/.+$/,
     'Mangarock': /^https?:\/\/mangarock\.com\/manga\/mrs-serie-[0-9]+$/,
-    'Nettruyen': /^https?:\/\/www\.nettruyen\.com\/truyen-tranh\/.+$/
+    'Nettruyen': /^https?:\/\/www\.nettruyen\.com\/truyen-tranh\/.+$/,
+    'MangaWWW': /^https?:\/\/mangawww\.club\/manga\/.+$/,
+    'Otakusan':  /^https?:\/\/otakusan\.net\/MangaDetail\/[0-9]+\/.+$/,
+    'TruyenQQ': /^https?:\/\/truyenqq\.com\/truyen-tranh\/.+$/,
 };
 
 function getMangaSource(link) {

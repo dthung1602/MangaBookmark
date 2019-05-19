@@ -12,7 +12,10 @@ const parsers = [
     require('./HocVienTruyenTranh'),
     require('./MangaRock'),
     require('./Mangakakalot'),
-    require('./NetTruyen')
+    require('./NetTruyen'),
+    require('./TruyenQQ'),
+    require('./MangaWwwClub'),
+    require('./Otakusan')
 ];
 
 mongoose.set('useNewUrlParser', true);
