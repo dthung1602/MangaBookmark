@@ -16,6 +16,7 @@
     "morgan": "~1.9.0",
     "nodemon": "^1.18.11",
     "passport": "^0.4.0",
+    "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.4"

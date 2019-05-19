@@ -8,13 +8,26 @@ router.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
-// auth with google+
-router.get('/google', passport.authenticate('google', {scope: ['profile']}));
+// auth with google
+router.get('/google', passport.authenticate('google', {scope: ['profile', 'email']}));
 
 // callback route for google to redirect to
-// hand control to passport to use code to grab profile info
-router.get('/google/callback', passport.authenticate('google'), (req, res) => {
-    res.redirect('/');
-});
+router.get('/google/callback',
+    passport.authenticate('google'),
+    (req, res) => {
+        res.redirect('/');
+    }
+);
+
+// auth with facebook
+router.get('/facebook', passport.authenticate('facebook'));
+
+// callback route for facebook to redirect to
+router.get('/facebook/callback',
+    passport.authenticate('facebook'),
+    (req, res) => {
+        res.redirect('/');
+    }
+);
 
 module.exports = router;

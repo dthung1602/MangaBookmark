@@ -1,28 +1,28 @@
 const passport = require('passport/lib');
-const GoogleStrategy = require('passport-google-oauth20/lib').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 
 const {User, connectToDB} = require('../models');
 const config = require('../config');
 
 passport.use(
-    new GoogleStrategy(
+    new FacebookStrategy(
         {
-            clientID: config.GOOGLE_AUTH_ID,
-            clientSecret: config.GOOGLE_AUTH_PASSWORD,
-            callbackURL: '/auth/google/callback'
+            clientID: config.FACEBOOK_AUTH_ID,
+            clientSecret: config.FACEBOOK_AUTH_PASSWORD,
+            callbackURL: '/auth/facebook/callback',
+            profileFields: ['id', 'email', 'name', 'verified']
         },
         function (accessToken, refreshToken, profile, done) {
             connectToDB();
             console.log(profile);
-
             // check if user already exists in our own db
-            User.findOne({googleId: profile.id}).then((currentUser) => {
+            User.findOne({facebookId: profile.id}).then((currentUser) => {
                 if (currentUser) {
                     done(null, currentUser);
                 } else {
                     // if not, create user in our db
                     new User({
-                        googleId: profile.id,
+                        facebookId: profile.id,
                         username: profile.displayName
                     }).save().then((newUser) => {
                         done(null, newUser);

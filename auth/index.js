@@ -1,6 +1,7 @@
 const passport = require('passport/lib');
 
 require('./Google');
+require('./Facebook');
 
 passport.serializeUser((user, done) => {
     done(null, user.id);
@@ -11,7 +12,6 @@ passport.deserializeUser((userId, done) => {
 });
 
 module.exports = (req, res, next) => {
-    console.log(req.user);
     if (req.user)
         next();
     else
