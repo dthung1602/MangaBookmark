@@ -2,6 +2,7 @@ const passport = require('passport/lib');
 
 require('./Google');
 require('./Facebook');
+require('./Local');
 
 passport.serializeUser((user, done) => {
     done(null, user.id);
