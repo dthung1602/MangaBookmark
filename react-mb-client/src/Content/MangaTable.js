@@ -169,8 +169,9 @@ class MangaTable extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchManga(this.props.following)
-            .catch(alert)
+        if (this.props.loadData)
+            this.fetchManga()
+                .catch(alert)
         // this.setState({fetchData: dummy})
     }
 
@@ -182,21 +183,30 @@ class MangaTable extends React.Component {
             this.setState({fetchData: fetchData, searchData: searchData});
         }
 
-        const {dataSource} = this.props;
-        if (dataSource !== prevProps.dataSource) {
-            if (dataSource === 'fetch' && this.props.following !== prevProps.following)
-                this.fetchManga().catch(alert);
-            if (dataSource === 'search' && this.props.searchTerm !== prevProps.searchTerm)
+        const {dataSource, loadData} = this.props;
+        if (loadData) {
+            if (dataSource !== prevProps.dataSource) {
+                if (dataSource === 'fetch' && this.props.following !== prevProps.following)
+                    this.fetchManga().catch(alert);
+                if (dataSource === 'search' && this.props.searchTerm !== prevProps.searchTerm)
+                    this.searchManga().catch(alert);
+                return
+            }
+
+            if (this.props.following !== prevProps.following && dataSource === 'fetch') {
+                this.fetchManga().catch(alert)
+            }
+
+            if (this.props.searchTerm !== prevProps.searchTerm && dataSource === 'search') {
                 this.searchManga().catch(alert);
-            return
-        }
+            }
 
-        if (this.props.following !== prevProps.following && dataSource === 'fetch') {
-            this.fetchManga().catch(alert)
-        }
-
-        if (this.props.searchTerm !== prevProps.searchTerm && dataSource === 'search') {
-            this.searchManga().catch(alert);
+            if (this.props.loadData !== prevProps.loadData) {
+                if (dataSource === 'fetch')
+                    this.fetchManga().catch(alert);
+                if (dataSource === 'search')
+                    this.searchManga().catch(alert);
+            }
         }
     }
 

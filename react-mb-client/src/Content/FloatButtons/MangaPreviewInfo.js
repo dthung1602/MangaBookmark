@@ -1,5 +1,5 @@
 import React from "react";
-import {Input, Select, Switch, Typography} from "@material-ui/core";
+import {Input, Switch, Typography} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid/index";
 import withStyles from "@material-ui/core/styles/withStyles";
 

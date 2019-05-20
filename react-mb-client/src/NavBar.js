@@ -2,9 +2,7 @@ import React from "react"
 
 import {AppBar, Toolbar, Typography} from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
-
-import Grow from "./Grow";
-import LOGO from '../logo.png'
+import LOGO from './logo.png'
 
 const styles = () => ({
     logo: {
@@ -27,34 +25,39 @@ const styles = () => ({
             color: '#000',
             fontWeight: 'bold'
         }
+    },
+    flex: {
+        display: 'flex',
+        justifyContent: 'space-between'
+    },
+    grow: {
+        display: 'flex',
+        flexGrow: 1
     }
 });
 
 class NavBar extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            username: props.username
-        }
-    }
-
     render() {
-        const {classes} = this.props;
-        const username = this.state.username;
+        const {classes, user, logout} = this.props;
 
         return (
             <div>
                 <AppBar color="primary" position="fixed">
-                    <Toolbar>
+                    <Toolbar className={classes.flex}>
                         <img className={classes.logo} src={LOGO} alt="MangaBookmark"/>
-                        <Grow/>
-                        <Typography className={classes.navBarText}>
-                            Hello, {username}
-                        </Typography>
-                        <Typography className={classes.navBarText}>
-                            <a href='/auth/logout' className={classes.navBarLink}>Logout</a>
-                        </Typography>
+                        <span className={classes.grow}/>
+                        {(!user) ? '' :
+                            <Typography className={classes.navBarText}>
+                                Hello, {user.username}
+                            </Typography>
+                        }
+                        {(!user) ? '' :
+                            <Typography className={classes.navBarText} onClick={logout}>
+                                Logout
+                            </Typography>
+                        }
+
                     </Toolbar>
                 </AppBar>
             </div>

@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const Chapter = require('../models/Chapter');
-
-const {connectToDB} = require('../models');
+const {connectToDB, Chapter} = require('../models');
 
 router.post('/read', async function (req, res, next) {
     connectToDB(next);

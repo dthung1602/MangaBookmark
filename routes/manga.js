@@ -1,11 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const Manga = require('../models/Manga');
-const Chapter = require('../models/Chapter');
 const {getParser, createManga} = require('../crawl/runner');
-
-const {connectToDB} = require('../models');
+const {connectToDB, Manga, Chapter} = require('../models');
 
 router.get('/', async function (req, res, next) {
     connectToDB(next);

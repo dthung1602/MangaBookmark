@@ -6,7 +6,6 @@ import {FacebookLoginButton, GoogleLoginButton} from "react-social-login-buttons
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import {Link} from "react-router-dom";
 
 
 const styles = () => ({
@@ -49,9 +48,6 @@ const styles = () => ({
         color: '#f00',
         fontSize: '100%',
         fontWeight: '550'
-    },
-    hidden: {
-        display: 'none'
     }
 });
 
@@ -98,8 +94,10 @@ class Login extends Component {
 
             if (!response.ok)
                 this.setState({error: await response.text()});
-            else
-                document.getElementById('hidden-index-link').click();
+            else {
+                this.props.loadUserData().catch(alert);
+                this.props.redirectToIndex();
+            }
 
         } catch (e) {
             this.setState({error: e.toString()})
@@ -122,7 +120,6 @@ class Login extends Component {
 
         return (
             <div className={classes.login}>
-                <Link to='/' id='hidden-index-link' className={classes.hidden}/>
 
                 <Paper className={classes.paper}>
                     <AppBar position="static" color="default">
