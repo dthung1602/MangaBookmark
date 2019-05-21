@@ -48,13 +48,18 @@ class Row extends React.Component {
     }
 
     markChapterReadStatus = (chapters, action) => {
+        const mangaID = this.state.manga._id;
+        console.log('>>' + mangaID);
         if (chapters.length === 0) return;
         const url = `/api/chapter/${action}`;
         const fetchOptions = {
             method: 'POST',
             credentials: "same-origin",
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({chapters: chapters})
+            body: JSON.stringify({
+                manga: mangaID,
+                chapters: chapters
+            })
         };
         return fetch(url, fetchOptions);
     };
@@ -63,7 +68,7 @@ class Row extends React.Component {
         const {manga} = this.state;
         const {chapters} = manga;
         const newValues = event.target.value;
-        let oldValues = chapters.filter(ch => ch.isRead).map(ch => ch._id);
+        let oldValues = chapters.filter(ch => ch.isRead).map(ch => ch.link);
 
         const markRead = utils.minusArray(newValues, oldValues);
         const markUnread = utils.minusArray(oldValues, newValues);
@@ -74,7 +79,7 @@ class Row extends React.Component {
                 this.markChapterReadStatus(markUnread, 'unread')
             ]);
 
-            chapters.forEach(chap => chap.isRead = newValues.indexOf(chap._id) > -1);
+            chapters.forEach(chap => chap.isRead = newValues.indexOf(chap.link) > -1);
             this.setState({manga: manga});
 
         } catch (e) {
@@ -85,7 +90,7 @@ class Row extends React.Component {
     onMarkAllChaptersRead = async () => {
         const {manga} = this.state;
         const {chapters} = manga;
-        const markRead = chapters.filter(ch => !ch.isRead).map(ch => ch._id);
+        const markRead = chapters.filter(ch => !ch.isRead).map(ch => ch.link);
         try {
             await this.markChapterReadStatus(markRead, 'read');
             chapters.forEach(ch => ch.isRead = true);

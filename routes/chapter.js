@@ -1,17 +1,35 @@
 const express = require('express');
 const router = express.Router();
+const {checkPermission} = require('./utils');
 
-const {connectToDB, Chapter} = require('../models');
+router.post('/:action', checkPermission, async function (req, res) {
+    const chapterLinks = req.body.chapters;
+    const action = req.params.action;
 
-router.post('/read', async function (req, res, next) {
-    connectToDB(next);
-    await Chapter.updateMany({_id: {$in: req.body.chapters}}, {isRead: true});
-    res.send('')
-});
+    const {manga} = req;
 
-router.post('/unread', async function (req, res, next) {
-    connectToDB(next);
-    await Chapter.updateMany({_id: {$in: req.body.chapters}}, {isRead: false});
+    let isRead;
+    if (action === 'read')
+        isRead = true;
+    else if (action === 'unread')
+        isRead = false;
+    else {
+        res.status(400).send('Invalid action');
+        return;
+    }
+
+    for (let i = 0; i < chapterLinks.length; i++) {
+        const pos = manga.chapters.findIndex(chap => chap.link === chapterLinks[i]);
+        if (pos > -1)
+            manga.chapters[pos].isRead = isRead;
+        else {
+            res.status(400).send('Invalid chapter links');
+            return;
+        }
+    }
+
+    await manga.save();
+
     res.send('')
 });
 

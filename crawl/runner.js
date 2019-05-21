@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const Manga = require('../models/Manga');
-const Chapter = require('../models/Chapter');
 
 const {DB_URL} = require('../config');
 
@@ -19,11 +18,7 @@ mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
-function saveChapters(chapters) {
-    return Promise.all(chapters.map(chapter => new Chapter(chapter).save()));
-}
-
-async function createManga(url, isCompleted = false, following = 'following',
+async function createManga(url, userID, isCompleted = false, following = 'following',
                            readChapters = [], note = '') {
     const parser = getParser(url);
     if (parser === null)
@@ -32,8 +27,8 @@ async function createManga(url, isCompleted = false, following = 'following',
     let manga = await parser.parseManga(url);
 
     manga.chapters.forEach(chap => chap.isRead = readChapters.indexOf(chap.link) > -1);
-    manga.chapters = await saveChapters(manga.chapters);
 
+    manga.user = userID;
     manga.following = following;
     manga.note = note;
     manga.isCompleted = isCompleted;
@@ -53,12 +48,6 @@ async function updateChapters(manga) {
         if (pos !== -1)
             crawledChapters[pos] = manga.chapters[i];
     }
-
-    for (let i = 0; i < crawledChapters.length; i++)
-        if (crawledChapters[i].id === undefined)
-            crawledChapters[i] = new Chapter(crawledChapters[i]);
-
-    await Promise.all(crawledChapters.map(ch => ch.save()));
 
     manga.chapters = crawledChapters;
     return manga.save()
@@ -86,7 +75,7 @@ async function main() {
         if (action === 'create') {
             await createManga(url)
         } else {
-            let manga = await Manga.findOne({link: url}).populate('chapters');
+            let manga = await Manga.findOne({link: url});
             await updateChapters(manga)
         }
 

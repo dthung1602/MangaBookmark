@@ -23,18 +23,18 @@ async function main() {
         .find({
             following: {$in: ['toread', 'following', 'waiting']},
             isCompleted: false
-        })
-        .populate('chapters');
+        });
     const chunks = chunkArray(mangasToUpdate, CRAWL_MAX_THREADS);
 
     console.log(`Start updating ${mangasToUpdate.length} mangas`);
+    console.log(`Using up to ${CRAWL_MAX_THREADS} threads`);
     for (let i = 0; i < chunks.length; i++)
         await Promise.all(chunks[i].map(async manga => {
             await updateChapters(manga);
-            console.log(`    - Update: '${manga.name}'`);
+            console.log(`    Update: '${manga.name}'`);
         }));
 
-    console.log('\nDone!');
+    console.log('Update manga done!');
     mongoose.connection.close();
 }
 

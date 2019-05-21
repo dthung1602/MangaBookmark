@@ -65,9 +65,7 @@ class Content extends React.Component {
             method: 'POST',
             credentials: "same-origin",
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                manga: manga
-            })
+            body: JSON.stringify(manga)
         };
 
         const response = await fetch(url, fetchOptions);

@@ -19,6 +19,5 @@ function connectToDB(errHandler) {
 module.exports = {
     connectToDB: connectToDB,
     Manga: require('./Manga'),
-    Chapter: require('./Chapter'),
     User: require('./User')
 };

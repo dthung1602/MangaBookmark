@@ -16,15 +16,7 @@ const styles = () => ({
         textTransform: 'uppercase',
         paddingRight: 0,
         paddingLeft: 15,
-    },
-    navBarLink: {
-        color: '#555',
-        textDecoration: 'none',
-        '&:hover': {
-            textDecoration: 'underline',
-            color: '#000',
-            fontWeight: 'bold'
-        }
+        cursor: 'pointer'
     },
     flex: {
         display: 'flex',

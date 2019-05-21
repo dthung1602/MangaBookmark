@@ -256,7 +256,8 @@ class MangaTable extends React.Component {
     };
 
     onEditManga = async (mangaID, updatedValues) => {
-        const url = `/api/manga/edit/${mangaID}`;
+        updatedValues.manga = mangaID;
+        const url = `/api/manga/edit`;
         const fetchOptions = {
             method: 'POST',
             credentials: "same-origin",
@@ -279,10 +280,12 @@ class MangaTable extends React.Component {
 
     onDeleteManga = async (mangaID) => {
         try {
-            const url = `/api/manga/delete/${mangaID}`;
+            const url = `/api/manga/delete`;
             const fetchOptions = {
                 method: 'POST',
-                credentials: "same-origin"
+                credentials: "same-origin",
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({manga: mangaID})
             };
             const response = await fetch(url, fetchOptions);
 

@@ -3,20 +3,24 @@ const router = express.Router();
 
 const {getParser, createManga} = require('../crawl/runner');
 const {connectToDB, Manga, Chapter} = require('../models');
+const {checkPermission} = require('./utils');
 
 router.get('/', async function (req, res, next) {
     connectToDB(next);
-
+    const userID = req.user.id;
     const {following} = req.query;
+
     if (following === undefined) {
         res.status(400).send("Missing following type");
         return
     }
 
     const mangas = await Manga
-        .find({following: following})
-        .select('-__v')
-        .populate('chapters', '-__v');
+        .find({
+            user: userID,
+            following: following
+        })
+        .select('-__v');
 
     res.json(mangas);
 });
@@ -37,17 +41,19 @@ router.get('/info', async function (req, res) {
 
 
 router.get('/search', async function (req, res, next) {
+    connectToDB(next);
+    const userID = req.user.id;
     const {term} = req.query;
+
     if (term === undefined || term === '') {
         res.status(400).send('Missing search term');
         return
     }
 
-    connectToDB(next);
-
     const mangas = await Manga.find({
+        user: userID,
         $text: {$search: term,}
-    }).populate('chapters');
+    });
 
     res.json(mangas);
 });
@@ -55,15 +61,16 @@ router.get('/search', async function (req, res, next) {
 
 router.post('/add', async function (req, res, next) {
     connectToDB(next);
-    const {link, chapters, note, following, isCompleted} = req.body.manga;
+    const userID = req.user.id;
+    const {link, chapters, note, following, isCompleted} = req.body;
+
     const readChapters = chapters.filter(ch => ch.isRead).map(ch => ch.link);
-    const manga = await createManga(link, isCompleted, following, readChapters, note);
+    const manga = await createManga(link, userID, isCompleted, following, readChapters, note);
+
     res.json(manga);
 });
 
-router.post('/edit/:mangaID', async function (req, res, next) {
-    connectToDB(next);
-
+router.post('/edit', checkPermission, async function (req, res) {
     const fields = ['isCompleted', 'following', 'note'];
     const updatedValue = {};
     for (let i = 0; i < fields.length; i++) {
@@ -72,17 +79,13 @@ router.post('/edit/:mangaID', async function (req, res, next) {
             updatedValue[field] = req.body[field]
     }
 
-    await Manga.findByIdAndUpdate(req.params.mangaID, updatedValue);
+    await Manga.findByIdAndUpdate(req.manga.id, updatedValue);
 
     res.send('');
 });
 
-router.post('/delete/:mangaID', async function (req, res, next) {
-    connectToDB(next);
-
-    const manga = await Manga.findByIdAndDelete(req.params.mangaID);
-    await Chapter.deleteMany({_id: {$in: manga.chapters.map(ch => ch._id)}});
-
+router.post('/delete', checkPermission, async function (req, res) {
+    await Manga.findByIdAndDelete(req.manga.id);
     res.send('');
 });
 

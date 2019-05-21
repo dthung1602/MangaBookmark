@@ -41,7 +41,7 @@ class ChapterList extends React.Component {
         if (chapterCount === 0)
             return <div className={classes.noChap}>No chapter available</div>;
 
-        const readChaptersId = chapters.filter(ch => ch.isRead).map(ch => ch._id || ch.link);
+        const readChaptersLinks = chapters.filter(ch => ch.isRead).map(ch => ch.link);
 
         let lastChapRead = {name: '-----'};
         for (let i = 0; i < chapterCount; i++)
@@ -85,12 +85,12 @@ class ChapterList extends React.Component {
         const select =
             <Select
                 multiple
-                value={readChaptersId}
+                value={readChaptersLinks}
                 onChange={this.props.onChangeChapter}
                 renderValue={displayLastChapRead}
             >
                 {chapters.map(chap => (
-                    <MenuItem key={chap._id || chap.link} value={chap._id || chap.link}>
+                    <MenuItem key={chap.link} value={chap.link}>
                         <Checkbox checked={chap.isRead}/>
                         <ListItemText primary={<a href={chap.link}>{chap.name}</a>}/>
                     </MenuItem>
