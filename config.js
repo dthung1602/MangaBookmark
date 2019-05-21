@@ -6,6 +6,8 @@ function getEnv(envName, defaultValue = undefined, converter = (x => x)) {
 }
 
 module.exports = {
+    'NODE_ENV': getEnv('NODE_ENV', 'development'),
+
     'PORT': getEnv('PORT', 3000, parseInt),
     'DB_URL': getEnv('DB_URL', 'mongodb://localhost/MangaBookmark'),
     'CRAWL_MAX_THREADS': getEnv('CRAWL_MAX_THREADS', 5, parseInt),

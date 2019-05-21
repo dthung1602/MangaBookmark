@@ -13,6 +13,18 @@ const userRouter = require('./routes/user');
 const authCheck = require('./auth');
 const app = express();
 
+function enforceHttps() {
+    return function (req, res, next) {
+        if (config.NODE_ENV === 'production' && req.headers['x-forwarded-proto'] !== 'https')
+            return res.redirect('https://' + req.headers.host + req.url);
+        else
+            return next();
+    }
+}
+
+app.enable("trust proxy"); // let Google & facebook use https
+app.use(enforceHttps());
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
