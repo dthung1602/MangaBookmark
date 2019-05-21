@@ -41,7 +41,7 @@ async function updateChapters(manga) {
     if (parser === null)
         throw "Unsupported manga source";
 
-    let crawledChapters = await parser.parseChapters(url);
+    let crawledChapters = await parser.parseChapters(manga.link);
 
     for (let i = 0; i < manga.chapters.length; i++) {
         let pos = crawledChapters.findIndex(ch => ch.link === manga.chapters[i].link);

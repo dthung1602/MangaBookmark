@@ -30,8 +30,13 @@ async function main() {
     console.log(`Using up to ${CRAWL_MAX_THREADS} threads`);
     for (let i = 0; i < chunks.length; i++)
         await Promise.all(chunks[i].map(async manga => {
-            await updateChapters(manga);
-            console.log(`    Update: '${manga.name}'`);
+            try {
+                await updateChapters(manga);
+                console.log(`    Update: '${manga.name}'`);
+            } catch (e) {
+                console.error(`    Fail to update: '${manga.name}'`);
+                console.error(e.toString());
+            }
         }));
 
     console.log('Update manga done!');

@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/static/css/main.e28fd9da.chunk.css",
-    "main.js": "/static/js/main.06e6c9c3.chunk.js",
-    "main.js.map": "/static/js/main.06e6c9c3.chunk.js.map",
+    "main.js": "/static/js/main.1b4f80ac.chunk.js",
+    "main.js.map": "/static/js/main.1b4f80ac.chunk.js.map",
     "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
     "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
     "static/js/2.3d9086ef.chunk.js": "/static/js/2.3d9086ef.chunk.js",
     "static/js/2.3d9086ef.chunk.js.map": "/static/js/2.3d9086ef.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.fd31bee44380a146905783b0453824b9.js": "/precache-manifest.fd31bee44380a146905783b0453824b9.js",
+    "precache-manifest.40d84b51c3765478df077dbace2a1dd2.js": "/precache-manifest.40d84b51c3765478df077dbace2a1dd2.js",
     "service-worker.js": "/service-worker.js",
     "static/css/main.e28fd9da.chunk.css.map": "/static/css/main.e28fd9da.chunk.css.map",
     "static/media/logo.png": "/static/media/logo.b7a65b42.png"
