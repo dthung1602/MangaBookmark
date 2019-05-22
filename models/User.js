@@ -5,6 +5,7 @@ const config = require('../config');
 
 let userSchema = new mongoose.Schema({
     username: String,
+    email: String,
     password: String,
     googleId: String,
     facebookId: String
@@ -32,6 +33,9 @@ userSchema.methods.resetPassword = () => {
                 })
         )
 };
+
+userSchema.index({username: 1}, {unique: true});
+userSchema.index({email: 1}, {unique: true});
 
 let User = mongoose.model('User', userSchema);
 

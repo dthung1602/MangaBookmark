@@ -19,9 +19,9 @@ router.get('/local', passport.authenticate('local'));
 router.get('/local/register',
     (req, res, next) => {
         connectToDB();
-        const {username, password} = req.query;
+        const {username, password, email} = req.query;
 
-        checkUserInfoValidity(username, password)
+        checkUserInfoValidity(username, password, email)
             .then(
                 () => {
                     const user = new User({username: username});
@@ -60,16 +60,16 @@ router.get('/facebook/callback',
     redirectHome
 );
 
-async function checkUserInfoValidity(username, password) {
-    const user = await User.findOne({username: username});
+async function checkUserInfoValidity(username, password, email) {
+    const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const p = password.toLowerCase();
     const u = username.toLowerCase();
-    if (user) 
-        throw new Error("Username taken");
     if (password.length < 8) 
         throw new Error("Password must has at least 8 characters");
     if (u.includes(p) || p.includes(u))
         throw new Error("Password and username are too similar");
+    if (!email.match(emailRegex))
+        throw new Error("Invalid email");
     return true;
 }
 
