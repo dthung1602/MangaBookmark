@@ -75,7 +75,7 @@ class Content extends React.Component {
 
         this.setState({
             dataSource: 'fetch',
-            following: 'following',
+            following: manga.following,
             mangaTableKey: new Date() // force re-generate
         });
     };

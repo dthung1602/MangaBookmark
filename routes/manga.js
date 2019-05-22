@@ -2,30 +2,26 @@ const express = require('express');
 const router = express.Router();
 
 const {getParser, createManga} = require('../crawl/runner');
-const {connectToDB, Manga, Chapter} = require('../models');
+const {connectToDB, Manga} = require('../models');
 const {checkPermission} = require('./utils');
 
-router.get('/', async function (req, res, next) {
+router.get('/', function (req, res, next) {
     connectToDB(next);
     const userID = req.user.id;
     const {following} = req.query;
 
-    if (following === undefined) {
-        res.status(400).send("Missing following type");
+    const validFollowingValues = ['toread', 'following', 'waiting', 'dropped', 'finished'];
+    if (validFollowingValues.indexOf(following) === -1) {
+        res.status(400).send("Invalid following type");
         return
     }
 
-    const mangas = await Manga
-        .find({
-            user: userID,
-            following: following
-        })
-        .select('-__v');
-
-    res.json(mangas);
+    Manga.find({user: userID, following: following})
+        .then(mangas => res.json(mangas))
+        .catch(next);
 });
 
-router.get('/info', async function (req, res) {
+router.get('/info', function (req, res, next) {
     const {link} = req.query;
     const parser = getParser(link);
 
@@ -34,43 +30,45 @@ router.get('/info', async function (req, res) {
         return
     }
 
-    const manga = await parser.parseManga(link);
-
-    res.json(manga);
+    parser.parseManga(link)
+        .then(manga => res.json(manga))
+        .catch(next);
 });
 
 
-router.get('/search', async function (req, res, next) {
+router.get('/search', function (req, res, next) {
     connectToDB(next);
     const userID = req.user.id;
     const {term} = req.query;
 
-    if (term === undefined || term === '') {
+    if (!term) {
         res.status(400).send('Missing search term');
         return
     }
 
-    const mangas = await Manga.find({
-        user: userID,
-        $text: {$search: term,}
-    });
-
-    res.json(mangas);
+    Manga.find({user: userID, $text: {$search: term}})
+        .then(mangas => res.json(mangas))
+        .catch(next);
 });
 
 
-router.post('/add', async function (req, res, next) {
+router.post('/add', function (req, res, next) {
     connectToDB(next);
     const userID = req.user.id;
     const {link, chapters, note, following, isCompleted} = req.body;
 
     const readChapters = chapters.filter(ch => ch.isRead).map(ch => ch.link);
-    const manga = await createManga(link, userID, isCompleted, following, readChapters, note);
-
-    res.json(manga);
+    createManga(link, userID, isCompleted, following, readChapters, note)
+        .then(() => res.send())
+        .catch((err) => {
+            if (err.name === 'ValidationError')
+                res.status(400).send(err.toString());
+            else
+                next(err);
+        });
 });
 
-router.post('/edit', checkPermission, async function (req, res) {
+router.post('/edit', checkPermission, function (req, res, next) {
     const fields = ['isCompleted', 'following', 'note'];
     const updatedValue = {};
     for (let i = 0; i < fields.length; i++) {
@@ -79,14 +77,20 @@ router.post('/edit', checkPermission, async function (req, res) {
             updatedValue[field] = req.body[field]
     }
 
-    await Manga.findByIdAndUpdate(req.manga.id, updatedValue);
-
-    res.send('');
+    Manga.findByIdAndUpdate(req.manga.id, updatedValue)
+        .then(() => res.send())
+        .catch((err) => {
+            if (err.name === 'ValidationError')
+                res.status(400).send(err.toString());
+            else
+                next(err);
+        });
 });
 
-router.post('/delete', checkPermission, async function (req, res) {
-    await Manga.findByIdAndDelete(req.manga.id);
-    res.send('');
+router.post('/delete', checkPermission, function (req, res, next) {
+    Manga.findByIdAndDelete(req.manga.id)
+        .then(() => res.send())
+        .catch(next);
 });
 
 module.exports = router;

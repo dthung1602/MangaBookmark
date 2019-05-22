@@ -49,7 +49,7 @@ class Row extends React.Component {
 
     markChapterReadStatus = (chapters, action) => {
         const mangaID = this.state.manga._id;
-        console.log('>>' + mangaID);
+
         if (chapters.length === 0) return;
         const url = `/api/chapter/${action}`;
         const fetchOptions = {

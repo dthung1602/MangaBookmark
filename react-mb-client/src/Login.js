@@ -6,6 +6,7 @@ import {FacebookLoginButton, GoogleLoginButton} from "react-social-login-buttons
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import Typography from "@material-ui/core/Typography";
 
 
 const styles = () => ({
@@ -44,10 +45,7 @@ const styles = () => ({
         marginTop: 65
     },
     error: {
-        margin: '25px 0',
-        color: '#f00',
-        fontSize: '100%',
-        fontWeight: '550'
+        margin: '25px 0'
     }
 });
 
@@ -60,12 +58,51 @@ class Login extends Component {
             password: '',
             confirm: '',
             email: '',
-            error: ''
+            error: {}
         }
     }
 
-    onTextFieldChange = (field) => (event) => {
-        this.setState({[field]: event.target.value})
+    onUsernameChange = (event) => {
+        const {error} = this.state;
+        const username = event.target.value;
+        error.username = undefined;
+        if (username === '')
+            error.username = 'Missing username';
+        this.setState({username: username, error: error})
+    };
+
+    onPasswordChange = (event) => {
+        const {username, error, confirm} = this.state;
+        const password = event.target.value;
+        error.password = undefined;
+        if (password.length < 8)
+            error.password = 'Password is too short';
+        const p = password.toLowerCase();
+        const u = username.toLowerCase();
+        if (u.includes(p) || p.includes(u))
+            error.password = 'Password and username are too similar';
+        if (confirm !== password)
+            error.confirm = 'Confirm does not match password';
+        this.setState({password: password, error: error})
+    };
+
+    onConfirmChange = (event) => {
+        const confirm = event.target.value;
+        const {error, password} = this.state;
+        error.confirm = undefined;
+        if (confirm !== password)
+            error.confirm = 'Confirm does not match password';
+        this.setState({confirm: confirm, error: error})
+    };
+
+    onEmailChange = (event) => {
+        const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const email = event.target.value;
+        const {error} = this.state;
+        error.email = undefined;
+        if (!email.match(emailRegex))
+            error.email = 'Invalid email';
+        this.setState({email: email, error: error})
     };
 
     onModeChange = (event, value) => {
@@ -104,19 +141,24 @@ class Login extends Component {
         }
     };
 
-    isValid = () => {
-        const {mode, username, password, confirm, email} = this.state;
-        if (username === '' || password === '')
-            return false;
-        if (mode === 'register')
-            return (confirm === password && email !== '');
-        return true;
+    disableSubmit = () => {
+        if (this.state.mode === 'register')
+            return Object.values(this.state.error).every(v => v === undefined);
+        return this.state.username.length > 0 && this.state.password.length >= 8;
     };
 
     render() {
         const {classes} = this.props;
         const {mode, username, password, confirm, email, error} = this.state;
         const capMode = capitalize(mode);
+        const disableSubmit = this.disableSubmit();
+
+        const errorMessage = (disableSubmit || mode === 'login') ? '' :
+            <div className={classes.error}>
+                {Object.values(error)
+                    .filter(v => v !== undefined)
+                    .map(v => <Typography>{v}</Typography>)}
+            </div>;
 
         return (
             <div className={classes.login}>
@@ -142,7 +184,8 @@ class Login extends Component {
                                 variant='outlined'
                                 label='Username'
                                 value={username}
-                                onChange={this.onTextFieldChange('username')}
+                                onChange={this.onUsernameChange}
+                                error={error.username && mode === 'register'}
                             />
                         </div>
                         <div className={classes.textField}>
@@ -152,7 +195,8 @@ class Login extends Component {
                                 label='Password'
                                 type='password'
                                 value={password}
-                                onChange={this.onTextFieldChange('password')}
+                                onChange={this.onPasswordChange}
+                                error={error.password && mode === 'register'}
                             />
                         </div>
 
@@ -165,7 +209,8 @@ class Login extends Component {
                                         label='Confirm password'
                                         type='password'
                                         value={confirm}
-                                        onChange={this.onTextFieldChange('confirm')}
+                                        onChange={this.onConfirmChange}
+                                        error={error.confirm && mode === 'register'}
                                     />
                                 </div>
                                 <div className={classes.textField}>
@@ -174,20 +219,21 @@ class Login extends Component {
                                         variant='outlined'
                                         label='Email'
                                         value={email}
-                                        onChange={this.onTextFieldChange('email')}
+                                        onChange={this.onEmailChange}
+                                        error={error.email && mode === 'register'}
                                     />
                                 </div>
                             </div>
                         }
 
-                        {(!error) ? '' : <div className={classes.error}>{error}</div>}
+                        {errorMessage}
 
                         <div className={classes.rightAlign}>
                             <Button
                                 variant={"contained"}
                                 color={"secondary"}
                                 onClick={this.onSubmit}
-                                disabled={!this.isValid()}
+                                disabled={!disableSubmit}
                             >
                                 Submit
                             </Button>

@@ -32,7 +32,7 @@ async function parseChapters(dataSource) {
     return data.chapters.chapters.map(chap => ({
         name: chap.name,
         link: `https://mangarock.com/manga/${mangaID}/chapter/${chap.oid}`
-    }))
+    })).reverse()
 }
 
 async function parseManga(dataSource) {
