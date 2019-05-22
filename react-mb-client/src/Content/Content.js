@@ -81,7 +81,7 @@ class Content extends React.Component {
     };
 
     render() {
-        const {classes, loadData} = this.props;
+        const {classes, isAuthorized} = this.props;
         const {following, sortby, dataSource, searchTerm, mangaTableKey} = this.state;
 
         const sortMethod = {
@@ -108,7 +108,7 @@ class Content extends React.Component {
                     following={following}
                     searchTerm={searchTerm}
                     dataSource={dataSource}
-                    loadData={loadData}
+                    isAuthorized={isAuthorized}
                 />
                 <FloatButtons
                     onAddManga={this.onAddManga}

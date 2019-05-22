@@ -11,6 +11,7 @@ import NotFound from './NotFound';
 
 import theme from "./theme";
 import {withStyles} from "@material-ui/styles";
+import Account from "./Account";
 
 
 const styles = () => ({
@@ -50,7 +51,17 @@ class App extends Component {
     };
 
     redirectToIndex = () => {
-        document.getElementById('hidden-index-link').click();
+        if (this.state.user)
+            document.getElementById('hidden-index-link').click();
+        else
+            this.redirectToLogin()
+    };
+
+    redirectToAccount = () => {
+        if (this.state.user)
+            document.getElementById('hidden-account-link').click();
+        else
+            this.redirectToLogin()
     };
 
     logout = () => {
@@ -66,18 +77,23 @@ class App extends Component {
         const {classes} = this.props;
         const {user} = this.state;
 
-        const content = <Content loadData={user !== null}/>;
+        const content = <Content isAuthorized={user !== null}/>;
         const login = <Login loadUserData={this.loadUserData} redirectToIndex={this.redirectToIndex}/>;
+        const account = <Account user={user}/>;
+        const notfound = <NotFound redirectToIndex={this.redirectToIndex}/>;
 
         return (
             <MuiThemeProvider theme={theme}>
                 <Router>
                     <Link to='/' id='hidden-index-link' className={classes.hidden}/>
                     <Link to='/login' id='hidden-login-link' className={classes.hidden}/>
+                    <Link to='/account' id='hidden-account-link' className={classes.hidden}/>
 
                     <NavBar
                         user={user}
                         logout={this.logout}
+                        redirectToAccount={this.redirectToAccount}
+                        redirectToIndex={this.redirectToIndex}
                     />
 
                     <Switch>
@@ -89,7 +105,13 @@ class App extends Component {
                             path="/login"
                             render={() => login}
                         />
-                        <Route component={NotFound}/>
+                        <Route
+                            path="/account"
+                            render={() => account}
+                        />
+                        <Route
+                            render={() => notfound}
+                        />
                     </Switch>
 
                     <Footer/>

@@ -10,11 +10,11 @@ passport.use(
             clientID: config.FACEBOOK_AUTH_ID,
             clientSecret: config.FACEBOOK_AUTH_PASSWORD,
             callbackURL: '/auth/facebook/callback',
-            profileFields: ['id', 'email', 'name', 'verified']
+            profileFields: ['id', 'email', 'name', 'displayName', 'verified']
         },
         function (accessToken, refreshToken, profile, done) {
             connectToDB();
-
+            console.log(profile);
             // check if user already exists in our own db
             User.findOne({facebookId: profile.id}).then((currentUser) => {
                 if (currentUser) {

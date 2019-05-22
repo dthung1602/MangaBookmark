@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 
 const styles = () => ({
     login: {
-        marginTop: 150,
+        marginTop: 125,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'

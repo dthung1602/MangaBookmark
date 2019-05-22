@@ -164,12 +164,13 @@ class MangaTable extends React.Component {
         super(props);
         this.state = {
             fetchData: [],
-            searchData: []
+            searchData: [],
+            loading: true
         }
     }
 
     componentDidMount() {
-        if (this.props.loadData)
+        if (this.props.isAuthorized)
             this.fetchManga()
                 .catch(alert)
         // this.setState({fetchData: dummy})
@@ -183,8 +184,8 @@ class MangaTable extends React.Component {
             this.setState({fetchData: fetchData, searchData: searchData});
         }
 
-        const {dataSource, loadData} = this.props;
-        if (loadData) {
+        const {dataSource, isAuthorized} = this.props;
+        if (isAuthorized) {
             if (dataSource !== prevProps.dataSource) {
                 if (dataSource === 'fetch' && this.props.following !== prevProps.following)
                     this.fetchManga().catch(alert);
@@ -201,7 +202,7 @@ class MangaTable extends React.Component {
                 this.searchManga().catch(alert);
             }
 
-            if (this.props.loadData !== prevProps.loadData) {
+            if (this.props.isAuthorized !== prevProps.isAuthorized) {
                 if (dataSource === 'fetch')
                     this.fetchManga().catch(alert);
                 if (dataSource === 'search')
@@ -218,13 +219,13 @@ class MangaTable extends React.Component {
             credentials: "same-origin",
         };
 
-        this.setState({disable: true});
+        this.setState({loading: true});
         const response = await fetch(url, fetchOptions);
 
         if (response.ok) {
             const data = await response.json();
             this.props.sortMethod(data);
-            this.setState({fetchData: data, disable: false});
+            this.setState({fetchData: data, loading: false});
             return;
         }
 
@@ -242,13 +243,13 @@ class MangaTable extends React.Component {
             credentials: "same-origin",
         };
 
-        this.setState({disable: true});
+        this.setState({loading: true});
         const response = await fetch(url, fetchOptions);
 
         if (response.ok) {
             const data = await response.json();
             this.props.sortMethod(data);
-            this.setState({searchData: data, disable: false});
+            this.setState({searchData: data, loading: false});
             return;
         }
 
@@ -306,18 +307,25 @@ class MangaTable extends React.Component {
 
     render() {
         const {classes, dataSource} = this.props;
+        const {loading} = this.state;
         const data = (dataSource === 'fetch')
             ? this.state.fetchData
             : this.state.searchData;
 
         let tableClass = classes.table;
 
-        let rows =
-            <TableRow>
-                <TableCell colSpan={6}><Typography>Nothing to show</Typography></TableCell>
-            </TableRow>;
-
-        if (data.length > 0)
+        let rows;
+        if (loading)
+            rows =
+                <TableRow>
+                    <TableCell colSpan={6}><Typography>Loading data ...</Typography></TableCell>
+                </TableRow>;
+        else if (data.length === 0)
+            rows =
+                <TableRow>
+                    <TableCell colSpan={6}><Typography>Nothing to show</Typography></TableCell>
+                </TableRow>;
+        else
             rows = data.map(d =>
                 <Row manga={d}
                      key={d._id}

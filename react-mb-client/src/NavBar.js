@@ -9,6 +9,7 @@ const styles = () => ({
         marginTop: 5,
         marginBottom: 5,
         width: 190,
+        cursor: 'pointer'
     },
     navBarText: {
         color: '#555',
@@ -31,16 +32,20 @@ const styles = () => ({
 class NavBar extends React.Component {
 
     render() {
-        const {classes, user, logout} = this.props;
+        const {classes, user, logout, redirectToAccount, redirectToIndex} = this.props;
 
         return (
             <div>
                 <AppBar color="primary" position="fixed">
                     <Toolbar className={classes.flex}>
-                        <img className={classes.logo} src={LOGO} alt="MangaBookmark"/>
+                        <img
+                            className={classes.logo}
+                            src={LOGO} alt="MangaBookmark"
+                            onClick={redirectToIndex}
+                        />
                         <span className={classes.grow}/>
                         {(!user) ? '' :
-                            <Typography className={classes.navBarText}>
+                            <Typography className={classes.navBarText} onClick={redirectToAccount}>
                                 Hello, {user.username}
                             </Typography>
                         }
@@ -49,7 +54,6 @@ class NavBar extends React.Component {
                                 Logout
                             </Typography>
                         }
-
                     </Toolbar>
                 </AppBar>
             </div>
