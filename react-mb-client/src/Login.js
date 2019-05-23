@@ -41,6 +41,9 @@ const styles = () => ({
             color: '#fff'
         }
     },
+    loginBtn: {
+        color: '#fff !important'
+    },
     otherOptions: {
         marginTop: 65
     },
@@ -241,10 +244,18 @@ class Login extends Component {
 
                         <div className={classes.otherOptions}>
                             <a className={classes.loginOptions} href='/auth/google'>
-                                <GoogleLoginButton>{capMode} with Google</GoogleLoginButton>
+                                <GoogleLoginButton>
+                                    <Typography  variant='button' className={classes.loginBtn}>
+                                        {capMode} with Google
+                                    </Typography>
+                                </GoogleLoginButton>
                             </a>
                             <a className={classes.loginOptions} href='/auth/facebook'>
-                                <FacebookLoginButton>{capMode} with Facebook</FacebookLoginButton>
+                                <FacebookLoginButton>
+                                    <Typography variant='button' className={classes.loginBtn}>
+                                        {capMode} with Facebook
+                                    </Typography>
+                                </FacebookLoginButton>
                             </a>
                         </div>
                     </div>

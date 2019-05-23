@@ -4,7 +4,7 @@ import {Typography} from "@material-ui/core";
 
 const styles = () => ({
     container: {
-        margin: '100px 0 0 150px'
+        margin: '100px 150px 0 150px'
     },
     link: {
         cursor: 'pointer'
@@ -16,7 +16,7 @@ function NotFound(props) {
 
     return (
         <div className={classes.container}>
-            <Typography variant="h2">404 - Not found</Typography>
+            <Typography variant="h4">404 - Not found</Typography>
             <hr/>
 
             <Typography

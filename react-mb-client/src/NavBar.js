@@ -2,7 +2,7 @@ import React from "react"
 
 import {AppBar, Toolbar, Typography} from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
-import LOGO from './logo.png'
+import LOGO from './static/logo.png'
 
 const styles = () => ({
     logo: {
@@ -12,7 +12,7 @@ const styles = () => ({
         cursor: 'pointer'
     },
     navBarText: {
-        color: '#555',
+        color: '#fff',
         fontWeight: 800,
         textTransform: 'uppercase',
         paddingRight: 0,

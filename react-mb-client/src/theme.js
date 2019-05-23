@@ -35,6 +35,18 @@ export default createMuiTheme({
             root: {
                 // minWidth: 175,
             }
+        },
+        MuiTabs: {
+            indicator: {
+                background: '#00eed0'
+            }
+        },
+        MuiTab: {
+            selected: {
+                background: '#00bea6',
+                color: '#fff !important',
+                fontWeight: 'bold'
+            }
         }
     }
 });

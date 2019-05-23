@@ -2,6 +2,8 @@ import React from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
 import {Table, TableBody, TableHead, TableRow, Typography} from "@material-ui/core";
 import TableCell from "@material-ui/core/TableCell/index";
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import Row from "./Row";
 
 const styles = () => ({
@@ -21,6 +23,10 @@ const styles = () => ({
     },
     blur: {
         filter: 'opacity(50%) blur(0.25px)'
+    },
+    waiting: {
+        padding: 20,
+        textAlign: 'center'
     }
 });
 
@@ -318,7 +324,7 @@ class MangaTable extends React.Component {
         if (loading)
             rows =
                 <TableRow>
-                    <TableCell colSpan={6}><Typography>Loading data ...</Typography></TableCell>
+                    <TableCell colSpan={6} className={classes.waiting}><CircularProgress/></TableCell>
                 </TableRow>;
         else if (data.length === 0)
             rows =

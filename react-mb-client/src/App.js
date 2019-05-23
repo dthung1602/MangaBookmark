@@ -17,6 +17,23 @@ import Account from "./Account";
 const styles = () => ({
     hidden: {
         display: 'none'
+    },
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+    },
+    beforeFooter: {
+        flex: '1 0 auto',
+        padding: 'var(--space) var(--space) 0',
+        width: '100%',
+        '&:after': {
+            content: '\\00a0',
+            display: 'block',
+            marginTop: 'var(--space)',
+            height: 0,
+            visibility: 'hidden'
+        }
     }
 });
 
@@ -85,36 +102,44 @@ class App extends Component {
         return (
             <MuiThemeProvider theme={theme}>
                 <Router>
-                    <Link to='/' id='hidden-index-link' className={classes.hidden}/>
-                    <Link to='/login' id='hidden-login-link' className={classes.hidden}/>
-                    <Link to='/account' id='hidden-account-link' className={classes.hidden}/>
+                    <div className={classes.container}>
+                        <Link to='/' id='hidden-index-link' className={classes.hidden}/>
+                        <Link to='/login' id='hidden-login-link' className={classes.hidden}/>
+                        <Link to='/account' id='hidden-account-link' className={classes.hidden}/>
+                        <NavBar
+                            user={user}
+                            logout={this.logout}
+                            redirectToAccount={this.redirectToAccount}
+                            redirectToIndex={this.redirectToIndex}
+                        />
 
-                    <NavBar
-                        user={user}
-                        logout={this.logout}
-                        redirectToAccount={this.redirectToAccount}
-                        redirectToIndex={this.redirectToIndex}
-                    />
+                        <div className={classes.beforeFooter}>
+                            <Switch>
+                                <Route
+                                    exact path="/"
+                                    render={() => content}
+                                />
+                                <Route
+                                    path="/login"
+                                    render={() => login}
+                                />
+                                <Route
+                                    path="/account"
+                                    render={() => account}
+                                />
+                                <Route
+                                    render={() => notfound}
+                                />
+                            </Switch>
+                        </div>
 
-                    <Switch>
-                        <Route
-                            exact path="/"
-                            render={() => content}
+                        <Footer
+                            isLogin={user !== null}
+                            redirectToIndex={this.redirectToIndex}
+                            redirectToAccount={this.redirectToAccount}
+                            logout={this.logout}
                         />
-                        <Route
-                            path="/login"
-                            render={() => login}
-                        />
-                        <Route
-                            path="/account"
-                            render={() => account}
-                        />
-                        <Route
-                            render={() => notfound}
-                        />
-                    </Switch>
-
-                    <Footer/>
+                    </div>
                 </Router>
             </MuiThemeProvider>
         )
