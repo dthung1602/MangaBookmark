@@ -8,9 +8,8 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 
-
 const styles = () => ({
-    login: {
+    container: {
         marginTop: 125,
         display: 'flex',
         justifyContent: 'center',
@@ -18,10 +17,10 @@ const styles = () => ({
     },
     paper: {
         paddingBottom: 10,
-        width: 400,
+        width: 500,
     },
     paperBody: {
-        padding: '0 45px'
+        padding: '0 45px 30px 45px'
     },
     textField: {
         marginTop: 30,
@@ -56,7 +55,7 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            mode: 'login', // login, register
+            tab: 'login', // login, register
             username: '',
             password: '',
             confirm: '',
@@ -108,19 +107,19 @@ class Login extends Component {
         this.setState({email: email, error: error})
     };
 
-    onModeChange = (event, value) => {
-        this.setState({mode: value});
+    onTabChange = (event, value) => {
+        this.setState({tab: value});
     };
 
     onSubmit = async () => {
-        const {mode, username, password, email} = this.state;
+        const {tab, username, password, email} = this.state;
         const data = {
             username: username,
             password: password,
             email: email
         };
 
-        let url = (mode === 'login') ? '/auth/local?' : '/auth/local/register?';
+        let url = (tab === 'login') ? '/auth/local?' : '/auth/local/register?';
         Object.keys(data).forEach(key => url += `${key}=${encodeURIComponent(data[key])}&`);
         url = url.slice(0, url.length - 1);
 
@@ -145,18 +144,17 @@ class Login extends Component {
     };
 
     disableSubmit = () => {
-        if (this.state.mode === 'register')
+        if (this.state.tab === 'register')
             return Object.values(this.state.error).every(v => v === undefined);
         return this.state.username.length > 0 && this.state.password.length >= 8;
     };
 
     render() {
         const {classes} = this.props;
-        const {mode, username, password, confirm, email, error} = this.state;
-        const capMode = capitalize(mode);
+        const {tab, username, password, confirm, email, error} = this.state;
         const disableSubmit = this.disableSubmit();
 
-        const errorMessage = (disableSubmit || mode === 'login') ? '' :
+        const errorMessage = (disableSubmit || tab === 'login') ? '' :
             <div className={classes.error}>
                 {Object.values(error)
                     .filter(v => v !== undefined)
@@ -164,13 +162,12 @@ class Login extends Component {
             </div>;
 
         return (
-            <div className={classes.login}>
-
+            <div className={classes.container}>
                 <Paper className={classes.paper}>
                     <AppBar position="static" color="default">
                         <Tabs
-                            value={mode}
-                            onChange={this.onModeChange}
+                            value={tab}
+                            onChange={this.onTabChange}
                             indicatorColor="primary"
                             textColor="primary"
                             variant="fullWidth"
@@ -188,7 +185,7 @@ class Login extends Component {
                                 label='Username'
                                 value={username}
                                 onChange={this.onUsernameChange}
-                                error={error.username && mode === 'register'}
+                                error={error.username && tab === 'register'}
                             />
                         </div>
                         <div className={classes.textField}>
@@ -199,11 +196,11 @@ class Login extends Component {
                                 type='password'
                                 value={password}
                                 onChange={this.onPasswordChange}
-                                error={error.password && mode === 'register'}
+                                error={error.password && tab === 'register'}
                             />
                         </div>
 
-                        {(mode === 'login') ? '' :
+                        {(tab === 'login') ? '' :
                             <div>
                                 <div className={classes.textField}>
                                     <TextField
@@ -213,7 +210,7 @@ class Login extends Component {
                                         type='password'
                                         value={confirm}
                                         onChange={this.onConfirmChange}
-                                        error={error.confirm && mode === 'register'}
+                                        error={error.confirm && tab === 'register'}
                                     />
                                 </div>
                                 <div className={classes.textField}>
@@ -223,7 +220,7 @@ class Login extends Component {
                                         label='Email'
                                         value={email}
                                         onChange={this.onEmailChange}
-                                        error={error.email && mode === 'register'}
+                                        error={error.email && tab === 'register'}
                                     />
                                 </div>
                             </div>
@@ -245,15 +242,15 @@ class Login extends Component {
                         <div className={classes.otherOptions}>
                             <a className={classes.loginOptions} href='/auth/google'>
                                 <GoogleLoginButton>
-                                    <Typography  variant='button' className={classes.loginBtn}>
-                                        {capMode} with Google
+                                    <Typography variant='button' className={classes.loginBtn}>
+                                        {tab} with Google
                                     </Typography>
                                 </GoogleLoginButton>
                             </a>
                             <a className={classes.loginOptions} href='/auth/facebook'>
                                 <FacebookLoginButton>
                                     <Typography variant='button' className={classes.loginBtn}>
-                                        {capMode} with Facebook
+                                        {tab} with Facebook
                                     </Typography>
                                 </FacebookLoginButton>
                             </a>
@@ -263,10 +260,6 @@ class Login extends Component {
             </div>
         )
     }
-}
-
-function capitalize(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 export default withStyles(styles)(Login);

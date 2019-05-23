@@ -10,7 +10,7 @@ passport.use(
             clientID: config.FACEBOOK_AUTH_ID,
             clientSecret: config.FACEBOOK_AUTH_PASSWORD,
             callbackURL: '/auth/facebook/callback',
-            profileFields: ['id', 'email', 'displayName']
+            profileFields: ['id', 'email', 'displayName', 'picture']
         },
         function (accessToken, refreshToken, profile, done) {
             connectToDB();
@@ -23,6 +23,7 @@ passport.use(
                     // if not, create user in our db
                     new User({
                         facebookId: profile.id,
+                        facebookPic: profile.photos[0].value,
                         username: profile.displayName,
                         email: profile.emails[0].value
                     }).save().then((newUser) => {

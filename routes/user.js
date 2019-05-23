@@ -5,7 +5,7 @@ const {User, connectToDB} = require('../models');
 
 router.get('/', function (req, res, next) {
     connectToDB(next);
-    User.findById(req.user.id).select('_id username')
+    User.findById(req.user.id).select('-password')
         .then(user => res.json(user))
         .catch(next);
 });

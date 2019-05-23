@@ -22,6 +22,7 @@ passport.use(
                     // if not, create user in our db
                     new User({
                         googleId: profile.id,
+                        googlePic: profile.photos[0].value,
                         username: profile.displayName,
                         email: profile.emails[0].value
                     }).save().then((newUser) => {
