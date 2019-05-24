@@ -1,41 +1,41 @@
 import React from "react"
 import {Button, TextField} from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
+import Typography from "@material-ui/core/Typography";
+import styles from "./formstyles";
+import {onPasswordChange, onUsernameChange, handleError, onSubmit} from "../formControlers";
 
-import {handleError, onEmailChange, onSubmit, onUsernameChange} from "../formControlers"
-import styles from "./formstyles"
-
-class ChangePassword extends React.Component {
+class LoginForm extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            username: props.user.username,
-            email: props.user.email,
+            username: '',
+            password: '',
             error: {}
         }
     }
 
-    onUsernameChange = onUsernameChange.bind(this);
-
-    onEmailChange = onEmailChange.bind(this);
-
-    handleError = handleError.bind(this);
-
     onSubmit = () => {
-        const url = '/api/user/edit';
+        const url = '/auth/local';
         const data = {
-            username: this.state.username,
-            email: this.state.email
-        };
+                username: this.state.username,
+                password: this.state.password
+            };
+
         onSubmit.bind(this)(url, data);
     };
 
+    onUsernameChange = onUsernameChange.bind(this);
+
+    onPasswordChange = onPasswordChange.bind(this);
+
+    handleError = handleError.bind(this);
 
     render() {
         const {classes} = this.props;
-        const {username, email, error} = this.state;
-        const {enableSubmit, errorMessage} = this.handleError();
+        const {username, password, error} = this.state;
+        const {enableSubmit , errorMessage} = this.handleError();
 
         return (
             <div>
@@ -54,11 +54,11 @@ class ChangePassword extends React.Component {
                     <TextField
                         fullWidth
                         variant='outlined'
-                        label='Email'
-                        type='email'
-                        value={email}
-                        onChange={this.onEmailChange}
-                        error={error.email !== undefined}
+                        label='Password'
+                        type='password'
+                        value={password}
+                        onChange={this.onPasswordChange}
+                        error={error.password !== undefined}
                     />
                 </div>
                 {errorMessage}
@@ -69,7 +69,7 @@ class ChangePassword extends React.Component {
                         onClick={this.onSubmit}
                         disabled={!enableSubmit}
                     >
-                        Save
+                        Login
                     </Button>
                 </div>
             </div>
@@ -78,4 +78,4 @@ class ChangePassword extends React.Component {
 
 }
 
-export default withStyles(styles)(ChangePassword);
+export default withStyles(styles)(LoginForm);

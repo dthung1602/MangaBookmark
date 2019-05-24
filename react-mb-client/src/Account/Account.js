@@ -24,14 +24,6 @@ const styles = () => ({
     },
     paperBody: {
         padding: '30px 130px 30px 130px'
-    },
-    textField: {
-        marginTop: 30,
-        marginBottom: 30
-    },
-    rightAlign: {
-        display: 'flex',
-        justifyContent: 'flex-end'
     }
 });
 

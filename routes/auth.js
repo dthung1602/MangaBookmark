@@ -13,7 +13,20 @@ router.get('/logout', (req, res) => {
 });
 
 // auth with username and password
-router.get('/local', passport.authenticate('local'));
+router.get('/local',
+    (req, res, next) => {
+        passport.authenticate('local', function (err, user, info) {
+            if (err)
+                return res.status(500).json({error: err});
+            if (!user)
+                return res.status(400).json(info);
+            req.login(user, (err) => {
+                if (err) next(err);
+                else next()
+            })
+        })(req, res, next)
+    }
+);
 
 // register new user
 router.get('/local/register',

@@ -39,13 +39,13 @@ function handlerWrapper(handler) {
     }
 }
 
-Object.prototype.extractAttributes = function (attrs = []) {
-    const obj = {};
+function extractAttributes(obj, attrs = []) {
+    const newObj = {};
     attrs.forEach(attr => {
         if (this.hasOwnProperty(attr))
             obj[attr] = this[attr]
     });
-    return obj
-};
+    return newObj
+}
 
-module.exports = {checkMangaPermission, redirectHome, handlerWrapper};
+module.exports = {checkMangaPermission, redirectHome, handlerWrapper, extractAttributes};

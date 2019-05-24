@@ -2,9 +2,12 @@ import React from "react"
 import {Button, TextField} from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
 import Typography from "@material-ui/core/Typography";
+
+import {handleError, onConfirmChange, onPasswordChange, onSubmit} from "../formControlers";
 import styles from "./formstyles"
 
 class ChangePassword extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -25,71 +28,26 @@ class ChangePassword extends React.Component {
         this.setState({currentPassword: currentPassword, error: error})
     };
 
-    onPasswordChange = (event) => {
-        const {username} = this.props;
-        const {error, confirm} = this.state;
-        const password = event.target.value;
-        error.password = undefined;
-        if (password.length < 8)
-            error.password = 'Password is too short';
-        const p = password.toLowerCase();
-        const u = username.toLowerCase();
-        if (u.includes(p) || p.includes(u))
-            error.password = 'Password and username are too similar';
-        if (confirm !== password)
-            error.confirm = 'Confirm does not match password';
-        this.setState({password: password, error: error})
-    };
+    onPasswordChange = onPasswordChange.bind(this);
 
-    onConfirmChange = (event) => {
-        const confirm = event.target.value;
-        const {error, password} = this.state;
-        error.confirm = undefined;
-        if (confirm !== password)
-            error.confirm = 'Confirm does not match password';
-        this.setState({confirm: confirm, error: error})
-    };
+    onConfirmChange = onConfirmChange.bind(this);
 
-    onSubmit = async () => {
-        const {currentPassword, password} = this.state;
+    handleError = handleError.bind(this);
+
+    onSubmit = () => {
         const url = '/api/user/changepass';
-        const fetchOptions = {
-            method: 'POST',
-            credentials: "same-origin",
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                currentPassword: currentPassword,
-                password: password
-            })
+        const data = {
+            currentPassword: this.state.currentPassword,
+            password: this.state.password
         };
-        try {
-            const response = await fetch(url, fetchOptions);
-            if (response.ok)
-                this.setState({
-                    currentPassword: '',
-                    password: '',
-                    confirm: '',
-                    error: {},
-                    lastUpdated: new Date()
-                });
-            else
-                this.setState({error: await response.json()})
-        } catch (e) {
-            alert(e.toString())
-        }
+        onSubmit.bind(this)(url, data);
     };
 
     render() {
         const {classes} = this.props;
         const {currentPassword, password, confirm, error, lastUpdated} = this.state;
 
-        const enableSubmit = Object.values(error).every(v => v === undefined);
-        const errorMessage = (enableSubmit) ? '' :
-            <div className={classes.announce}>
-                {Object.values(error)
-                    .filter(v => v !== undefined)
-                    .map(v => <Typography className={classes.error}>{v}</Typography>)}
-            </div>;
+        const {enableSubmit, errorMessage} = this.handleError();
         const lastUpdateMessage = (lastUpdated === undefined || enableSubmit) ? '' :
             <div className={classes.announce}>
                 <Typography className={classes.success}>Password changed at {lastUpdated.toString()}</Typography>
@@ -130,8 +88,10 @@ class ChangePassword extends React.Component {
                         error={error.confirm !== undefined}
                     />
                 </div>
+
                 {errorMessage}
                 {lastUpdateMessage}
+
                 <div className={classes.rightAlign}>
                     <Button
                         variant={"contained"}

@@ -4,7 +4,7 @@ const {check} = require('express-validator/check');
 
 const {getParser, createManga} = require('../crawl/runner');
 const {Manga, connectToDB} = require('../models');
-const {checkMangaPermission, handlerWrapper} = require('./utils');
+const {checkMangaPermission, handlerWrapper, extractAttributes} = require('./utils');
 
 const validFollowing = ['toread', 'following', 'waiting', 'dropped', 'finished'];
 
@@ -87,7 +87,7 @@ router.post('/edit',
     checkMangaPermission,
 
     handlerWrapper(async (req, res) => {
-        const updateValues = req.body.extractAttributes(['following', 'note', 'isCompleted']);
+        const updateValues = extractAttributes(req.body, ['following', 'note', 'isCompleted']);
         await Manga.findByIdAndUpdate(req.manga.id, updateValues);
         res.json({})
     })
