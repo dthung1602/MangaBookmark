@@ -22,7 +22,7 @@ async function createManga(url, userID, isCompleted = false, following = 'follow
                            readChapters = [], note = '') {
     const parser = getParser(url);
     if (parser === null)
-        throw "Unsupported manga source";
+        throw new Error("Unsupported manga source");
 
     let manga = await parser.parseManga(url);
 
@@ -39,7 +39,7 @@ async function createManga(url, userID, isCompleted = false, following = 'follow
 async function updateChapters(manga) {
     const parser = getParser(manga.link);
     if (parser === null)
-        throw "Unsupported manga source";
+        throw new Error("Unsupported manga source");
 
     let crawledChapters = await parser.parseChapters(manga.link);
 
@@ -54,6 +54,7 @@ async function updateChapters(manga) {
 }
 
 function getParser(url) {
+    if (!url) return null;
     for (let i = 0; i < parsers.length; i++)
         if (url.match(parsers[i].URLRegex))
             return parsers[i];

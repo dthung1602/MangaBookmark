@@ -1,41 +1,29 @@
 const express = require('express');
 const router = express.Router();
-const {checkPermission} = require('./utils');
+const {checkMangaPermission, handlerWrapper} = require('./utils');
+const {check} = require('express-validator/check');
 
-router.post('/:action', checkPermission, async function (req, res, next) {
-    const chapterLinks = req.body.chapters;
-    const action = req.params.action;
-    const {manga} = req;
+router.post('/:action',
+    check('action').exists().isIn(['read', 'unread']),
+    check('chapters').exists().isArray(),
+    checkMangaPermission,
 
-    if (!chapterLinks) {
-        res.status(400).send('Missing chapters list');
-        return;
-    }
+    handlerWrapper(async (req, res) => {
+        const chapterLinks = req.body.chapters;
+        const action = req.params.action;
+        const {manga} = req;
+        const isRead = (action === 'read');
 
-    let isRead;
-    if (action === 'read')
-        isRead = true;
-    else if (action === 'unread')
-        isRead = false;
-    else {
-        res.status(400).send('Invalid action');
-        return;
-    }
-
-    for (let i = 0; i < chapterLinks.length; i++) {
-        const pos = manga.chapters.findIndex(chap => chap.link === chapterLinks[i]);
-        if (pos > -1)
-            manga.chapters[pos].isRead = isRead;
-        else {
-            res.status(400).send('Invalid chapter links');
-            return;
+        for (let i = 0; i < chapterLinks.length; i++) {
+            const pos = manga.chapters.findIndex(chap => chap.link === chapterLinks[i]);
+            if (pos > -1)
+                manga.chapters[pos].isRead = isRead;
         }
-    }
 
-    manga.save()
-        .then(() => res.send())
-        .catch(next);
-});
+        await manga.save();
+        res.json({});
+    })
+);
 
 module.exports = router;
 

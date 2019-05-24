@@ -46,7 +46,10 @@ class App extends Component {
 
     componentDidMount() {
         this.loadUserData()
-            .catch(this.redirectToLogin);
+            .catch(() => {
+                if (['/', '/account'].indexOf(window.location.pathname) > -1)
+                    this.redirectToLogin()
+            });
     }
 
     loadUserData = async () => {

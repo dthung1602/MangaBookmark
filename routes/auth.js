@@ -1,15 +1,15 @@
-const passport = require('passport');
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
+const {check} = require('express-validator/check');
 
-const {User} = require("../models");
-const {connectToDB} = require('../models');
-const {redirectHome} = require('./utils');
+const {User, connectToDB} = require("../models");
+const {redirectHome, handlerWrapper} = require('./utils');
 
 // auth logout
 router.get('/logout', (req, res) => {
     req.logout();
-    res.send('');
+    res.redirect('/')
 });
 
 // auth with username and password
@@ -17,28 +17,28 @@ router.get('/local', passport.authenticate('local'));
 
 // register new user
 router.get('/local/register',
-    (req, res, next) => {
-        connectToDB();
-        const {username, password, email} = req.query;
+    check('username').exists()
+        .custom(async (username) => {
+            connectToDB();
+            if (await User.findOne({username: username}))
+                throw new Error('Username taken')
+        }),
+    check('password').exists().isLength({min: 8}),
+    check('email').exists().isEmail()
+        .custom(async (email) => {
+            connectToDB();
+            if (await User.findOne({email: email}))
+                throw new Error('This email has already been registered for an account')
+        }),
 
-        checkUserInfoValidity(username, password, email)
-            .then(
-                () => {
-                    const user = new User({username: username});
-                    user.setPassword(password)
-                        .then(() => user.save())
-                        .then(user => req.login(user, (err) => {
-                            if (err) throw err;
-                            next()
-                        }))
-                        .catch(next)
-                },
-                (err) => {
-                    res.status(400).send(err.toString());
-                }
-            )
-            .catch(next);
-    },
+    handlerWrapper(async (req, res, next) => {
+        const user = new User(req.query);
+        await user.save();
+        req.login(user, (err) => {
+            if (err) next(err);
+            else next()
+        })
+    }),
     redirectHome
 );
 
@@ -59,18 +59,5 @@ router.get('/facebook/callback',
     passport.authenticate('facebook'),
     redirectHome
 );
-
-async function checkUserInfoValidity(username, password, email) {
-    const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const p = password.toLowerCase();
-    const u = username.toLowerCase();
-    if (password.length < 8) 
-        throw new Error("Password must has at least 8 characters");
-    if (u.includes(p) || p.includes(u))
-        throw new Error("Password and username are too similar");
-    if (!email.match(emailRegex))
-        throw new Error("Invalid email");
-    return true;
-}
 
 module.exports = router;
