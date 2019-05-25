@@ -106,7 +106,11 @@ class App extends Component {
                 redirectToIndex={this.redirectToIndex}
                 isLoggedIn={user !== null}
             />;
-        const account = <Account user={user}/>;
+        const account =
+            <Account
+                loadUserData={this.loadUserData}
+                user={user}
+            />;
         const notfound = <NotFound redirectToIndex={this.redirectToIndex}/>;
 
         return (

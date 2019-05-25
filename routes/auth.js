@@ -12,6 +12,9 @@ router.get('/logout', (req, res) => {
     res.redirect('/')
 });
 
+// unlink account
+router.get('/')
+
 // auth with username and password
 router.get('/local',
     (req, res, next) => {
@@ -72,6 +75,38 @@ router.get('/facebook', passport.authenticate('facebook'));
 router.get('/facebook/callback',
     passport.authenticate('facebook'),
     redirectHome
+);
+
+// unlink account
+router.get('/:provider/unlink',
+    check('provider').exists().isIn(['google', 'facebook']),
+    check('newPrimaryAccount').exists().isIn(['local', 'facebook', 'google'])
+        .custom(async (value, {req}) => {
+            if (value === req.params.provider) 
+                throw new Error("Primary account must be changed after unlink");
+            
+            connectToDB();
+            const user = await User.findById(req.user.id);
+            if (value === 'google' && !user.googleId)
+                throw new Error("There's no linked Google account");
+            if (value === 'facebook' && !user.facebookId)
+                throw new Error("There's no linked Facebook account");
+            req.user = user;
+        }),
+
+    handlerWrapper(async (req, res) => {
+        const {provider} = req.params;
+        const {newPrimaryAccount} = req.query;
+        const {user} = req;
+
+        user[provider + 'Id'] = null;
+        user[provider + 'Name'] = null;
+        user[provider + 'Pic'] = null;
+        user.primaryAccount = newPrimaryAccount;
+
+        await user.save();
+        res.json({})
+    })
 );
 
 module.exports = router;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Component} from "react";
 import {withStyles} from "@material-ui/styles";
 import {Typography} from "@material-ui/core";
 import {capitalize} from "@material-ui/core/utils/helpers";
@@ -55,47 +55,54 @@ const styles = () => ({
     }
 });
 
-function SocialNetworkInfo(props) {
-    const {id, socialNetwork, pic, name, classes} = props;
-    let content;
-    if (id)
-        content =
-            <div className={classes.socialInfoContainer}>
-                <span/>
-                <div className={classes.account}>
-                    <img className={classes.socialInfoPic} src={pic} alt='pic'/>
-                    <Typography className={classes.name}>{name}</Typography>
-                </div>
-                <span className={classes.deleteBtn}>
-                    <DeleteIcon/>
-                </span>
-            </div>;
-    else {
-        let buttonText =
-            <Typography className={classes.buttonText} variant={"button"}>
-                Link with {socialNetwork} account
-            </Typography>;
+class SocialNetworkInfo extends Component {
 
-        if (socialNetwork === 'google')
+    openNewPrimaryAccountDialog = () => {
+        this.props.openNewPrimaryAccountDialog(this.props.socialNetwork);
+    };
+
+    render() {
+        const {id, socialNetwork, pic, name, classes} = this.props;
+        let content;
+        if (id)
             content =
-                <a href='/auth/google' className={classes.link}>
-                    <GoogleLoginButton>{buttonText}</GoogleLoginButton>
-                </a>;
-        if (socialNetwork === 'facebook')
-            content =
-                <a href='/auth/facebook' className={classes.link}>
-                    <FacebookLoginButton>{buttonText}</FacebookLoginButton>
-                </a>;
+                <div className={classes.socialInfoContainer}>
+                    <span/>
+                    <div className={classes.account}>
+                        <img className={classes.socialInfoPic} src={pic} alt='pic'/>
+                        <Typography className={classes.name}>{name}</Typography>
+                    </div>
+                    <span className={classes.deleteBtn} onClick={this.openNewPrimaryAccountDialog}>
+                        <DeleteIcon/>
+                    </span>
+                </div>;
+        else {
+            let buttonText =
+                <Typography className={classes.buttonText} variant={"button"}>
+                    Link with {socialNetwork} account
+                </Typography>;
+
+            if (socialNetwork === 'google')
+                content =
+                    <a href='/auth/google' className={classes.link}>
+                        <GoogleLoginButton>{buttonText}</GoogleLoginButton>
+                    </a>;
+            if (socialNetwork === 'facebook')
+                content =
+                    <a href='/auth/facebook' className={classes.link}>
+                        <FacebookLoginButton>{buttonText}</FacebookLoginButton>
+                    </a>;
+        }
+
+        return (
+            <div className={classes.wrapper}>
+                <Typography variant='h6' className={classes.socialNetworkName}>
+                    {capitalize(socialNetwork) + ' account'}
+                </Typography>
+                {content}
+            </div>
+        );
     }
-
-    return (
-        <div className={classes.wrapper}>
-            <Typography variant='h6' className={classes.socialNetworkName}>
-                {capitalize(socialNetwork) + ' account'}
-            </Typography>
-            {content}
-        </div>
-    );
 }
 
 export default withStyles(styles)(SocialNetworkInfo);

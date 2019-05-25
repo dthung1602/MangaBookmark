@@ -41,7 +41,7 @@ class Account extends Component {
     };
 
     render() {
-        const {classes, user} = this.props;
+        const {classes, user, loadUserData} = this.props;
         const {tab} = this.state;
 
         const dummyUser = {
@@ -70,7 +70,7 @@ class Account extends Component {
                 content = <ChangePassword username={user.username}/>;
                 break;
             default:
-                content = <LinkedAccounts user={user}/>;
+                content = <LinkedAccounts user={user} loadUserData={loadUserData}/>;
         }
 
         return (
