@@ -74,23 +74,33 @@ function handleError() {
     return {enableSubmit, errorMessage}
 }
 
-async function onSubmit(url, data) {
+async function onSubmit(url, data, method = 'POST') {
     const fetchOptions = {
-        method: 'POST',
+        method: method,
         credentials: "same-origin",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(data)
     };
+
+    if (method === 'POST') {
+        fetchOptions.headers = {'Content-Type': 'application/json'};
+        fetchOptions.body = JSON.stringify(data);
+    } else {
+        url += '?';
+        Object.keys(data).forEach((k => {
+            url += `${k}=${data[k]}&`
+        }));
+        url = encodeURI(url.slice(0, url.length - 1));
+    }
+
     try {
         const response = await fetch(url, fetchOptions);
         if (response.ok) {
-            this.props.loadUserData().catch(alert);
+            await this.props.loadUserData();
             this.props.redirectToIndex();
         } else {
             this.setState({error: await response.json()})
         }
     } catch (e) {
-        alert(e.toString())
+        alert(e)
     }
 }
 

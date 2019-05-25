@@ -307,7 +307,7 @@ class MangaTable extends React.Component {
             this.setState({fetchData: fetchData, searchData: searchData});
 
         } catch (e) {
-            alert("ERROR: Network error " + e);
+            alert("ERROR: " + e);
         }
     };
 

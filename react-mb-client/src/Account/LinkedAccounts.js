@@ -12,13 +12,13 @@ class LinkedAccounts extends React.Component {
                     socialNetwork='facebook'
                     id={user.facebookId}
                     pic={user.facebookPic}
-                    name={user.username}
+                    name={user.facebookName}
                 />
                 <SocialNetworkInfo
                     socialNetwork='google'
                     id={user.googleId}
                     pic={user.googlePic}
-                    name={user.username}
+                    name={user.googleName}
                 />
             </div>
         )

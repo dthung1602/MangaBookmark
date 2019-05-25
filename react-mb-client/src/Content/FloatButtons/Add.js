@@ -105,7 +105,7 @@ class Add extends React.Component {
             } catch (e) {
                 this.setState({
                     mangaStatus: 'error',
-                    manga: 'ERROR: Network error ' + e
+                    manga: 'ERROR: ' + e
                 });
             }
         } else {

@@ -60,9 +60,11 @@ class App extends Component {
         };
 
         const response = await fetch(url, fetchOptions);
-        if (response.ok)
-            this.setState({user: await response.json()});
-        else
+        if (response.ok) {
+            const user = await response.json();
+            if (!user) throw new Error('Unauthorized');
+            this.setState({user: user});
+        } else
             throw await response.text();
     };
 
@@ -98,7 +100,12 @@ class App extends Component {
         const {user} = this.state;
 
         const content = <Content isAuthorized={user !== null}/>;
-        const login = <Login loadUserData={this.loadUserData} redirectToIndex={this.redirectToIndex}/>;
+        const login =
+            <Login
+                loadUserData={this.loadUserData}
+                redirectToIndex={this.redirectToIndex}
+                isLoggedIn={user !== null}
+            />;
         const account = <Account user={user}/>;
         const notfound = <NotFound redirectToIndex={this.redirectToIndex}/>;
 

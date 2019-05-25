@@ -34,6 +34,19 @@ class NavBar extends React.Component {
     render() {
         const {classes, user, logout, redirectToAccount, redirectToIndex} = this.props;
 
+        let displayName;
+        if (user)
+            switch (user.primaryAccount) {
+                case "google":
+                    displayName = user.googleName;
+                    break;
+                case "facebook":
+                    displayName = user.facebookName;
+                    break;
+                default:
+                    displayName = user.username;
+            }
+
         return (
             <div>
                 <AppBar color="primary" position="fixed">
@@ -46,7 +59,7 @@ class NavBar extends React.Component {
                         <span className={classes.grow}/>
                         {(!user) ? '' :
                             <Typography className={classes.navBarText} onClick={redirectToAccount}>
-                                Hello, {user.username}
+                                Hello, {displayName}
                             </Typography>
                         }
                         {(!user) ? '' :

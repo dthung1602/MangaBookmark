@@ -40,6 +40,13 @@ const styles = () => ({
             color: '#fff'
         }
     },
+    link: {
+        textDecoration: 'none',
+        color: '#fff',
+        '&:visited': {
+            color: '#fff'
+        }
+    },
     buttonText: {
         color: '#fff !important'
     },
@@ -70,9 +77,15 @@ function SocialNetworkInfo(props) {
             </Typography>;
 
         if (socialNetwork === 'google')
-            content = <GoogleLoginButton>{buttonText}</GoogleLoginButton>;
+            content =
+                <a href='/auth/google' className={classes.link}>
+                    <GoogleLoginButton>{buttonText}</GoogleLoginButton>
+                </a>;
         if (socialNetwork === 'facebook')
-            content = <FacebookLoginButton>{buttonText}</FacebookLoginButton>;
+            content =
+                <a href='/auth/facebook' className={classes.link}>
+                    <FacebookLoginButton>{buttonText}</FacebookLoginButton>
+                </a>;
     }
 
     return (

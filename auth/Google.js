@@ -9,27 +9,38 @@ passport.use(
         {
             clientID: config.GOOGLE_AUTH_ID,
             clientSecret: config.GOOGLE_AUTH_PASSWORD,
-            callbackURL: '/auth/google/callback'
+            callbackURL: '/auth/google/callback',
+            passReqToCallback: true
         },
-        function (accessToken, refreshToken, profile, done) {
+        async (req, accessToken, refreshToken, profile, done) => {
             connectToDB();
 
             // check if user already exists in our own db
-            User.findOne({googleId: profile.id}).then((currentUser) => {
-                if (currentUser) {
-                    done(null, currentUser);
-                } else {
-                    // if not, create user in our db
-                    new User({
-                        googleId: profile.id,
-                        googlePic: profile.photos[0].value,
-                        username: profile.displayName,
-                        email: profile.emails[0].value
-                    }).save().then((newUser) => {
-                        done(null, newUser);
-                    });
-                }
-            });
+            const googleUser = await User.findOne({googleId: profile.id});
+
+            // found -> login
+            if (googleUser) {
+                done(null, googleUser);
+                return
+            }
+
+            // not found:
+            //    user has login -> link account
+            //    else ->  create user
+            const user = (req.user)
+                ? await User.findById(req.user.id)
+                : new User({primaryAccount: 'google'});
+
+            user.googleId = profile.id;
+            user.googlePic = profile.photos[0].value;
+            user.googleName = profile.displayName;
+            if (!user.email)
+                user.email = profile.emails[0].value;
+
+            await user.save();
+            done(null, user);
         }
     )
 );
+
+

@@ -33,7 +33,7 @@ class RegisterForm extends React.Component {
             email: this.state.email
         };
 
-        onSubmit.bind(this)(url, data);
+        onSubmit.bind(this)(url, data, 'GET');
     };
 
     onUsernameChange = onUsernameChange.bind(this);

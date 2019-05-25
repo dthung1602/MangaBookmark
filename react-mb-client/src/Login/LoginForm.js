@@ -1,9 +1,9 @@
 import React from "react"
 import {Button, TextField} from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
-import Typography from "@material-ui/core/Typography";
+
 import styles from "./formstyles";
-import {onPasswordChange, onUsernameChange, handleError, onSubmit} from "../formControlers";
+import {handleError, onPasswordChange, onSubmit, onUsernameChange} from "../formControlers";
 
 class LoginForm extends React.Component {
 
@@ -19,11 +19,11 @@ class LoginForm extends React.Component {
     onSubmit = () => {
         const url = '/auth/local';
         const data = {
-                username: this.state.username,
-                password: this.state.password
-            };
+            username: this.state.username,
+            password: this.state.password
+        };
 
-        onSubmit.bind(this)(url, data);
+        onSubmit.bind(this)(url, data, 'GET');
     };
 
     onUsernameChange = onUsernameChange.bind(this);
@@ -35,7 +35,7 @@ class LoginForm extends React.Component {
     render() {
         const {classes} = this.props;
         const {username, password, error} = this.state;
-        const {enableSubmit , errorMessage} = this.handleError();
+        const {enableSubmit, errorMessage} = this.handleError();
 
         return (
             <div>

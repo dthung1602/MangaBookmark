@@ -55,14 +55,14 @@ class Login extends Component {
     };
 
     render() {
-        const {classes} = this.props;
+        const {classes, loadUserData, redirectToIndex, isLoggedIn} = this.props;
         const {tab} = this.state;
 
         let content;
         if (tab === 'login')
-            content = <LoginForm/>;
+            content = <LoginForm loadUserData={loadUserData} redirectToIndex={redirectToIndex}/>;
         else
-            content = <RegiterForm/>;
+            content = <RegiterForm loadUserData={loadUserData} redirectToIndex={redirectToIndex}/>;
 
         return (
             <div className={classes.container}>
@@ -76,7 +76,7 @@ class Login extends Component {
                             variant="fullWidth"
                         >
                             <Tab value="login" label="LOGIN"/>
-                            <Tab value="register" label="REGISTER"/>
+                            <Tab value="register" label="REGISTER" disabled={isLoggedIn}/>
                         </Tabs>
                     </AppBar>
 

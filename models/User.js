@@ -9,13 +9,25 @@ function setPassword(newPassword) {
 
 let userSchema = new mongoose.Schema({
     username: String,
-    email: String,
     password: {
         type: String,
         set: setPassword,
     },
+
     googleId: String,
-    facebookId: String
+    googlePic: String,
+    googleName: String,
+
+    facebookId: String,
+    facebookPic: String,
+    facebookName: String,
+
+    email: String,
+    primaryAccount: {
+        type: String,
+        enum: ['local', 'google', 'facebook'],
+        required: true
+    }
 });
 
 userSchema.methods.validPassword = function (password) {
@@ -30,8 +42,10 @@ userSchema.methods.resetPassword = () => {
     return newPassword;
 };
 
-userSchema.index({username: 1}, {unique: true});
-userSchema.index({email: 1}, {unique: true});
+userSchema.index({username: 1}, {unique: true, sparse: true});
+userSchema.index({googleId: 1}, {unique: true, sparse: true});
+userSchema.index({facebookId: 1}, {unique: true, sparse: true});
+userSchema.index({email: 1}, {unique: true, sparse: true});
 
 let User = mongoose.model('User', userSchema);
 

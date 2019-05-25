@@ -46,6 +46,7 @@ router.get('/local/register',
 
     handlerWrapper(async (req, res, next) => {
         const user = new User(req.query);
+        user.primaryAccount = 'local';
         await user.save();
         req.login(user, (err) => {
             if (err) next(err);
