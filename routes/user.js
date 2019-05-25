@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const {check} = require('express-validator/check');
-const {User, connectToDB} = require('../models');
+const {User, Manga, connectToDB} = require('../models');
 const {handlerWrapper} = require('./utils');
 
 router.get('/',
@@ -57,6 +57,15 @@ router.get('/changepass',
         user.password = req.query.password;
         await user.save();
         res.json({})
+    })
+);
+
+router.get('/delete',
+    handlerWrapper(async (req, res) => {
+        await User.findByIdAndDelete(req.user.id);
+        await Manga.deleteMany({user: req.user.id});
+        req.logout();
+        res.redirect('/')
     })
 );
 

@@ -34,7 +34,7 @@ class NewPrimaryAccountDialog extends React.Component {
     };
 
     render() {
-        const {open, unlinkAccount, user, closeNewPrimaryAccountDialog} = this.props;
+        const {open, unlinkAccount, user, closeNewPrimaryAccountDialog, deleteAccount} = this.props;
         const {newPrimaryAccount} = this.state;
 
         if (this.isLastAccount())
@@ -49,12 +49,12 @@ class NewPrimaryAccountDialog extends React.Component {
                     <DialogContent>
                         <Typography> {capitalize(unlinkAccount)} account is your only way to log in to Manga
                             Bookmark</Typography>
-                        <Typography>You cannot unlink it</Typography>
-                        <Typography>To delete account, go to other tab</Typography>
                     </DialogContent>
                     <DialogActions>
                         <Button variant={"contained"} color={"secondary"}
-                                onClick={closeNewPrimaryAccountDialog}>OK</Button>
+                                onClick={closeNewPrimaryAccountDialog}>Cancel</Button>
+                        <Button variant={"contained"} color={"secondary"}
+                                onClick={deleteAccount}>Delete</Button>
                     </DialogActions>
                 </Dialog>
             );
@@ -101,6 +101,7 @@ class NewPrimaryAccountDialog extends React.Component {
                     </RadioGroup>
                 </DialogContent>
                 <DialogActions>
+                    <Button variant={"contained"} color={"secondary"} onClick={closeNewPrimaryAccountDialog}>Cancel</Button>
                     <Button variant={"contained"} color={"secondary"} onClick={this.select}>Select</Button>
                 </DialogActions>
             </Dialog>

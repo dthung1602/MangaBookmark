@@ -1,6 +1,23 @@
 import React from "react"
 import SocialNetworkInfo from './SocialNetworkInfo';
 import NewPrimaryAccountDialog from "./NewPrimaryAccountDialog";
+import {withStyles} from "@material-ui/styles";
+import {Button} from "@material-ui/core";
+
+const styles = () => ({
+    danger: {
+        border: '1px solid red',
+        borderRadius: 5,
+        marginTop: 80,
+        padding: 20,
+        display: 'flex',
+        justifyContent: 'flex-end'
+    },
+    deleteBtn: {
+        background: '#f00 !important',
+        color: '#fff !important',
+    }
+});
 
 class LinkedAccounts extends React.Component {
 
@@ -44,8 +61,13 @@ class LinkedAccounts extends React.Component {
             throw await response.text()
     };
 
+    deleteAccount = () => {
+        if (!window.confirm("Are you sure to delete MangaBookmark account?")) return;
+        window.location.replace('/api/user/delete')
+    };
+
     render() {
-        const {user} = this.props;
+        const {classes, user} = this.props;
         const {openDialog, unlinkAccount} = this.state;
 
         return (
@@ -64,12 +86,20 @@ class LinkedAccounts extends React.Component {
                     name={user.googleName}
                     openNewPrimaryAccountDialog={this.openNewPrimaryAccountDialog}
                 />
+
+                <div className={classes.danger}>
+                    <Button variant='contained' className={classes.deleteBtn} onClick={this.deleteAccount}>
+                        Delete account
+                    </Button>
+                </div>
+
                 <NewPrimaryAccountDialog
                     open={openDialog}
                     user={user}
                     unlink={this.unlink}
                     unlinkAccount={unlinkAccount}
                     closeNewPrimaryAccountDialog={this.closeNewPrimaryAccountDialog}
+                    deleteAccount={this.deleteAccount}
                 />
             </div>
         )
@@ -77,4 +107,4 @@ class LinkedAccounts extends React.Component {
 
 }
 
-export default LinkedAccounts;
+export default withStyles(styles)(LinkedAccounts);
