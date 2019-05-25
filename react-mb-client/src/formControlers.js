@@ -74,7 +74,7 @@ function handleError() {
     return {enableSubmit, errorMessage}
 }
 
-async function onSubmit(url, data, method = 'POST') {
+async function onSubmit(url, data, method = 'GET') {
     const fetchOptions = {
         method: method,
         credentials: "same-origin",

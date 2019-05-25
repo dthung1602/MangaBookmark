@@ -49,7 +49,7 @@ class NewPrimaryAccountDialog extends React.Component {
                     <DialogContent>
                         <Typography> {capitalize(unlinkAccount)} account is your only way to log in to Manga
                             Bookmark</Typography>
-                        <Typography>You cannot unlink with it</Typography>
+                        <Typography>You cannot unlink it</Typography>
                         <Typography>To delete account, go to other tab</Typography>
                     </DialogContent>
                     <DialogActions>

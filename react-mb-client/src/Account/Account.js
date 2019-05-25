@@ -41,7 +41,7 @@ class Account extends Component {
     };
 
     render() {
-        const {classes, user, loadUserData} = this.props;
+        const {classes, user, loadUserData, redirectToIndex} = this.props;
         const {tab} = this.state;
 
         const dummyUser = {
@@ -64,13 +64,28 @@ class Account extends Component {
         let content;
         switch (tab) {
             case 'basic-info':
-                content = <BasicInfo user={user}/>;
+                content =
+                    <BasicInfo
+                        user={user}
+                        loadUserData={loadUserData}
+                        redirectToIndex={redirectToIndex}
+                    />;
                 break;
             case 'change-password':
-                content = <ChangePassword username={user.username}/>;
+                content =
+                    <ChangePassword
+                        username={user.username}
+                        passwordHasBeenSet={user.password}
+                        loadUserData={loadUserData}
+                        redirectToIndex={redirectToIndex}
+                    />;
                 break;
             default:
-                content = <LinkedAccounts user={user} loadUserData={loadUserData}/>;
+                content =
+                    <LinkedAccounts
+                        user={user}
+                        loadUserData={loadUserData}
+                    />;
         }
 
         return (

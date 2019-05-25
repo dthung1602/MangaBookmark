@@ -12,9 +12,6 @@ router.get('/logout', (req, res) => {
     res.redirect('/')
 });
 
-// unlink account
-router.get('/')
-
 // auth with username and password
 router.get('/local',
     (req, res, next) => {

@@ -44,8 +44,15 @@ class ChangePassword extends React.Component {
     };
 
     render() {
-        const {classes} = this.props;
+        const {classes, username, passwordHasBeenSet} = this.props;
         const {currentPassword, password, confirm, error, lastUpdated} = this.state;
+
+        if (!username)
+            return (
+                <Typography className={classes.announce}>
+                    You must have a username and email before setting password
+                </Typography>
+            );
 
         const {enableSubmit, errorMessage} = this.handleError();
         const lastUpdateMessage = (lastUpdated === undefined || enableSubmit) ? '' :
@@ -55,17 +62,19 @@ class ChangePassword extends React.Component {
 
         return (
             <div>
-                <div className={classes.textField}>
-                    <TextField
-                        fullWidth
-                        variant='outlined'
-                        label='Current password'
-                        type='password'
-                        value={currentPassword}
-                        onChange={this.onCurrentPasswordChange}
-                        error={error.currentPassword !== undefined}
-                    />
-                </div>
+                {!passwordHasBeenSet ? '' :
+                    <div className={classes.textField}>
+                        <TextField
+                            fullWidth
+                            variant='outlined'
+                            label='Current password'
+                            type='password'
+                            value={currentPassword}
+                            onChange={this.onCurrentPasswordChange}
+                            error={error.currentPassword !== undefined}
+                        />
+                    </div>
+                }
                 <div className={classes.textField}>
                     <TextField
                         fullWidth

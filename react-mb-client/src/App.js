@@ -109,6 +109,7 @@ class App extends Component {
         const account =
             <Account
                 loadUserData={this.loadUserData}
+                redirectToIndex={this.redirectToIndex}
                 user={user}
             />;
         const notfound = <NotFound redirectToIndex={this.redirectToIndex}/>;
