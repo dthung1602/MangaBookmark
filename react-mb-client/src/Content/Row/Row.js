@@ -47,7 +47,7 @@ class Row extends React.Component {
         }
     }
 
-    markChapterReadStatus = (chapters, action) => {
+    markChapterReadStatus = async (chapters, action) => {
         const mangaID = this.state.manga._id;
 
         if (chapters.length === 0) return;
@@ -61,7 +61,10 @@ class Row extends React.Component {
                 chapters: chapters
             })
         };
-        return fetch(url, fetchOptions);
+
+        const response = await fetch(url, fetchOptions);
+        if (!response.ok)
+            throw new Error(await response.text())
     };
 
     onChangeChapter = async (event) => {

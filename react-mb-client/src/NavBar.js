@@ -2,7 +2,10 @@ import React from "react"
 
 import {AppBar, Toolbar, Typography} from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
+import Badge from "@material-ui/core/Badge";
+
 import LOGO from './static/logo.png'
+
 
 const styles = () => ({
     logo: {
@@ -26,14 +29,13 @@ const styles = () => ({
     grow: {
         display: 'flex',
         flexGrow: 1
-    }
+    },
 });
 
 class NavBar extends React.Component {
 
     render() {
         const {classes, user, logout, redirectToAccount, redirectToIndex} = this.props;
-
         let displayName;
         if (user)
             switch (user.primaryAccount) {
@@ -56,6 +58,9 @@ class NavBar extends React.Component {
                             src={LOGO} alt="MangaBookmark"
                             onClick={redirectToIndex}
                         />
+                        <Badge badgeContent={<span>v1.3</span>}>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                        </Badge>
                         <span className={classes.grow}/>
                         {(!user) ? '' :
                             <Typography className={classes.navBarText} onClick={redirectToAccount}>
