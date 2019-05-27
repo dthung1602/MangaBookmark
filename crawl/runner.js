@@ -11,7 +11,9 @@ const parsers = [
     require('./NetTruyen'),
     require('./TruyenQQ'),
     require('./MangaWwwClub'),
-    require('./Otakusan')
+    require('./Otakusan'),
+    require('./TruyenTranh8'),
+    require('./TruyenTranhTuan')
 ];
 
 mongoose.set('useNewUrlParser', true);
@@ -50,6 +52,7 @@ async function updateChapters(manga) {
     }
 
     manga.chapters = crawledChapters;
+    manga.markModified('chapters');
     return manga.save()
 }
 

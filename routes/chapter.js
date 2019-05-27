@@ -20,6 +20,7 @@ router.post('/:action',
                 manga.chapters[pos].isRead = isRead;
         }
 
+        manga.markModified('chapters');
         await manga.save();
         res.json({});
     })

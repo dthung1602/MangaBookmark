@@ -26,6 +26,8 @@ const mangaSourceRegex = {
     'MangaWWW': /^https?:\/\/mangawww\.club\/manga\/.+$/,
     'Otakusan':  /^https?:\/\/otakusan\.net\/MangaDetail\/[0-9]+\/.+$/,
     'TruyenQQ': /^https?:\/\/truyenqq\.com\/truyen-tranh\/.+$/,
+    'TruyenTranh8': /^https?:\/\/truyentranh869\.com\/.+$/,
+    'TruyenTranhTuan': /^https?:\/\/truyentranhtuan\.com\/.+$/
 };
 
 function getMangaSource(link) {

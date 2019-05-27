@@ -1,7 +1,7 @@
 const rq = require('request-promise');
 const cheerio = require('cheerio');
 
-const URLRegex = /^https?:\/\/(mangakakalot|manganelo)\.com\/manga\/.+$/;
+const URLRegex = /^https?:\/\/truyentranhtuan\.com\/.+$/;
 
 async function loadData(dataSource) {
     return cheerio.load(await rq(dataSource));
@@ -16,7 +16,7 @@ function normalizeDataSource(dataSource) {
 async function parseChapters(dataSource) {
     const $ = await normalizeDataSource(dataSource);
 
-    const rows = $('.chapter-list a');
+    const rows = $('#manga-chapter a');
 
     const chapters = [];
     for (let i = 0; i < rows.length; i++) {
@@ -34,9 +34,9 @@ async function parseManga(dataSource) {
 
     return {
         name: $('h1').text(),
-        link: $('meta[property="og:url"]').attr('content'),
-        image: $('.manga-info-pic img')[0].attribs.src,
-        isCompleted: $('.manga-info-text li')[2].children[0].data === "Status : Completed",
+        link: $('link[rel="canonical"]').attr('href'),
+        image: $('.manga-cover img')[0].attribs.src,
+        isCompleted: $('.misc-infor').text().includes('Hoàn thành'),
         chapters: await parseChapters($)
     };
 }

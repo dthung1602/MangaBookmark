@@ -1,7 +1,7 @@
 const rq = require('request-promise');
 const cheerio = require('cheerio');
 
-const URLRegex = /^https?:\/\/(mangakakalot|manganelo)\.com\/manga\/.+$/;
+const URLRegex = /^https?:\/\/truyentranh869\.com\/.+$/;
 
 async function loadData(dataSource) {
     return cheerio.load(await rq(dataSource));
@@ -16,12 +16,12 @@ function normalizeDataSource(dataSource) {
 async function parseChapters(dataSource) {
     const $ = await normalizeDataSource(dataSource);
 
-    const rows = $('.chapter-list a');
+    const rows = $('#ChapList a');
 
     const chapters = [];
     for (let i = 0; i < rows.length; i++) {
         chapters.push({
-            name: rows[i].children[0].data,
+            name: rows[i].children[1].children[0].data,
             link: rows[i].attribs.href
         });
     }
@@ -35,8 +35,8 @@ async function parseManga(dataSource) {
     return {
         name: $('h1').text(),
         link: $('meta[property="og:url"]').attr('content'),
-        image: $('.manga-info-pic img')[0].attribs.src,
-        isCompleted: $('.manga-info-text li')[2].children[0].data === "Status : Completed",
+        image: $('.thumbnail')[0].attribs.src,
+        isCompleted: $('.mangainfo').text().includes("Đã hoàn thành"),
         chapters: await parseChapters($)
     };
 }
