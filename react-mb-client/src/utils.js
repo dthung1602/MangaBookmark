@@ -26,11 +26,13 @@ const mangaSourceRegex = {
     'MangaWWW': /^https?:\/\/mangawww\.club\/manga\/.+$/,
     'Otakusan':  /^https?:\/\/otakusan\.net\/MangaDetail\/[0-9]+\/.+$/,
     'TruyenQQ': /^https?:\/\/truyenqq\.com\/truyen-tranh\/.+$/,
-    'TruyenTranh8': /^https?:\/\/truyentranh869\.com\/.+$/,
-    'TruyenTranhTuan': /^https?:\/\/truyentranhtuan\.com\/.+$/,
+    'Truyen Tranh 8': /^https?:\/\/truyentranh869\.com\/.+$/,
+    'Truyen Tranh Tuan': /^https?:\/\/truyentranhtuan\.com\/.+$/,
     'MangaBat': /^https?:\/\/mangabat\.com\/manga\/.+$/,
     'Mangasim': /^https?:\/\/mangasim\.com\/manga\/.+$/,
-    'Mangazuki': /^https?:\/\/mangazuki\.me\/manga\/.+$/
+    'Mangazuki': /^https?:\/\/mangazuki\.me\/manga\/.+$/,
+    'Thich Truyen Tranh': /^https?:\/\/thichtruyentranh\.com\/.+\/[0-9]+\.html$/,
+    'Ham Truyen Tranh': /^http:\/\/www\.hamtruyentranh\.net\/truyen\/.+$/
 };
 
 function getMangaSource(link) {
