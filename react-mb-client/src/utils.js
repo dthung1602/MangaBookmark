@@ -27,7 +27,10 @@ const mangaSourceRegex = {
     'Otakusan':  /^https?:\/\/otakusan\.net\/MangaDetail\/[0-9]+\/.+$/,
     'TruyenQQ': /^https?:\/\/truyenqq\.com\/truyen-tranh\/.+$/,
     'TruyenTranh8': /^https?:\/\/truyentranh869\.com\/.+$/,
-    'TruyenTranhTuan': /^https?:\/\/truyentranhtuan\.com\/.+$/
+    'TruyenTranhTuan': /^https?:\/\/truyentranhtuan\.com\/.+$/,
+    'MangaBat': /^https?:\/\/mangabat\.com\/manga\/.+$/,
+    'Mangasim': /^https?:\/\/mangasim\.com\/manga\/.+$/,
+    'Mangazuki': /^https?:\/\/mangazuki\.me\/manga\/.+$/
 };
 
 function getMangaSource(link) {
