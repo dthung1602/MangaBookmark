@@ -42,8 +42,8 @@ function handlerWrapper(handler) {
 function extractAttributes(obj, attrs = []) {
     const newObj = {};
     attrs.forEach(attr => {
-        if (this.hasOwnProperty(attr))
-            obj[attr] = this[attr]
+        if (obj.hasOwnProperty(attr))
+            newObj[attr] = obj[attr]
     });
     return newObj
 }

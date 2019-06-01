@@ -58,7 +58,7 @@ class NavBar extends React.Component {
                             src={LOGO} alt="MangaBookmark"
                             onClick={redirectToIndex}
                         />
-                        <Badge badgeContent={<span>v1.4</span>}>
+                        <Badge badgeContent={<span>v1.4.1</span>}>
                             &nbsp;&nbsp;&nbsp;&nbsp;
                         </Badge>
                         <span className={classes.grow}/>
