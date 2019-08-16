@@ -18,7 +18,9 @@ const parsers = [
     require('./Mangasim'),
     require('./Mangazuki'),
     require('./HamTruyenTranh'),
-    require('./ThichTruyenTranh')
+    require('./ThichTruyenTranh'),
+    require('./SayTruyen'),
+    require('./Truyen1')
 ];
 
 mongoose.set('useNewUrlParser', true);

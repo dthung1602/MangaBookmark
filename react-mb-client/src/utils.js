@@ -24,7 +24,7 @@ const mangaSourceRegex = {
     'Mangarock': /^https?:\/\/mangarock\.com\/manga\/mrs-serie-[0-9]+$/,
     'Nettruyen': /^https?:\/\/www\.nettruyen\.com\/truyen-tranh\/.+$/,
     'MangaWWW': /^https?:\/\/mangawww\.club\/manga\/.+$/,
-    'Otakusan':  /^https?:\/\/otakusan\.net\/MangaDetail\/[0-9]+\/.+$/,
+    'Otakusan': /^https?:\/\/otakusan\.net\/MangaDetail\/[0-9]+\/.+$/,
     'TruyenQQ': /^https?:\/\/truyenqq\.com\/truyen-tranh\/.+$/,
     'Truyen Tranh 8': /^https?:\/\/truyentranh869\.com\/.+$/,
     'Truyen Tranh Tuan': /^https?:\/\/truyentranhtuan\.com\/.+$/,
@@ -32,7 +32,9 @@ const mangaSourceRegex = {
     'Mangasim': /^https?:\/\/mangasim\.com\/manga\/.+$/,
     'Mangazuki': /^https?:\/\/mangazuki\.me\/manga\/.+$/,
     'Thich Truyen Tranh': /^https?:\/\/thichtruyentranh\.com\/.+\/[0-9]+\.html$/,
-    'Ham Truyen Tranh': /^http:\/\/www\.hamtruyentranh\.net\/truyen\/.+$/
+    'Ham Truyen Tranh': /^http:\/\/www\.hamtruyentranh\.net\/truyen\/.+$/,
+    'Say Truyen': /^https?:\/\/saytruyen\.com\/truyen\/.+$/,
+    'Truyen 1': /^https?:\/\/truyen1\.net\/TruyenTranh\/.+$/,
 };
 
 function getMangaSource(link) {

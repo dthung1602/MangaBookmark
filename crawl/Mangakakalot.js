@@ -1,17 +1,6 @@
-const rq = require('request-promise');
-const cheerio = require('cheerio');
+const normalizeDataSource = require('./utils').normalizeDataSource;
 
 const URLRegex = /^https?:\/\/(mangakakalot|manganelo)\.com\/manga\/.+$/;
-
-async function loadData(dataSource) {
-    return cheerio.load(await rq(dataSource));
-}
-
-function normalizeDataSource(dataSource) {
-    return (typeof dataSource === 'string' && dataSource.trim().startsWith('http'))
-        ? loadData(dataSource)
-        : dataSource
-}
 
 async function parseChapters(dataSource) {
     const $ = await normalizeDataSource(dataSource);
