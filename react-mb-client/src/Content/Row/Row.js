@@ -116,7 +116,7 @@ class Row extends React.Component {
     };
 
     saveNote = async (note) => {
-        const manga = this.state.manga;
+        const {manga} = this.state;
 
         try {
             await this.props.onEditManga(manga._id, {note: note});
@@ -134,7 +134,7 @@ class Row extends React.Component {
     };
 
     onChangeCompleted = async () => {
-        const manga = this.state.manga;
+        const {manga} = this.state;
 
         try {
             await this.props.onEditManga(manga._id, {isCompleted: true});
@@ -146,7 +146,7 @@ class Row extends React.Component {
     };
 
     onChangeFollowing = async (event) => {
-        const manga = this.state.manga;
+        const {manga} = this.state;
         const following = event.target.value;
 
         try {
@@ -158,9 +158,35 @@ class Row extends React.Component {
         }
     };
 
+    updateManga = async (event) => {
+        const {manga} = this.state;
+
+        const url = `/api/manga/update`;
+        const fetchOptions = {
+            method: 'POST',
+            credentials: "same-origin",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({'mangas': [manga._id]})
+        };
+
+        const response = await fetch(url, fetchOptions);
+        if (!response.ok) {
+            alert('ERROR ' + await response.text());
+            return
+        }
+
+        const result = await response.json();
+        if (result === [])
+            alert(`ERROR Failed to update manga ${manga.name}`);
+        else {
+            alert(`Manga "${manga.name}" updated successfully!`);
+            this.setState({manga: result[0]});
+        }
+    };
+
     render() {
         const {classes} = this.props;
-        const manga = this.state.manga;
+        const {manga} = this.state;
         const chapters = manga.chapters;
 
         const status = utils.getMangaStatus(manga);
@@ -208,6 +234,7 @@ class Row extends React.Component {
                         manga={manga}
                         onChangeCompleted={this.onChangeCompleted}
                         onChangeFollowing={this.onChangeFollowing}
+                        updateManga={this.updateManga}
                         deleteManga={this.deleteManga}
                     />
                 </TableCell>

@@ -3,6 +3,7 @@ import {MenuItem, Select} from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
 import DeleteIcon from "@material-ui/icons/DeleteForever"
 import DoneIcon from "@material-ui/icons/Done"
+import UpdateIcon from "@material-ui/icons/Refresh"
 
 const styles = () => ({
     noWrap: {
@@ -39,6 +40,14 @@ class MangaActions extends React.Component {
                     <DoneIcon/>
                 </div>;
 
+        const updateMangaBtn =
+            <div className={classes.actionBtn}
+                 title="Update manga"
+                 onClick={this.props.updateManga}
+            >
+                <UpdateIcon/>
+            </div>;
+
         const deleteMangaBtn =
             <div className={classes.actionBtn}
                  title="Delete manga"
@@ -62,6 +71,7 @@ class MangaActions extends React.Component {
 
                 <div>
                     {markMangaCompletedBtn}
+                    {updateMangaBtn}
                     {deleteMangaBtn}
                 </div>
             </div>

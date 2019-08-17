@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Manga = require('../models/Manga');
 
-const {DB_URL} = require('../config');
+const {DB_URL, CRAWL_MAX_THREADS} = require('../config');
 
 const parsers = [
     require('./HocVienTruyenTranh'),
@@ -26,6 +26,15 @@ const parsers = [
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
+
+function chunkArray(array, chunkSize) {
+    const tempArray = [];
+
+    for (let index = 0; index < array.length; index += chunkSize)
+        tempArray.push(array.slice(index, index + chunkSize));
+
+    return tempArray;
+}
 
 async function createManga(url, userID, isCompleted = false, following = 'following',
                            readChapters = [], note = '') {
@@ -61,6 +70,32 @@ async function updateChapters(manga) {
     manga.chapters = crawledChapters;
     manga.markModified('chapters');
     return manga.save()
+}
+
+async function updateMangas(mangas, verbose = false) {
+    if (verbose) {
+        console.log(`Start updating ${mangas.length} mangas`);
+        console.log(`Using up to ${CRAWL_MAX_THREADS} threads`);
+    }
+
+    const chunks = chunkArray(mangas, CRAWL_MAX_THREADS);
+    const successMangas = [];
+
+    for (let i = 0; i < chunks.length; i++)
+        await Promise.all(chunks[i].map(async manga => {
+            try {
+                await updateChapters(manga);
+                successMangas.push(manga);
+                if (verbose)
+                    console.log(`    Update: '${manga.name}'`);
+            } catch (e) {
+                console.error(`    Fail to update: '${manga.name}'`);
+                if (verbose)
+                    console.error(e.toString());
+            }
+        }));
+
+    return successMangas;
 }
 
 function getParser(url) {
@@ -102,4 +137,4 @@ async function main() {
 if (require.main === module)
     main();
 
-module.exports = {createManga, updateChapters, getParser};
+module.exports = {createManga, updateMangas, getParser};

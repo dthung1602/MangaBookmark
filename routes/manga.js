@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {check} = require('express-validator/check');
 
-const {getParser, createManga} = require('../crawl/runner');
+const {getParser, createManga, updateMangas} = require('../crawl/runner');
 const {Manga, connectToDB} = require('../models');
 const {checkMangaPermission, handlerWrapper, extractAttributes} = require('./utils');
 
@@ -55,7 +55,7 @@ router.post('/add',
         .custom(async (link, {req}) => {
             if (!getParser(link))
                 throw new Error('Unsupported manga source');
-            connectToDB();
+            await connectToDB();
             const manga = await Manga.findOne({user: req.user.id, link: link});
             if (manga)
                 throw new Error('Duplicate manga')
@@ -99,6 +99,28 @@ router.post('/delete',
     handlerWrapper(async (req, res) => {
         await Manga.findByIdAndDelete(req.manga.id);
         res.json({})
+    })
+);
+
+
+router.post('/update',
+    check('mangas').exists()
+        .custom(async (mangaIds, {req}) => {
+            await connectToDB();
+            const mangas = await Manga.find({_id: {$in: mangaIds}});
+            if (mangas.length < mangaIds.length)
+                throw new Error('Invalid manga id(s)');
+            mangas.forEach(manga => {
+                if (manga.user.toString() !== req.user.id)
+                    throw new Error('You do not have permission to access these mangas')
+            });
+            req.mangas = mangas;
+        }),
+
+    handlerWrapper(async (req, res) => {
+        const successMangas = await updateMangas(req.mangas);
+        const statusCode = (successMangas.length === req.mangas.length) ? 200 : 400;
+        res.status(statusCode).json(successMangas);
     })
 );
 

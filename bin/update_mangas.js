@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 const mongoose = require('mongoose');
-const {updateChapters} = require('../crawl/runner');
+const {updateMangas} = require('../crawl/runner');
 const {Manga} = require('../models');
-const {CRAWL_MAX_THREADS, DB_URL} = require('../config');
+const {DB_URL} = require('../config');
 
 function chunkArray(array, chunkSize) {
     const tempArray = [];
@@ -24,20 +24,8 @@ async function main() {
             following: {$in: ['toread', 'following', 'waiting']},
             isCompleted: false
         });
-    const chunks = chunkArray(mangasToUpdate, CRAWL_MAX_THREADS);
 
-    console.log(`Start updating ${mangasToUpdate.length} mangas`);
-    console.log(`Using up to ${CRAWL_MAX_THREADS} threads`);
-    for (let i = 0; i < chunks.length; i++)
-        await Promise.all(chunks[i].map(async manga => {
-            try {
-                await updateChapters(manga);
-                console.log(`    Update: '${manga.name}'`);
-            } catch (e) {
-                console.error(`    Fail to update: '${manga.name}'`);
-                console.error(e.toString());
-            }
-        }));
+    await updateMangas(mangasToUpdate, true);
 
     console.log('Update manga done!');
     mongoose.connection.close();
