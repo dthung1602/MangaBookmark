@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {check} = require('express-validator/check');
 
-const {getParser, createManga, updateMangas} = require('../crawl/runner');
+const {getParser, createManga, updateMangas, updaC} = require('../crawl/runner');
 const {Manga, connectToDB} = require('../models');
 const {checkMangaPermission, handlerWrapper, extractAttributes} = require('./utils');
 
@@ -104,23 +104,27 @@ router.post('/delete',
 
 
 router.post('/update',
-    check('mangas').exists()
-        .custom(async (mangaIds, {req}) => {
-            await connectToDB();
-            const mangas = await Manga.find({_id: {$in: mangaIds}});
-            if (mangas.length < mangaIds.length)
-                throw new Error('Invalid manga id(s)');
-            mangas.forEach(manga => {
-                if (manga.user.toString() !== req.user.id)
-                    throw new Error('You do not have permission to access these mangas')
-            });
-            req.mangas = mangas;
-        }),
+    checkMangaPermission,
 
     handlerWrapper(async (req, res) => {
-        const successMangas = await updateMangas(req.mangas);
-        const statusCode = (successMangas.length === req.mangas.length) ? 200 : 400;
-        res.status(statusCode).json(successMangas);
+        const result = await updateMangas([req.manga]);
+        if (result.length === 0)
+            res.status(400).send('Fail to update manga.').end();
+        else
+            res.json(result[0])
+    })
+);
+
+router.post('/update-multiple',
+    check('following').exists().isIn(validFollowing),
+
+    handlerWrapper(async (req, res) => {
+        const mangas = await Manga.find({user: req.user.id, following: req.body.following});
+        const result = await updateMangas(mangas);
+        res.json({
+            total: mangas.length,
+            success: result.map(manga => manga.name)
+        });
     })
 );
 

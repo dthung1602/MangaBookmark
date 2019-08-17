@@ -80,6 +80,36 @@ class Content extends React.Component {
         });
     };
 
+    onUpdateManga = async () => {
+        const {following} = this.state;
+
+        const url = '/api/manga/update-multiple';
+        const fetchOptions = {
+            method: 'POST',
+            credentials: "same-origin",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({following: following})
+        };
+
+        const response = await fetch(url, fetchOptions);
+
+        if (!response.ok) {
+            alert('ERROR ' + await response.text());
+            return
+        }
+
+        const result = await response.json();
+        let text = `Update successfully ${result.success.length}/${result.total} mangas:`;
+        result.success.forEach(mangaName => text += `\n-  ${mangaName}`);
+        alert(text);
+
+        this.setState({
+            dataSource: 'fetch',
+            following: following,
+            mangaTableKey: new Date() // force re-generate
+        });
+    };
+
     render() {
         const {classes, isAuthorized} = this.props;
         const {following, sortby, dataSource, searchTerm, mangaTableKey} = this.state;
@@ -112,6 +142,7 @@ class Content extends React.Component {
                 />
                 <FloatButtons
                     onAddManga={this.onAddManga}
+                    onUpdateManga={this.onUpdateManga}
                 />
             </div>
         );

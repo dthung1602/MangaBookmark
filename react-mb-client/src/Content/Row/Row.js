@@ -159,14 +159,14 @@ class Row extends React.Component {
     };
 
     updateManga = async (event) => {
-        const {manga} = this.state;
+        let {manga} = this.state;
 
         const url = `/api/manga/update`;
         const fetchOptions = {
             method: 'POST',
             credentials: "same-origin",
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({'mangas': [manga._id]})
+            body: JSON.stringify({'manga': manga._id})
         };
 
         const response = await fetch(url, fetchOptions);
@@ -175,13 +175,8 @@ class Row extends React.Component {
             return
         }
 
-        const result = await response.json();
-        if (result === [])
-            alert(`ERROR Failed to update manga ${manga.name}`);
-        else {
-            alert(`Manga "${manga.name}" updated successfully!`);
-            this.setState({manga: result[0]});
-        }
+        this.setState({manga: await response.json()});
+        alert(`Manga "${manga.name}" updated successfully!`);
     };
 
     render() {
