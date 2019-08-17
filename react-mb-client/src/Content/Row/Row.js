@@ -67,14 +67,14 @@ class Row extends React.Component {
             throw new Error(await response.text())
     };
 
-    onChangeChapter = async (event) => {
+    markChaptersAsRead = async (links) => {
         const {manga} = this.state;
         const {chapters} = manga;
-        const newValues = event.target.value;
+
         let oldValues = chapters.filter(ch => ch.isRead).map(ch => ch.link);
 
-        const markRead = utils.minusArray(newValues, oldValues);
-        const markUnread = utils.minusArray(oldValues, newValues);
+        const markRead = utils.minusArray(links, oldValues);
+        const markUnread = utils.minusArray(oldValues, links);
 
         try {
             await Promise.all([
@@ -82,12 +82,24 @@ class Row extends React.Component {
                 this.markChapterReadStatus(markUnread, 'unread')
             ]);
 
-            chapters.forEach(chap => chap.isRead = newValues.indexOf(chap.link) > -1);
+            chapters.forEach(chap => chap.isRead = links.indexOf(chap.link) > -1);
             this.setState({manga: manga});
 
         } catch (e) {
             alert('ERROR ' + e);
         }
+    };
+
+    onChangeChapter = async (event) => {
+        await this.markChaptersAsRead(event.target.value)
+    };
+
+    onMarkChaptersAsReadUpTo = async (upTo) => {
+        const links = this.state.manga.chapters
+            .map((ch, i) => (i >= upTo) ? ch.link : null) // get links of chapters with i >= upTo
+            .filter(link => link !== null); // remove null
+
+        await this.markChaptersAsRead(links);
     };
 
     onMarkAllChaptersRead = async () => {
@@ -184,6 +196,7 @@ class Row extends React.Component {
                     <ChapterList
                         chapters={chapters}
                         onChangeChapter={this.onChangeChapter}
+                        onMarkUpTo={this.onMarkChaptersAsReadUpTo}
                         onMarkAllChaptersRead={this.onMarkAllChaptersRead}
                         showNextChapBtn={true}
                         markAllRead='after'

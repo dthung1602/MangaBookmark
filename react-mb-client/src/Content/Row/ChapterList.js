@@ -5,6 +5,7 @@ import Checkbox from "@material-ui/core/Checkbox/index";
 import ListItemText from "@material-ui/core/ListItemText/index";
 import ReadIcon from "@material-ui/icons/ArrowForwardIos";
 import ReadAll from "@material-ui/icons/BookmarkBorderOutlined"
+import ReadUpTo from "@material-ui/icons/KeyboardArrowDown"
 
 const styles = () => ({
     noWrap: {
@@ -33,6 +34,11 @@ const styles = () => ({
 const MAX_CHAP_NAME_LENGTH = 20;
 
 class ChapterList extends React.Component {
+
+    markUpTo = (i) => (event) => {
+        event.stopPropagation();
+        this.props.onMarkUpTo(i)
+    };
 
     render() {
         const {classes, chapters, showNextChapBtn, markAllRead} = this.props;
@@ -89,9 +95,10 @@ class ChapterList extends React.Component {
                 onChange={this.props.onChangeChapter}
                 renderValue={displayLastChapRead}
             >
-                {chapters.map(chap => (
+                {chapters.map((chap, i) => (
                     <MenuItem key={chap.link} value={chap.link}>
                         <Checkbox checked={chap.isRead}/>
+                        <ReadUpTo onClick={this.markUpTo(i)}/>
                         <ListItemText primary={<a href={chap.link}>{chap.name}</a>}/>
                     </MenuItem>
                 ))}
