@@ -25,7 +25,7 @@ class SortBy extends React.Component {
                 <Typography className={classes.label} variant={"subtitle1"}>
                     Sort by
                 </Typography>
-                <Select value={sortby} onChange={onChange} variant={"filled"}>
+                <Select value={sortby} onChange={onChange} variant={"filled"} on >
                     <MenuItem value="status">Status</MenuItem>
                     <MenuItem value="name">Name</MenuItem>
                     <MenuItem value="latest">Latest</MenuItem>

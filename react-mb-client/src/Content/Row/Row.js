@@ -84,6 +84,7 @@ class Row extends React.Component {
             ]);
 
             chapters.forEach(chap => chap.isRead = links.indexOf(chap.link) > -1);
+            manga.status = utils.getMangaStatus(manga);
             this.setState({manga: manga});
 
         } catch (e) {
@@ -110,6 +111,7 @@ class Row extends React.Component {
         try {
             await this.markChapterReadStatus(markRead, 'read');
             chapters.forEach(ch => ch.isRead = true);
+            manga.status = utils.getMangaStatus(manga);
             this.setState({manga: manga})
         } catch (e) {
             alert('ERROR ' + e);
@@ -140,6 +142,7 @@ class Row extends React.Component {
         try {
             await this.props.onEditManga(manga._id, {isCompleted: true});
             manga.isCompleted = true;
+            manga.status = utils.getMangaStatus(manga);
             this.setState({manga: manga});
         } catch (e) {
             alert('ERROR: ' + e);
@@ -191,7 +194,7 @@ class Row extends React.Component {
         const {manga, updatingManga} = this.state;
         const chapters = manga.chapters;
 
-        const status = utils.getMangaStatus(manga);
+        const {status} = manga;
         const colorClass = {
             'Finished': classes.F,
             'Many to read': classes.MTR,

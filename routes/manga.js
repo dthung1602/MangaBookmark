@@ -4,7 +4,7 @@ const {check} = require('express-validator/check');
 
 const {getParser, createManga, updateMangas} = require('../crawl/runner');
 const {Manga, connectToDB} = require('../models');
-const {checkMangaPermission, handlerWrapper, extractAttributes} = require('./utils');
+const {checkMangaPermission, handlerWrapper} = require('./utils');
 
 const validFollowing = ['toread', 'following', 'waiting', 'dropped', 'finished'];
 const {PAGE_SIZE} = require('../config');
@@ -19,7 +19,7 @@ router.get('/',
                 user: req.user.id,
                 following: req.query.following
             })
-            .sort('name')
+            .sort('-statusCode')
             .skip((req.query.page - 1) * PAGE_SIZE)
             .limit(PAGE_SIZE);
         res.json(mangas);
@@ -96,8 +96,12 @@ router.post('/edit',
     checkMangaPermission,
 
     handlerWrapper(async (req, res) => {
-        const updateValues = extractAttributes(req.body, ['following', 'note', 'isCompleted']);
-        await Manga.findByIdAndUpdate(req.manga.id, updateValues);
+        const manga = await Manga.findById(req.manga.id);
+        ['following', 'note', 'isCompleted'].forEach((f) => {
+            if (req.body.hasOwnProperty(f))
+                manga[f] = req.body[f];
+        });
+        await manga.save();
         res.json({})
     })
 );

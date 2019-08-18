@@ -1,5 +1,24 @@
 const mongoose = require('mongoose');
 
+function getMangaStatusCode(manga) {
+    const allRead = manga.chapters.every(ch => ch.isRead);
+
+    if (manga.isCompleted)
+        if (allRead)
+            return 0;
+        else
+            return 2;
+
+    else if (allRead)
+        return 1;
+    else
+        return 3;
+}
+
+function codeToStatus(code) {
+    return ['Finished', 'Last chap reached', 'Many to read', 'New chap'][code];
+}
+
 const chapterSchema = new mongoose.Schema(
     {
         name: String,
@@ -32,6 +51,7 @@ const mangaSchema = new mongoose.Schema(
             default: false
         },
 
+        statusCode: Number,
         following: {
             type: String,
             enum: ['toread', 'following', 'waiting', 'dropped', 'finished'],
@@ -43,13 +63,29 @@ const mangaSchema = new mongoose.Schema(
         }
     },
     {
-        timestamps: true
+        timestamps: true,
+        toJSON: {
+            transform: function (doc, ret) {
+                delete ret.statusCode;
+                ret.status = doc.status;
+                console.log(ret.status)
+            }
+        }
     }
 );
 
 mangaSchema.index({name: 'text'});
 mangaSchema.index({user: 1, following: 1});
 mangaSchema.index({user: 1, link: 1}, {unique: true});
+
+mangaSchema.pre('save', function (next) {
+    this.statusCode = getMangaStatusCode(this);
+    next();
+});
+
+mangaSchema.virtual('status').get(function () {
+    return codeToStatus(this.statusCode)
+});
 
 let Manga = mongoose.model('Manga', mangaSchema);
 

@@ -261,8 +261,8 @@ class MangaTable extends React.Component {
 
         if (response.ok) {
             const newData = await response.json();
+            this.props.sortMethod(newData);
             fetchData = (page === 1) ? newData : fetchData.concat(newData);
-            this.props.sortMethod(fetchData);
             this.setState({
                 fetchData: fetchData,
                 loading: false,
