@@ -28,6 +28,7 @@ class Content extends React.Component {
             dataSource: 'fetch', // fetch or search
             following: 'following',
             searchTerm: '',
+            newManga: null,
             mangaTableKey: new Date()
         };
     }
@@ -76,7 +77,7 @@ class Content extends React.Component {
         this.setState({
             dataSource: 'fetch',
             following: manga.following,
-            mangaTableKey: new Date() // force re-generate
+            newManga: await response.json()
         });
     };
 
@@ -112,7 +113,7 @@ class Content extends React.Component {
 
     render() {
         const {classes, isAuthorized} = this.props;
-        const {following, sortby, dataSource, searchTerm, mangaTableKey} = this.state;
+        const {following, sortby, dataSource, searchTerm, mangaTableKey, newManga} = this.state;
 
         const sortMethod = {
             'status': sortByStatus,
@@ -134,6 +135,7 @@ class Content extends React.Component {
                 />
                 <MangaTable
                     key={mangaTableKey}
+                    newManga={newManga}
                     sortMethod={sortMethod}
                     following={following}
                     searchTerm={searchTerm}

@@ -14,6 +14,7 @@ module.exports = {
 
     'SECRET_KEY': getEnv('SECRET_KEY', 'yIjaujJQOuen0MQPE2daXN8oBrPY1USc'),
     'COOKIE_MAX_AGE': getEnv('COOKIE_MAX_AGE', 30 * 24 * 60 * 60 * 1000, parseInt),
+    'PAGE_SIZE': getEnv('PAGE_SIZE', 5),
 
     'LOCAL_AUTH_SALT_ROUND': getEnv('LOCAL_AUTH_SALT_ROUND', 10, parseInt),
     'LOCAL_AUTH_PASS_ROUND': getEnv('LOCAL_AUTH_PASS_ROUND', 16, parseInt),

@@ -6,7 +6,7 @@ import UpdateIcon from "@material-ui/icons/Refresh";
 import {Fab, Tooltip} from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
 
-import Add from "./Add"
+import AddDialog from "./AddDialog";
 
 const styles = () => ({
     floatButtonGroup: {
@@ -38,7 +38,7 @@ class FloatButtons extends React.Component {
                 </Tooltip>
                 <Tooltip title="Add manga" placement="left">
                     <Fab size={"small"} color={"secondary"}>
-                        <Add onAddManga={this.props.onAddManga}/>
+                        <AddDialog onAddManga={this.props.onAddManga}/>
                     </Fab>
                 </Tooltip>
             </div>

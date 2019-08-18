@@ -42,7 +42,7 @@ const dummyAddData = {
 
 };
 
-class Add extends React.Component {
+class AddDialog extends React.Component {
 
     constructor(props) {
         super(props);
@@ -96,8 +96,7 @@ class Add extends React.Component {
                         mangaStatus: 'ok',
                         manga: manga
                     });
-                }
-                else
+                } else
                     this.setState({
                         mangaStatus: 'error',
                         manga: await response.text(),
@@ -216,4 +215,4 @@ class Add extends React.Component {
 
 }
 
-export default withStyles(styles)(Add);
+export default withStyles(styles)(AddDialog);

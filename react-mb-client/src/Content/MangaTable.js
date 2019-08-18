@@ -1,8 +1,10 @@
 import React from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
-import {Table, TableBody, TableHead, TableRow, Typography} from "@material-ui/core";
-import TableCell from "@material-ui/core/TableCell/index";
-import CircularProgress from '@material-ui/core/CircularProgress';
+
+import {CircularProgress, Fab, Table, TableBody, TableCell, TableHead, TableRow, Typography} from "@material-ui/core";
+
+import ArrowDropDown from "@material-ui/core/es/internal/svg-icons/ArrowDropDown";
+
 
 import Row from "./Row";
 
@@ -27,6 +29,11 @@ const styles = () => ({
     waiting: {
         padding: 20,
         textAlign: 'center'
+    },
+    showMore: {
+        marginTop: 30,
+        display: 'flex',
+        justifyContent: 'center'
     }
 });
 
@@ -169,6 +176,8 @@ class MangaTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            page: 1,
+            allLoaded: false,
             fetchData: [],
             searchData: [],
             loading: true
@@ -183,8 +192,17 @@ class MangaTable extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
+        const {fetchData, searchData} = this.state;
+        const {newManga} = this.props;
+
+        if (newManga !== prevProps.newManga
+            && newManga !== null
+            && !fetchData.find(manga => manga.link === newManga.link)) {
+            fetchData.unshift(newManga);
+            this.setState({fetchData: fetchData})
+        }
+
         if (this.props.sortMethod !== prevProps.sortMethod) {
-            const {fetchData, searchData} = this.state;
             this.props.sortMethod(fetchData);
             this.props.sortMethod(searchData);
             this.setState({fetchData: fetchData, searchData: searchData});
@@ -217,9 +235,12 @@ class MangaTable extends React.Component {
         }
     }
 
-    fetchManga = async () => {
-        const following = this.props.following;
-        const url = '/api/manga?following=' + following;
+    fetchManga = async (page = 1) => {
+        const {following} = this.props;
+        let {fetchData} = this.state;
+
+        const url = `/api/manga?following=${following}&page=${page}`;
+
         const fetchOptions = {
             method: 'GET',
             credentials: "same-origin",
@@ -229,9 +250,15 @@ class MangaTable extends React.Component {
         const response = await fetch(url, fetchOptions);
 
         if (response.ok) {
-            const data = await response.json();
-            this.props.sortMethod(data);
-            this.setState({fetchData: data, loading: false});
+            const newData = await response.json();
+            fetchData = fetchData.concat(newData);
+            this.props.sortMethod(fetchData);
+            this.setState({
+                fetchData: fetchData,
+                loading: false,
+                page: page,
+                allLoaded: newData.length === 0
+            });
             return;
         }
 
@@ -311,9 +338,24 @@ class MangaTable extends React.Component {
         }
     };
 
+    loadMore = async () => {
+        const {page} = this.state;
+        await this.fetchManga(page + 1);
+    };
+
+    dataToRows = (data) => {
+        return data.map(d =>
+            <Row manga={d}
+                 key={d._id}
+                 onEditManga={this.onEditManga}
+                 onDeleteManga={this.onDeleteManga}
+            />
+        );
+    };
+
     render() {
         const {classes, dataSource} = this.props;
-        const {loading} = this.state;
+        const {loading, allLoaded} = this.state;
         const data = (dataSource === 'fetch')
             ? this.state.fetchData
             : this.state.searchData;
@@ -321,40 +363,46 @@ class MangaTable extends React.Component {
         let tableClass = classes.table;
 
         let rows;
-        if (loading)
-            rows =
+        if (loading) {
+            rows = this.dataToRows(data);
+            rows.push(
                 <TableRow>
                     <TableCell colSpan={6} className={classes.waiting}><CircularProgress/></TableCell>
-                </TableRow>;
-        else if (data.length === 0)
+                </TableRow>
+            );
+        } else if (data.length === 0)
             rows =
                 <TableRow>
                     <TableCell colSpan={6}><Typography>Nothing to show</Typography></TableCell>
                 </TableRow>;
         else
-            rows = data.map(d =>
-                <Row manga={d}
-                     key={d._id}
-                     onEditManga={this.onEditManga}
-                     onDeleteManga={this.onDeleteManga}
-                />
-            );
+            rows = this.dataToRows(data);
 
         return (
-            <Table className={tableClass}>
-                <TableHead>
-                    <TableRow className={classes.tableHeader}>
-                        <TableCell className={classes.tableHeaderCell}> Status </TableCell>
-                        <TableCell className={classes.tableHeaderCell} colSpan={2}> Name </TableCell>
-                        <TableCell className={classes.tableHeaderCell}> Chapters </TableCell>
-                        <TableCell className={classes.tableHeaderCell}> Action </TableCell>
-                        <TableCell className={classes.tableHeaderCell}> Note </TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows}
-                </TableBody>
-            </Table>
+            <div>
+                <Table className={tableClass}>
+                    <TableHead>
+                        <TableRow className={classes.tableHeader}>
+                            <TableCell className={classes.tableHeaderCell}> Status </TableCell>
+                            <TableCell className={classes.tableHeaderCell} colSpan={2}> Name </TableCell>
+                            <TableCell className={classes.tableHeaderCell}> Chapters </TableCell>
+                            <TableCell className={classes.tableHeaderCell}> Action </TableCell>
+                            <TableCell className={classes.tableHeaderCell}> Note </TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {rows}
+                    </TableBody>
+                </Table>
+
+                {(loading || allLoaded) ? '' :
+                    <div className={classes.showMore}>
+                        <Fab onClick={this.loadMore} size={"small"} color={"secondary"}>
+                            <ArrowDropDown/>
+                        </Fab>
+                    </div>
+                }
+            </div>
         );
     }
 

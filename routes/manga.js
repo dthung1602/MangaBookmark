@@ -2,17 +2,26 @@ const express = require('express');
 const router = express.Router();
 const {check} = require('express-validator/check');
 
-const {getParser, createManga, updateMangas, updaC} = require('../crawl/runner');
+const {getParser, createManga, updateMangas} = require('../crawl/runner');
 const {Manga, connectToDB} = require('../models');
 const {checkMangaPermission, handlerWrapper, extractAttributes} = require('./utils');
 
 const validFollowing = ['toread', 'following', 'waiting', 'dropped', 'finished'];
+const {PAGE_SIZE} = require('../config');
 
 router.get('/',
     check('following').exists().isIn(validFollowing),
+    check('page').exists().isInt({min: 1}),
 
     handlerWrapper(async (req, res) => {
-        const mangas = await Manga.find({user: req.user.id, following: req.query.following});
+        const mangas = await Manga
+            .find({
+                user: req.user.id,
+                following: req.query.following
+            })
+            .sort('name')
+            .skip((req.query.page - 1) * PAGE_SIZE)
+            .limit(PAGE_SIZE);
         res.json(mangas);
     })
 );
@@ -72,8 +81,8 @@ router.post('/add',
         const readChapters = chapters.filter(ch => ch.isRead).map(ch => ch.link);
 
         try {
-            await createManga(link, userID, isCompleted, following, readChapters, note);
-            res.json({})
+            const manga = await createManga(link, userID, isCompleted, following, readChapters, note);
+            res.json(manga)
         } catch (e) {
             res.status(400).json({link: 'Cannot parse manga'});
         }
