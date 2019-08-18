@@ -23,12 +23,23 @@ const styles = () => ({
             color: '#fff'
         }
     },
+    actionBtnDisabled: {
+        padding: 2,
+        margin: '3px 8px 0px 8px',
+        borderRadius: 3,
+        display: 'inline-block',
+        color: '#919191',
+        '&:hover': {
+            cursor: 'progress',
+            color: '#919191'
+        }
+    },
 });
 
 class MangaActions extends React.Component {
 
     render() {
-        const {classes, manga} = this.props;
+        const {classes, manga, updatingManga} = this.props;
 
         let markMangaCompletedBtn = '';
         if (!manga.isCompleted)
@@ -40,10 +51,12 @@ class MangaActions extends React.Component {
                     <DoneIcon/>
                 </div>;
 
+        const updateBtnClass = updatingManga ? classes.actionBtnDisabled: classes.actionBtn;
+        const updateManga = updatingManga ? () => null : this.props.updateManga;
         const updateMangaBtn =
-            <div className={classes.actionBtn}
+            <div className={updateBtnClass}
                  title="Update manga"
-                 onClick={this.props.updateManga}
+                 onClick={updateManga}
             >
                 <UpdateIcon/>
             </div>;

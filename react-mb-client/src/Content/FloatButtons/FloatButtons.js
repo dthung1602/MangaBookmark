@@ -23,22 +23,26 @@ const styles = () => ({
 class FloatButtons extends React.Component {
 
     render() {
-        const {classes} = this.props;
+        const {classes, following, onAddManga, updatingMangas} = this.props;
+        const onUpdateManga = (updatingMangas) ? () => {
+        } : this.props.onUpdateManga;
+        const updateBtnColor = (updatingMangas) ? "default" : "secondary";
+
         return (
             <div className={classes.floatButtonGroup}>
                 <Tooltip title="Top of page" placement="left">
-                    <Fab onClick={scrollToTop} size={"small"} color={"secondary"}>
+                    <Fab onClick={scrollToTop} size="small" color="secondary">
                         <ArrowUpwardIcon/>
                     </Fab>
                 </Tooltip>
-                <Tooltip title='Update mangas' placement="left">
-                    <Fab onClick={this.props.onUpdateManga} size={"small"} color={"secondary"}>
+                <Tooltip title={`Update "${following}" mangas`} placement="left">
+                    <Fab onClick={onUpdateManga} size="small" color={updateBtnColor}>
                         <UpdateIcon/>
                     </Fab>
                 </Tooltip>
                 <Tooltip title="Add manga" placement="left">
-                    <Fab size={"small"} color={"secondary"}>
-                        <AddDialog onAddManga={this.props.onAddManga}/>
+                    <Fab size="small" color="secondary">
+                        <AddDialog onAddManga={onAddManga}/>
                     </Fab>
                 </Tooltip>
             </div>

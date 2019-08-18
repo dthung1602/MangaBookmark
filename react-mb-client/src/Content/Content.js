@@ -28,6 +28,7 @@ class Content extends React.Component {
             dataSource: 'fetch', // fetch or search
             following: 'following',
             searchTerm: '',
+            updatingMangas: false,
             newManga: null,
             mangaTableKey: new Date()
         };
@@ -82,6 +83,8 @@ class Content extends React.Component {
     };
 
     onUpdateManga = async () => {
+        this.setState({updatingMangas: true});
+
         const {following} = this.state;
 
         const url = '/api/manga/update-multiple';
@@ -95,6 +98,7 @@ class Content extends React.Component {
         const response = await fetch(url, fetchOptions);
 
         if (!response.ok) {
+            this.setState({updatingMangas: false});
             alert('ERROR ' + await response.text());
             return
         }
@@ -105,6 +109,7 @@ class Content extends React.Component {
         alert(text);
 
         this.setState({
+            updatingMangas: false,
             dataSource: 'fetch',
             following: following,
             mangaTableKey: new Date() // force re-generate
@@ -113,7 +118,7 @@ class Content extends React.Component {
 
     render() {
         const {classes, isAuthorized} = this.props;
-        const {following, sortby, dataSource, searchTerm, mangaTableKey, newManga} = this.state;
+        const {following, sortby, dataSource, searchTerm, mangaTableKey, newManga, updatingMangas} = this.state;
 
         const sortMethod = {
             'status': sortByStatus,
@@ -145,6 +150,8 @@ class Content extends React.Component {
                 <FloatButtons
                     onAddManga={this.onAddManga}
                     onUpdateManga={this.onUpdateManga}
+                    updatingMangas={updatingMangas}
+                    following={following}
                 />
             </div>
         );

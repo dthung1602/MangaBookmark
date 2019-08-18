@@ -42,6 +42,7 @@ class Row extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            updatingManga: false,
             manga: props.manga,
             note: null
         }
@@ -158,7 +159,9 @@ class Row extends React.Component {
         }
     };
 
-    updateManga = async (event) => {
+    updateManga = async () => {
+        this.setState({updatingManga: true});
+
         let {manga} = this.state;
 
         const url = `/api/manga/update`;
@@ -171,17 +174,21 @@ class Row extends React.Component {
 
         const response = await fetch(url, fetchOptions);
         if (!response.ok) {
+            this.setState({updatingManga: false});
             alert('ERROR ' + await response.text());
             return
         }
 
-        this.setState({manga: await response.json()});
+        this.setState({
+            manga: await response.json(),
+            updatingManga: false
+        });
         alert(`Manga "${manga.name}" updated successfully!`);
     };
 
     render() {
         const {classes} = this.props;
-        const {manga} = this.state;
+        const {manga, updatingManga} = this.state;
         const chapters = manga.chapters;
 
         const status = utils.getMangaStatus(manga);
@@ -226,6 +233,7 @@ class Row extends React.Component {
 
                 <TableCell>
                     <MangaActions
+                        updatingManga={updatingManga}
                         manga={manga}
                         onChangeCompleted={this.onChangeCompleted}
                         onChangeFollowing={this.onChangeFollowing}
