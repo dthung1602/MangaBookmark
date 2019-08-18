@@ -1,7 +1,17 @@
 import React from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
 
-import {CircularProgress, Fab, Table, TableBody, TableCell, TableHead, TableRow, Typography} from "@material-ui/core";
+import {
+    CircularProgress,
+    Fab,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow,
+    Typography,
+    Tooltip
+} from "@material-ui/core";
 
 import ArrowDropDown from "@material-ui/core/es/internal/svg-icons/ArrowDropDown";
 
@@ -397,9 +407,11 @@ class MangaTable extends React.Component {
 
                 {(loading || allLoaded) ? '' :
                     <div className={classes.showMore}>
-                        <Fab onClick={this.loadMore} size={"small"} color={"secondary"}>
-                            <ArrowDropDown/>
-                        </Fab>
+                        <Tooltip title="Show more" placement="bottom">
+                            <Fab onClick={this.loadMore} size={"small"} color={"secondary"}>
+                                <ArrowDropDown/>
+                            </Fab>
+                        </Tooltip>
                     </div>
                 }
             </div>
