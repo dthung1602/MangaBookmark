@@ -5,7 +5,7 @@ const URLRegex = /^https?:\/\/saytruyen\.com\/truyen\/.+$/;
 async function parseChapters(dataSource) {
     const $ = await normalizeDataSource(dataSource);
 
-    const rows = $('.wp-manga-chapter a');
+    const rows = $('.wp-manga-chapter > a');
 
     const chapters = [];
     for (let i = 0; i < rows.length; i++) {
@@ -22,9 +22,9 @@ async function parseManga(dataSource) {
     const $ = await normalizeDataSource(dataSource);
 
     return {
-        name: $('.post-title h3')[0].children[2].data.strip(),
+        name: $('.breadcrumb li:last-child a').text().trim(),
         link: $('meta[property="og:url"]').attr('content'),
-        image: $('.summary_image img').attr('data-src'),
+        image: $('.summary_image img').attr('src'),
         isCompleted: false, // not available
         chapters: await parseChapters($)
     };
