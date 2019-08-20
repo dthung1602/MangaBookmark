@@ -9,8 +9,8 @@ import {
     TableCell,
     TableHead,
     TableRow,
-    Typography,
-    Tooltip
+    Tooltip,
+    Typography
 } from "@material-ui/core";
 
 import ArrowDropDown from "@material-ui/core/es/internal/svg-icons/ArrowDropDown";
@@ -236,6 +236,13 @@ class MangaTable extends React.Component {
                 this.searchManga().catch(alert);
             }
 
+            if (this.props.showHidden !== prevProps.showHidden) {
+                if (dataSource === 'fetch')
+                    this.fetchManga().catch(alert);
+                else
+                    this.searchManga().catch(alert);
+            }
+
             if (this.props.isAuthorized !== prevProps.isAuthorized) {
                 if (dataSource === 'fetch')
                     this.fetchManga().catch(alert);
@@ -246,10 +253,10 @@ class MangaTable extends React.Component {
     }
 
     fetchManga = async (page = 1) => {
-        const {following} = this.props;
+        const {following, showHidden} = this.props;
         let {fetchData} = this.state;
 
-        const url = `/api/manga?following=${following}&page=${page}`;
+        const url = `/api/manga?following=${following}&showHidden=${showHidden}&page=${page}`;
 
         const fetchOptions = {
             method: 'GET',
@@ -276,11 +283,12 @@ class MangaTable extends React.Component {
     };
 
     searchManga = async () => {
+        const {showHidden} = this.props;
         const searchTerm = encodeURIComponent(this.props.searchTerm.trim());
         if (searchTerm === '')
             return;
 
-        const url = '/api/manga/search?term=' + searchTerm;
+        const url = `/api/manga/search?term=${searchTerm}&showHidden=${showHidden}`;
         const fetchOptions = {
             method: 'GET',
             credentials: "same-origin",
@@ -290,7 +298,9 @@ class MangaTable extends React.Component {
         const response = await fetch(url, fetchOptions);
 
         if (response.ok) {
-            const data = await response.json();
+            let data = await response.json();
+            if (!this.props.showHidden)
+                data = data.filter(manga => !manga.hidden);
             this.props.sortMethod(data);
             this.setState({searchData: data, loading: false});
             return;
@@ -357,6 +367,7 @@ class MangaTable extends React.Component {
         return data.map(d =>
             <Row manga={d}
                  key={d._id}
+                 showHidden={this.props.showHidden}
                  onEditManga={this.onEditManga}
                  onDeleteManga={this.onDeleteManga}
             />

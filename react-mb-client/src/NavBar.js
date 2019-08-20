@@ -6,6 +6,7 @@ import Badge from "@material-ui/core/Badge";
 
 import LOGO from './static/logo.png'
 
+const VERSION = 'v1.6';
 
 const styles = () => ({
     logo: {
@@ -58,7 +59,7 @@ class NavBar extends React.Component {
                             src={LOGO} alt="MangaBookmark"
                             onClick={redirectToIndex}
                         />
-                        <Badge badgeContent={<span>v1.5</span>}>
+                        <Badge badgeContent={<span>{VERSION}</span>}>
                             &nbsp;&nbsp;&nbsp;&nbsp;
                         </Badge>
                         <span className={classes.grow}/>

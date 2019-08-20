@@ -31,7 +31,7 @@ class FloatButtons extends React.Component {
         return (
             <div className={classes.floatButtonGroup}>
                 <Tooltip title="Top of page" placement="left">
-                    <Fab onClick={scrollToTop} size="small" color="secondary">
+                    <Fab onClick={scrollToTop} size="small" color="secondary" onDoubleClick={this.props.changeHidden}>
                         <ArrowUpwardIcon/>
                     </Fab>
                 </Tooltip>

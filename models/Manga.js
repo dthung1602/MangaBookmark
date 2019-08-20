@@ -57,9 +57,14 @@ const mangaSchema = new mongoose.Schema(
             enum: ['toread', 'following', 'waiting', 'dropped', 'finished'],
             default: 'following'
         },
+
         note: {
             type: String,
             default: ''
+        },
+        hidden: {
+            type: Boolean,
+            default: false
         }
     },
     {

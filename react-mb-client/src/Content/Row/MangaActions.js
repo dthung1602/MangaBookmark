@@ -4,6 +4,8 @@ import {withStyles} from "@material-ui/styles";
 import DeleteIcon from "@material-ui/icons/DeleteForever"
 import DoneIcon from "@material-ui/icons/Done"
 import UpdateIcon from "@material-ui/icons/Refresh"
+import ShowIcon from "@material-ui/icons/Visibility"
+import HideIcon from "@material-ui/icons/VisibilityOff"
 
 const styles = () => ({
     noWrap: {
@@ -39,7 +41,7 @@ const styles = () => ({
 class MangaActions extends React.Component {
 
     render() {
-        const {classes, manga, updatingManga} = this.props;
+        const {classes, manga, updatingManga, showHidden} = this.props;
 
         let markMangaCompletedBtn = '';
         if (!manga.isCompleted)
@@ -51,7 +53,15 @@ class MangaActions extends React.Component {
                     <DoneIcon/>
                 </div>;
 
-        const updateBtnClass = updatingManga ? classes.actionBtnDisabled: classes.actionBtn;
+        const mangaVisibilityBtn = !showHidden ? '' :
+            <div className={classes.actionBtn}
+                 title={manga.hidden ? 'Show manga' : 'Hide manga'}
+                 onClick={this.props.onChangeVisibility}
+            >
+                {manga.hidden ? <HideIcon/> : <ShowIcon/>}
+            </div>;
+
+        const updateBtnClass = updatingManga ? classes.actionBtnDisabled : classes.actionBtn;
         const updateManga = updatingManga ? () => null : this.props.updateManga;
         const updateMangaBtn =
             <div className={updateBtnClass}
@@ -84,6 +94,7 @@ class MangaActions extends React.Component {
 
                 <div>
                     {markMangaCompletedBtn}
+                    {mangaVisibilityBtn}
                     {updateMangaBtn}
                     {deleteMangaBtn}
                 </div>

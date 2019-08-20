@@ -162,6 +162,19 @@ class Row extends React.Component {
         }
     };
 
+    onChangeVisibility = async () => {
+        const {manga} = this.state;
+        const hidden = !manga.hidden;
+
+        try {
+            await this.props.onEditManga(manga._id, {hidden: hidden});
+            manga.hidden = hidden;
+            this.setState({manga: manga});
+        } catch (e) {
+            alert('ERROR: ' + e);
+        }
+    };
+
     updateManga = async () => {
         this.setState({updatingManga: true});
 
@@ -190,7 +203,7 @@ class Row extends React.Component {
     };
 
     render() {
-        const {classes} = this.props;
+        const {classes, showHidden} = this.props;
         const {manga, updatingManga} = this.state;
         const chapters = manga.chapters;
 
@@ -238,8 +251,10 @@ class Row extends React.Component {
                     <MangaActions
                         updatingManga={updatingManga}
                         manga={manga}
+                        showHidden={showHidden}
                         onChangeCompleted={this.onChangeCompleted}
                         onChangeFollowing={this.onChangeFollowing}
+                        onChangeVisibility={this.onChangeVisibility}
                         updateManga={this.updateManga}
                         deleteManga={this.deleteManga}
                     />

@@ -12,13 +12,18 @@ const {PAGE_SIZE} = require('../config');
 router.get('/',
     check('following').exists().isIn(validFollowing),
     check('page').exists().isInt({min: 1}),
+    check('showHidden').exists().isBoolean(),
 
     handlerWrapper(async (req, res) => {
+        const filters = {
+            user: req.user.id,
+            following: req.query.following
+        };
+        if (req.query.showHidden === 'false')
+            filters.hidden = false;
+
         const mangas = await Manga
-            .find({
-                user: req.user.id,
-                following: req.query.following
-            })
+            .find(filters)
             .sort('-statusCode')
             .skip((req.query.page - 1) * PAGE_SIZE)
             .limit(PAGE_SIZE);
@@ -48,12 +53,16 @@ router.get('/info',
 
 router.get('/search',
     check('term').exists().trim(),
+    check('showHidden').exists().isBoolean(),
 
     handlerWrapper(async (req, res) => {
-        const mangas = await Manga.find({
+        const filters = {
             user: req.user.id,
             $text: {$search: req.query.term}
-        });
+        };
+        if (req.query.showHidden === 'false')
+            filters.hidden = false;
+        const mangas = await Manga.find(filters);
         res.json(mangas);
     })
 );
@@ -93,11 +102,12 @@ router.post('/edit',
     check('following').optional().isIn(validFollowing),
     check('note').optional().trim(),
     check('isCompeted').optional().isBoolean(),
+    check('hidden').optional().isBoolean(),
     checkMangaPermission,
 
     handlerWrapper(async (req, res) => {
         const manga = await Manga.findById(req.manga.id);
-        ['following', 'note', 'isCompleted'].forEach((f) => {
+        ['following', 'note', 'isCompleted', 'hidden'].forEach((f) => {
             if (req.body.hasOwnProperty(f))
                 manga[f] = req.body[f];
         });
@@ -130,9 +140,16 @@ router.post('/update',
 
 router.post('/update-multiple',
     check('following').exists().isIn(validFollowing),
+    check('showHidden').exists().isBoolean(),
 
     handlerWrapper(async (req, res) => {
-        const mangas = await Manga.find({user: req.user.id, following: req.body.following});
+        const filters = {
+            user: req.user.id,
+            following: req.body.following
+        };
+        if (req.body.showHidden === false)
+            filters.hidden = false;
+        const mangas = await Manga.find(filters);
         const result = await updateMangas(mangas);
         res.json({
             total: mangas.length,

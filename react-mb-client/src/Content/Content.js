@@ -30,7 +30,8 @@ class Content extends React.Component {
             searchTerm: '',
             updatingMangas: false,
             newManga: null,
-            mangaTableKey: new Date()
+            mangaTableKey: new Date(),
+            showHidden: false
         };
     }
 
@@ -86,14 +87,14 @@ class Content extends React.Component {
     onUpdateManga = async () => {
         this.setState({updatingMangas: true});
 
-        const {following} = this.state;
+        const {following, showHidden} = this.state;
 
         const url = '/api/manga/update-multiple';
         const fetchOptions = {
             method: 'POST',
             credentials: "same-origin",
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({following: following})
+            body: JSON.stringify({following: following, showHidden: showHidden})
         };
 
         const response = await fetch(url, fetchOptions);
@@ -117,9 +118,15 @@ class Content extends React.Component {
         });
     };
 
+    changeHidden = () => {
+        const showHidden = !this.state.showHidden;
+        this.setState({showHidden: showHidden});
+    };
+
     render() {
         const {classes, isAuthorized} = this.props;
-        const {following, sortby, dataSource, searchTerm, mangaTableKey, newManga, updatingMangas} = this.state;
+        const {following, sortby, dataSource, searchTerm,
+            mangaTableKey, newManga, updatingMangas, showHidden} = this.state;
 
         const sortMethod = {
             'status': sortByStatus,
@@ -147,10 +154,12 @@ class Content extends React.Component {
                     searchTerm={searchTerm}
                     dataSource={dataSource}
                     isAuthorized={isAuthorized}
+                    showHidden={showHidden}
                 />
                 <FloatButtons
                     onAddManga={this.onAddManga}
                     onUpdateManga={this.onUpdateManga}
+                    changeHidden={this.changeHidden}
                     updatingMangas={updatingMangas}
                     following={following}
                 />
