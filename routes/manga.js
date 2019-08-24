@@ -45,7 +45,7 @@ router.get('/info',
             const manga = await req.parser.parseManga(req.query.link);
             res.json(manga);
         } catch (e) {
-            res.status(400).json({link: 'Cannot parse manga'});
+            res.status(400).json({link: 'Cannot parse manga: ' + e});
         }
     })
 );

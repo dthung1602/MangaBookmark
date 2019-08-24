@@ -6,7 +6,7 @@ async function loadData(url) {
     const mangaID = url.slice(28);
     const requestOptions = {
         method: 'POST',
-        uri: 'https://api.mangarockhd.com/query/web401/manga_detail',
+        uri: 'https://api.mangarockhd.com/query/web401/manga_detail?country=Vietnam',
         body: {
             "oids": {[mangaID]: 0},
             "sections": ["basic_info", "summary", "sub_genres", "author", "chapters", "feature_collections"]
@@ -14,6 +14,8 @@ async function loadData(url) {
         json: true
     };
     const result = await rq(requestOptions);
+    if (result.code !== 0)
+        throw Error(result.data);
     return {
         mangaID: mangaID,
         data: result.data[mangaID]
