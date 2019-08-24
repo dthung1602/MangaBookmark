@@ -168,6 +168,13 @@ class AddDialog extends React.Component {
         }
     };
 
+    onMarkUpTo = (upTo) => {
+        const {manga} = this.state;
+        manga.chapters
+            .forEach((ch, i) => ch.isRead = (i >= upTo));
+        this.setState({manga: manga})
+    };
+
     render() {
         const {manga, mangaStatus, open, link} = this.state;
 
@@ -205,6 +212,7 @@ class AddDialog extends React.Component {
                             onChangeNote={this.onChangeNote}
                             onCompletedChange={this.onCompletedChange}
                             onMarkAllChaptersRead={this.onMarkAllChaptersRead}
+                            onMarkUpTo={this.onMarkUpTo}
                         />
                     </DialogContent>
                     {addButton}

@@ -78,6 +78,7 @@ class MangaPreviewInfo extends React.Component {
                                 onChangeChapter={this.props.onChangeChapter}
                                 onMarkAllChaptersRead={this.props.onMarkAllChaptersRead}
                                 showNextChapBtn={false}
+                                onMarkUpTo={this.props.onMarkUpTo}
                                 markAllRead='before'
                             />
                         </div>
