@@ -15,5 +15,6 @@ async function connectToDB() {
 module.exports = {
     connectToDB: connectToDB,
     Manga: require('./Manga'),
-    User: require('./User')
+    User: require('./User'),
+    Subscription: require('./PushServiceSubscription')
 };

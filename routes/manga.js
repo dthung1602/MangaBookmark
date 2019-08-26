@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {check} = require('express-validator/check');
+const {check} = require('express-validator');
 
 const {getParser, createManga, updateMangas} = require('../crawl/runner');
 const {Manga, connectToDB} = require('../models');

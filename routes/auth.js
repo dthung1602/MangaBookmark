@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const {check} = require('express-validator/check');
+const {check} = require('express-validator');
 
 const {User, connectToDB} = require("../models");
 const {redirectHome, handlerWrapper} = require('./utils');

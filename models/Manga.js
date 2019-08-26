@@ -73,14 +73,13 @@ const mangaSchema = new mongoose.Schema(
             transform: function (doc, ret) {
                 delete ret.statusCode;
                 ret.status = doc.status;
-                console.log(ret.status)
             }
         }
     }
 );
 
 mangaSchema.index({name: 'text'});
-mangaSchema.index({user: 1, following: 1});
+mangaSchema.index({user: 1, following: 1, hidden: 1});
 mangaSchema.index({user: 1, link: 1}, {unique: true});
 
 mangaSchema.pre('save', function (next) {

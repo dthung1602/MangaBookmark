@@ -1,5 +1,5 @@
 const {connectToDB, Manga} = require('../models');
-const {validationResult, check} = require('express-validator/check');
+const {validationResult, check} = require('express-validator');
 
 const checkMangaPermission = check('manga', 'Invalid manga ID').exists()
     .custom(async (mangaID, {req}) => {

@@ -10,6 +10,7 @@ const authRouter = require('./routes/auth');
 const mangaRouter = require('./routes/manga');
 const chapterRouter = require('./routes/chapter');
 const userRouter = require('./routes/user');
+const notificationRouter = require('./routes/notification');
 const authCheck = require('./auth');
 const app = express();
 
@@ -48,6 +49,7 @@ app.use('/auth', authRouter);
 app.use('/api/manga', authCheck, mangaRouter);
 app.use('/api/chapter', authCheck, chapterRouter);
 app.use('/api/user', authCheck, userRouter);
+app.use('/api/notification', authCheck, notificationRouter);
 
 // Any request that doesn't match one above, send back React's index.html file/
 app.get('*', (req, res) => {

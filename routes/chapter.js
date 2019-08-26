@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {checkMangaPermission, handlerWrapper} = require('./utils');
-const {check} = require('express-validator/check');
+const {check} = require('express-validator');
 
 router.post('/:action',
     check('action').exists().isIn(['read', 'unread']),

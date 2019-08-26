@@ -67,9 +67,24 @@ async function updateChapters(manga) {
             crawledChapters[pos] = manga.chapters[i];
     }
 
-    manga.chapters = crawledChapters;
-    manga.markModified('chapters');
-    return manga.save()
+    let newChapCount = 0;
+    let unreadChapCount = 0;
+    crawledChapters.forEach(chap => {
+        if (!chap._id)
+            newChapCount += 1;
+        if (!chap.isRead)
+            unreadChapCount += 1;
+    });
+
+    if (newChapCount > 0) {
+        manga.chapters = crawledChapters;
+        manga.markModified('chapters');
+        await manga.save();
+    }
+
+    manga.newChapCount = newChapCount;
+    manga.unreadChapCount = unreadChapCount;
+    return manga;
 }
 
 async function updateMangas(mangas, verbose = false) {
