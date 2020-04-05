@@ -1,52 +1,51 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
-const config = require('../config');
+const config = require("../config");
 
 function setPassword(newPassword) {
-    return bcrypt.hashSync(newPassword, config.LOCAL_AUTH_SALT_ROUND);
+  return bcrypt.hashSync(newPassword, config.LOCAL_AUTH_SALT_ROUND);
 }
 
 let userSchema = new mongoose.Schema({
-    username: String,
-    password: {
-        type: String,
-        set: setPassword,
-    },
+  username: String,
+  password: {
+    type: String,
+    set: setPassword,
+  },
 
-    googleId: String,
-    googlePic: String,
-    googleName: String,
+  googleId: String,
+  googlePic: String,
+  googleName: String,
 
-    facebookId: String,
-    facebookPic: String,
-    facebookName: String,
+  facebookId: String,
+  facebookPic: String,
+  facebookName: String,
 
-    email: String,
-    primaryAccount: {
-        type: String,
-        enum: ['local', 'google', 'facebook'],
-        required: true
-    }
+  email: String,
+  primaryAccount: {
+    type: String,
+    enum: ["local", "google", "facebook"],
+    required: true,
+  },
 });
 
 userSchema.methods.validPassword = function (password) {
-    if (!this.password)
-        return false;
-    return bcrypt.compareSync(password, this.password)
+  if (!this.password) return false;
+  return bcrypt.compareSync(password, this.password);
 };
 
 userSchema.methods.resetPassword = () => {
-    const newPassword = bcrypt.genSaltSync(config.LOCAL_AUTH_PASS_ROUND);
-    this.password = newPassword;
-    return newPassword;
+  const newPassword = bcrypt.genSaltSync(config.LOCAL_AUTH_PASS_ROUND);
+  this.password = newPassword;
+  return newPassword;
 };
 
-userSchema.index({username: 1}, {unique: true, sparse: true});
-userSchema.index({googleId: 1}, {unique: true, sparse: true});
-userSchema.index({facebookId: 1}, {unique: true, sparse: true});
-userSchema.index({email: 1}, {unique: true, sparse: true});
+userSchema.index({ username: 1 }, { unique: true, sparse: true });
+userSchema.index({ googleId: 1 }, { unique: true, sparse: true });
+userSchema.index({ facebookId: 1 }, { unique: true, sparse: true });
+userSchema.index({ email: 1 }, { unique: true, sparse: true });
 
-let User = mongoose.model('User', userSchema);
+let User = mongoose.model("User", userSchema);
 
 module.exports = User;
