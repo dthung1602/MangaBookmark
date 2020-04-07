@@ -15,11 +15,18 @@ router.get("/logout", (req, res) => {
 // auth with username and password
 router.get("/local", (req, res, next) => {
   passport.authenticate("local", function (err, user, info) {
-    if (err) return res.status(500).json({ error: err });
-    if (!user) return res.status(400).json(info);
+    if (err) {
+      return res.status(500).json({ error: err });
+    }
+    if (!user) {
+      return res.status(400).json(info);
+    }
     req.login(user, (err) => {
-      if (err) next(err);
-      else next();
+      if (err) {
+        next(err);
+      } else {
+        next();
+      }
     });
   })(req, res, next);
 });
@@ -31,8 +38,9 @@ router.get(
     .exists()
     .custom(async (username) => {
       connectToDB();
-      if (await User.findOne({ username: username }))
+      if (await User.findOne({ username: username })) {
         throw new Error("Username taken");
+      }
     }),
   check("password").exists().isLength({ min: 8 }),
   check("email")
@@ -40,10 +48,9 @@ router.get(
     .isEmail()
     .custom(async (email) => {
       connectToDB();
-      if (await User.findOne({ email: email }))
-        throw new Error(
-          "This email has already been registered for an account",
-        );
+      if (await User.findOne({ email: email })) {
+        throw new Error("This email has already been registered for an account");
+      }
     }),
 
   handlerWrapper(async (req, res, next) => {
@@ -51,18 +58,18 @@ router.get(
     user.primaryAccount = "local";
     await user.save();
     req.login(user, (err) => {
-      if (err) next(err);
-      else next();
+      if (err) {
+        next(err);
+      } else {
+        next();
+      }
     });
   }),
   redirectHome,
 );
 
 // auth with google
-router.get(
-  "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] }),
-);
+router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 // callback route for google to redirect to
 router.get("/google/callback", passport.authenticate("google"), redirectHome);
@@ -71,11 +78,7 @@ router.get("/google/callback", passport.authenticate("google"), redirectHome);
 router.get("/facebook", passport.authenticate("facebook"));
 
 // callback route for facebook to redirect to
-router.get(
-  "/facebook/callback",
-  passport.authenticate("facebook"),
-  redirectHome,
-);
+router.get("/facebook/callback", passport.authenticate("facebook"), redirectHome);
 
 // unlink account
 router.get(
@@ -85,15 +88,18 @@ router.get(
     .exists()
     .isIn(["local", "facebook", "google"])
     .custom(async (value, { req }) => {
-      if (value === req.params.provider)
+      if (value === req.params.provider) {
         throw new Error("Primary account must be changed after unlink");
+      }
 
       connectToDB();
       const user = await User.findById(req.user.id);
-      if (value === "google" && !user.googleId)
+      if (value === "google" && !user.googleId) {
         throw new Error("There's no linked Google account");
-      if (value === "facebook" && !user.facebookId)
+      }
+      if (value === "facebook" && !user.facebookId) {
         throw new Error("There's no linked Facebook account");
+      }
       req.user = user;
     }),
 

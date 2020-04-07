@@ -14,26 +14,17 @@ router.get(
 
 router.post(
   "/subscribe",
-  check("os")
-    .exists()
-    .isIn(["Windows", "MacOS", "Linux", "Android", "iOS", "Unknown"]),
-  check("browser")
-    .exists()
-    .isIn([
-      "Opera",
-      "Internet Explorer",
-      "Chrome",
-      "Safari",
-      "Firefox",
-      "Unknown",
-    ]),
+  check("os").exists().isIn(["Windows", "MacOS", "Linux", "Android", "iOS", "Unknown"]),
+  check("browser").exists().isIn(["Opera", "Internet Explorer", "Chrome", "Safari", "Firefox", "Unknown"]),
   check("endpoint")
     .exists()
     .isURL()
     .custom(async (endpoint) => {
       connectToDB();
       const count = await Subscription.count({ endpoint: endpoint });
-      if (count > 0) throw new Error("Subscription has already been added");
+      if (count > 0) {
+        throw new Error("Subscription has already been added");
+      }
     }),
   check("auth").exists(),
   check("p256dh").exists(),
@@ -61,8 +52,9 @@ router.post(
     .custom(async (pushServiceId, { req }) => {
       connectToDB();
       const ps = await Subscription.findById(pushServiceId);
-      if (ps === null || ps.user.toString() !== req.user.id)
+      if (ps === null || ps.user.toString() !== req.user.id) {
         throw new Error("Cannot find push service");
+      }
       req.pushService = ps;
     }),
 

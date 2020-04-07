@@ -1,11 +1,11 @@
 const normalizeDataSource = require("./utils").normalizeDataSource;
 
-const URLRegex = /^https?:\/\/mangabat\.com\/manga\/.+$/;
+const URLRegex = /^https?:\/\/mangabat\.com\/manga-serie-.+$/;
 
 async function parseChapters(dataSource) {
   const $ = await normalizeDataSource(dataSource);
 
-  const rows = $("#list_chapter a");
+  const rows = $(".chapter-name");
 
   const chapters = [];
   for (let i = 0; i < rows.length; i++) {
@@ -24,8 +24,8 @@ async function parseManga(dataSource) {
   return {
     name: $("h1").text(),
     link: $('meta[property="og:url"]').attr("content"),
-    image: $(".info_image_manga")[0].attribs.src,
-    isCompleted: $(".truyen_info_right").text().includes("Completed"),
+    image: $(".info-image img").attr("src"),
+    isCompleted: $(".story-info-right").text().includes("Completed"),
     chapters: await parseChapters($),
   };
 }

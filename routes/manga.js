@@ -6,13 +6,7 @@ const { getParser, createManga, updateMangas } = require("../crawl/runner");
 const { Manga, connectToDB } = require("../models");
 const { checkMangaPermission, handlerWrapper } = require("./utils");
 
-const validFollowing = [
-  "toread",
-  "following",
-  "waiting",
-  "dropped",
-  "finished",
-];
+const validFollowing = ["toread", "following", "waiting", "dropped", "finished"];
 const { PAGE_SIZE } = require("../config");
 
 router.get(
@@ -26,7 +20,9 @@ router.get(
       user: req.user.id,
       following: req.query.following,
     };
-    if (req.query.showHidden === "false") filters.hidden = false;
+    if (req.query.showHidden === "false") {
+      filters.hidden = false;
+    }
 
     const mangas = await Manga.find(filters)
       .sort("-statusCode")
@@ -42,7 +38,9 @@ router.get(
     .exists()
     .custom(async (link, { req }) => {
       const parser = getParser(link);
-      if (!parser) throw new Error("Unsupported manga source");
+      if (!parser) {
+        throw new Error("Unsupported manga source");
+      }
       req.parser = parser;
     }),
 
@@ -66,7 +64,9 @@ router.get(
       user: req.user.id,
       $text: { $search: req.query.term },
     };
-    if (req.query.showHidden === "false") filters.hidden = false;
+    if (req.query.showHidden === "false") {
+      filters.hidden = false;
+    }
     const mangas = await Manga.find(filters);
     res.json(mangas);
   }),
@@ -77,10 +77,14 @@ router.post(
   check("link")
     .exists()
     .custom(async (link, { req }) => {
-      if (!getParser(link)) throw new Error("Unsupported manga source");
+      if (!getParser(link)) {
+        throw new Error("Unsupported manga source");
+      }
       await connectToDB();
       const manga = await Manga.findOne({ user: req.user.id, link: link });
-      if (manga) throw new Error("Duplicate manga");
+      if (manga) {
+        throw new Error("Duplicate manga");
+      }
     }),
   check("chapters").exists().isArray(),
   check("note").optional().trim(),
@@ -91,19 +95,10 @@ router.post(
     const userID = req.user.id;
     const { link, chapters, note, following, isCompleted } = req.body;
 
-    const readChapters = chapters
-      .filter((ch) => ch.isRead)
-      .map((ch) => ch.link);
+    const readChapters = chapters.filter((ch) => ch.isRead).map((ch) => ch.link);
 
     try {
-      const manga = await createManga(
-        link,
-        userID,
-        isCompleted,
-        following,
-        readChapters,
-        note,
-      );
+      const manga = await createManga(link, userID, isCompleted, following, readChapters, note);
       res.json(manga);
     } catch (e) {
       res.status(400).json({ link: "Cannot parse manga" });
@@ -122,7 +117,9 @@ router.post(
   handlerWrapper(async (req, res) => {
     const manga = await Manga.findById(req.manga.id);
     ["following", "note", "isCompleted", "hidden"].forEach((f) => {
-      if (req.body.hasOwnProperty(f)) manga[f] = req.body[f];
+      if (req.body.hasOwnProperty(f)) {
+        manga[f] = req.body[f];
+      }
     });
     await manga.save();
     res.json({});
@@ -145,9 +142,11 @@ router.post(
 
   handlerWrapper(async (req, res) => {
     const result = await updateMangas([req.manga]);
-    if (result.length === 0)
+    if (result.length === 0) {
       res.status(400).send("Fail to update manga.").end();
-    else res.json(result[0]);
+    } else {
+      res.json(result[0]);
+    }
   }),
 );
 
@@ -161,7 +160,9 @@ router.post(
       user: req.user.id,
       following: req.body.following,
     };
-    if (req.body.showHidden === false) filters.hidden = false;
+    if (req.body.showHidden === false) {
+      filters.hidden = false;
+    }
     const mangas = await Manga.find(filters);
     const result = await updateMangas(mangas);
     res.json({

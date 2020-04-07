@@ -6,8 +6,9 @@ const checkMangaPermission = check("manga", "Invalid manga ID")
   .custom(async (mangaID, { req }) => {
     connectToDB();
     const manga = await Manga.findById(mangaID);
-    if (manga === null || manga.user.toString() !== req.user.id)
+    if (manga === null || manga.user.toString() !== req.user.id) {
       throw new Error("Cannot find manga");
+    }
     req.manga = manga;
   });
 

@@ -1,11 +1,11 @@
 const normalizeDataSource = require("./utils").normalizeDataSource;
 
-const URLRegex = /^https?:\/\/saytruyen\.com\/truyen\/.+$/;
+const URLRegex = /^https?:\/\/saytruyen\.com\/truyen-.+$/;
 
 async function parseChapters(dataSource) {
   const $ = await normalizeDataSource(dataSource);
 
-  const rows = $(".wp-manga-chapter > a");
+  const rows = $(".chapter");
 
   const chapters = [];
   for (let i = 0; i < rows.length; i++) {
@@ -20,12 +20,13 @@ async function parseChapters(dataSource) {
 
 async function parseManga(dataSource) {
   const $ = await normalizeDataSource(dataSource);
+  const lastBreadcrumb = $(".breadcrumb li:last-child a");
 
   return {
-    name: $(".breadcrumb li:last-child a").text().trim(),
-    link: $('meta[property="og:url"]').attr("content"),
-    image: $(".summary_image img").attr("src"),
-    isCompleted: false, // not available
+    name: lastBreadcrumb.text().trim(),
+    link: lastBreadcrumb.attr("href"),
+    image: $('meta[property="og:image"]').attr("content"),
+    isCompleted: $(".manga-info").text().includes("Hoàn thành"),
     chapters: await parseChapters($),
   };
 }

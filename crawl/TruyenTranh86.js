@@ -1,16 +1,16 @@
 const normalizeDataSource = require("./utils").normalizeDataSource;
 
-const URLRegex = /^https?:\/\/mangazuki\.me\/manga\/.+$/;
+const URLRegex = /^https?:\/\/truyentranh86\.com\/.+$/;
 
 async function parseChapters(dataSource) {
   const $ = await normalizeDataSource(dataSource);
 
-  const rows = $(".listing-chapters_wrap a");
+  const rows = $("#ChapList a");
 
   const chapters = [];
   for (let i = 0; i < rows.length; i++) {
     chapters.push({
-      name: rows[i].children[0].data,
+      name: rows[i].children[1].children[0].data,
       link: rows[i].attribs.href,
     });
   }
@@ -22,10 +22,10 @@ async function parseManga(dataSource) {
   const $ = await normalizeDataSource(dataSource);
 
   return {
-    name: $("h3").text(),
+    name: $("h1").text(),
     link: $('meta[property="og:url"]').attr("content"),
-    image: $(".summary_image a img").attr("data-src"),
-    isCompleted: $(".summary-content").text().includes("Completed"),
+    image: $(".thumbnail")[0].attribs.src,
+    isCompleted: $(".mangainfo").text().includes("Đã hoàn thành"),
     chapters: await parseChapters($),
   };
 }

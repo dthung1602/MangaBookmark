@@ -23,11 +23,8 @@ async function parseManga(dataSource) {
 
   return {
     name: $(".title-manga").text(),
-    link:
-      "http://www.hamtruyentranh.net/" +
-      $(".path-cond a:last-child").attr("href"),
-    image:
-      "http://www.hamtruyentranh.net/" + $(".cover-detail img").attr("src"),
+    link: "http://www.hamtruyentranh.net/" + $(".path-cond a:last-child").attr("href"),
+    image: "http://www.hamtruyentranh.net/" + $(".cover-detail img").attr("src"),
     isCompleted: $(".description-update").text().includes("Kết thúc"),
     chapters: await parseChapters($),
   };

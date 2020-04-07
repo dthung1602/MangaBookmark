@@ -1,6 +1,6 @@
 const normalizeDataSource = require("./utils").normalizeDataSource;
 
-const URLRegex = /^https?:\/\/(mangakakalot|manganelo)\.com\/manga\/.+$/;
+const URLRegex = /^https?:\/\/mangakakalot\.com\/read-.+$/;
 
 async function parseChapters(dataSource) {
   const $ = await normalizeDataSource(dataSource);
@@ -24,9 +24,8 @@ async function parseManga(dataSource) {
   return {
     name: $("h1").text(),
     link: $('meta[property="og:url"]').attr("content"),
-    image: $(".manga-info-pic img")[0].attribs.src,
-    isCompleted:
-      $(".manga-info-text li")[2].children[0].data === "Status : Completed",
+    image: $(".manga-info-pic img").attr("src"),
+    isCompleted: $(".manga-info-text li")[2].children[0].data === "Status : Completed",
     chapters: await parseChapters($),
   };
 }

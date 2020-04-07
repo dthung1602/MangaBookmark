@@ -16,10 +16,10 @@ router.post(
     const isRead = action === "read";
 
     for (let i = 0; i < chapterLinks.length; i++) {
-      const pos = manga.chapters.findIndex(
-        (chap) => chap.link === chapterLinks[i],
-      );
-      if (pos > -1) manga.chapters[pos].isRead = isRead;
+      const pos = manga.chapters.findIndex((chap) => chap.link === chapterLinks[i]);
+      if (pos > -1) {
+        manga.chapters[pos].isRead = isRead;
+      }
     }
 
     manga.markModified("chapters");

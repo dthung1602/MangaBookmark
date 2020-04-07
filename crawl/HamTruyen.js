@@ -1,17 +1,17 @@
 const normalizeDataSource = require("./utils").normalizeDataSource;
 
-const URLRegex = /^https?:\/\/mangasim\.com\/manga\/.+$/;
+const URLRegex = /^https?:\/\/hamtruyen\.com\/.+\.html$/;
 
 async function parseChapters(dataSource) {
   const $ = await normalizeDataSource(dataSource);
 
-  const rows = $("#chapter_list a");
+  const rows = $(".tenChapter a");
 
   const chapters = [];
   for (let i = 0; i < rows.length; i++) {
     chapters.push({
       name: rows[i].children[0].data,
-      link: rows[i].attribs.href,
+      link: "https://hamtruyen.com" + rows[i].attribs.href,
     });
   }
 
@@ -22,10 +22,10 @@ async function parseManga(dataSource) {
   const $ = await normalizeDataSource(dataSource);
 
   return {
-    name: $("h1").text(),
+    name: $('meta[property="og:title"]').attr("content"),
     link: $('meta[property="og:url"]').attr("content"),
-    image: $(".avatar")[0].attribs.src,
-    isCompleted: $(".story_info_right").text().includes("Completed"),
+    image: $("#content_truyen img").attr("src"),
+    isCompleted: $(".icon_trangthai").parent().text().includes("Hoàn thành"),
     chapters: await parseChapters($),
   };
 }

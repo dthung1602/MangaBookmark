@@ -3,11 +3,19 @@ const mongoose = require("mongoose");
 function getMangaStatusCode(manga) {
   const allRead = manga.chapters.every((ch) => ch.isRead);
 
-  if (manga.isCompleted)
-    if (allRead) return 0;
-    else return 2;
-  else if (allRead) return 1;
-  else return 3;
+  if (manga.isCompleted) {
+    if (allRead) {
+      return 0;
+    } else {
+      return 2;
+    }
+  } else {
+    if (allRead) {
+      return 1;
+    } else {
+      return 3;
+    }
+  }
 }
 
 function codeToStatus(code) {

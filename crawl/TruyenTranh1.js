@@ -1,17 +1,17 @@
 const normalizeDataSource = require("./utils").normalizeDataSource;
 
-const URLRegex = /^https?:\/\/truyentranh869\.com\/.+$/;
+const URLRegex = /^https?:\/\/truyentranh1\.info\/TruyenTranh\/.+$/;
 
 async function parseChapters(dataSource) {
   const $ = await normalizeDataSource(dataSource);
 
-  const rows = $("#ChapList a");
+  const rows = $(".cellChapter a");
 
   const chapters = [];
   for (let i = 0; i < rows.length; i++) {
     chapters.push({
-      name: rows[i].children[1].children[0].data,
-      link: rows[i].attribs.href,
+      name: rows[i].children[0].data,
+      link: "http://truyentranh1.info" + rows[i].attribs.href,
     });
   }
 
@@ -20,12 +20,13 @@ async function parseChapters(dataSource) {
 
 async function parseManga(dataSource) {
   const $ = await normalizeDataSource(dataSource);
+  const aTag = $(".nameChapter a");
 
   return {
-    name: $("h1").text(),
-    link: $('meta[property="og:url"]').attr("content"),
-    image: $(".thumbnail")[0].attribs.src,
-    isCompleted: $(".mangainfo").text().includes("Đã hoàn thành"),
+    name: aTag.attr("title"),
+    link: "http://truyentranh1.info" + aTag.attr("href"),
+    image: $(".cImage img").attr("src"),
+    isCompleted: $(".info").text().includes("Full Bộ"),
     chapters: await parseChapters($),
   };
 }

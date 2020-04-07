@@ -1,17 +1,17 @@
 const normalizeDataSource = require("./utils").normalizeDataSource;
 
-const URLRegex = /^https?:\/\/truyen1\.net\/TruyenTranh\/.+$/;
+const URLRegex = /^https?:\/\/manganelo\.com\/manga\/.+$/;
 
 async function parseChapters(dataSource) {
   const $ = await normalizeDataSource(dataSource);
 
-  const rows = $(".cellChapter a");
+  const rows = $(".panel-story-chapter-list a");
 
   const chapters = [];
   for (let i = 0; i < rows.length; i++) {
     chapters.push({
       name: rows[i].children[0].data,
-      link: "http://truyen1.net" + rows[i].attribs.href,
+      link: rows[i].attribs.href,
     });
   }
 
@@ -20,13 +20,12 @@ async function parseChapters(dataSource) {
 
 async function parseManga(dataSource) {
   const $ = await normalizeDataSource(dataSource);
-  const aTag = $(".nameChapter a");
 
   return {
-    name: aTag.attr("title"),
-    link: "http://truyen1.net" + aTag.attr("href"),
-    image: $(".cImage img").attr("src"),
-    isCompleted: $(".info").text().includes("Full Bộ"),
+    name: $("h1").text(),
+    link: $('meta[property="og:url"]').attr("content"),
+    image: $(".info-image img").attr("src"),
+    isCompleted: $(".story-info-right").text().includes("Completed"),
     chapters: await parseChapters($),
   };
 }

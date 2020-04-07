@@ -13,6 +13,9 @@ passport.deserializeUser((userId, done) => {
 });
 
 module.exports = (req, res, next) => {
-  if (req.user) next();
-  else res.status(403).send("Please login and try again");
+  if (req.user) {
+    next();
+  } else {
+    res.status(403).send("Please login and try again");
+  }
 };

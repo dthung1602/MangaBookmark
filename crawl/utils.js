@@ -6,9 +6,7 @@ async function loadData(dataSource) {
 }
 
 function normalizeDataSource(dataSource) {
-  return typeof dataSource === "string" && dataSource.trim().startsWith("http")
-    ? loadData(dataSource)
-    : dataSource;
+  return typeof dataSource === "string" && dataSource.trim().startsWith("http") ? loadData(dataSource) : dataSource;
 }
 
 module.exports = { normalizeDataSource };

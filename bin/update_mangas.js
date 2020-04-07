@@ -4,18 +4,9 @@ const mongoose = require("mongoose");
 const webpush = require("web-push");
 const { updateMangas } = require("../crawl/runner");
 const { Manga, Subscription } = require("../models");
-const {
-  DB_URL,
-  REACT_APP_VAPID_PUBLIC_KEY,
-  REACT_APP_VAPID_PRIVATE_KEY,
-  WEB_PUSH_CONTACT,
-} = require("../config");
+const { DB_URL, REACT_APP_VAPID_PUBLIC_KEY, REACT_APP_VAPID_PRIVATE_KEY, WEB_PUSH_CONTACT } = require("../config");
 
-webpush.setVapidDetails(
-  WEB_PUSH_CONTACT,
-  REACT_APP_VAPID_PUBLIC_KEY,
-  REACT_APP_VAPID_PRIVATE_KEY,
-);
+webpush.setVapidDetails(WEB_PUSH_CONTACT, REACT_APP_VAPID_PUBLIC_KEY, REACT_APP_VAPID_PRIVATE_KEY);
 
 async function sendPushMessages(mangas) {
   console.log("Start sending notifications");
@@ -23,22 +14,30 @@ async function sendPushMessages(mangas) {
   const userToMangasMapping = {};
   for (let i = 0; i < mangas.length; i++) {
     const manga = mangas[i];
-    if (manga.newChapCount === 0) continue;
+    if (manga.newChapCount === 0) {
+      continue;
+    }
 
-    if (!userToMangasMapping[manga.user]) userToMangasMapping[manga.user] = [];
+    if (!userToMangasMapping[manga.user]) {
+      userToMangasMapping[manga.user] = [];
+    }
     userToMangasMapping[manga.user].push(manga);
   }
 
   const promises = [];
   for (let userId in userToMangasMapping) {
-    if (!userToMangasMapping.hasOwnProperty(userId)) continue;
+    if (!userToMangasMapping.hasOwnProperty(userId)) {
+      continue;
+    }
 
     const mangas = userToMangasMapping[userId].map((manga) => ({
       name: manga.name,
       newChapCount: manga.newChapCount,
       unreadChapCount: manga.unreadChapCount,
     }));
-    if (mangas.length === 0) continue;
+    if (mangas.length === 0) {
+      continue;
+    }
     const data = JSON.stringify(mangas);
     const subscriptions = await Subscription.find({ user: userId });
 
@@ -52,9 +51,7 @@ async function sendPushMessages(mangas) {
           })
           .catch((err) => {
             if (err.statusCode === 404 || err.statusCode === 410) {
-              console.log(
-                `Subscription ${subscription._id} has expired or is no longer valid`,
-              );
+              console.log(`Subscription ${subscription._id} has expired or is no longer valid`);
               subscription.delete();
             } else {
               console.error(err);
@@ -62,9 +59,7 @@ async function sendPushMessages(mangas) {
           }),
       ),
     ).then(() => {
-      console.log(
-        `   Sent ${successCount}/${subscriptions.length} notifications to user "${userId}"`,
-      );
+      console.log(`   Sent ${successCount}/${subscriptions.length} notifications to user "${userId}"`);
     });
     promises.push(promise);
   }

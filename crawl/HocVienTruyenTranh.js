@@ -14,15 +14,13 @@ async function loadData(dataSource) {
 }
 
 function normalizeDataSource(dataSource) {
-  return typeof dataSource === "string" && dataSource.trim().startsWith("http")
-    ? loadData(dataSource)
-    : dataSource;
+  return typeof dataSource === "string" && dataSource.trim().startsWith("http") ? loadData(dataSource) : dataSource;
 }
 
 async function parseChapters(dataSource) {
   const $ = await normalizeDataSource(dataSource);
 
-  const rows = $(".table-hover tr a");
+  const rows = $(".table-scroll .table-hover tr a");
 
   const chapters = [];
   for (let i = 0; i < rows.length; i++) {

@@ -1,11 +1,11 @@
 const normalizeDataSource = require("./utils").normalizeDataSource;
 
-const URLRegex = /^https?:\/\/mangawww\.club\/manga\/.+$/;
+const URLRegex = /^https?:\/\/m\.mangairo\.com\/story-.+$/;
 
 async function parseChapters(dataSource) {
   const $ = await normalizeDataSource(dataSource);
 
-  const rows = $(".chapters a");
+  const rows = $("#chapter_list a");
 
   const chapters = [];
   for (let i = 0; i < rows.length; i++) {
@@ -22,10 +22,10 @@ async function parseManga(dataSource) {
   const $ = await normalizeDataSource(dataSource);
 
   return {
-    name: $("h2")[0].children[0].data,
-    link: $(".fb-comments").attr("data-href"),
-    image: $(".img-responsive").attr("src"),
-    isCompleted: $(".label").text().includes("Complete"),
+    name: $("h1").text(),
+    link: $('meta[property="og:url"]').attr("content"),
+    image: $(".avatar").attr("src"),
+    isCompleted: $(".story_info_right").text().includes("Completed"),
     chapters: await parseChapters($),
   };
 }

@@ -7,14 +7,7 @@ let subscriptionSchema = new mongoose.Schema({
   },
   browser: {
     type: String,
-    enum: [
-      "Opera",
-      "Internet Explorer",
-      "Chrome",
-      "Safari",
-      "Firefox",
-      "Unknown",
-    ],
+    enum: ["Opera", "Internet Explorer", "Chrome", "Safari", "Firefox", "Unknown"],
   },
   os: {
     type: String,

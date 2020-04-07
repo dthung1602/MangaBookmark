@@ -16,12 +16,11 @@ const app = express();
 
 function enforceHttps() {
   return function (req, res, next) {
-    if (
-      config.NODE_ENV === "production" &&
-      req.headers["x-forwarded-proto"] !== "https"
-    )
+    if (config.NODE_ENV === "production" && req.headers["x-forwarded-proto"] !== "https") {
       return res.redirect("https://" + req.headers.host + req.url);
-    else return next();
+    } else {
+      return next();
+    }
   };
 }
 

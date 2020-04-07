@@ -23,8 +23,9 @@ router.get(
       connectToDB();
       const user = await User.findById(req.user.id);
       const usernameUser = await User.findOne({ username: username });
-      if (usernameUser && usernameUser.id !== user.id)
+      if (usernameUser && usernameUser.id !== user.id) {
         throw new Error("Username taken");
+      }
       req.user = user;
     }),
   check("email")
@@ -33,10 +34,9 @@ router.get(
     .custom(async (email, { req }) => {
       connectToDB();
       const emailUSer = await User.findOne({ email: email });
-      if (emailUSer && emailUSer.id !== req.user.id)
-        throw new Error(
-          "This email has already been registered for an account",
-        );
+      if (emailUSer && emailUSer.id !== req.user.id) {
+        throw new Error("This email has already been registered for an account");
+      }
     }),
 
   handlerWrapper(async (req, res) => {
@@ -56,8 +56,9 @@ router.get(
     .custom(async (value, { req }) => {
       connectToDB();
       const user = await User.findById(req.user.id);
-      if (user.password && !user.validPassword(value))
+      if (user.password && !user.validPassword(value)) {
         throw new Error("Invalid current password");
+      }
       req.user = user;
     }),
 

@@ -1,17 +1,17 @@
 const normalizeDataSource = require("./utils").normalizeDataSource;
 
-const URLRegex = /^https?:\/\/otakusan\.net\/MangaDetail\/[0-9]+\/.+$/;
+const URLRegex = /^https?:\/\/mangazuki\.fun\/manga\/.+$/;
 
 async function parseChapters(dataSource) {
   const $ = await normalizeDataSource(dataSource);
 
-  const rows = $("table.mdi-table .read-chapter a");
+  const rows = $(".chapter-list a");
 
   const chapters = [];
   for (let i = 0; i < rows.length; i++) {
     chapters.push({
-      name: rows[i].attribs.title,
-      link: "https://otakusan.net" + rows[i].attribs.href,
+      name: rows[i].children[0].data,
+      link: rows[i].attribs.href,
     });
   }
 
@@ -22,10 +22,10 @@ async function parseManga(dataSource) {
   const $ = await normalizeDataSource(dataSource);
 
   return {
-    name: $(".title").text().trim(),
+    name: $("h1").text(),
     link: $('meta[property="og:url"]').attr("content"),
-    image: $(".manga-top-img img").attr("src"),
-    isCompleted: $(".manga-top .table-info").text().includes("Done"),
+    image: "http:" + $(".manga-info-pic img").attr("src"),
+    isCompleted: $(".manga-info-text").text().includes("Completed"),
     chapters: await parseChapters($),
   };
 }
