@@ -13,6 +13,7 @@ const parsers = [
   require("./MangaBat"),
   require("./Mangairo"),
   require("./Mangakakalot"),
+  require("./MangakakalotS"),
   require("./Manganelo"),
   require("./Mangazuki.fun"),
   require("./NetTruyen"),
