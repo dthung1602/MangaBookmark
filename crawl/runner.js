@@ -6,34 +6,7 @@ const Manga = require("../models/Manga");
 
 const { DB_URL, CRAWL_MAX_THREADS } = require("../config");
 
-const parsers = [
-  require("./BlogTruyen"),
-  require("./DocTruyenTranh"),
-  require("./HamTruyen"),
-  require("./HamTruyenTranh"),
-  require("./HocVienTruyenTranh"),
-  require("./MangaBat"),
-  require("./MangaFox"),
-  require("./Mangairo"),
-  require("./Mangakakalot"),
-  require("./MangakakalotS"),
-  require("./Manganelo"),
-  require("./MangaOwl"),
-  require("./Mangazuki.fun"),
-  require("./MeDocTruyenTranh"),
-  require("./NetTruyen"),
-  require("./Otakusan"),
-  require("./SayTruyen"),
-  require("./ThichTruyenTranh"),
-  require("./TruyenQQ"),
-  require("./TruyenSieuHay"),
-  require("./TruyenTranh1"),
-  require("./TruyenTranh86"),
-  require("./TruyenTranh869"),
-  require("./TruyenTranhTam"),
-  require("./TruyenTranhTuan"),
-  require("./TruyenVN"),
-];
+const { parsers } = require("./parsers");
 
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useFindAndModify", false);
