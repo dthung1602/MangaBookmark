@@ -1,12 +1,14 @@
 {
   "name": "mangabookmark",
-  "version": "2.0.0",
+  "version": "1.7",
   "private": true,
   "engines": {
     "node": "^12.16.1"
   },
   "scripts": {
-    "start": "nodemon ./bin/www",
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www",
+    "build": "cd react-mb-client; yarn build",
     "lint": "eslint --fix ."
   },
   "dependencies": {
