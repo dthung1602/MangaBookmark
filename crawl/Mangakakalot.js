@@ -1,6 +1,6 @@
 const normalizeDataSource = require("./utils").normalizeDataSource;
 
-const URLRegex = /^https?:\/\/mangakakalot\.com\/read-.+$/;
+const URLRegex = /^https?:\/\/mangakakalot\.com\/(read-|manga\/).+$/;
 
 async function parseChapters(dataSource) {
   const $ = await normalizeDataSource(dataSource);
