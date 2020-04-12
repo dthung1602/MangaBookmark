@@ -36,7 +36,6 @@ class Content extends React.Component {
     }
 
     onSortByChange = (event) => {
-        console.log(event.target.value);
         this.setState({
             sortby: event.target.value
         })

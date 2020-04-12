@@ -13,7 +13,7 @@ import {
     Typography
 } from "@material-ui/core";
 
-import ArrowDropDown from "@material-ui/core/es/internal/svg-icons/ArrowDropDown";
+import { debounce } from "lodash";
 
 
 import Row from "./Row";
@@ -197,8 +197,22 @@ class MangaTable extends React.Component {
     componentDidMount() {
         if (this.props.isAuthorized)
             this.fetchManga()
-                .catch(alert)
+                .catch(alert);
         // this.setState({fetchData: dummy})
+        window.onscroll = debounce(() =>  {
+            const element = document.getElementById('end-of-table');
+            if (!element) return;
+            const rect = element.getBoundingClientRect();
+            const endOfTable = (
+                rect.top >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+            );
+            if (endOfTable)  {
+                const {page} = this.state;
+                this.fetchManga(page + 1)
+                    .catch(alert);
+            }
+        }, 750);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -250,6 +264,10 @@ class MangaTable extends React.Component {
                     this.searchManga().catch(alert);
             }
         }
+    }
+
+    componentWillUnmount() {
+        window.onscroll = undefined;
     }
 
     fetchManga = async (page = 1) => {
@@ -358,11 +376,6 @@ class MangaTable extends React.Component {
         }
     };
 
-    loadMore = async () => {
-        const {page} = this.state;
-        await this.fetchManga(page + 1);
-    };
-
     dataToRows = (data) => {
         return data.map(d =>
             <Row manga={d}
@@ -417,13 +430,7 @@ class MangaTable extends React.Component {
                 </Table>
 
                 {(loading || allLoaded) ? '' :
-                    <div className={classes.showMore}>
-                        <Tooltip title="Show more" placement="bottom">
-                            <Fab onClick={this.loadMore} size={"small"} color={"secondary"}>
-                                <ArrowDropDown/>
-                            </Fab>
-                        </Tooltip>
-                    </div>
+                    <div id='end-of-table' style={{visibility: 'hidden'}} />
                 }
             </div>
         );

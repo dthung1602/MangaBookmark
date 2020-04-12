@@ -11,7 +11,7 @@
 - [x] Show hide manga on creation
 - [x] Remove FE node_modules after build
 - [x] Click on manga name -> open new tab
-- [ ] Infinite scroll
+- [x] Infinite scroll
 - [ ] Change loading icon
 
 # NEW FEATURE
