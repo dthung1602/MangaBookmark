@@ -67,6 +67,14 @@ class MangaPreviewInfo extends React.Component {
                                 color={"secondary"}
                             />
                         </div>
+                        <div className={classes.flex}>
+                            <Typography variant={"subtitle1"}>Hidden: {'' + manga.hidden}</Typography>
+                            <Switch
+                                checked={manga.hidden}
+                                onChange={this.props.onHiddenChange}
+                                color={"secondary"}
+                            />
+                        </div>
                         <SelectFollowing
                             following={manga.following}
                             onChange={this.props.onFollowingChange}

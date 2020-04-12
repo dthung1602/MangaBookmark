@@ -91,6 +91,7 @@ class AddDialog extends React.Component {
                     const manga = await response.json();
                     // set default values
                     manga.following = 'following';
+                    manga.hidden = false;
                     manga.chapters.forEach(chap => chap.isRead = false);
                     this.setState({
                         mangaStatus: 'ok',
@@ -118,6 +119,12 @@ class AddDialog extends React.Component {
     onCompletedChange = (event) => {
         const {manga} = this.state;
         manga.isCompleted = event.target.checked;
+        this.setState({manga: manga});
+    };
+
+    onHiddenChange = (event) => {
+        const {manga} = this.state;
+        manga.hidden = event.target.checked;
         this.setState({manga: manga});
     };
 
@@ -211,6 +218,7 @@ class AddDialog extends React.Component {
                             onChangeChapter={this.onChangeChapter}
                             onChangeNote={this.onChangeNote}
                             onCompletedChange={this.onCompletedChange}
+                            onHiddenChange={this.onHiddenChange}
                             onMarkAllChaptersRead={this.onMarkAllChaptersRead}
                             onMarkUpTo={this.onMarkUpTo}
                         />

@@ -89,16 +89,17 @@ router.post(
   check("chapters").exists().isArray(),
   check("note").optional().trim(),
   check("isCompleted").optional().isBoolean(),
+  check("hidden").optional().isBoolean(),
   check("following").optional().isIn(validFollowing),
 
   handlerWrapper(async (req, res) => {
     const userID = req.user.id;
-    const { link, chapters, note, following, isCompleted } = req.body;
+    const { link, chapters, note, following, isCompleted, hidden } = req.body;
 
     const readChapters = chapters.filter((ch) => ch.isRead).map((ch) => ch.link);
 
     try {
-      const manga = await createManga(link, userID, isCompleted, following, readChapters, note);
+      const manga = await createManga(link, userID, isCompleted, following, readChapters, note, hidden);
       res.json(manga);
     } catch (e) {
       res.status(400).json({ link: "Cannot parse manga" });

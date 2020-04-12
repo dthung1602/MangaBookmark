@@ -8,7 +8,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
-    "build": "cd react-mb-client && yarn install && yarn build",
+    "build": "cd react-mb-client && yarn install && yarn build && rm -rf node_modules",
     "lint": "eslint --fix ."
   },
   "dependencies": {

@@ -22,7 +22,15 @@ function chunkArray(array, chunkSize) {
   return tempArray;
 }
 
-async function createManga(url, userID, isCompleted, following = "following", readChapters = [], note = "") {
+async function createManga(
+  url,
+  userID,
+  isCompleted,
+  following = "following",
+  readChapters = [],
+  note = "",
+  hidden = false,
+) {
   const parser = getParser(url);
   if (parser === null) {
     throw new Error("Unsupported manga source");
@@ -35,6 +43,7 @@ async function createManga(url, userID, isCompleted, following = "following", re
   manga.user = userID;
   manga.following = following;
   manga.note = note;
+  manga.hidden = hidden;
   if (isCompleted !== undefined) {
     manga.isCompleted = isCompleted;
   }

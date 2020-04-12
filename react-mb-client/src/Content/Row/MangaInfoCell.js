@@ -32,7 +32,7 @@ class MangaInfoCell extends React.Component {
         return (
             <div>
                 <div>
-                    <a className={classes.mangaName} href={manga.link}>{manga.name}</a>
+                    <a className={classes.mangaName} href={manga.link} target="_blank">{manga.name}</a>
                 </div>
                 <Grid container  className={classes.mangaDetails}>
 
