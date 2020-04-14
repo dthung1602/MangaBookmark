@@ -1,4 +1,5 @@
 const passport = require("passport/lib");
+const { get } = require("lodash");
 const FacebookStrategy = require("passport-facebook").Strategy;
 
 const { User, connectToDB } = require("../models");
@@ -31,10 +32,10 @@ passport.use(
       const user = req.user ? await User.findById(req.user.id) : new User({ primaryAccount: "facebook" });
 
       user.facebookId = profile.id;
-      user.facebookPic = profile.photos[0].value;
+      user.facebookPic = get(profile, "photos[0].value");
       user.facebookName = profile.displayName;
       if (!user.email) {
-        user.email = profile.emails[0].value;
+        user.email = get(profile, "emails[0].value");
       }
 
       await user.save();

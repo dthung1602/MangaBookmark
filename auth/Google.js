@@ -1,4 +1,5 @@
 const passport = require("passport/lib");
+const { get } = require("lodash");
 const GoogleStrategy = require("passport-google-oauth20/lib").Strategy;
 
 const { User, connectToDB } = require("../models");
@@ -30,10 +31,10 @@ passport.use(
       const user = req.user ? await User.findById(req.user.id) : new User({ primaryAccount: "google" });
 
       user.googleId = profile.id;
-      user.googlePic = profile.photos[0].value;
+      user.googlePic = get(profile, "photos[0].value");
       user.googleName = profile.displayName;
       if (!user.email) {
-        user.email = profile.emails[0].value;
+        user.email = get(profile, "emails[0].value");
       }
 
       await user.save();
