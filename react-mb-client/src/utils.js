@@ -18,42 +18,6 @@ const mangaStatuses = [
     'Last chap reached', 'Finished'
 ];
 
-const mangaSourceRegex = {
-    "BlogTruyen": /^https?:\/\/blogtruyen\.vn\/[0-9]+\/.+/,
-    "DocTruyenTranh": /^https?:\/\/doctruyentranh\.online\/[0-9]+\/.+$/,
-    "HamTruyen": /^https?:\/\/hamtruyen\.com\/.+\.html$/,
-    "HamTruyenTranh": /^http:\/\/www\.hamtruyentranh\.net\/truyen\/.+$/,
-    "HocVienTruyenTranh": /^https?:\/\/hocvientruyentranh\.(com|net)\/(index.php\/)?truyen\/[0-9]+\/.+$/,
-    "MangaBat": /^https?:\/\/mangabat\.com\/manga-serie-.+$/,
-    "MangaFox": /^https?:\/\/ww3\.mangafox\.online\/.+$/,
-    "Mangairo": /^https?:\/\/m\.mangairo\.com\/story-.+$/,
-    "Mangakakalot": /^https?:\/\/mangakakalot\.com\/read-.+$/,
-    "MangakakalotS": /^https?:\/\/mangakakalots\.com\/manga\/.+$/,
-    "Manganelo": /^https?:\/\/manganelo\.com\/manga\/.+$/,
-    "MangaOwl": /^https?:\/\/mangaowl\.net\/single\/[0-9]+\/.+$/,
-    "Mangazuki.fun": /^https?:\/\/mangazuki\.fun\/manga\/.+$/,
-    "MeDocTruyenTranh": /^https?:\/\/www\.medoctruyentranh\.net\/truyen-tranh\/.+-[0-9]+$/,
-    "NetTruyen": /^https?:\/\/www\.nettruyen\.com\/truyen-tranh\/.+$/,
-    "Otakusan": /^https?:\/\/otakusan\.net\/MangaDetail\/[0-9]+\/.+$/,
-    "SayTruyen": /^https?:\/\/saytruyen\.com\/truyen-.+$/,
-    "ThichTruyenTranh": /^https?:\/\/thichtruyentranh\.com\/.+\/[0-9]+\.html$/,
-    "TruyenQQ": /^https?:\/\/truyenqq\.com\/truyen-tranh\/.+$/,
-    "TruyenSieuHay": /^https?:\/\/truyensieuhay\.com\/.+$/,
-    "TruyenTranh1": /^https?:\/\/truyentranh1\.info\/TruyenTranh\/.+$/,
-    "TruyenTranh86": /^https?:\/\/truyentranh86\.com\/.+$/,
-    "TruyenTranh869": /^https?:\/\/truyentranh869\.com\/.+$/,
-    "TruyenTranhTam": /^https?:\/\/truyentranhtam\.com\/.+$/,
-    "TruyenTranhTuan": /^https?:\/\/truyentranhtuan\.com\/.+$/,
-    "TruyenVN": /^https?:\/\/truyenvn\.com\/.+$/
-};
-
-function getMangaSource(link) {
-    for (let src in mangaSourceRegex)
-        if (link.match(mangaSourceRegex[src]))
-            return src;
-    return null;
-}
-
 /**
  * https://stackoverflow.com/a/5960592/7342188
  */
@@ -327,7 +291,6 @@ function minusArray(arr1, arr2) {
 export default {
     getMangaStatus,
     mangaStatuses,
-    getMangaSource,
     removeDiacritics,
     minusArray
 }

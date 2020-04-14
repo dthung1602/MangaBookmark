@@ -45,6 +45,7 @@ const mangaSchema = new mongoose.Schema(
 
     name: String,
     link: String,
+    source: String,
     image: String,
 
     chapters: [chapterSchema],

@@ -31,6 +31,7 @@ async function parseManga(dataSource) {
 }
 
 module.exports = {
+  source: "TruyenSieuHay",
   URLRegex,
   parseManga,
   parseChapters,

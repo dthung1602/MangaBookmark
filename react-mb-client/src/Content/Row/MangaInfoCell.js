@@ -1,7 +1,6 @@
 import React from "react"
 import {withStyles} from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
-import utils from "../../utils"
 
 const styles = () => ({
     infoHeader: {
@@ -27,7 +26,6 @@ class MangaInfoCell extends React.Component {
     render() {
         const {classes} = this.props;
         const manga = this.props.manga;
-        const mangaSource = utils.getMangaSource(manga.link);
 
         return (
             <div>
@@ -37,7 +35,7 @@ class MangaInfoCell extends React.Component {
                 <Grid container  className={classes.mangaDetails}>
 
                     <Grid item xs={4} className={classes.infoHeader}>Source</Grid>
-                    <Grid item xs={8}>{mangaSource}</Grid>
+                    <Grid item xs={8}>{manga.source}</Grid>
 
                     <Grid item xs={4} className={classes.infoHeader}>Total chapters</Grid>
                     <Grid item xs={8}>{manga.chapters.length}</Grid>

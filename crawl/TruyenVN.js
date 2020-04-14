@@ -32,6 +32,7 @@ async function parseManga(dataSource) {
 }
 
 module.exports = {
+  source: "TruyenVN",
   URLRegex,
   parseManga,
   parseChapters,

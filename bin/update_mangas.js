@@ -6,10 +6,9 @@ const { updateMangas } = require("../crawl/runner");
 const { Manga, Subscription } = require("../models");
 const { DB_URL, REACT_APP_VAPID_PUBLIC_KEY, REACT_APP_VAPID_PRIVATE_KEY, WEB_PUSH_CONTACT } = require("../config");
 
-webpush.setVapidDetails(WEB_PUSH_CONTACT, REACT_APP_VAPID_PUBLIC_KEY, REACT_APP_VAPID_PRIVATE_KEY);
-
 async function sendPushMessages(mangas) {
   console.log("Start sending notifications");
+  webpush.setVapidDetails(WEB_PUSH_CONTACT, REACT_APP_VAPID_PUBLIC_KEY, REACT_APP_VAPID_PRIVATE_KEY);
 
   const userToMangasMapping = {};
   for (let i = 0; i < mangas.length; i++) {
@@ -69,6 +68,11 @@ async function sendPushMessages(mangas) {
 }
 
 async function main() {
+  let push = true;
+  if (process.argv.length === 3 && process.argv[2] === "--no-push") {
+    push = false;
+  }
+
   console.log("Connecting to database");
   await mongoose.connect(DB_URL);
 
@@ -81,7 +85,10 @@ async function main() {
   const successMangas = await updateMangas(mangasToUpdate, true);
   console.log("Update manga done!");
 
-  await sendPushMessages(successMangas);
+  if (push) {
+    await sendPushMessages(successMangas);
+  }
+
   mongoose.connection.close();
 }
 

@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+const { chunk } = require("lodash");
+
 const mongoose = require("mongoose");
 
 const Manga = require("../models/Manga");
@@ -11,16 +13,6 @@ const { parsers } = require("./parsers");
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
-
-function chunkArray(array, chunkSize) {
-  const tempArray = [];
-
-  for (let index = 0; index < array.length; index += chunkSize) {
-    tempArray.push(array.slice(index, index + chunkSize));
-  }
-
-  return tempArray;
-}
 
 async function createManga(
   url,
@@ -40,6 +32,7 @@ async function createManga(
 
   manga.chapters.forEach((chap) => (chap.isRead = readChapters.indexOf(chap.link) > -1));
 
+  manga.source = parser.source;
   manga.user = userID;
   manga.following = following;
   manga.note = note;
@@ -51,13 +44,19 @@ async function createManga(
   return new Manga(manga).save();
 }
 
-async function updateChapters(manga) {
+async function updateManga(manga) {
   const parser = getParser(manga.link);
   if (parser === null) {
     throw new Error("Unsupported manga source");
   }
 
-  let crawledChapters = await parser.parseChapters(manga.link);
+  const crawledManga = await parser.parseManga(manga.link);
+  const crawledChapters = crawledManga.chapters;
+
+  manga.image = crawledManga.image;
+  if (!manga.isCompleted && crawledManga.isCompleted) {
+    manga.isCompleted = true;
+  }
 
   for (let i = 0; i < manga.chapters.length; i++) {
     let pos = crawledChapters.findIndex((ch) => ch.link === manga.chapters[i].link);
@@ -80,8 +79,9 @@ async function updateChapters(manga) {
   if (newChapCount > 0) {
     manga.chapters = crawledChapters;
     manga.markModified("chapters");
-    await manga.save();
   }
+
+  await manga.save();
 
   manga.newChapCount = newChapCount;
   manga.unreadChapCount = unreadChapCount;
@@ -94,14 +94,14 @@ async function updateMangas(mangas, verbose = false) {
     console.log(`Using up to ${CRAWL_MAX_THREADS} threads`);
   }
 
-  const chunks = chunkArray(mangas, CRAWL_MAX_THREADS);
+  const chunks = chunk(mangas, CRAWL_MAX_THREADS);
   const successMangas = [];
 
   for (let i = 0; i < chunks.length; i++) {
     await Promise.all(
       chunks[i].map(async (manga) => {
         try {
-          await updateChapters(manga);
+          await updateManga(manga);
           successMangas.push(manga);
           if (verbose) {
             console.log(`    Update: '${manga.name}'`);
@@ -149,7 +149,7 @@ async function main() {
       await createManga(url);
     } else {
       let manga = await Manga.findOne({ link: url });
-      await updateChapters(manga);
+      await updateManga(manga);
     }
 
     mongoose.connection.close();
