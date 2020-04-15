@@ -1,6 +1,6 @@
 const normalizeDataSource = require("./utils").normalizeDataSource;
 
-const URLRegex = /^https?:\/\/mangabat\.com\/manga-serie-.+$/;
+const URLRegex = /^https?:\/\/(read\.)?mangawk\.com\/read-.+$/;
 
 async function parseChapters(dataSource) {
   const $ = await normalizeDataSource(dataSource);
@@ -31,7 +31,7 @@ async function parseManga(dataSource) {
 }
 
 module.exports = {
-  source: "MangaBat",
+  source: "MangaWK",
   URLRegex,
   parseManga,
   parseChapters,

@@ -3,7 +3,7 @@
 ## Backend
 - [x] Update status + image
 - [x] Add src field
-- [ ] Facebook + GG auth
+- [x] Facebook + GG auth
 
 ## Frontend
 - [x] Show hide manga on creation
