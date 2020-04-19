@@ -12,10 +12,15 @@ passport.deserializeUser((userId, done) => {
   done(null, { id: userId });
 });
 
-module.exports = (req, res, next) => {
+const AuthenticateMiddleware = (req, res, next) => {
   if (req.user) {
     next();
   } else {
     res.status(403).send("Please login and try again");
   }
+};
+
+module.exports = {
+  AuthenticateMiddleware,
+  authenticate: passport.authenticate,
 };

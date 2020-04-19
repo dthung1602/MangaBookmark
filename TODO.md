@@ -13,7 +13,18 @@
 
 # REFACTOR
 
-- [ ] Restructure folder BE + FE
+- [ ] Restructure folder BE
+    - [x] Move business logic to services
+    - [x] Use HTTP method patch, delete, etc.
+    - [ ] Combine sub-service modules to one service class?
+    - [ ] Auth vs User
+    - [ ] Validation logic in middleware or in service?
+    - [ ] Error handling -> remove handlerWrapper
+    - [ ] Save newChapCount, unreadChapCount in schema?
+    - [ ] App loaders + set security headers 
+    - [ ] Test everything is working  
+ 
+- [ ] Restructure folder FE
 
 - [ ] Update dependencies to the latest
 

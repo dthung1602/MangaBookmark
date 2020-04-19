@@ -2,8 +2,9 @@ const passport = require("passport/lib");
 const { get } = require("lodash");
 const GoogleStrategy = require("passport-google-oauth20/lib").Strategy;
 
-const { User, connectToDB } = require("../models");
+const { User } = require("../models");
 const config = require("../config");
+const { ensureDBConnection } = require("services/db-service");
 
 passport.use(
   new GoogleStrategy(
@@ -14,7 +15,7 @@ passport.use(
       passReqToCallback: true,
     },
     async (req, accessToken, refreshToken, profile, done) => {
-      connectToDB();
+      await ensureDBConnection();
 
       // check if user already exists in our own db
       const googleUser = await User.findOne({ googleId: profile.id });

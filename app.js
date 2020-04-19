@@ -6,12 +6,11 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
 const config = require("./config");
-const authRouter = require("./routes/auth");
-const mangaRouter = require("./routes/manga");
-const chapterRouter = require("./routes/chapter");
-const userRouter = require("./routes/user");
-const notificationRouter = require("./routes/notification");
-const authCheck = require("./auth");
+const AuthRouter = require("./api/auth");
+const MangaRouter = require("./api/manga");
+const UserRouter = require("./api/user");
+const SubscriptionRouter = require("./api/subscription");
+const { AuthenticateMiddleware } = require("./services/auth-service");
 const app = express();
 
 function enforceHttps() {
@@ -48,11 +47,10 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, "react-mb-client/build")));
 
 // API
-app.use("/auth", authRouter);
-app.use("/api/manga", authCheck, mangaRouter);
-app.use("/api/chapter", authCheck, chapterRouter);
-app.use("/api/user", authCheck, userRouter);
-app.use("/api/notification", authCheck, notificationRouter);
+app.use("/api/auth", AuthRouter);
+app.use("/api/mangas", AuthenticateMiddleware, MangaRouter);
+app.use("/api/users", AuthenticateMiddleware, UserRouter);
+app.use("/api/subscriptions", AuthenticateMiddleware, SubscriptionRouter);
 
 // Any request that doesn't match one above, send back React's index.html file/
 app.get("*", (req, res) => {

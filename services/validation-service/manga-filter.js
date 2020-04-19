@@ -1,0 +1,12 @@
+const { check } = require("express-validator");
+const { Manga } = require("models");
+
+module.exports = [
+  check("search").trim(),
+  check("following").isIn(Object.values(Manga.FollowingStatuses)),
+  check("isCompleted").isBoolean,
+  check("page").isInt({ min: 1 }),
+  check("perPage").isInt({ min: 1 }),
+  check("hidden").isBoolean(),
+  check("sort").matches(/^-?[0-9a-zA-Z]+$/),
+];

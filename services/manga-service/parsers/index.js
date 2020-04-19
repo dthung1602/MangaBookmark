@@ -36,4 +36,21 @@ for (let i = 0; i < parserNames.length; i++) {
   parserRegexMapping[parserNames[i]] = parsers[i].URLRegex;
 }
 
-module.exports = { parsers, parserNames, parserRegexMapping };
+function getParser(url) {
+  if (!url) {
+    return null;
+  }
+  for (let i = 0; i < parsers.length; i++) {
+    if (url.match(parsers[i].URLRegex)) {
+      return parsers[i];
+    }
+  }
+  return null;
+}
+
+module.exports = {
+  parsers,
+  parserNames,
+  parserRegexMapping,
+  getParser,
+};

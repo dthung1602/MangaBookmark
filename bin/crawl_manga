@@ -1,0 +1,33 @@
+#!/usr/bin/env node
+
+const { Manga } = require("../models");
+const db = require("services/db-service");
+const MangaService = require("services/manga-service");
+
+async function main() {
+  if (process.argv.length < 4) {
+    throw "Missing args";
+  }
+
+  const action = process.argv[2];
+  const url = process.argv[3];
+  if (action !== "create" && action !== "update") {
+    throw "Invalid action";
+  }
+
+  await db.ensureDBConnection();
+
+  if (action === "create") {
+    await MangaService.create({ url });
+  } else {
+    let manga = await Manga.findOne({ link: url });
+    await MangaService.update(manga);
+    manga.save();
+  }
+}
+
+main().catch((err) => {
+  console.error(err);
+  db.closeDBConnection();
+  process.exit(1);
+});

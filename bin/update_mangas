@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+
+const { Manga } = require("../models");
+const { TO_READ, FOLLOWING, WAITING } = Manga.FollowingStatuses;
+const MangaService = require("services/manga-service");
+const db = require("services/db-service");
+const { pushMangaNotifications } = require("services/push-service");
+
+async function main() {
+  let push = true;
+  if (process.argv.length === 3 && process.argv[2] === "--no-push") {
+    push = false;
+  }
+
+  console.log("Connecting to database");
+  await db.ensureDBConnection();
+
+  console.log("Fetching mangas to update");
+  const mangasToUpdate = await Manga.find({
+    following: { $in: [TO_READ, FOLLOWING, WAITING] },
+    isCompleted: false,
+  });
+
+  const successMangas = await MangaService.updateMultiple(mangasToUpdate, true);
+  console.log("Update manga done!");
+
+  if (push) {
+    await pushMangaNotifications(successMangas);
+  }
+
+  db.closeDBConnection();
+}
+
+main().catch((err) => {
+  console.error(err);
+  db.closeDBConnection();
+  process.exit(1);
+});

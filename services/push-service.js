@@ -1,18 +1,13 @@
-#!/usr/bin/env node
-
-const mongoose = require("mongoose");
 const webpush = require("web-push");
-const { updateMangas } = require("../crawl/runner");
-const { Manga, Subscription } = require("../models");
-const { DB_URL, REACT_APP_VAPID_PUBLIC_KEY, REACT_APP_VAPID_PRIVATE_KEY, WEB_PUSH_CONTACT } = require("../config");
+const { Subscription } = require("../models");
+const { REACT_APP_VAPID_PUBLIC_KEY, REACT_APP_VAPID_PRIVATE_KEY, WEB_PUSH_CONTACT } = require("../config");
 
-async function sendPushMessages(mangas) {
+async function pushMangaNotifications(mangas) {
   console.log("Start sending notifications");
   webpush.setVapidDetails(WEB_PUSH_CONTACT, REACT_APP_VAPID_PUBLIC_KEY, REACT_APP_VAPID_PRIVATE_KEY);
 
   const userToMangasMapping = {};
-  for (let i = 0; i < mangas.length; i++) {
-    const manga = mangas[i];
+  for (let manga of mangas) {
     if (manga.newChapCount === 0) {
       continue;
     }
@@ -67,33 +62,6 @@ async function sendPushMessages(mangas) {
   console.log("Done sending notifications");
 }
 
-async function main() {
-  let push = true;
-  if (process.argv.length === 3 && process.argv[2] === "--no-push") {
-    push = false;
-  }
-
-  console.log("Connecting to database");
-  await mongoose.connect(DB_URL);
-
-  console.log("Fetching mangas to update");
-  const mangasToUpdate = await Manga.find({
-    following: { $in: ["toread", "following", "waiting"] },
-    isCompleted: false,
-  });
-
-  const successMangas = await updateMangas(mangasToUpdate, true);
-  console.log("Update manga done!");
-
-  if (push) {
-    await sendPushMessages(successMangas);
-  }
-
-  mongoose.connection.close();
-}
-
-main().catch((err) => {
-  console.error(err);
-  mongoose.connection.close();
-  process.exit(1);
-});
+module.exports = {
+  pushMangaNotifications,
+};
