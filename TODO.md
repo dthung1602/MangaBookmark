@@ -18,7 +18,7 @@
     - [x] Use HTTP method patch, delete, etc.
     - [ ] ~~Combine sub-service modules to one service class?~~
     - [x] Auth vs User
-    - [ ] Validation logic in middleware or in service?
+    - [x] Validation logic in middleware or in service?
     - [ ] Error handling -> remove handlerWrapper
     - [ ] Save newChapCount, unreadChapCount in schema?
     - [ ] App loaders + set security headers 
