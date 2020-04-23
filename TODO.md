@@ -16,8 +16,8 @@
 - [ ] Restructure folder BE
     - [x] Move business logic to services
     - [x] Use HTTP method patch, delete, etc.
-    - [ ] Combine sub-service modules to one service class?
-    - [ ] Auth vs User
+    - [ ] ~~Combine sub-service modules to one service class?~~
+    - [x] Auth vs User
     - [ ] Validation logic in middleware or in service?
     - [ ] Error handling -> remove handlerWrapper
     - [ ] Save newChapCount, unreadChapCount in schema?
@@ -37,6 +37,8 @@
 - [ ] Cancel old request when new one is sent
 
 - [ ] Change URL when change filter
+
+- [ ] Add API doc using Swagger
 
 # NEW FEATURES
 

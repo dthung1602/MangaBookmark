@@ -1,5 +1,5 @@
 module.exports = {
-  RegistrationValidator: require("./registration"),
+  LocalUserRegistrationValidator: require("./local-user-registration"),
   UnlinkAccountValidator: require("./unlink-account"),
 
   MarkChapterValidator: require("./mark-chapter"),
