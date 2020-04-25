@@ -19,26 +19,22 @@
     - [ ] ~~Combine sub-service modules to one service class?~~
     - [x] Auth vs User
     - [x] Validation logic in middleware or in service?
-    - [ ] Error handling -> remove handlerWrapper
+    - [x] Error handling -> remove handlerWrapper
     - [ ] Save newChapCount, unreadChapCount in schema?
     - [ ] App loaders + set security headers 
     - [ ] Test everything is working  
  
 - [ ] Restructure folder FE
+    - [ ] Split FE to small js chunk 
+    - [ ] Handle error
+    - [ ] Cancel old request when new one is sent
+    - [ ] Change URL when change filter
+    - [ ] Add API doc using Swagger
 
 - [ ] Update dependencies to the latest
 
 - [ ] Add readme.md
 
-- [ ] Split FE to small js chunk 
-
-- [ ] Handle error
-
-- [ ] Cancel old request when new one is sent
-
-- [ ] Change URL when change filter
-
-- [ ] Add API doc using Swagger
 
 # NEW FEATURES
 

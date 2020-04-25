@@ -20,14 +20,14 @@ router.post("/logout", (req, res) => {
 router.post("/login", (req, res, next) => {
   authenticate("local", function (err, user, info) {
     if (err) {
-      return res.status(500).json({ error: err });
+      throw { code: 500, message: String(err) };
     }
     if (!user) {
-      return res.status(400).json(info);
+      throw { code: 400, message: info };
     }
     req.login(user, (err) => {
       if (err) {
-        next(err);
+        next({ code: 500, message: String(err) });
       } else {
         next();
       }

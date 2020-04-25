@@ -1,7 +1,7 @@
 const { check } = require("express-validator");
 
 const { User } = require("models");
-const { ensureDBConnection } = require("services/db-service");
+const ErrorFormatter = require("./validation-error-formatter");
 
 module.exports = [
   check("provider").exists().isIn(["google", "facebook"]),
@@ -13,7 +13,6 @@ module.exports = [
         throw new Error("Primary account must be changed after unlink");
       }
 
-      await ensureDBConnection();
       const user = await User.findById(req.user.id);
       if (value === "google" && !user.googleId) {
         throw new Error("There's no linked Google account");
@@ -23,4 +22,5 @@ module.exports = [
       }
       req.user = user;
     }),
+  ErrorFormatter,
 ];

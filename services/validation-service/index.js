@@ -1,6 +1,8 @@
 module.exports = {
   LocalUserRegistrationValidator: require("./local-user-registration"),
   UnlinkAccountValidator: require("./unlink-account"),
+  UserPatchValidator: require("./user-patch"),
+  UserPassValidator: require("./user-change-pass"),
 
   MarkChapterValidator: require("./mark-chapter"),
   MangaFilterValidator: require("./manga-filter"),
@@ -11,7 +13,4 @@ module.exports = {
 
   SubscriptionCreateValidator: require("./subsription-create"),
   SubscriptionDeleteValidator: require("./subsription-delete"),
-
-  UserPatchValidator: require("./user-patch"),
-  UserPassValidator: require("./user-change-pass"),
 };

@@ -4,7 +4,6 @@ const FacebookStrategy = require("passport-facebook").Strategy;
 
 const { User } = require("../models");
 const config = require("../config");
-const { ensureDBConnection } = require("services/db-service");
 
 passport.use(
   new FacebookStrategy(
@@ -16,8 +15,6 @@ passport.use(
       passReqToCallback: true,
     },
     async (req, accessToken, refreshToken, profile, done) => {
-      await ensureDBConnection();
-
       // check if user already exists in our own db
       const facebookUser = await User.findOne({ facebookId: profile.id });
 

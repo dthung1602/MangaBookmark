@@ -1,7 +1,8 @@
 const { check } = require("express-validator");
+
 const { Subscription } = require("models");
 const { OSs, Browsers } = Subscription;
-const { ensureDBConnection } = require("services/db-service");
+const ErrorFormatter = require("./validation-error-formatter");
 
 module.exports = [
   check("os").exists().isIn(Object.values(OSs)),
@@ -10,7 +11,6 @@ module.exports = [
     .exists()
     .isURL()
     .custom(async (endpoint) => {
-      await ensureDBConnection();
       const count = await Subscription.count({ endpoint: endpoint });
       if (count > 0) {
         throw new Error("Subscription has already been added");
@@ -18,4 +18,5 @@ module.exports = [
     }),
   check("auth").exists(),
   check("p256dh").exists(),
+  ErrorFormatter,
 ];

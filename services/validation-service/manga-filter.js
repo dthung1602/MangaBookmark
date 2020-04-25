@@ -1,5 +1,7 @@
 const { check } = require("express-validator");
+
 const { Manga } = require("models");
+const ErrorFormatter = require("./validation-error-formatter");
 
 module.exports = [
   check("search").trim(),
@@ -9,4 +11,5 @@ module.exports = [
   check("perPage").isInt({ min: 1 }),
   check("hidden").isBoolean(),
   check("sort").matches(/^-?[0-9a-zA-Z]+$/),
+  ErrorFormatter,
 ];
