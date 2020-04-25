@@ -7,6 +7,7 @@ module.exports = [
   check("search").trim(),
   check("following").isIn(Object.values(Manga.FollowingStatuses)),
   check("isCompleted").isBoolean,
+  check("status").isInt({ min: 0, max: 3 }),
   check("page").isInt({ min: 1 }),
   check("perPage").isInt({ min: 1 }),
   check("hidden").isBoolean(),

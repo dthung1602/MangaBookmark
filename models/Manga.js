@@ -57,12 +57,14 @@ const MangaSchema = new mongoose.Schema(
     image: String,
 
     chapters: [ChapterSchema],
+    newChapCount: Number,
+    unreadChapCount: Number,
     isCompleted: {
       type: Boolean,
       default: false,
     },
 
-    statusCode: Number,
+    status: Number,
     following: {
       type: String,
       enum: Object.values(FollowingStatuses),
@@ -82,24 +84,24 @@ const MangaSchema = new mongoose.Schema(
     timestamps: true,
     toJSON: {
       transform: function (doc, ret) {
-        delete ret.statusCode;
-        ret.status = doc.status;
+        ret.statusString = doc.statusString;
       },
     },
   },
 );
 
 MangaSchema.index({ name: "text" });
-MangaSchema.index({ user: 1, following: 1, hidden: 1 });
+MangaSchema.index({ user: 1, following: 1, status: 1, hidden: 1 });
 MangaSchema.index({ user: 1, link: 1 }, { unique: true });
 
 MangaSchema.pre("save", function (next) {
-  this.statusCode = getMangaStatusCode(this);
+  this.status = getMangaStatusCode(this);
+  this.unreadChapCount = this.chapters.filter((ch) => ch.isRead).length;
   next();
 });
 
-MangaSchema.virtual("status").get(function () {
-  return codeToStatus(this.statusCode);
+MangaSchema.virtual("statusString").get(function () {
+  return codeToStatus(this.status);
 });
 
 Object.assign(MangaSchema.statics, {

@@ -21,26 +21,12 @@ module.exports = async function (manga) {
     }
   }
 
-  let newChapCount = 0;
-  let unreadChapCount = 0;
-  crawledChapters.forEach((chap) => {
-    if (!chap._id) {
-      newChapCount += 1;
-    }
-    if (!chap.isRead) {
-      unreadChapCount += 1;
-    }
-  });
+  manga.newChapCount = crawledChapters.filter((chap) => !chap._id);
 
-  if (newChapCount > 0) {
+  if (manga.newChapCount > 0) {
     manga.chapters = crawledChapters;
     manga.markModified("chapters");
   }
 
   await manga.save();
-  // TODO virtual variable?
-  return Object.assign(manga, {
-    newChapCount,
-    unreadChapCount,
-  });
 };

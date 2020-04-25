@@ -20,7 +20,7 @@
     - [x] Auth vs User
     - [x] Validation logic in middleware or in service?
     - [x] Error handling -> remove handlerWrapper
-    - [ ] Save newChapCount, unreadChapCount in schema?
+    - [x] Save newChapCount, unreadChapCount in schema?
     - [ ] App loaders + set security headers 
     - [ ] Test everything is working  
  
