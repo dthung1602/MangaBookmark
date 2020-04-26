@@ -3,13 +3,13 @@ const router = express.Router();
 
 const { User } = require("../models");
 const { redirectHome } = require("./utils");
-const UserService = require("services/user-service");
+const UserService = require("../services/user-service");
 const {
   UserPassValidator,
   UserPatchValidator,
   LocalUserRegistrationValidator,
   UnlinkAccountValidator,
-} = require("services/validation-service");
+} = require("../services/validation-service");
 
 //-----------------------------------
 //  Resister new user

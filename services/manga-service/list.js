@@ -1,5 +1,5 @@
-const { Manga } = require("models");
-const { PAGE_SIZE } = require("config");
+const { Manga } = require("../../models");
+const { PAGE_SIZE } = require("../../config");
 
 module.exports = async function (filters = {}, search = undefined, sort = undefined, page = 0, perPage = PAGE_SIZE) {
   if (search) {

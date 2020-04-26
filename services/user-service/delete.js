@@ -1,4 +1,4 @@
-const { User, Manga, Subscription } = require("models");
+const { User, Manga, Subscription } = require("../../models");
 
 module.exports = async function (user) {
   await Manga.deleteMany({ user: user.id });

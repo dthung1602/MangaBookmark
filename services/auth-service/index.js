@@ -1,4 +1,4 @@
-const passport = require("passport/lib");
+const passport = require("passport");
 
 require("./Google");
 require("./Facebook");
@@ -11,7 +11,3 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((userId, done) => {
   done(null, { id: userId });
 });
-
-module.exports = {
-  authenticate: passport.authenticate,
-};

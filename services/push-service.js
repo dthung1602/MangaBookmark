@@ -1,4 +1,5 @@
 const webpush = require("web-push");
+
 const { Subscription } = require("../models");
 const { REACT_APP_VAPID_PUBLIC_KEY, REACT_APP_VAPID_PRIVATE_KEY, WEB_PUSH_CONTACT } = require("../config");
 

@@ -1,7 +1,7 @@
 const express = require("express");
+const passport = require("passport");
 const router = express.Router();
 
-const { authenticate } = require("services/auth-service");
 const { redirectHome } = require("./utils");
 
 //-----------------------------------
@@ -18,7 +18,7 @@ router.post("/logout", (req, res) => {
 //-----------------------------------
 
 router.post("/login", (req, res, next) => {
-  authenticate("local", function (err, user, info) {
+  passport.authenticate("local", function (err, user, info) {
     if (err) {
       throw { code: 500, message: String(err) };
     }
@@ -39,16 +39,16 @@ router.post("/login", (req, res, next) => {
 //  Login with Google
 //-----------------------------------
 
-router.get("/google", authenticate("google", { scope: ["profile", "email"] }));
+router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
-router.get("/google/callback", authenticate("google"), redirectHome);
+router.get("/google/callback", passport.authenticate("google"), redirectHome);
 
 //-----------------------------------
 //  Login with Facebook
 //-----------------------------------
 
-router.get("/facebook", authenticate("facebook"));
+router.get("/facebook", passport.authenticate("facebook"));
 
-router.get("/facebook/callback", authenticate("facebook"), redirectHome);
+router.get("/facebook/callback", passport.authenticate("facebook"), redirectHome);
 
 module.exports = router;

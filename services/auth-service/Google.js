@@ -1,9 +1,10 @@
-const passport = require("passport/lib");
+const passport = require("passport");
 const { get } = require("lodash");
 const GoogleStrategy = require("passport-google-oauth20/lib").Strategy;
 
-const { User } = require("../models");
-const config = require("../config");
+const { User } = require("../../models");
+const config = require("../../config");
+
 passport.use(
   new GoogleStrategy(
     {

@@ -1,8 +1,8 @@
 const { check } = require("express-validator");
 
-const { Manga } = require("models");
+const { Manga } = require("../../models");
 const { FollowingStatuses } = Manga;
-const MangaService = require("services/manga-service");
+const MangaService = require("../manga-service");
 const ErrorFormatter = require("./validation-error-formatter");
 
 module.exports = [

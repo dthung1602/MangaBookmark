@@ -1,6 +1,7 @@
-const Manga = require("../models/Manga");
-const { getParser } = require("./parsers");
 const { pick } = require("lodash");
+
+const { Manga } = require("../../models");
+const { getParser } = require("./parsers");
 
 const fields = ["url", "userID", "isCompleted", "following", "readChapters", "note", "hidden"];
 

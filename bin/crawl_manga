@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 const { Manga } = require("../models");
-const db = require("services/db-service");
-const MangaService = require("services/manga-service");
+const db = require("../services/db-service");
+const MangaService = require("../services/manga-service");
 
 async function main() {
   if (process.argv.length < 4) {

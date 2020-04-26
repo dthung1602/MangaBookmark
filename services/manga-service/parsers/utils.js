@@ -1,6 +1,7 @@
 const rq = require("request-promise");
 const cheerio = require("cheerio");
-const { USER_AGENT } = require("../config");
+
+const { USER_AGENT } = require("../../../config");
 
 async function loadData(dataSource) {
   return cheerio.load(

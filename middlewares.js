@@ -1,5 +1,5 @@
-const { ensureDBConnection } = require("services/db-service");
-const { ValidationError } = require("exceptions");
+const { ensureDBConnection } = require("./services/db-service");
+const { ValidationError } = require("./exceptions");
 
 const DBConnectionMiddleware = async (req, res, next) => {
   await ensureDBConnection();

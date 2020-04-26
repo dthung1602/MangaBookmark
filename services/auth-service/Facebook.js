@@ -1,9 +1,9 @@
-const passport = require("passport/lib");
+const passport = require("passport");
 const { get } = require("lodash");
 const FacebookStrategy = require("passport-facebook").Strategy;
 
-const { User } = require("../models");
-const config = require("../config");
+const { User } = require("../../models");
+const config = require("../../config");
 
 passport.use(
   new FacebookStrategy(

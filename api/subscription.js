@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const SubscriptionService = require("services/subscription-service");
-const { SubscriptionCreateValidator, SubscriptionDeleteValidator } = require("services/validation-service");
+const SubscriptionService = require("../services/subscription-service");
+const { SubscriptionCreateValidator, SubscriptionDeleteValidator } = require("../services/validation-service");
 
 //-----------------------------------
 //  List all subscription of user

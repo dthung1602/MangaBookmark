@@ -1,6 +1,7 @@
 const { chunk } = require("lodash");
-const { CRAWL_MAX_THREADS } = require("../config");
-const { update } = require("./update");
+
+const { CRAWL_MAX_THREADS } = require("../../config");
+const update = require("./update");
 
 module.exports = async function (mangas, verbose = false) {
   if (verbose) {

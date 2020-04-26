@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const MangaService = require("services/manga-service");
+const MangaService = require("../services/manga-service");
 const {
   MarkChapterValidator,
   MangaFilterValidator,
@@ -9,7 +9,7 @@ const {
   MangaCreateValidator,
   MangaPatchValidator,
   MangaPermissionValidator,
-} = require("services/validation-service");
+} = require("../services/validation-service");
 
 //-----------------------------------
 //  Filter & search mangas

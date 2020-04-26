@@ -7,7 +7,7 @@
 const mongoose = require("mongoose");
 
 // const Manga = require("models/Manga");
-const db = require("services/db-service");
+const db = require("../services/db-service");
 
 //----------------------------------
 //     Old schema defined here

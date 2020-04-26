@@ -1,6 +1,6 @@
 const { check } = require("express-validator");
 
-const { Manga } = require("models");
+const { Manga } = require("../../models");
 const ErrorFormatter = require("./validation-error-formatter");
 
 module.exports = [

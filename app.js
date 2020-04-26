@@ -7,13 +7,8 @@ const logger = require("morgan");
 const helmet = require("helmet");
 const enforceSSL = require("express-enforces-ssl");
 
-const config = require("config");
-const AuthRouter = require("api/auth");
-const MangaRouter = require("api/manga");
-const UserRouter = require("api/user");
-const SubscriptionRouter = require("api/subscription");
-const { AuthenticateMiddleware, DBConnectionMiddleware, ErrorHandler } = require("middlewares");
-
+require("./services/auth-service");
+const config = require("./config");
 const app = express();
 
 app.enable("trust proxy"); // let Google & Facebook use https
@@ -36,6 +31,12 @@ app.use(
 // initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
+
+const AuthRouter = require("./api/auth");
+const MangaRouter = require("./api/manga");
+const UserRouter = require("./api/user");
+const SubscriptionRouter = require("./api/subscription");
+const { AuthenticateMiddleware, DBConnectionMiddleware, ErrorHandler } = require("./middlewares");
 
 // Static files handled by React
 app.use(express.static(path.join(__dirname, "react-mb-client/build")));
