@@ -21,7 +21,7 @@
     - [x] Validation logic in middleware or in service?
     - [x] Error handling -> remove handlerWrapper
     - [x] Save newChapCount, unreadChapCount in schema?
-    - [ ] App loaders + set security headers 
+    - [x] ~~App loaders~~ + set security headers 
     - [ ] Test everything is working  
  
 - [ ] Restructure folder FE
@@ -81,5 +81,7 @@
     - [ ] user avt
 
 - [ ] Manga src from other languages
+
+- [ ] csrf token
 
 - [ ] multi-language UI

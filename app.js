@@ -4,18 +4,21 @@ const passport = require("passport");
 const cookieSession = require("cookie-session");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const helmet = require("helmet");
+const enforceSSL = require("express-enforces-ssl");
 
 const config = require("config");
 const AuthRouter = require("api/auth");
 const MangaRouter = require("api/manga");
 const UserRouter = require("api/user");
 const SubscriptionRouter = require("api/subscription");
-const { AuthenticateMiddleware, DBConnectionMiddleware, ErrorHandler, EnforceHTTPS } = require("middlewares");
+const { AuthenticateMiddleware, DBConnectionMiddleware, ErrorHandler } = require("middlewares");
 
 const app = express();
 
-app.enable("trust proxy"); // let Google & facebook use https
-app.use(EnforceHTTPS);
+app.enable("trust proxy"); // let Google & Facebook use https
+app.use(enforceSSL());
+app.use(helmet());
 
 app.use(logger("dev"));
 app.use(express.json());
