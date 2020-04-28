@@ -1,5 +1,5 @@
-const express = require("express");
-const router = express.Router();
+const { Router } = require("@awaitjs/express");
+const router = Router();
 
 const MangaService = require("../services/manga-service");
 const {
@@ -15,13 +15,8 @@ const {
 //  Filter & search mangas
 //-----------------------------------
 
-router.get("/", MangaFilterValidator, async (req, res) => {
-  const filters = {
-    user: req.user.id,
-    following: req.query.following,
-    hidden: req.query.hidden,
-    search: req.query.search,
-  };
+router.getAsync("/", MangaFilterValidator, async (req, res) => {
+  const filters = Object.assign({ user: req.user.id }, req.query);
 
   const mangas = await MangaService.list(filters, req.query.search, req.query.sort, req.query.page, req.query.perPage);
 
@@ -32,7 +27,7 @@ router.get("/", MangaFilterValidator, async (req, res) => {
 //  Create manga
 //-----------------------------------
 
-router.post("/", MangaCreateValidator, async (req, res) => {
+router.postAsync("/", MangaCreateValidator, async (req, res) => {
   try {
     const manga = await MangaService.create({ ...req.body, userID: req.user.id });
     res.json(manga);
@@ -45,7 +40,7 @@ router.post("/", MangaCreateValidator, async (req, res) => {
 //  Edit manga
 //-----------------------------------
 
-router.patch("/", MangaPatchValidator, async (req, res) => {
+router.patchAsync("/", MangaPatchValidator, async (req, res) => {
   await MangaService.patch(req.manga, req.body);
   res.json({});
 });
@@ -54,7 +49,7 @@ router.patch("/", MangaPatchValidator, async (req, res) => {
 //  Delete manga
 //-----------------------------------
 
-router.delete("/", MangaPermissionValidator, async (req, res) => {
+router.deleteAsync("/", MangaPermissionValidator, async (req, res) => {
   await MangaService.delete(req.manga);
   res.json({});
 });
@@ -63,7 +58,7 @@ router.delete("/", MangaPermissionValidator, async (req, res) => {
 //  Get manga info from link
 //-----------------------------------
 
-router.get("/info", MangaInfoValidator, async (req, res) => {
+router.getAsync("/info", MangaInfoValidator, async (req, res) => {
   try {
     const manga = await req.parser.parseManga(req.query.link);
     res.json(manga);
@@ -76,7 +71,7 @@ router.get("/info", MangaInfoValidator, async (req, res) => {
 //  Mark chapters as read / unread
 //-----------------------------------
 
-router.post("/mark-chapters", MarkChapterValidator, async (req, res) => {
+router.postAsync("/mark-chapters", MarkChapterValidator, async (req, res) => {
   const { chapters, isRead } = req.body;
   const { manga } = req;
   MangaService.markChapters(manga, isRead, chapters);
@@ -87,7 +82,7 @@ router.post("/mark-chapters", MarkChapterValidator, async (req, res) => {
 //  Check 1 manga for new updates
 //-----------------------------------
 
-router.post("/update", MangaPermissionValidator, async (req, res) => {
+router.postAsync("/update", MangaPermissionValidator, async (req, res) => {
   try {
     const manga = await MangaService.update(req.manga);
     res.json(manga);
@@ -100,7 +95,7 @@ router.post("/update", MangaPermissionValidator, async (req, res) => {
 //  Check multiple mangas for new updates
 //------------------------------------------
 
-router.post("/update-multiple", MangaFilterValidator, async (req, res) => {
+router.postAsync("/update-multiple", MangaFilterValidator, async (req, res) => {
   const filters = {
     user: req.user.id,
     following: req.body.following,

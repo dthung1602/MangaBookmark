@@ -6,13 +6,16 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const helmet = require("helmet");
 const enforceSSL = require("express-enforces-ssl");
+const { addAsync } = require("@awaitjs/express");
 
 require("./services/auth-service");
 const config = require("./config");
-const app = express();
+const app = addAsync(express());
 
 app.enable("trust proxy"); // let Google & Facebook use https
-app.use(enforceSSL());
+if (config.NODE_ENV === "production") {
+  app.use(enforceSSL());
+}
 app.use(helmet());
 
 app.use(logger("dev"));

@@ -1,5 +1,5 @@
-const express = require("express");
-const router = express.Router();
+const { Router } = require("@awaitjs/express");
+const router = Router();
 
 const SubscriptionService = require("../services/subscription-service");
 const { SubscriptionCreateValidator, SubscriptionDeleteValidator } = require("../services/validation-service");
@@ -8,7 +8,7 @@ const { SubscriptionCreateValidator, SubscriptionDeleteValidator } = require("..
 //  List all subscription of user
 //-----------------------------------
 
-router.get("/", async (req, res) => {
+router.getAsync("/", async (req, res) => {
   const subs = await SubscriptionService.list(req.user);
   res.json(subs);
 });
@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
 //  Subscribe
 //-----------------------------------
 
-router.post("/", SubscriptionCreateValidator, async (req, res) => {
+router.postAsync("/", SubscriptionCreateValidator, async (req, res) => {
   const sub = await SubscriptionService.create(req.body);
   res.json(sub);
 });
@@ -26,7 +26,7 @@ router.post("/", SubscriptionCreateValidator, async (req, res) => {
 //  Unsubscribe
 //-----------------------------------
 
-router.delete("/", SubscriptionDeleteValidator, async (req, res) => {
+router.deleteAsync("/", SubscriptionDeleteValidator, async (req, res) => {
   await SubscriptionService.delete(req.sub);
   res.json({});
 });

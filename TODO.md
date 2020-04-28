@@ -11,6 +11,11 @@
 - [x] Click on manga name -> open new tab
 - [x] Infinite scroll
 
+# MISCHIEVOUS
+
+- [ ] mongoose (DeprecationWarning: collection.update is deprecated. Use updateOne, updateMany, or bulkWrite instead.
+- [ ] csrf token
+
 # REFACTOR
 
 - [ ] Restructure folder BE
@@ -81,7 +86,5 @@
     - [ ] user avt
 
 - [ ] Manga src from other languages
-
-- [ ] csrf token
 
 - [ ] multi-language UI

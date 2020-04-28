@@ -1,13 +1,12 @@
 const { validationResult } = require("express-validator");
 const { ValidationError } = require("../../exceptions");
 
-module.exports = function (req) {
+module.exports = function (req, res, next) {
+  console.log("Validation Error formatter");
   const errors = validationResult(req);
+  console.error(errors.mapped());
   if (!errors.isEmpty()) {
-    const dict = {};
-    errors.array().forEach((err) => {
-      dict[err.param] = err.msg;
-    });
-    throw ValidationError(dict);
+    throw new ValidationError(errors.mapped());
   }
+  next();
 };

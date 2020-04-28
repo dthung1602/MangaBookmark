@@ -6,7 +6,6 @@
 
 const mongoose = require("mongoose");
 
-// const Manga = require("models/Manga");
 const db = require("../services/db-service");
 
 //----------------------------------
@@ -107,8 +106,6 @@ mangaSchema.virtual("status").get(function () {
   return codeToStatus(this.statusCode);
 });
 
-const OldManga = mongoose.model("Manga", mangaSchema);
-
 //------------------------------------
 
 async function main() {
@@ -116,7 +113,24 @@ async function main() {
   await db.ensureDBConnection();
 
   console.log("Start updating");
-  await OldManga.update({}, { $rename: { statusCode: "status" } }, { multi: true });
+
+  console.log("Rename status");
+  const OldManga = mongoose.model("Manga", mangaSchema);
+  await OldManga.updateMany({}, { $rename: { statusCode: "status" } }, { multi: true });
+
+  delete mongoose.connection.models["Manga"];
+  const Manga = require("../models/Manga");
+
+  console.log("Add new chap count & unread chap count");
+  let mangas = await Manga.find({});
+  let saved = [];
+  for (let manga of mangas) {
+    manga.newChapCount = 0;
+    saved.push(manga.save());
+  }
+
+  console.log("Saving");
+  await Promise.all(saved);
 
   console.log("Done!");
   await db.closeDBConnection();

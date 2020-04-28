@@ -5,11 +5,12 @@ module.exports = async function (filters = {}, search = undefined, sort = undefi
   if (search) {
     filters.$text = { $search: search };
   }
+
   let mangas = Manga.find(filters);
   if (sort) {
     mangas = mangas.sort(sort);
   }
-  if (perPage > 0) {
+  if (perPage > 0 && page > 0) {
     mangas = mangas.skip((page - 1) * perPage).limit(perPage);
   }
   return await mangas;

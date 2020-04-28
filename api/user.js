@@ -1,5 +1,5 @@
-const express = require("express");
-const router = express.Router();
+const { Router } = require("@awaitjs/express");
+const router = Router();
 
 const { User } = require("../models");
 const { redirectHome } = require("./utils");
@@ -14,7 +14,7 @@ const {
 //-----------------------------------
 //  Resister new user
 //-----------------------------------
-router.post(
+router.postAsync(
   "/",
   LocalUserRegistrationValidator,
   async (req, res, next) => {
@@ -34,7 +34,7 @@ router.post(
 //  Get current user profile
 //-----------------------------------
 
-router.get("/", async (req, res) => {
+router.getAsync("/", async (req, res) => {
   const user = await User.findById(req.user.id);
   user.password = !!user.password;
   res.json(user);
@@ -44,7 +44,7 @@ router.get("/", async (req, res) => {
 //  Edit user profile
 //-----------------------------------
 
-router.patch("/", UserPatchValidator, async (req, res) => {
+router.patchAsync("/", UserPatchValidator, async (req, res) => {
   const user = await UserService.patch(req.user, req.query);
   res.status(200).json(user);
 });
@@ -53,7 +53,7 @@ router.patch("/", UserPatchValidator, async (req, res) => {
 //  Change password
 //-----------------------------------
 
-router.patch("/change-password", UserPassValidator, async (req, res) => {
+router.patchAsync("/change-password", UserPassValidator, async (req, res) => {
   await UserService.changePassword(req.user, req.query.password);
   res.status(204).json({});
 });
@@ -62,7 +62,7 @@ router.patch("/change-password", UserPassValidator, async (req, res) => {
 //  Unlink account
 //-----------------------------------
 
-router.patch("/unlink", UnlinkAccountValidator, async (req, res) => {
+router.patchAsync("/unlink", UnlinkAccountValidator, async (req, res) => {
   const { newPrimaryAccount, provider } = req.query;
   const { user } = req;
 
@@ -75,7 +75,7 @@ router.patch("/unlink", UnlinkAccountValidator, async (req, res) => {
 //  Delete user
 //-----------------------------------
 
-router.delete("/", async (req, res) => {
+router.deleteAsync("/", async (req, res) => {
   await UserService.delete(req.user);
   req.logout();
   res.redirect("/");

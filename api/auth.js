@@ -1,6 +1,8 @@
-const express = require("express");
+const { Router } = require("@awaitjs/express");
 const passport = require("passport");
-const router = express.Router();
+
+const { ValidationError } = require("../exceptions");
+const router = Router();
 
 const { redirectHome } = require("./utils");
 
@@ -8,7 +10,7 @@ const { redirectHome } = require("./utils");
 //  Logout
 //-----------------------------------
 
-router.post("/logout", (req, res) => {
+router.postAsync("/logout", (req, res) => {
   req.logout();
   res.redirect("/");
 });
@@ -17,17 +19,17 @@ router.post("/logout", (req, res) => {
 //  Login with username & password
 //-----------------------------------
 
-router.post("/login", (req, res, next) => {
+router.postAsync("/login", (req, res, next) => {
   passport.authenticate("local", function (err, user, info) {
     if (err) {
-      throw { code: 500, message: String(err) };
+      throw new Error(String(err));
     }
     if (!user) {
-      throw { code: 400, message: info };
+      throw new ValidationError({ login: info });
     }
     req.login(user, (err) => {
       if (err) {
-        next({ code: 500, message: String(err) });
+        next(new Error(String(err)));
       } else {
         next();
       }
@@ -39,16 +41,16 @@ router.post("/login", (req, res, next) => {
 //  Login with Google
 //-----------------------------------
 
-router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+router.getAsync("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
-router.get("/google/callback", passport.authenticate("google"), redirectHome);
+router.getAsync("/google/callback", passport.authenticate("google"), redirectHome);
 
 //-----------------------------------
 //  Login with Facebook
 //-----------------------------------
 
-router.get("/facebook", passport.authenticate("facebook"));
+router.getAsync("/facebook", passport.authenticate("facebook"));
 
-router.get("/facebook/callback", passport.authenticate("facebook"), redirectHome);
+router.getAsync("/facebook/callback", passport.authenticate("facebook"), redirectHome);
 
 module.exports = router;
