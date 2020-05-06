@@ -26,7 +26,8 @@
     - [x] Validation logic in middleware or in service?
     - [x] Error handling -> remove handlerWrapper
     - [x] Save newChapCount, unreadChapCount in schema?
-    - [x] ~~App loaders~~ + set security headers 
+    - [x] ~~App loaders~~ + set security headers
+    - [x] Pagination 
     - [ ] Test everything is working  
  
 - [ ] Restructure folder FE

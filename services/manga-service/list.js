@@ -1,7 +1,8 @@
 const { Manga } = require("../../models");
 const { PAGE_SIZE } = require("../../config");
+const paginate = require("../pagination-service");
 
-module.exports = async function (filters = {}, search = undefined, sort = undefined, page = 0, perPage = PAGE_SIZE) {
+module.exports = async function (filters = {}, search = undefined, sort = undefined, page = 1, perPage = PAGE_SIZE) {
   if (search) {
     filters.$text = { $search: search };
   }
@@ -10,8 +11,6 @@ module.exports = async function (filters = {}, search = undefined, sort = undefi
   if (sort) {
     mangas = mangas.sort(sort);
   }
-  if (perPage > 0 && page > 0) {
-    mangas = mangas.skip((page - 1) * perPage).limit(perPage);
-  }
-  return await mangas;
+
+  return await paginate(mangas, page, perPage);
 };
