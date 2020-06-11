@@ -7,10 +7,10 @@ mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 mongoose.set("useUnifiedTopology", true);
 
-async function ensureDBConnection() {
+async function ensureDBConnection(url = DB_URL) {
   const state = mongoose.connection.readyState;
   if (state === 0 || state === 3) {
-    return mongoose.connect(DB_URL);
+    return mongoose.connect(url);
   }
   return true;
 }
