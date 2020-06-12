@@ -6,8 +6,11 @@ async function loadData(dataSource) {
   return cheerio.load(
     await rq({
       uri: dataSource,
+      insecure: true, // to handle .net and .com
+      rejectUnauthorized: false, // to handle .net and .com
       headers: {
         "User-Agent": USER_AGENT,
+        "Accept-Language": "en",
       },
     }),
   );

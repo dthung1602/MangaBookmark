@@ -1,21 +1,6 @@
-const rq = require("request-promise");
-const cheerio = require("cheerio");
+const { normalizeDataSource } = require("./utils");
 
 const URLRegex = /^https?:\/\/hocvientruyentranh\.(com|net)\/(index.php\/)?truyen\/[0-9]+\/.+$/;
-
-async function loadData(dataSource) {
-  return cheerio.load(
-    await rq({
-      uri: dataSource,
-      insecure: true, // to handle .net and .com
-      rejectUnauthorized: false, // to handle .net and .com
-    }),
-  );
-}
-
-function normalizeDataSource(dataSource) {
-  return typeof dataSource === "string" && dataSource.trim().startsWith("http") ? loadData(dataSource) : dataSource;
-}
 
 async function parseChapters(dataSource) {
   const $ = await normalizeDataSource(dataSource);
