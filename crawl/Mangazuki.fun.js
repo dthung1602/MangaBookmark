@@ -1,22 +1,6 @@
 const normalizeDataSource = require("./utils").normalizeDataSource;
-
+const { parseChapters } = require("./Mangakakalot");
 const URLRegex = /^https?:\/\/mangazuki\.fun\/manga\/.+$/;
-
-async function parseChapters(dataSource) {
-  const $ = await normalizeDataSource(dataSource);
-
-  const rows = $(".chapter-list a");
-
-  const chapters = [];
-  for (let i = 0; i < rows.length; i++) {
-    chapters.push({
-      name: rows[i].children[0].data,
-      link: rows[i].attribs.href,
-    });
-  }
-
-  return chapters;
-}
 
 async function parseManga(dataSource) {
   const $ = await normalizeDataSource(dataSource);
