@@ -13,6 +13,8 @@ const parserNames = [
   "Manganelo",
   "MangaOwl",
   "Mangazuki.fun",
+  "MangaPanda",
+  "MangaReader",
   "MeDocTruyenTranh",
   "NetTruyen",
   "NhatTruyen",
