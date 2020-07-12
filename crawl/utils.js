@@ -20,4 +20,4 @@ function normalizeDataSource(dataSource) {
   return typeof dataSource === "string" && dataSource.trim().startsWith("http") ? loadData(dataSource) : dataSource;
 }
 
-module.exports = { normalizeDataSource };
+module.exports = { normalizeDataSource, loadData };

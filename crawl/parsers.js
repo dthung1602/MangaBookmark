@@ -5,6 +5,7 @@ const parserNames = [
   "HamTruyenTranh",
   "HocVienTruyenTranh",
   "MangaBat",
+  "MangaDex",
   "MangaFox",
   "Mangairo",
   "Mangakakalot",

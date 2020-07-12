@@ -4,7 +4,9 @@ const { USER_AGENT } = require("../config");
 const URLRegex = /^https?:\/\/truyenqq\.com\/truyen-tranh\/.+$/;
 const cookieRegex = /document.cookie="(VinaHost-Shield=.*)"\+"/;
 
-async function request(dataSource, cookie = "") {
+let cookie = ""
+
+async function makeRequest(dataSource) {
   return await rq({
     uri: dataSource,
     insecure: true,
@@ -18,11 +20,11 @@ async function request(dataSource, cookie = "") {
 }
 
 async function loadData(dataSource) {
-  let response = await request(dataSource);
+  let response = await makeRequest(dataSource);
   const match = response.match(cookieRegex);
   if (match) {
-    const cookie = match[1] + "; path=/";
-    response = await request(dataSource, cookie);
+    cookie = match[1] + "; path=/";
+    response = await makeRequest(dataSource);
   }
   return cheerio.load(response);
 }
