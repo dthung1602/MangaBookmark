@@ -122,6 +122,9 @@ router.post(
         manga[f] = req.body[f];
       }
     });
+    if (manga.following === 'finished') {
+      manga.chapters.forEach(ch => ch.isRead = true);
+    }
     await manga.save();
     res.json({});
   }),
