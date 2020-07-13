@@ -6,7 +6,7 @@ import Badge from "@material-ui/core/Badge";
 
 import LOGO from './static/logo.png'
 
-const VERSION = 'v1.9.0';
+const VERSION = 'v1.9.1';
 
 const styles = () => ({
     logo: {

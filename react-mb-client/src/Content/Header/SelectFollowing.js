@@ -1,6 +1,12 @@
 import React from "react"
 import {Input, MenuItem, Select, Typography} from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
+import ToReadIcon from "@material-ui/icons/DateRange";
+import FollowingIcon from "@material-ui/icons/ImportContacts";
+import WaitingIcon from "@material-ui/icons/HourglassEmpty";
+import FinishedIcon from "@material-ui/icons/Done";
+import DroppedIcon from "@material-ui/icons/Block";
+
 
 const styles = () => ({
     root: {
@@ -14,6 +20,15 @@ const styles = () => ({
     },
     disable: {
         filter: 'opacity(50%)'
+    },
+    followingStatus: {
+        display: 'flex',
+        alignItems: 'center',
+        '& svg': {
+            margin: '0 8px 0 2px',
+            width: '18px',
+            height: '18px'
+        }
     }
 });
 
@@ -34,11 +49,31 @@ class SelectFollowing extends React.Component {
                     onChange={this.props.onChange}
                     input={<Input disabled={disable}/>}
                 >
-                    <MenuItem value="toread">To read</MenuItem>
-                    <MenuItem value="following">Following</MenuItem>
-                    <MenuItem value="waiting">Waiting</MenuItem>
-                    <MenuItem value="dropped">Dropped</MenuItem>
-                    <MenuItem value="finished">Finished</MenuItem>
+                    <MenuItem value="toread">
+                        <div className={classes.followingStatus}>
+                            <ToReadIcon/>To read
+                        </div>
+                    </MenuItem>
+                    <MenuItem value="following">
+                        <div className={classes.followingStatus}>
+                            <FollowingIcon/> Following
+                        </div>
+                    </MenuItem>
+                    <MenuItem value="waiting">
+                        <div className={classes.followingStatus}>
+                            <WaitingIcon/>Waiting
+                        </div>
+                    </MenuItem>
+                    <MenuItem value="dropped">
+                        <div className={classes.followingStatus}>
+                            <DroppedIcon/>Dropped
+                        </div>
+                    </MenuItem>
+                    <MenuItem value="finished">
+                        <div className={classes.followingStatus}>
+                            <FinishedIcon/>Finished
+                        </div>
+                    </MenuItem>
                 </Select>
             </div>
         )

@@ -1,6 +1,10 @@
 import React from "react"
 import {MenuItem, Select, Typography} from "@material-ui/core";
 import {withStyles} from "@material-ui/styles";
+import SortByNameIcon from "@material-ui/icons/SortByAlpha";
+import SortByLatestIcon from "@material-ui/icons/Schedule";
+import SortByStatusIcon from "@material-ui/icons/LocalOffer";
+import SortByManyToReadIcon from "@material-ui/icons/ImportContacts";
 
 const styles = () => ({
     root: {
@@ -10,6 +14,15 @@ const styles = () => ({
     label: {
         paddingRight: 15,
         paddingBottom: 3
+    },
+    sortLabel: {
+        display: 'flex',
+        alignItems: 'center',
+        '& svg': {
+            margin: '0 8px 0 2px',
+            width: '18px',
+            height: '18px'
+        }
     }
 });
 
@@ -26,10 +39,30 @@ class SortBy extends React.Component {
                     Sort by
                 </Typography>
                 <Select value={sortby} onChange={onChange} variant={"filled"} on >
-                    <MenuItem value="status">Status</MenuItem>
-                    <MenuItem value="name">Name</MenuItem>
-                    <MenuItem value="latest">Latest</MenuItem>
-                    <MenuItem value="many">Many to read</MenuItem>
+                    <MenuItem value="status">
+                        <div className={classes.sortLabel}>
+                            <SortByStatusIcon/>
+                            Status
+                        </div>
+                    </MenuItem>
+                    <MenuItem value="name">
+                        <div className={classes.sortLabel}>
+                            <SortByNameIcon/>
+                            Name
+                        </div>
+                    </MenuItem>
+                    <MenuItem value="latest">
+                        <div className={classes.sortLabel}>
+                            <SortByLatestIcon/>
+                            Latest
+                        </div>
+                    </MenuItem>
+                    <MenuItem value="many">
+                        <div className={classes.sortLabel}>
+                            <SortByManyToReadIcon/>
+                            Many to read
+                        </div>
+                    </MenuItem>
                 </Select>
             </div>
         )
