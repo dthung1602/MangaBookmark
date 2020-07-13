@@ -35,6 +35,7 @@ const data = [
 
 for (let sub of data) {
   sub._id = new ObjectId(sub._id);
+  sub.user = new ObjectId(sub.user);
 }
 
 module.exports = data;

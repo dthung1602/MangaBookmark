@@ -2,7 +2,10 @@ const Fixtures = require("node-mongodb-fixtures");
 
 const config = require("../../config");
 
-const fixtures = new Fixtures({ dir: "tests/fixtures" });
+const fixtures = new Fixtures({
+  dir: "tests/fixtures",
+  mute: true
+});
 
 async function connectFixtureDB() {
   await fixtures.connect(config.TEST_DB_URL);
@@ -21,7 +24,10 @@ async function unloadFixture() {
 }
 
 function mockMiddleware() {
-  jest.mock("../../services/auth-service", () => (req, res, next) => next());
+  jest.mock("../../services/auth-service", () => (req, res, next) => {
+    req.user = { id: "111cccccccccccccccccc111" };
+    next();
+  });
 
   jest.mock("../../middlewares", () => {
     const { ensureDBConnection } = require("../../services/db-service");

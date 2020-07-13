@@ -25,8 +25,11 @@ describe("Subscription API", () => {
     await closeDBConnection();
   });
 
-  it("should return subscriptions", async function () {
-    const response = await request(app).get("/");
+  it("should return subscriptions of current user", async function() {
+    const response = await request(app).get("/api/subscriptions");
     expect(response.status).toEqual(200);
+
+    const subIds = response.body.map(sub => sub._id).sort();
+    expect(subIds).toEqual(["111cccccccccccccccccc111", "222cccccccccccccccccc222"]);
   });
 });
