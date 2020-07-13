@@ -169,9 +169,11 @@ router.post(
     }
     const mangas = await Manga.find(filters);
     const result = await updateMangas(mangas);
+    const successMangaLinks = result.map((manga) => manga.link);
     res.json({
       total: mangas.length,
       success: result.map((manga) => manga.name),
+      fail: mangas.filter(mg => successMangaLinks.indexOf(mg.link) === -1).map((manga) => manga.name)
     });
   }),
 );

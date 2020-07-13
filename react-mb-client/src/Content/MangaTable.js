@@ -212,7 +212,7 @@ class MangaTable extends React.Component {
                 this.fetchManga(page + 1)
                     .catch(alert);
             }
-        }, 750);
+        }, 250);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

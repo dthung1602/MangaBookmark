@@ -107,6 +107,8 @@ class Content extends React.Component {
         const result = await response.json();
         let text = `Update successfully ${result.success.length}/${result.total} mangas:`;
         result.success.forEach(mangaName => text += `\n-  ${mangaName}`);
+        text += "\n\nFail mangas:"
+        result.fail.forEach(mangaName => text += `\n-  ${mangaName}`);
         alert(text);
 
         this.setState({

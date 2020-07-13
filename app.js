@@ -28,7 +28,7 @@ app.enable("trust proxy"); // let Google & facebook use https
 app.use(enforceHttps());
 
 app.use(logger("dev"));
-app.use(express.json());
+app.use(express.json({limit: '64mb'}));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
