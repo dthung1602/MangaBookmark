@@ -6,6 +6,7 @@ import ListItemText from "@material-ui/core/ListItemText/index";
 import ReadIcon from "@material-ui/icons/ArrowForwardIos";
 import ReadAll from "@material-ui/icons/BookmarkBorderOutlined"
 import ReadUpTo from "@material-ui/icons/KeyboardArrowDown"
+import ReadOneChap from "@material-ui/icons/ControlPoint"
 
 const styles = () => ({
     noWrap: {
@@ -68,14 +69,25 @@ class ChapterList extends React.Component {
             nextChapToRead = chapters[chapterCount - 1];
 
         let nextChapBtn = '';
-        if (showNextChapBtn && nextChapToRead !== undefined)
+        let markNextChapAsReadBtn = '';
+        if (showNextChapBtn && nextChapToRead !== undefined) {
             nextChapBtn =
-                <div className={classes.actionBtn}
-                     title={"Read " + nextChapToRead.name}
-                     onClick={() => window.open(nextChapToRead.link, '_blank')}>
+                <div
+                    className={classes.actionBtn}
+                    title={"Read " + nextChapToRead.name}
+                    onClick={() => window.open(nextChapToRead.link, '_blank')}
+                >
                     <ReadIcon/>
                 </div>;
-
+            markNextChapAsReadBtn =
+                <div
+                    className={classes.actionBtn}
+                    title={`Mark '${nextChapToRead.name}' as read`}
+                    onClick={this.props.onReadOneChap}
+                >
+                    <ReadOneChap/>
+                </div>;
+        }
 
         let markAllReadBtn = '';
         if (markAllRead !== undefined && !chapters.every(chap => chap.isRead))
@@ -119,6 +131,7 @@ class ChapterList extends React.Component {
                 {select}
                 <div>
                     {markAllReadBtn}
+                    {markNextChapAsReadBtn}
                     {nextChapBtn}
                 </div>
             </div>

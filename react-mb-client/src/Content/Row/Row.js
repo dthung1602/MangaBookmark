@@ -48,10 +48,10 @@ class Row extends React.Component {
         }
     }
 
-    markChapterReadStatus = async (chapters, action) => {
+    markChapterReadStatus = async (chapterLinks, action) => {
         const mangaID = this.state.manga._id;
 
-        if (chapters.length === 0) return;
+        if (chapterLinks.length === 0) return;
         const url = `/api/chapter/${action}`;
         const fetchOptions = {
             method: 'POST',
@@ -59,7 +59,7 @@ class Row extends React.Component {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 manga: mangaID,
-                chapters: chapters
+                chapters: chapterLinks
             })
         };
 
@@ -105,6 +105,8 @@ class Row extends React.Component {
     };
 
     onMarkAllChaptersRead = async () => {
+        if (!window.confirm("Mark all as read?"))
+            return;
         const {manga} = this.state;
         const {chapters} = manga;
         const markRead = chapters.filter(ch => !ch.isRead).map(ch => ch.link);
@@ -117,6 +119,29 @@ class Row extends React.Component {
             alert('ERROR ' + e);
         }
     };
+
+    onReadOneChap = async () => {
+        const {manga} = this.state;
+        const {chapters} = manga;
+        const firstChap = chapters[chapters.length - 1]
+        let chapter = firstChap.isRead ? '' : firstChap;
+        for (let i = 0; i < chapters.length - 1; i++) {
+            if (!chapters[i].isRead && chapters[i + 1].isRead) {
+                chapter = chapters[i];
+                break;
+            }
+        }
+        if (!chapter) return;
+
+        try {
+            await this.markChapterReadStatus([chapter.link], 'read');
+            chapter.isRead = true;
+            manga.status = utils.getMangaStatus(manga);
+            this.setState({manga: manga})
+        } catch (e) {
+            alert('ERROR ' + e);
+        }
+    }
 
     saveNote = async (note) => {
         const {manga} = this.state;
@@ -242,6 +267,7 @@ class Row extends React.Component {
                         onChangeChapter={this.onChangeChapter}
                         onMarkUpTo={this.onMarkChaptersAsReadUpTo}
                         onMarkAllChaptersRead={this.onMarkAllChaptersRead}
+                        onReadOneChap={this.onReadOneChap}
                         showNextChapBtn={true}
                         markAllRead='after'
                     />

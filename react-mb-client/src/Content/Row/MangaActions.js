@@ -40,6 +40,12 @@ const styles = () => ({
 
 class MangaActions extends React.Component {
 
+    onChangeCompleted = () => {
+        if (window.confirm("Mark this manga as completed?")) {
+            return this.props.onChangeCompleted();
+        }
+    }
+
     render() {
         const {classes, manga, updatingManga, showHidden} = this.props;
 
@@ -48,7 +54,7 @@ class MangaActions extends React.Component {
             markMangaCompletedBtn =
                 <div className={classes.actionBtn}
                      title="Mark manga as completed"
-                     onClick={this.props.onChangeCompleted}
+                     onClick={this.onChangeCompleted}
                 >
                     <DoneIcon/>
                 </div>;
