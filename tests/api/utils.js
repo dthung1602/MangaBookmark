@@ -1,14 +1,18 @@
 const Fixtures = require("node-mongodb-fixtures");
-
 const config = require("../../config");
+
+const TEST_DB_DEFAULT_OPTIONS = {
+  useUnifiedTopology: true,
+};
 
 const fixtures = new Fixtures({
   dir: "tests/fixtures",
-  mute: true
+  mute: true,
 });
 
-async function connectFixtureDB() {
-  await fixtures.connect(config.TEST_DB_URL);
+async function connectFixtureDB(options = {}) {
+  options = { ...TEST_DB_DEFAULT_OPTIONS, ...options };
+  await fixtures.connect(config.TEST_DB_URL, options);
 }
 
 async function disconnectFixtureDB() {

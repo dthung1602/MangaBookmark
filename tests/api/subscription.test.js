@@ -12,6 +12,7 @@ describe("Subscription API", () => {
 
   afterAll(async () => {
     await disconnectFixtureDB();
+    await closeDBConnection();
   });
 
   beforeEach(async () => {
@@ -22,14 +23,38 @@ describe("Subscription API", () => {
 
   afterEach(async () => {
     await unloadFixture();
-    await closeDBConnection();
   });
 
-  it("should return subscriptions of current user", async function() {
+  it("should return subscriptions of current user", async function () {
     const response = await request(app).get("/api/subscriptions");
     expect(response.status).toEqual(200);
 
-    const subIds = response.body.map(sub => sub._id).sort();
+    const subIds = response.body.map((sub) => sub._id).sort();
     expect(subIds).toEqual(["111cccccccccccccccccc111", "222cccccccccccccccccc222"]);
+  });
+
+  it("should create subscription", async function () {
+    const sub = {
+      os: "Linux",
+      browser: "Firefox",
+      endpoint: "http://example.dom",
+      auth: "auth",
+      p256dh: "p256dh",
+    };
+
+    const response = await request(app).post("/api/subscriptions").send(sub);
+    expect(response.status).toEqual(200);
+
+    expect(response.body).toEqual(expect.objectContaining(sub));
+    expect(response.body._id).not.toBeUndefined();
+  });
+
+  it("should delete subscription", async function () {
+    let response = await request(app).delete("/api/subscriptions").send({ subscription: "111cccccccccccccccccc111" });
+    expect(response.status).toEqual(200);
+
+    response = await request(app).get("/api/subscriptions");
+    const subIds = response.body.map((sub) => sub._id);
+    expect(subIds).toEqual(["222cccccccccccccccccc222"]);
   });
 });

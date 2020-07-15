@@ -2,7 +2,7 @@ const { pick } = require("lodash");
 
 const { Subscription } = require("../../models");
 
-const fields = ["user", "browser", "os", "endpoint", "auth", "p256h"];
+const fields = ["user", "browser", "os", "endpoint", "auth", "p256dh"];
 
 module.exports = async function (data) {
   const subscription = new Subscription(pick(data, fields));

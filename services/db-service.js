@@ -2,15 +2,18 @@ const mongoose = require("mongoose");
 
 const { DB_URL } = require("../config");
 
-mongoose.set("useNewUrlParser", true);
-mongoose.set("useFindAndModify", false);
-mongoose.set("useCreateIndex", true);
-mongoose.set("useUnifiedTopology", true);
+const DB_DEFAULT_OPTIONS = {
+  useNewUrlParser: true,
+  useFindAndModify: false,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+};
 
-async function ensureDBConnection(url = DB_URL) {
+async function ensureDBConnection(url = DB_URL, options = {}) {
   const state = mongoose.connection.readyState;
   if (state === 0 || state === 3) {
-    return mongoose.connect(url);
+    options = { ...DB_DEFAULT_OPTIONS, ...options };
+    return mongoose.connect(url, options);
   }
   return true;
 }
@@ -22,4 +25,5 @@ function closeDBConnection() {
 module.exports = {
   ensureDBConnection,
   closeDBConnection,
+  DB_DEFAULT_OPTIONS,
 };

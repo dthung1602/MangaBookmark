@@ -6,8 +6,8 @@ const ErrorFormatter = require("./validation-error-formatter");
 module.exports = [
   check("subscription")
     .exists()
-    .custom(async (pushServiceId, { req }) => {
-      const sub = await Subscription.findById(pushServiceId);
+    .custom(async (subscriptionId, { req }) => {
+      const sub = await Subscription.findById(subscriptionId);
       if (sub === null || sub.user.toString() !== req.user.id) {
         throw new Error("Cannot find push service");
       }
