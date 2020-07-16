@@ -28,9 +28,21 @@ async function unloadFixture() {
 }
 
 function mockMiddleware() {
-  jest.mock("../../services/auth-service", () => (req, res, next) => {
-    req.user = { id: "111cccccccccccccccccc111" };
-    next();
+  jest.mock("../../services/auth-service", () => {
+    // must at least implement serializeUser & deserializeUser
+    const passport = require("passport");
+    passport.serializeUser((user, done) => {
+      done(null, user.id);
+    });
+    passport.deserializeUser((userId, done) => {
+      done(null, { id: userId });
+    });
+
+    // always login as the 1st user
+    return (req, res, next) => {
+      req.user = { id: "111aaaaaaaaaaaaaaaaaa111" };
+      next();
+    };
   });
 
   jest.mock("../../middlewares", () => {

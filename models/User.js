@@ -43,10 +43,34 @@ userSchema.methods.resetPassword = () => {
   return newPassword;
 };
 
-userSchema.index({ username: 1 }, { unique: true, sparse: true });
-userSchema.index({ googleId: 1 }, { unique: true, sparse: true });
-userSchema.index({ facebookId: 1 }, { unique: true, sparse: true });
-userSchema.index({ email: 1 }, { unique: true, sparse: true });
+userSchema.index(
+  { username: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { username: { $ne: null } },
+  },
+);
+userSchema.index(
+  { googleId: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { googleId: { $ne: null } },
+  },
+);
+userSchema.index(
+  { facebookId: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { facebookId: { $ne: null } },
+  },
+);
+userSchema.index(
+  { email: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { email: { $ne: null } },
+  },
+);
 
 let User = mongoose.model("User", userSchema);
 

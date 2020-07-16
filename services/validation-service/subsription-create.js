@@ -11,7 +11,7 @@ module.exports = [
     .exists()
     .isURL()
     .custom(async (endpoint) => {
-      const count = await Subscription.count({ endpoint: endpoint });
+      const count = await Subscription.countDocuments({ endpoint: endpoint });
       if (count > 0) {
         throw new Error("Subscription has already been added");
       }

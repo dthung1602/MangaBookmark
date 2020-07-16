@@ -11,6 +11,12 @@ const {
   UnlinkAccountValidator,
 } = require("../services/validation-service");
 
+function removePassword(user) {
+  user = JSON.parse(JSON.stringify(user));
+  user.password = !!user.password;
+  return user;
+}
+
 //-----------------------------------
 //  Resister new user
 //-----------------------------------
@@ -18,12 +24,12 @@ router.postAsync(
   "/",
   LocalUserRegistrationValidator,
   async (req, res, next) => {
-    const user = await UserService.createLocal(req.query);
+    const user = await UserService.createLocal(req.body);
     req.login(user, (err) => {
       if (err) {
         next(err);
       } else {
-        res.status(201).json(user);
+        res.status(201).json(removePassword(user));
       }
     });
   },
@@ -36,8 +42,7 @@ router.postAsync(
 
 router.getAsync("/", async (req, res) => {
   const user = await User.findById(req.user.id);
-  user.password = !!user.password;
-  res.json(user);
+  res.json(removePassword(user));
 });
 
 //-----------------------------------
@@ -45,8 +50,8 @@ router.getAsync("/", async (req, res) => {
 //-----------------------------------
 
 router.patchAsync("/", UserPatchValidator, async (req, res) => {
-  const user = await UserService.patch(req.user, req.query);
-  res.status(200).json(user);
+  const user = await UserService.patch(req.user, req.body);
+  res.status(200).json(removePassword(user));
 });
 
 //-----------------------------------
@@ -54,7 +59,7 @@ router.patchAsync("/", UserPatchValidator, async (req, res) => {
 //-----------------------------------
 
 router.patchAsync("/change-password", UserPassValidator, async (req, res) => {
-  await UserService.changePassword(req.user, req.query.password);
+  await UserService.changePassword(req.user, req.body.password);
   res.status(204).json({});
 });
 
@@ -63,7 +68,7 @@ router.patchAsync("/change-password", UserPassValidator, async (req, res) => {
 //-----------------------------------
 
 router.patchAsync("/unlink", UnlinkAccountValidator, async (req, res) => {
-  const { newPrimaryAccount, provider } = req.query;
+  const { newPrimaryAccount, provider } = req.body;
   const { user } = req;
 
   await UserService.unlink(user, provider, newPrimaryAccount);

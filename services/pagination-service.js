@@ -5,7 +5,7 @@ function cloneQuery(query) {
 }
 
 module.exports = async function (query, page = 1, perPage = PAGE_SIZE) {
-  const promises = [query.exec(), cloneQuery(query).count().exec()];
+  const promises = [query.exec(), cloneQuery(query).countDocuments().exec()];
 
   const [data, totalItem] = await Promise.all(promises);
   let totalPage = 1;
