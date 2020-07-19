@@ -21,12 +21,12 @@ module.exports = async function (manga) {
     }
   }
 
-  manga.newChapCount = crawledChapters.filter((chap) => !chap._id);
+  manga.newChapCount = crawledChapters.filter((chap) => !chap._id).length;
 
   if (manga.newChapCount > 0) {
     manga.chapters = crawledChapters;
     manga.markModified("chapters");
   }
 
-  await manga.save();
+  return await manga.save();
 };

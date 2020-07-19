@@ -4,7 +4,7 @@ const MangaPermissionValidator = require("./manga-permission");
 const ErrorFormatter = require("./validation-error-formatter");
 
 module.exports = [
-  check("isRead").exists().isBoolean,
+  check("isRead").exists().isBoolean().toBoolean(),
   check("chapters").exists().isArray(),
   MangaPermissionValidator,
   ErrorFormatter,

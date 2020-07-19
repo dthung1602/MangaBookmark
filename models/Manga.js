@@ -96,7 +96,7 @@ MangaSchema.index({ user: 1, link: 1 }, { unique: true });
 
 MangaSchema.pre("save", function (next) {
   this.status = getMangaStatusCode(this);
-  this.unreadChapCount = this.chapters.filter((ch) => ch.isRead).length;
+  this.unreadChapCount = this.chapters.filter((ch) => !ch.isRead).length;
   next();
 });
 

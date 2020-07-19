@@ -8,6 +8,7 @@ const ErrorFormatter = require("./validation-error-formatter");
 module.exports = [
   check("link")
     .exists()
+    .trim()
     .custom(async (link, { req }) => {
       if (!MangaService.parsers.getParser(link)) {
         throw new Error("Unsupported manga source");
@@ -19,8 +20,8 @@ module.exports = [
     }),
   check("readChapters").exists().isArray(),
   check("note").optional().trim(),
-  check("isCompleted").optional().isBoolean(),
-  check("hidden").optional().isBoolean(),
+  check("isCompleted").optional().isBoolean().toBoolean(),
+  check("hidden").optional().isBoolean().toBoolean(),
   check("following").exists().isIn(Object.values(FollowingStatuses)),
   ErrorFormatter,
 ];

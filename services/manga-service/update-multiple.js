@@ -1,16 +1,17 @@
 const { chunk } = require("lodash");
 
-const { CRAWL_MAX_THREADS } = require("../../config");
+const { CRAWL_CONCURRENCY } = require("../../config");
 const update = require("./update");
 
 module.exports = async function (mangas, verbose = false) {
   if (verbose) {
     console.log(`Start updating ${mangas.length} mangas`);
-    console.log(`Using up to ${CRAWL_MAX_THREADS} threads`);
+    console.log(`Using up to ${CRAWL_CONCURRENCY} threads`);
   }
 
-  const chunks = chunk(mangas, CRAWL_MAX_THREADS);
+  const chunks = chunk(mangas, CRAWL_CONCURRENCY);
   const successMangas = [];
+  const failMangas = [];
 
   for (let i = 0; i < chunks.length; i++) {
     await Promise.all(
@@ -22,6 +23,7 @@ module.exports = async function (mangas, verbose = false) {
             console.log(`    Update: '${manga.name}'`);
           }
         } catch (e) {
+          failMangas.push(manga);
           console.error(`    Fail to update: '${manga.name}'`);
           if (verbose) {
             console.error(e.toString());
@@ -31,5 +33,5 @@ module.exports = async function (mangas, verbose = false) {
     );
   }
 
-  return successMangas;
+  return { successMangas, failMangas };
 };

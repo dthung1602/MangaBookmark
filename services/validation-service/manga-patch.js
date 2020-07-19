@@ -8,8 +8,8 @@ const ErrorFormatter = require("./validation-error-formatter");
 module.exports = [
   check("following").optional().isIn(Object.values(FollowingStatuses)),
   check("note").optional().trim(),
-  check("isCompeted").optional().isBoolean(),
-  check("hidden").optional().isBoolean(),
+  check("isCompeted").optional().isBoolean().toBoolean(),
+  check("hidden").optional().isBoolean().toBoolean(),
   MangaPermissionValidator,
   ErrorFormatter,
 ];

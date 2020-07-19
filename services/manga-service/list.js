@@ -9,6 +9,9 @@ module.exports = async function (filters = {}, search = undefined, sort = undefi
 
   let mangas = Manga.find(filters);
   if (sort) {
+    if (sort.includes("name")) {
+      mangas = mangas.collation({ locale: "en" }); // sort case-insensitively
+    }
     mangas = mangas.sort(sort);
   }
 

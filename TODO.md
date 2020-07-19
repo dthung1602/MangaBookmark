@@ -13,6 +13,8 @@
 
 # MISCHIEVOUS
 
+- [ ] ***Migrate from mLab -> mongodb atlass***
+- [ ] Patch changes from v2 -> v3
 - [ ] mongoose (DeprecationWarning: collection.update is deprecated. Use updateOne, updateMany, or bulkWrite instead.
 - [ ] csrf token
 
@@ -29,6 +31,7 @@
     - [x] ~~App loaders~~ + set security headers
     - [x] Pagination 
     - [ ] Test everything is working  
+    - [ ] ?? Rework on API
  
 - [ ] Restructure folder FE
     - [ ] Split FE to small js chunk 
@@ -52,10 +55,16 @@
     - [ ] Summary of manga
     - [ ] Crawl: alternative name, author, description, tag
     - [ ] Expected next release
-    
+
+- [ ] Latest updated mangas view
+
+- [ ] Reread shelf?
+
 - [ ] Change loading icon
 
 - [ ] Dark mode
+
+- [ ] NEW source. See [this](https://www.epubor.com/free-manga-sites-to-read-manga-online-for-free.html)
 
 - [ ] One master note for user -> take note everything
 
@@ -64,6 +73,7 @@
 - [ ] Improve account page UI
 
 - [ ] Improve search & filter:
+    - [ ] Create optimize index
     - [ ] Filter by
         - [ ] created date
         - [ ] last updated date
@@ -73,7 +83,8 @@
         - [ ] status
         - [ ] shelf (rename from following status)
     - [ ] Search by name, author, alternative name, description, note
-
+    - [ ] Search by partial key words. See [this](https://stackoverflow.com/a/54318581/7342188)
+    - [ ] Search language ?
 - [ ] In-site reading mode (for some src only)
 
 - [ ] Notification:
@@ -89,3 +100,5 @@
 - [ ] Manga src from other languages
 
 - [ ] multi-language UI
+
+- [ ] ?? saucenow image search

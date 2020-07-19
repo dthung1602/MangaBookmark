@@ -24,6 +24,7 @@ module.exports = async function (data) {
 
   manga.chapters.forEach((chap) => (chap.isRead = data.readChapters.indexOf(chap.link) > -1));
 
+  manga.newChapCount = manga.chapters.filter((chap) => !chap.isRead).length;
   manga.source = parser.source;
   manga.user = data.userID;
   manga.following = data.following;
@@ -31,5 +32,6 @@ module.exports = async function (data) {
   manga.hidden = data.hidden;
   manga.isCompleted = data.isCompleted;
 
-  return new Manga(manga).save();
+  manga = await new Manga(manga).save();
+  return manga;
 };

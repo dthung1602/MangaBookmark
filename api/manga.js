@@ -1,10 +1,13 @@
 const { Router } = require("@awaitjs/express");
+const { pick } = require("lodash");
 const router = Router();
 
+const { removeUndefinedAttrs } = require("./utils");
 const MangaService = require("../services/manga-service");
 const {
-  MarkChapterValidator,
+  MANGA_FILTER_FIELDS,
   MangaFilterValidator,
+  MarkChapterValidator,
   MangaInfoValidator,
   MangaCreateValidator,
   MangaPatchValidator,
@@ -16,7 +19,10 @@ const {
 //-----------------------------------
 
 router.getAsync("/", MangaFilterValidator, async (req, res) => {
-  const filters = Object.assign({ user: req.user.id }, req.query);
+  const filters = {
+    user: req.user.id,
+    ...pick(req.query, MANGA_FILTER_FIELDS),
+  };
 
   const mangas = await MangaService.list(filters, req.query.search, req.query.sort, req.query.page, req.query.perPage);
 
@@ -74,12 +80,12 @@ router.getAsync("/info", MangaInfoValidator, async (req, res) => {
 router.postAsync("/mark-chapters", MarkChapterValidator, async (req, res) => {
   const { chapters, isRead } = req.body;
   const { manga } = req;
-  MangaService.markChapters(manga, isRead, chapters);
+  await MangaService.markChapters(manga, isRead, chapters);
   res.json({});
 });
 
 //-----------------------------------
-//  Check 1 manga for new updates
+//  Check one manga for new updates
 //-----------------------------------
 
 router.postAsync("/update", MangaPermissionValidator, async (req, res) => {
@@ -96,17 +102,19 @@ router.postAsync("/update", MangaPermissionValidator, async (req, res) => {
 //------------------------------------------
 
 router.postAsync("/update-multiple", MangaFilterValidator, async (req, res) => {
-  const filters = {
+  const filters = removeUndefinedAttrs({
     user: req.user.id,
     following: req.body.following,
     hidden: req.body.hidden,
     isCompleted: req.body.isCompleted,
-  };
-  const mangas = await MangaService.list(filters);
-  const result = await MangaService.updateMultiple(mangas);
+  });
+  const { data: mangas } = await MangaService.list(filters, undefined, undefined, 0, 0);
+  const { successMangas, failMangas } = await MangaService.updateMultiple(mangas);
+  const reportFields = ["name", "_id", "source"];
   res.json({
     total: mangas.length,
-    success: result.map((manga) => manga.name),
+    success: successMangas.map((manga) => pick(manga, reportFields)),
+    fail: failMangas.map((manga) => pick(manga, reportFields)),
   });
 });
 

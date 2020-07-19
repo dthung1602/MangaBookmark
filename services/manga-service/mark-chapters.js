@@ -10,6 +10,4 @@ async function markChapters(manga, isRead, chapterLinks) {
   return manga.save();
 }
 
-module.exports = {
-  markChapters,
-};
+module.exports = markChapters;

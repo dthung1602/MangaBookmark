@@ -12,7 +12,7 @@ module.exports = {
   PORT: getEnv("PORT", 3000, parseInt),
   DB_URL: getEnv("DB_URL", "mongodb://localhost/MangaBookmark"),
   TEST_DB_URL: getEnv("TEST_DB_URL", "mongodb://localhost/TestMangaBookmark"),
-  CRAWL_MAX_THREADS: getEnv("CRAWL_MAX_THREADS", 5, parseInt),
+  CRAWL_CONCURRENCY: getEnv("CRAWL_CONCURRENCY", 5, parseInt),
 
   SECRET_KEY: getEnv("SECRET_KEY", "yIjaujJQOuen0MQPE2daXN8oBrPY1USc"),
   COOKIE_MAX_AGE: getEnv("COOKIE_MAX_AGE", 30 * 24 * 60 * 60 * 1000, parseInt),
