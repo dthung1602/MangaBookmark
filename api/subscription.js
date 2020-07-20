@@ -26,7 +26,7 @@ router.postAsync("/", SubscriptionCreateValidator, async (req, res) => {
 //  Unsubscribe
 //-----------------------------------
 
-router.deleteAsync("/", SubscriptionDeleteValidator, async (req, res) => {
+router.deleteAsync("/:subscription", SubscriptionDeleteValidator, async (req, res) => {
   await SubscriptionService.delete(req.sub);
   res.sendStatus(204);
 });

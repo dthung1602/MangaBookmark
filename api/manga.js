@@ -46,7 +46,7 @@ router.postAsync("/", MangaCreateValidator, async (req, res) => {
 //  Edit manga
 //-----------------------------------
 
-router.patchAsync("/", MangaPatchValidator, async (req, res) => {
+router.patchAsync("/:manga", MangaPatchValidator, async (req, res) => {
   await MangaService.patch(req.manga, req.body);
   res.sendStatus(204);
 });
@@ -55,7 +55,7 @@ router.patchAsync("/", MangaPatchValidator, async (req, res) => {
 //  Delete manga
 //-----------------------------------
 
-router.deleteAsync("/", MangaPermissionValidator, async (req, res) => {
+router.deleteAsync("/:manga", MangaPermissionValidator, async (req, res) => {
   await MangaService.delete(req.manga);
   res.sendStatus(204);
 });
@@ -77,7 +77,7 @@ router.getAsync("/info", MangaInfoValidator, async (req, res) => {
 //  Mark chapters as read / unread
 //-----------------------------------
 
-router.postAsync("/mark-chapters", MarkChapterValidator, async (req, res) => {
+router.postAsync("/:manga/mark-chapters", MarkChapterValidator, async (req, res) => {
   const { chapters, isRead } = req.body;
   const { manga } = req;
   await MangaService.markChapters(manga, isRead, chapters);
@@ -88,7 +88,7 @@ router.postAsync("/mark-chapters", MarkChapterValidator, async (req, res) => {
 //  Check one manga for new updates
 //-----------------------------------
 
-router.postAsync("/update", MangaPermissionValidator, async (req, res) => {
+router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) => {
   try {
     const manga = await MangaService.update(req.manga);
     res.json(manga);

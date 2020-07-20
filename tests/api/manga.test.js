@@ -122,14 +122,13 @@ describe("Manga API", () => {
     const mangaId = "111eeeeeeeeeeeeeeeeee111";
 
     const editContent = {
-      manga: mangaId,
       following: "dropped",
       note: "This is the new note",
       isCompleted: true,
       hidden: true,
     };
 
-    const response = await request(app).patch("/api/mangas").send(editContent);
+    const response = await request(app).patch(`/api/mangas/${mangaId}`).send(editContent);
     expect(response.status).toEqual(204);
 
     const manga = await Manga.findById(mangaId);
@@ -140,7 +139,7 @@ describe("Manga API", () => {
   it("should delete manga", async function () {
     const mangaId = "111eeeeeeeeeeeeeeeeee111";
 
-    const response = await request(app).delete("/api/mangas").send({ manga: mangaId });
+    const response = await request(app).delete(`/api/mangas/${mangaId}`);
     expect(response.status).toEqual(204);
 
     const nothing = await Manga.findById(mangaId);
@@ -168,12 +167,11 @@ describe("Manga API", () => {
   ])("should change chapters' read statuses", async function (isRead, chapters, expectedIsReads) {
     const mangaId = "111eeeeeeeeeeeeeeeeee111";
     let requestContent = {
-      manga: mangaId,
       isRead,
       chapters,
     };
 
-    const response = await request(app).post("/api/mangas/mark-chapters").send(requestContent);
+    const response = await request(app).post(`/api/mangas/${mangaId}/mark-chapters`).send(requestContent);
     expect(response.status).toEqual(204);
 
     let manga = await Manga.findById(mangaId);
@@ -191,7 +189,7 @@ describe("Manga API", () => {
       parseChapters: () => mockParsedChapters,
     }));
 
-    const response = await request(app).post("/api/mangas/update").send({ manga: mangaId });
+    const response = await request(app).post(`/api/mangas/${mangaId}/update`);
     expect(response.status).toEqual(200);
 
     const expectedManga = expect.objectContaining({

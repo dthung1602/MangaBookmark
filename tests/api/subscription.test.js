@@ -50,7 +50,7 @@ describe("Subscription API", () => {
   });
 
   it("should delete subscription", async function () {
-    let response = await request(app).delete("/api/subscriptions").send({ subscription: "111cccccccccccccccccc111" });
+    let response = await request(app).delete("/api/subscriptions/111cccccccccccccccccc111");
     expect(response.status).toEqual(204);
 
     response = await request(app).get("/api/subscriptions");
