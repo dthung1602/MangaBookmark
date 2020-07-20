@@ -19,7 +19,7 @@ router.getAsync("/", async (req, res) => {
 
 router.postAsync("/", SubscriptionCreateValidator, async (req, res) => {
   const sub = await SubscriptionService.create(req.body);
-  res.json(sub);
+  res.status(201).json(sub);
 });
 
 //-----------------------------------
@@ -28,7 +28,7 @@ router.postAsync("/", SubscriptionCreateValidator, async (req, res) => {
 
 router.deleteAsync("/", SubscriptionDeleteValidator, async (req, res) => {
   await SubscriptionService.delete(req.sub);
-  res.json({});
+  res.sendStatus(204);
 });
 
 module.exports = router;

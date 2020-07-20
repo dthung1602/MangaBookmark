@@ -27,7 +27,7 @@ describe("User API", () => {
   });
 
   it("should return current user profile", async function () {
-    const response = await request(app).get("/api/users");
+    const response = await request(app).get("/api/user");
 
     expect(response.status).toEqual(200);
     expect(response.body).toEqual({
@@ -53,7 +53,7 @@ describe("User API", () => {
       email: "edward@resembool.town",
     };
 
-    const response = await request(app).post("/api/users").send(userInfo);
+    const response = await request(app).post("/api/user").send(userInfo);
     expect(response.status).toEqual(201);
 
     expect(response.body).toEqual(
@@ -67,8 +67,8 @@ describe("User API", () => {
   });
 
   it("should delete user", async function () {
-    let response = await request(app).delete("/api/users");
-    expect(response.status).toEqual(302);
+    let response = await request(app).delete("/api/user");
+    expect(response.status).toEqual(204);
 
     const user = await User.findById("111aaaaaaaaaaaaaaaaaa111");
     expect(user).toBeFalsy();
@@ -80,7 +80,7 @@ describe("User API", () => {
       email: "alphonse@resembool.town",
     };
 
-    const response = await request(app).patch("/api/users").send(userInfo);
+    const response = await request(app).patch("/api/user").send(userInfo);
     expect(response.status).toEqual(200);
 
     expect(response.body).toEqual(
@@ -99,7 +99,7 @@ describe("User API", () => {
       currentPassword: "password1",
     };
 
-    const response = await request(app).patch("/api/users/change-password").send(requestBody);
+    const response = await request(app).patch("/api/user/change-password").send(requestBody);
     expect(response.status).toEqual(204);
 
     const user = await User.findById("111aaaaaaaaaaaaaaaaaa111");
@@ -112,7 +112,7 @@ describe("User API", () => {
       newPrimaryAccount: "facebook",
     };
 
-    const response = await request(app).patch("/api/users/unlink").send(requestBody);
+    const response = await request(app).patch("/api/user/unlink").send(requestBody);
     expect(response.status).toEqual(204);
 
     const user = await User.findById("111aaaaaaaaaaaaaaaaaa111");

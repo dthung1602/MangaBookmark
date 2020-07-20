@@ -95,7 +95,7 @@ describe("Manga API", () => {
     };
 
     const response = await request(app).post("/api/mangas").send(submittedManga);
-    expect(response.status).toEqual(200);
+    expect(response.status).toEqual(201);
 
     const expectedManga = expect.objectContaining({
       ...pick(submittedManga, ["link", "note", "isCompleted", "hidden", "following"]),
@@ -130,7 +130,7 @@ describe("Manga API", () => {
     };
 
     const response = await request(app).patch("/api/mangas").send(editContent);
-    expect(response.status).toEqual(200);
+    expect(response.status).toEqual(204);
 
     const manga = await Manga.findById(mangaId);
     delete editContent.manga;
@@ -141,7 +141,7 @@ describe("Manga API", () => {
     const mangaId = "111eeeeeeeeeeeeeeeeee111";
 
     const response = await request(app).delete("/api/mangas").send({ manga: mangaId });
-    expect(response.status).toEqual(200);
+    expect(response.status).toEqual(204);
 
     const nothing = await Manga.findById(mangaId);
     expect(nothing).toBeFalsy();
@@ -174,7 +174,7 @@ describe("Manga API", () => {
     };
 
     const response = await request(app).post("/api/mangas/mark-chapters").send(requestContent);
-    expect(response.status).toEqual(200);
+    expect(response.status).toEqual(204);
 
     let manga = await Manga.findById(mangaId);
     expect(map(manga.chapters, "isRead")).toEqual(expectedIsReads);

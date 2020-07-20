@@ -36,7 +36,7 @@ router.getAsync("/", MangaFilterValidator, async (req, res) => {
 router.postAsync("/", MangaCreateValidator, async (req, res) => {
   try {
     const manga = await MangaService.create({ ...req.body, userID: req.user.id });
-    res.json(manga);
+    res.status(201).json(manga);
   } catch (e) {
     res.status(400).json({ link: "Cannot parse manga" });
   }
@@ -48,7 +48,7 @@ router.postAsync("/", MangaCreateValidator, async (req, res) => {
 
 router.patchAsync("/", MangaPatchValidator, async (req, res) => {
   await MangaService.patch(req.manga, req.body);
-  res.json({});
+  res.sendStatus(204);
 });
 
 //-----------------------------------
@@ -57,7 +57,7 @@ router.patchAsync("/", MangaPatchValidator, async (req, res) => {
 
 router.deleteAsync("/", MangaPermissionValidator, async (req, res) => {
   await MangaService.delete(req.manga);
-  res.json({});
+  res.sendStatus(204);
 });
 
 //-----------------------------------
@@ -81,7 +81,7 @@ router.postAsync("/mark-chapters", MarkChapterValidator, async (req, res) => {
   const { chapters, isRead } = req.body;
   const { manga } = req;
   await MangaService.markChapters(manga, isRead, chapters);
-  res.json({});
+  res.sendStatus(204);
 });
 
 //-----------------------------------

@@ -43,7 +43,7 @@ describe("Subscription API", () => {
     };
 
     const response = await request(app).post("/api/subscriptions").send(sub);
-    expect(response.status).toEqual(200);
+    expect(response.status).toEqual(201);
 
     expect(response.body).toEqual(expect.objectContaining(sub));
     expect(response.body._id).not.toBeUndefined();
@@ -51,7 +51,7 @@ describe("Subscription API", () => {
 
   it("should delete subscription", async function () {
     let response = await request(app).delete("/api/subscriptions").send({ subscription: "111cccccccccccccccccc111" });
-    expect(response.status).toEqual(200);
+    expect(response.status).toEqual(204);
 
     response = await request(app).get("/api/subscriptions");
     const subIds = response.body.map((sub) => sub._id);

@@ -2,7 +2,6 @@ const { Router } = require("@awaitjs/express");
 const router = Router();
 
 const { User } = require("../models");
-const { redirectHome } = require("./utils");
 const UserService = require("../services/user-service");
 const {
   UserPassValidator,
@@ -20,21 +19,16 @@ function removePassword(user) {
 //-----------------------------------
 //  Resister new user
 //-----------------------------------
-router.postAsync(
-  "/",
-  LocalUserRegistrationValidator,
-  async (req, res, next) => {
-    const user = await UserService.createLocal(req.body);
-    req.login(user, (err) => {
-      if (err) {
-        next(err);
-      } else {
-        res.status(201).json(removePassword(user));
-      }
-    });
-  },
-  redirectHome,
-);
+router.postAsync("/", LocalUserRegistrationValidator, async (req, res, next) => {
+  const user = await UserService.createLocal(req.body);
+  req.login(user, (err) => {
+    if (err) {
+      next(err);
+    } else {
+      res.status(201).json(removePassword(user));
+    }
+  });
+});
 
 //-----------------------------------
 //  Get current user profile
@@ -51,7 +45,7 @@ router.getAsync("/", async (req, res) => {
 
 router.patchAsync("/", UserPatchValidator, async (req, res) => {
   const user = await UserService.patch(req.user, req.body);
-  res.status(200).json(removePassword(user));
+  res.json(removePassword(user));
 });
 
 //-----------------------------------
@@ -60,7 +54,7 @@ router.patchAsync("/", UserPatchValidator, async (req, res) => {
 
 router.patchAsync("/change-password", UserPassValidator, async (req, res) => {
   await UserService.changePassword(req.user, req.body.password);
-  res.status(204).json({});
+  res.sendStatus(204);
 });
 
 //-----------------------------------
@@ -73,7 +67,7 @@ router.patchAsync("/unlink", UnlinkAccountValidator, async (req, res) => {
 
   await UserService.unlink(user, provider, newPrimaryAccount);
 
-  res.status(204).json({});
+  res.sendStatus(204);
 });
 
 //-----------------------------------
@@ -83,7 +77,7 @@ router.patchAsync("/unlink", UnlinkAccountValidator, async (req, res) => {
 router.deleteAsync("/", async (req, res) => {
   await UserService.delete(req.user);
   req.logout();
-  res.redirect("/");
+  res.sendStatus(204);
 });
 
 module.exports = router;

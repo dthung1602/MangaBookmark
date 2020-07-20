@@ -47,7 +47,7 @@ app.use(express.static(path.join(__dirname, "react-mb-client/build")));
 // API
 app.use("/api/auth", DBConnectionMiddleware, AuthRouter);
 app.use("/api/mangas", DBConnectionMiddleware, AuthenticateMiddleware, MangaRouter);
-app.use("/api/users", DBConnectionMiddleware, AuthenticateMiddleware, UserRouter);
+app.use("/api/user", DBConnectionMiddleware, AuthenticateMiddleware, UserRouter);
 app.use("/api/subscriptions", DBConnectionMiddleware, AuthenticateMiddleware, SubscriptionRouter);
 app.use(ErrorHandler);
 
