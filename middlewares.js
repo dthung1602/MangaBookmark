@@ -1,5 +1,5 @@
 const { ensureDBConnection } = require("./services/db-service");
-const { ValidationError } = require("./exceptions");
+const { CustomError } = require("./exceptions");
 
 const DBConnectionMiddleware = async (req, res, next) => {
   await ensureDBConnection();
@@ -15,13 +15,12 @@ const AuthenticateMiddleware = (req, res, next) => {
 };
 
 const ErrorHandler = (err, req, res, next) => {
-  if (err instanceof ValidationError) {
-    res.status(err.number).json({ errors: err.errors });
+  if (err instanceof CustomError) {
+    res.status(err.statusCode).json({ errors: err.errors });
     next();
   } else {
-    const code = err.number || 500;
-    const message = err.message || "Unknown error";
-    res.status(code).json({ "": message });
+    const message = err.message || "Internal server error";
+    res.status(500).json({ "": message });
   }
 };
 

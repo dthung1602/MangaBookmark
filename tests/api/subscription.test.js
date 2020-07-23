@@ -1,6 +1,13 @@
 const request = require("supertest");
 
-const { mockMiddleware, loadFixtures, unloadFixture, connectFixtureDB, disconnectFixtureDB } = require("./utils");
+const {
+  expectErrors,
+  mockMiddleware,
+  loadFixtures,
+  unloadFixture,
+  connectFixtureDB,
+  disconnectFixtureDB,
+} = require("./utils");
 const { closeDBConnection } = require("../../services/db-service");
 
 describe("Subscription API", () => {
@@ -49,6 +56,23 @@ describe("Subscription API", () => {
     expect(response.body._id).not.toBeUndefined();
   });
 
+  it("should return error when create subscription", async function () {
+    const sub = {
+      os: "Linus",
+      browser: "Firefoxx",
+      endpoint: "skd/example.dom",
+    };
+    const expectedErrors = {
+      os: "Invalid value",
+      browser: "Invalid value",
+      auth: "Invalid value",
+      p256dh: "Invalid value",
+    };
+    const response = await request(app).post("/api/subscriptions").send(sub);
+    expect(response.status).toEqual(400);
+    expectErrors(expectedErrors, response.body.errors);
+  });
+
   it("should delete subscription", async function () {
     let response = await request(app).delete("/api/subscriptions/111cccccccccccccccccc111");
     expect(response.status).toEqual(204);
@@ -56,5 +80,19 @@ describe("Subscription API", () => {
     response = await request(app).get("/api/subscriptions");
     const subIds = response.body.map((sub) => sub._id);
     expect(subIds).toEqual(["222cccccccccccccccccc222"]);
+  });
+
+  it("should not delete other user subscription", async function () {
+    const subId = "333cccccccccccccccccc333";
+    let response = await request(app).delete(`/api/subscriptions/${subId}`);
+    expect(response.status).toEqual(403);
+    expectErrors({ subscription: "Permission denied" }, response.body.errors);
+  });
+
+  it("should not delete non existent subscription", async function () {
+    const subId = "333ddcccccccccdddcccc333";
+    let response = await request(app).delete(`/api/subscriptions/${subId}`);
+    expect(response.status).toEqual(404);
+    expectErrors({ subscription: "Not found" }, response.body.errors);
   });
 });

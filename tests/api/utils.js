@@ -1,5 +1,7 @@
 const Fixtures = require("node-mongodb-fixtures");
+
 const config = require("../../config");
+const mockErrorHandler = require("../../middlewares").ErrorHandler;
 
 const TEST_DB_DEFAULT_OPTIONS = {
   useUnifiedTopology: true,
@@ -47,7 +49,6 @@ function mockMiddleware() {
 
   jest.mock("../../middlewares", () => {
     const { ensureDBConnection } = require("../../services/db-service");
-    const { ValidationError } = require("../../exceptions");
     const { TEST_DB_URL } = require("../../config");
 
     return {
@@ -59,18 +60,15 @@ function mockMiddleware() {
         req.user = { id: "111aaaaaaaaaaaaaaaaaa111" };
         next();
       },
-      ErrorHandler: (err, req, res, next) => {
-        if (err instanceof ValidationError) {
-          res.status(err.number).json({ errors: err.errors });
-          next();
-        } else {
-          const code = err.number || 500;
-          const message = err.message || "Unknown error";
-          res.status(code).json({ "": message });
-        }
-      },
+      ErrorHandler: mockErrorHandler,
     };
   });
 }
 
-module.exports = { connectFixtureDB, disconnectFixtureDB, loadFixtures, unloadFixture, mockMiddleware };
+function expectErrors(expected, actual) {
+  for (let [field, msg] of Object.entries(expected)) {
+    expect(actual[field].msg).toEqual(msg);
+  }
+}
+
+module.exports = { connectFixtureDB, disconnectFixtureDB, loadFixtures, unloadFixture, mockMiddleware, expectErrors };

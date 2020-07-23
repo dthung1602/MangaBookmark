@@ -1,10 +1,21 @@
 const { validationResult } = require("express-validator");
-const { ValidationError } = require("../../exceptions");
+const { ValidationError, PermissionError, NotFoundError } = require("../../exceptions");
 
 module.exports = function (req, res, next) {
-  const errors = validationResult(req);
+  let errors = validationResult(req);
   if (!errors.isEmpty()) {
-    throw new ValidationError(errors.mapped());
+    errors = errors.mapped();
+
+    for (let [field, detail] of Object.entries(errors)) {
+      if (detail.msg === PermissionError.message) {
+        throw new PermissionError({ [field]: detail });
+      }
+      if (detail.msg === NotFoundError.message) {
+        throw new NotFoundError({ [field]: detail });
+      }
+    }
+
+    throw new ValidationError(errors);
   }
   next();
 };
