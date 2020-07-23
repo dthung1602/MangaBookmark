@@ -5,10 +5,23 @@ jest.mock("../../services/manga-service/parsers", () => ({
 const request = require("supertest");
 const { pick, map, range } = require("lodash");
 
-const MANGA_TEST_DATA = require("./manga.data");
+const {
+  MANGA_FILTER,
+  READ_CHAPTERS,
+  INVALID_MANGA_PATCH,
+  INVALID_NEW_MANGA,
+  INVALID_READ_CHAPTERS,
+} = require("./manga.data");
 const { TEST_DB_URL } = require("../../config");
 const { Manga } = require("../../models");
-const { mockMiddleware, loadFixtures, unloadFixture, connectFixtureDB, disconnectFixtureDB } = require("./utils");
+const {
+  expectErrors,
+  mockMiddleware,
+  loadFixtures,
+  unloadFixture,
+  connectFixtureDB,
+  disconnectFixtureDB,
+} = require("./utils");
 const { ensureDBConnection, closeDBConnection } = require("../../services/db-service");
 const { getParser } = require("../../services/manga-service/parsers");
 
@@ -54,7 +67,7 @@ describe("Manga API", () => {
     await unloadFixture();
   });
 
-  it.each(MANGA_TEST_DATA)("should search & filter mangas", async function (
+  it.each(MANGA_FILTER)("should search & filter mangas", async function (
     filters,
     expectedTotalItem,
     expectedTotalPage,
@@ -118,6 +131,13 @@ describe("Manga API", () => {
     expect(map(response.body.chapters, "isRead")).toEqual([true, false, true, true, false]);
   });
 
+  it.each(INVALID_NEW_MANGA)("should validate params when creating manga", async function (payload, expectedErrs) {
+    getParser.mockImplementation((url) => (url === "https://example.com" ? null : jest.fn()));
+    const response = await request(app).post("/api/mangas").send(payload);
+    expect(response.status).toEqual(400);
+    expectErrors(expectedErrs, response.body.errors);
+  });
+
   it("should edit manga", async function () {
     const mangaId = "111eeeeeeeeeeeeeeeeee111";
 
@@ -136,6 +156,17 @@ describe("Manga API", () => {
     expect(manga).toEqual(expect.objectContaining(editContent));
   });
 
+  it.each(INVALID_MANGA_PATCH)("should validate params when editing mangas", async function (
+    mangaId,
+    payload,
+    expectedErrs,
+    expectedStt,
+  ) {
+    const response = await request(app).patch(`/api/mangas/${mangaId}`).send(payload);
+    expect(response.status).toEqual(expectedStt);
+    expectErrors(expectedErrs, response.body.errors);
+  });
+
   it("should delete manga", async function () {
     const mangaId = "111eeeeeeeeeeeeeeeeee111";
 
@@ -144,6 +175,20 @@ describe("Manga API", () => {
 
     const nothing = await Manga.findById(mangaId);
     expect(nothing).toBeFalsy();
+  });
+
+  it("should not delete other user manga", async function () {
+    const mangaId = "222eeeeeeeeeeeeeeeeee222";
+    const response = await request(app).delete(`/api/mangas/${mangaId}`);
+    expect(response.status).toEqual(403);
+    expectErrors({ manga: "Permission denied" }, response.body.errors);
+  });
+
+  it("should not delete non exist manga", async function () {
+    const mangaId = "222eedddddeeeeeeeeeee222";
+    const response = await request(app).delete(`/api/mangas/${mangaId}`);
+    expect(response.status).toEqual(404);
+    expectErrors({ manga: "Not found" }, response.body.errors);
   });
 
   it("should get manga info from link", async function () {
@@ -161,10 +206,14 @@ describe("Manga API", () => {
     expect(response.body).toEqual(mockParsedManga);
   });
 
-  it.each([
-    [false, ["https://example.com/chap3", "https://example.com/chap2"], [false, false, false, false, false, true]],
-    [true, ["https://example.com/chap4", "https://example.com/chap5"], [false, true, true, true, true, true]],
-  ])("should change chapters' read statuses", async function (isRead, chapters, expectedIsReads) {
+  it("should validate link when getting manga info from link", async function () {
+    getParser.mockImplementation(() => null);
+    const response = await request(app).get("/api/mangas/info").query({ link: "https://example.com" });
+    expect(response.status).toEqual(400);
+    expectErrors({ link: "Unsupported manga source" }, response.body.errors);
+  });
+
+  it.each(READ_CHAPTERS)("should change chapters' read statuses", async function (isRead, chapters, expectedIsReads) {
     const mangaId = "111eeeeeeeeeeeeeeeeee111";
     let requestContent = {
       isRead,
@@ -176,6 +225,17 @@ describe("Manga API", () => {
 
     let manga = await Manga.findById(mangaId);
     expect(map(manga.chapters, "isRead")).toEqual(expectedIsReads);
+  });
+
+  it.each(INVALID_READ_CHAPTERS)("should validate params when marking chapters", async function (
+    mangaId,
+    payload,
+    expectedErrs,
+    expectedStt,
+  ) {
+    const response = await request(app).post(`/api/mangas/${mangaId}/mark-chapters`).send(payload);
+    expect(response.status).toEqual(expectedStt);
+    expectErrors(expectedErrs, response.body.errors);
   });
 
   it("should update one manga", async function () {
@@ -202,6 +262,20 @@ describe("Manga API", () => {
     });
     expect(response.body).toEqual(expectedManga);
     expect(await Manga.findById(mangaId)).toEqual(expectedManga);
+  });
+
+  it("should not update non exist manga", async function () {
+    const mangaId = "222eedddddeeeeeeeeeee222";
+    const response = await request(app).post(`/api/mangas/${mangaId}/update`);
+    expect(response.status).toEqual(404);
+    expectErrors({ manga: "Not found" }, response.body.errors);
+  });
+
+  it("should not update other user manga", async function () {
+    const mangaId = "222eeeeeeeeeeeeeeeeee222";
+    const response = await request(app).post(`/api/mangas/${mangaId}/update`);
+    expect(response.status).toEqual(403);
+    expectErrors({ manga: "Permission denied" }, response.body.errors);
   });
 
   it("should update multiple mangas", async function () {

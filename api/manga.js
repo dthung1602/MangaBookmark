@@ -35,7 +35,7 @@ router.getAsync("/", MangaFilterValidator, async (req, res) => {
 
 router.postAsync("/", MangaCreateValidator, async (req, res) => {
   try {
-    const manga = await MangaService.create({ ...req.body, userID: req.user.id });
+    const manga = await MangaService.create(req.parser, { ...req.body, user: req.user.id });
     res.status(201).json(manga);
   } catch (e) {
     res.status(400).json({ link: "Cannot parse manga" });

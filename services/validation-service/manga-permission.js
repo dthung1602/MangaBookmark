@@ -1,6 +1,7 @@
 const { check } = require("express-validator");
 
 const { Manga } = require("../../models");
+const { NotFoundError, PermissionError } = require("../../exceptions");
 const ErrorFormatter = require("./validation-error-formatter");
 
 module.exports = [
@@ -8,8 +9,11 @@ module.exports = [
     .exists()
     .custom(async (mangaID, { req }) => {
       const manga = await Manga.findById(mangaID);
-      if (manga === null || manga.user.toString() !== req.user.id) {
-        throw new Error("Cannot find manga");
+      if (manga === null) {
+        throw new NotFoundError();
+      }
+      if (manga.user.toString() !== req.user.id) {
+        throw new PermissionError();
       }
       req.manga = manga;
     }),

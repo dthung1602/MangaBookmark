@@ -15,7 +15,7 @@
    perPage
    sort
  */
-module.exports = [
+const MANGA_FILTER = [
   // ---------------
   //     SEARCH
   // ---------------
@@ -45,6 +45,10 @@ module.exports = [
   // --------------------
   [{ hidden: true }, 1, 1, 1, ["444eeeeeeeeeeeeeeeeee444"]],
   [{ hidden: false }, 2, 1, 1, ["111eeeeeeeeeeeeeeeeee111", "555eeeeeeeeeeeeeeeeee555"]],
+  // --------------------
+  //     SOURCE
+  // --------------------
+  [{ source: "src1" }, 2, 1, 1, ["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444"]],
   // --------------------
   //     PAGINATION
   // --------------------
@@ -110,3 +114,79 @@ module.exports = [
     ["444eeeeeeeeeeeeeeeeee444", "111eeeeeeeeeeeeeeeeee111"],
   ],
 ];
+
+/**
+ isRead, chapters, expectedIsReads
+ */
+const READ_CHAPTERS = [
+  [false, ["https://example.com/chap3", "https://example.com/chap2"], [false, false, false, false, false, true]],
+  [true, ["https://example.com/chap4", "https://example.com/chap5"], [false, true, true, true, true, true]],
+];
+
+/**
+ mangaId, payload, expectedErrs, expectedStt,
+ */
+const INVALID_MANGA_PATCH = [
+  ["111eeddddeeeeeeeeeeee111", {}, { manga: "Not found" }, 404],
+  ["222eeeeeeeeeeeeeeeeee222", {}, { manga: "Permission denied" }, 403],
+  [
+    "111eeeeeeeeeeeeeeeeee111",
+    { following: "random", isCompleted: "a string", hidden: "another string" },
+    { following: "Invalid value", isCompleted: "Invalid value", hidden: "Invalid value" },
+    400,
+  ],
+];
+
+/**
+  link: "https://example.com",
+  readChapters: ["https://example.com/chap1", "https://example.com/chap3", "https://example.com/chap4"],
+  note: "this is a note",
+  isCompleted: true,
+  hidden: false,
+  following: "waiting",
+ */
+const INVALID_NEW_MANGA = [
+  [
+    {
+      link: "skdjfls dks d",
+      isCompleted: "a string",
+      hidden: "another string",
+      following: "random",
+    },
+    {
+      link: "Invalid value",
+      isCompleted: "Invalid value",
+      hidden: "Invalid value",
+      following: "Invalid value",
+    },
+  ],
+  [
+    {
+      link: "https://example.com",
+    },
+    {
+      link: "Unsupported manga source",
+    },
+  ],
+  [
+    {
+      link: "https://manga1.com",
+    },
+    {
+      link: "Manga already existed",
+    },
+  ],
+];
+
+const INVALID_READ_CHAPTERS = [
+  ["111eeddddeeeeeeeeeeee111", {}, { manga: "Not found" }, 404],
+  ["222eeeeeeeeeeeeeeeeee222", {}, { manga: "Permission denied" }, 403],
+  [
+    "111eeeeeeeeeeeeeeeeee111",
+    { isRead: "a string", chapters: 123 },
+    { isRead: "Invalid value", chapters: "Invalid value" },
+    400,
+  ],
+];
+
+module.exports = { MANGA_FILTER, READ_CHAPTERS, INVALID_MANGA_PATCH, INVALID_NEW_MANGA, INVALID_READ_CHAPTERS };

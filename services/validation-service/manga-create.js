@@ -9,19 +9,21 @@ module.exports = [
   check("link")
     .exists()
     .trim()
+    .isURL()
     .custom(async (link, { req }) => {
-      if (!MangaService.parsers.getParser(link)) {
+      req.parser = MangaService.parsers.getParser(link);
+      if (!req.parser) {
         throw new Error("Unsupported manga source");
       }
       const manga = await Manga.findOne({ user: req.user.id, link: link });
       if (manga) {
-        throw new Error("Duplicate manga");
+        throw new Error("Manga already existed");
       }
     }),
-  check("readChapters").exists().isArray(),
+  check("readChapters").optional().isArray(),
   check("note").optional().trim(),
   check("isCompleted").optional().isBoolean().toBoolean(),
   check("hidden").optional().isBoolean().toBoolean(),
-  check("following").exists().isIn(Object.values(FollowingStatuses)),
+  check("following").optional().isIn(Object.values(FollowingStatuses)),
   ErrorFormatter,
 ];

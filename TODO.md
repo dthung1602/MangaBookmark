@@ -30,8 +30,9 @@
     - [x] Save newChapCount, unreadChapCount in schema?
     - [x] ~~App loaders~~ + set security headers
     - [x] Pagination 
-    - [ ] Test everything is working  
-    - [ ] ?? Rework on API
+    - [x] Test everything is working
+    - [ ] Filter by src -> where src from?  
+    - [x] ?? Rework on API
  
 - [ ] Restructure folder FE
     - [ ] Split FE to small js chunk 
@@ -44,6 +45,7 @@
 
 - [ ] Add readme.md
 
+- [ ] Add API doc
 
 # NEW FEATURES
 

@@ -67,6 +67,7 @@ function mockMiddleware() {
 
 function expectErrors(expected, actual) {
   for (let [field, msg] of Object.entries(expected)) {
+    expect(actual[field]).not.toBeUndefined();
     expect(actual[field].msg).toEqual(msg);
   }
 }
