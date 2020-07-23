@@ -12,7 +12,7 @@ module.exports = [
       if (sub === null) {
         throw new NotFoundError();
       }
-      if (req.sub.user.toString() !== req.user.id) {
+      if (sub.user.toString() !== req.user.id) {
         throw new PermissionError();
       }
       req.sub = sub;
