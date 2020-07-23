@@ -5,7 +5,7 @@ const ErrorFormatter = require("./validation-error-formatter");
 
 module.exports = [
   check("username")
-    .exists()
+    .optional()
     .isLength({ min: 1 })
     .custom(async (username, { req }) => {
       const user = await User.findById(req.user.id);
@@ -15,9 +15,8 @@ module.exports = [
       }
       req.user = user;
     }),
-
   check("email")
-    .exists()
+    .optional()
     .isEmail()
     .custom(async (email, { req }) => {
       const emailUSer = await User.findOne({ email: email });

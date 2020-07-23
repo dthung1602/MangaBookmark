@@ -6,6 +6,7 @@ const ErrorFormatter = require("./validation-error-formatter");
 module.exports = [
   check("username")
     .exists()
+    .isLength({ min: 1 })
     .custom(async (username) => {
       if (await User.findOne({ username: username })) {
         throw new Error("Username taken");
@@ -17,7 +18,7 @@ module.exports = [
     .isEmail()
     .custom(async (email) => {
       if (await User.findOne({ email: email })) {
-        throw new Error("This email has already been registered for an account");
+        throw new Error("This email has already been registered for another account");
       }
     }),
   ErrorFormatter,

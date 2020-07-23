@@ -4,7 +4,7 @@ const data = [
   {
     _id: "111aaaaaaaaaaaaaaaaaa111",
     username: "user1",
-    password: "$2b$10$mrFk.FVF7XDGfcFNjnWNReipkY8MlOHc1tXLLQUIvPgmnPGwaAa4m",
+    password: "$2b$10$mrFk.FVF7XDGfcFNjnWNReipkY8MlOHc1tXLLQUIvPgmnPGwaAa4m", // password1
     googleId: "111111111111111111111",
     googleName: "Google User 1",
     googlePic: "https://www.example.com/google/pic1",
@@ -18,7 +18,7 @@ const data = [
   {
     _id: "222aaaaaaaaaaaaaaaaaa222",
     username: "user2",
-    password: "$2b$10$dHMudeAkukkK6O2zWMIYPuXttQedcjRMwrKP8g4K0J1aOsfJ0nqzS",
+    password: "$2b$10$dHMudeAkukkK6O2zWMIYPuXttQedcjRMwrKP8g4K0J1aOsfJ0nqzS", // password2
     googleId: "222222222222222222222",
     googleName: "Google User 2",
     googlePic: "https://www.example.com/google/pic2",

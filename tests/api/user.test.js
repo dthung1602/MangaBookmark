@@ -1,8 +1,16 @@
 const request = require("supertest");
 
 const { User } = require("../../models");
-const { mockMiddleware, loadFixtures, unloadFixture, connectFixtureDB, disconnectFixtureDB } = require("./utils");
+const {
+  expectErrors,
+  mockMiddleware,
+  loadFixtures,
+  unloadFixture,
+  connectFixtureDB,
+  disconnectFixtureDB,
+} = require("./utils");
 const { closeDBConnection } = require("../../services/db-service");
+const { INVALID_NEW_USER, INVALID_PATCH_USER, INVALID_PASSWORD, INVALID_UNLINK } = require("./user.data");
 
 describe("User API", () => {
   let app;
@@ -66,6 +74,12 @@ describe("User API", () => {
     expect(response.body._id).not.toBeUndefined();
   });
 
+  it.each(INVALID_NEW_USER)("should validate input when creating local user", async function (user, expectErrs) {
+    const response = await request(app).post("/api/user").send(user);
+    expect(response.status).toEqual(400);
+    expectErrors(expectErrs, response.body.errors);
+  });
+
   it("should delete user", async function () {
     let response = await request(app).delete("/api/user");
     expect(response.status).toEqual(204);
@@ -93,6 +107,12 @@ describe("User API", () => {
     );
   });
 
+  it.each(INVALID_PATCH_USER)("should validate input when editing user profile", async function (user, expectedErrs) {
+    const response = await request(app).patch("/api/user").send(user);
+    expect(response.status).toEqual(400);
+    expectErrors(expectedErrs, response.body.errors);
+  });
+
   it("should change user password", async function () {
     const requestBody = {
       password: "NewPassword",
@@ -104,6 +124,12 @@ describe("User API", () => {
 
     const user = await User.findById("111aaaaaaaaaaaaaaaaaa111");
     expect(user.validPassword(requestBody.password)).toBeTruthy();
+  });
+
+  it.each(INVALID_PASSWORD)("should validate input when changing password", async function (password, expectedErrs) {
+    const response = await request(app).patch("/api/user/change-password").send(password);
+    expect(response.status).toEqual(400);
+    expectErrors(expectedErrs, response.body.errors);
   });
 
   it("should unlink social network accounts", async function () {
@@ -124,5 +150,14 @@ describe("User API", () => {
         googleId: null,
       }),
     );
+  });
+
+  it.each(INVALID_UNLINK)("should validate input when unlinking social network accounts", async function (
+    data,
+    expectedErrs,
+  ) {
+    const response = await request(app).patch("/api/user/unlink").send(data);
+    expect(response.status).toEqual(400);
+    expectErrors(expectedErrs, response.body.errors);
   });
 });

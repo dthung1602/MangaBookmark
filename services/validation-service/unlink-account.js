@@ -9,7 +9,7 @@ module.exports = [
     .exists()
     .isIn(["local", "facebook", "google"])
     .custom(async (value, { req }) => {
-      if (value === req.params.provider) {
+      if (value === req.body.provider) {
         throw new Error("Primary account must be changed after unlink");
       }
 
