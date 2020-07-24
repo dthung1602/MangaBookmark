@@ -33,6 +33,7 @@
     - [x] Test everything is working
     - [ ] Filter by src -> where src from?  
     - [x] ?? Rework on API
+    - [ ] retire request-promise
  
 - [ ] Restructure folder FE
     - [ ] Split FE to small js chunk 
@@ -41,7 +42,7 @@
     - [ ] Change URL when change filter
     - [ ] Add API doc using Swagger
 
-- [ ] Update dependencies to the latest
+- [x] Update dependencies to the latest
 
 - [ ] Add readme.md
 

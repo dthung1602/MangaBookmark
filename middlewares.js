@@ -1,5 +1,5 @@
 const { ensureDBConnection } = require("./services/db-service");
-const { CustomError } = require("./exceptions");
+const { CustomError, PermissionError } = require("./exceptions");
 
 const DBConnectionMiddleware = async (req, res, next) => {
   await ensureDBConnection();
@@ -10,7 +10,7 @@ const AuthenticateMiddleware = (req, res, next) => {
   if (req.user) {
     next();
   } else {
-    res.status(403).send("Please login and try again");
+    throw new PermissionError({ user: { msg: "Authentication required" } });
   }
 };
 

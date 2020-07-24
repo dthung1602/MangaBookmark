@@ -24,6 +24,8 @@ async function main() {
     await MangaService.update(manga);
     manga.save();
   }
+
+  db.closeDBConnection();
 }
 
 main().catch((err) => {

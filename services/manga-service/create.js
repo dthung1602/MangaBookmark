@@ -1,10 +1,11 @@
 const { pick } = require("lodash");
 
 const { Manga } = require("../../models");
+const { getParser } = require("../../services/manga-service/parsers")
 
 const fields = ["url", "user", "isCompleted", "following", "readChapters", "note", "hidden"];
 
-module.exports = async function (parser, data) {
+module.exports = async function (data, parser = null) {
   const defaultData = {
     isCompleted: false,
     following: "following",
@@ -14,6 +15,9 @@ module.exports = async function (parser, data) {
   };
   data = Object.assign(defaultData, pick(data, fields));
 
+  if (!parser) {
+    parser = getParser(data.url);
+  }
   let manga = await parser.parseManga(data.url);
 
   manga.chapters.forEach((chap) => (chap.isRead = data.readChapters.indexOf(chap.link) > -1));
