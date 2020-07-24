@@ -1,22 +1,24 @@
 const fs = require("fs");
 
-let parserNames = [];
+const parserNames = [];
+const parsers = [];
+const parserRegexMapping = {};
+
 fs.readdir(__dirname, (err, files) => {
   if (err) {
     throw err;
   }
   const otherFiles = ["utils", "index"];
-  parserNames = files.map((file) => file.slice(0, file.length - 3)).filter((file) => otherFiles.indexOf(file) === -1);
+  files
+    .map((file) => file.slice(0, file.length - 3))
+    .filter((file) => otherFiles.indexOf(file) === -1)
+    .forEach((file) => {
+      const parserModule = require("./" + file);
+      parserNames.push(file);
+      parsers.push(parserModule);
+      parserRegexMapping[file] = parserModule.URLRegex;
+    });
 });
-
-const parsers = parserNames.map(function (p) {
-  return require("./" + p);
-});
-
-const parserRegexMapping = {};
-for (let i = 0; i < parserNames.length; i++) {
-  parserRegexMapping[parserNames[i]] = parsers[i].URLRegex;
-}
 
 function getParser(url) {
   if (!url) {
