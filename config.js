@@ -18,11 +18,6 @@ module.exports = {
   COOKIE_MAX_AGE: getEnv("COOKIE_MAX_AGE", 30 * 24 * 60 * 60 * 1000, parseInt),
   PAGE_SIZE: getEnv("PAGE_SIZE", 5, parseInt),
 
-  USER_AGENT: getEnv(
-    "USER_AGENT",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36",
-  ),
-
   LOCAL_AUTH_SALT_ROUND: getEnv("LOCAL_AUTH_SALT_ROUND", 10, parseInt),
   LOCAL_AUTH_PASS_ROUND: getEnv("LOCAL_AUTH_PASS_ROUND", 16, parseInt),
 

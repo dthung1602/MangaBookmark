@@ -33,7 +33,7 @@
     - [x] Test everything is working
     - [x] Filter by src -> where src from?  
     - [x] ?? Rework on API
-    - [ ] retire request-promise
+    - [x] retire request-promise
  
 - [ ] Restructure folder FE
     - [ ] Split FE to small js chunk 

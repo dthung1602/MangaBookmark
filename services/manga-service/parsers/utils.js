@@ -1,21 +1,17 @@
-const rq = require("request-promise");
+const got = require("got");
 const cheerio = require("cheerio");
 
-const { USER_AGENT } = require("../../../config");
+const { getRandomUserAgent } = require("../../user-agent-service");
 
-async function loadData(dataSource) {
-  return cheerio.load(
-    await rq({
-      uri: dataSource,
-      headers: {
-        "User-Agent": USER_AGENT,
-      },
-    }),
-  );
+async function fetch(url) {
+  const response = await got(url, {
+    headers: {
+      "User-Agent": getRandomUserAgent(),
+      "Accept-Language": "en",
+      Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+    },
+  });
+  return cheerio.load(response.body);
 }
 
-function normalizeDataSource(dataSource) {
-  return typeof dataSource === "string" && dataSource.trim().startsWith("http") ? loadData(dataSource) : dataSource;
-}
-
-module.exports = { normalizeDataSource };
+module.exports = { fetch };

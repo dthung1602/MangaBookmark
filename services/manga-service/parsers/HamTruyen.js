@@ -1,10 +1,8 @@
-const normalizeDataSource = require("./utils").normalizeDataSource;
+const { fetch } = require("./utils");
 
 const URLRegex = /^https?:\/\/hamtruyen\.com\/.+\.html$/;
 
-async function parseChapters(dataSource) {
-  const $ = await normalizeDataSource(dataSource);
-
+async function parseChapters($) {
   const rows = $(".tenChapter a");
 
   const chapters = [];
@@ -18,8 +16,8 @@ async function parseChapters(dataSource) {
   return chapters;
 }
 
-async function parseManga(dataSource) {
-  const $ = await normalizeDataSource(dataSource);
+async function parseManga(url) {
+  const $ = await fetch(url);
 
   return {
     name: $('meta[property="og:title"]').attr("content"),

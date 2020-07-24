@@ -1,10 +1,8 @@
-const normalizeDataSource = require("./utils").normalizeDataSource;
+const { fetch } = require("./utils");
 
 const URLRegex = /^https?:\/\/(read\.)?mangawk\.com\/read-.+$/;
 
-async function parseChapters(dataSource) {
-  const $ = await normalizeDataSource(dataSource);
-
+async function parseChapters($) {
   const rows = $(".chapter-name");
 
   const chapters = [];
@@ -18,8 +16,8 @@ async function parseChapters(dataSource) {
   return chapters;
 }
 
-async function parseManga(dataSource) {
-  const $ = await normalizeDataSource(dataSource);
+async function parseManga(url) {
+  const $ = await fetch(url);
 
   return {
     name: $("h1").text(),

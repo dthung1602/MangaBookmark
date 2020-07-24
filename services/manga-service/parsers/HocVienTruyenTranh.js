@@ -1,25 +1,8 @@
-const rq = require("request-promise");
-const cheerio = require("cheerio");
+const { fetch } = require("./utils");
 
 const URLRegex = /^https?:\/\/hocvientruyentranh\.(com|net)\/(index.php\/)?truyen\/[0-9]+\/.+$/;
 
-async function loadData(dataSource) {
-  return cheerio.load(
-    await rq({
-      uri: dataSource,
-      insecure: true, // to handle .net and .com
-      rejectUnauthorized: false, // to handle .net and .com
-    }),
-  );
-}
-
-function normalizeDataSource(dataSource) {
-  return typeof dataSource === "string" && dataSource.trim().startsWith("http") ? loadData(dataSource) : dataSource;
-}
-
-async function parseChapters(dataSource) {
-  const $ = await normalizeDataSource(dataSource);
-
+async function parseChapters($) {
   const rows = $(".table-scroll .table-hover tr a");
 
   const chapters = [];
@@ -33,8 +16,8 @@ async function parseChapters(dataSource) {
   return chapters;
 }
 
-async function parseManga(dataSource) {
-  const $ = await normalizeDataSource(dataSource);
+async function parseManga(url) {
+  const $ = await fetch(url);
 
   return {
     name: $("h3")[0].children[0].data,

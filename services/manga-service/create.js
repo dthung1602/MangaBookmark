@@ -1,7 +1,7 @@
 const { pick } = require("lodash");
 
 const { Manga } = require("../../models");
-const { getParser } = require("../../services/manga-service/parsers")
+const { getParser } = require("../../services/manga-service/parsers");
 
 const fields = ["url", "user", "isCompleted", "following", "readChapters", "note", "hidden"];
 
