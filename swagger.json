@@ -1,0 +1,268 @@
+{
+  "openapi": "3.0.0",
+  "components": {
+    "schemas": {
+      "Chapter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string",
+            "format": "uri"
+          },
+          "isRead": {
+            "type": "bool"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Manga": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "uuid"
+          },
+          "user": {
+            "type": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string",
+            "format": "uri"
+          },
+          "source": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "chapters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Chapter"
+            }
+          },
+          "newChapCount": {
+            "type": "int"
+          },
+          "unreadChapCount": {
+            "type": "int"
+          },
+          "isCompleted": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "int",
+            "minimum": 0,
+            "maximum": 3
+          },
+          "statusString": {
+            "type": "string",
+            "enum": [
+              "Finished",
+              "Last chap reached",
+              "Many to read",
+              "New chap"
+            ]
+          },
+          "following": {
+            "type": "string",
+            "enum": [
+              "toread",
+              "following",
+              "waiting",
+              "dropped",
+              "finished"
+            ]
+          },
+          "note": {
+            "type": "string"
+          },
+          "hidden": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Subscription": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "uuid"
+          },
+          "user": {
+            "type": "uuid"
+          },
+          "browser": {
+            "type": "string",
+            "enum": [
+              "Opera",
+              "Internet Explorer",
+              "Chrome",
+              "Firefox",
+              "Safari",
+              "Unknown"
+            ]
+          },
+          "os": {
+            "type": "string",
+            "enum": [
+              "Windows",
+              "MacOS",
+              "Linux",
+              "Android",
+              "iOS",
+              "Unknown"
+            ]
+          },
+          "endpoint": {
+            "type": "string",
+            "format": "uri"
+          },
+          "auth": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "uuid"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "googleId": {
+            "type": "string"
+          },
+          "googlePic": {
+            "type": "string",
+            "format": "uri"
+          },
+          "googleName": {
+            "type": "string"
+          },
+          "facebookId": {
+            "type": "string"
+          },
+          "facebookPic": {
+            "type": "string",
+            "format": "uri"
+          },
+          "facebookName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "primaryAccount": {
+            "type": "string",
+            "enum": [
+              "local",
+              "google",
+              "facebook"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  },
+  "info": {
+    "title": "MangaBookmark API",
+    "version": "3.0.0",
+    "description": "API for MangaBookmark client"
+  },
+  "paths": {
+    "/api/auth/logout": {
+      "post": {
+        "description": "Log out of the application",
+        "responses": {
+          "302": {
+            "description": "logged out"
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "description": "Log in to the application",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "logged in"
+          }
+        }
+      }
+    },
+    "/api/auth/google": {
+      "get": {
+        "description": "Log in using Google. See [this](https://developers.google.com/identity/protocols/oauth2)",
+        "responses": {
+          "302": {
+            "description": "Redirect to Google login page"
+          }
+        }
+      }
+    }
+  },
+  "tags": []
+}

@@ -3,4 +3,5 @@ node_modules
 react-mb-client/build
 foo*
 .env
+.env.export
 coverage

@@ -7,6 +7,47 @@ function setPassword(newPassword) {
   return bcrypt.hashSync(newPassword, config.LOCAL_AUTH_SALT_ROUND);
 }
 
+/**
+ * @swagger
+ *
+ * components:
+ *    schemas:
+ *      User:
+ *        type: object
+ *        properties:
+ *          id:
+ *            type: uuid
+ *          username:
+ *            type: string
+ *          password:
+ *            type: string
+ *          googleId:
+ *            type: string
+ *          googlePic:
+ *            type: string
+ *            format: uri
+ *          googleName:
+ *            type: string
+ *          facebookId:
+ *            type: string
+ *          facebookPic:
+ *            type: string
+ *            format: uri
+ *          facebookName:
+ *            type: string
+ *          email:
+ *            type: string
+ *            format: email
+ *          primaryAccount:
+ *            type: string
+ *            enum: [local, google, facebook]
+ *          createdAt:
+ *            type: string
+ *            format: date-time
+ *          updatedAt:
+ *            type: string
+ *            format: date-time
+ */
 let userSchema = new mongoose.Schema({
   username: String,
   password: {

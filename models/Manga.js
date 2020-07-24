@@ -30,6 +30,30 @@ function codeToStatus(code) {
   return ["Finished", "Last chap reached", "Many to read", "New chap"][code];
 }
 
+/**
+ * @swagger
+ *
+ * components:
+ *    schemas:
+ *      Chapter:
+ *        type: object
+ *        properties:
+ *          id:
+ *            type: uuid
+ *          name:
+ *            type: string
+ *          link:
+ *            type: string
+ *            format: uri
+ *          isRead:
+ *            type: bool
+ *          createdAt:
+ *            type: string
+ *            format: date-time
+ *          updatedAt:
+ *            type: string
+ *            format: date-time
+ */
 const ChapterSchema = new mongoose.Schema(
   {
     name: String,
@@ -44,6 +68,58 @@ const ChapterSchema = new mongoose.Schema(
   },
 );
 
+/**
+ * @swagger
+ *
+ * components:
+ *    schemas:
+ *      Manga:
+ *        type: object
+ *        properties:
+ *          id:
+ *            type: uuid
+ *          user:
+ *            type: uuid
+ *          name:
+ *            type: string
+ *          link:
+ *            type: string
+ *            format: uri
+ *          source:
+ *            type: string
+ *          image:
+ *            type: string
+ *          chapters:
+ *            type: array
+ *            items:
+ *              $ref: '#/components/schemas/Chapter'
+ *          newChapCount:
+ *            type: int
+ *          unreadChapCount:
+ *            type: int
+ *          isCompleted:
+ *            type: boolean
+ *          status:
+ *            type: int
+ *            minimum: 0
+ *            maximum: 3
+ *          statusString:
+ *            type: string
+ *            enum: [Finished, Last chap reached, Many to read, New chap]
+ *          following:
+ *            type: string
+ *            enum: [toread, following, waiting, dropped, finished]
+ *          note:
+ *            type: string
+ *          hidden:
+ *            type: boolean
+ *          createdAt:
+ *            type: string
+ *            format: date-time
+ *          updatedAt:
+ *            type: string
+ *            format: date-time
+ */
 const MangaSchema = new mongoose.Schema(
   {
     user: {

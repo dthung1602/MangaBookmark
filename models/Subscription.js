@@ -18,6 +18,36 @@ const OSs = Object.freeze({
   UNK: "Unknown",
 });
 
+/**
+ * @swagger
+ *
+ * components:
+ *    schemas:
+ *      Subscription:
+ *        type: object
+ *        properties:
+ *          id:
+ *            type: uuid
+ *          user:
+ *            type: uuid
+ *          browser:
+ *            type: string
+ *            enum: [Opera, Internet Explorer, Chrome, Firefox, Safari, Unknown]
+ *          os:
+ *            type: string
+ *            enum: [Windows, MacOS, Linux, Android, iOS, Unknown]
+ *          endpoint:
+ *            type: string
+ *            format: uri
+ *          auth:
+ *            type: string
+ *          createdAt:
+ *            type: string
+ *            format: date-time
+ *          updatedAt:
+ *            type: string
+ *            format: date-time
+ */
 let SubscriptionSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,

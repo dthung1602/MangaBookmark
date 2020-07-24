@@ -5,9 +5,11 @@ const cookieSession = require("cookie-session");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const helmet = require("helmet");
+const swaggerUi = require("swagger-ui-express");
 const enforceSSL = require("express-enforces-ssl");
 const { addAsync } = require("@awaitjs/express");
 
+const swaggerDocument = require("./swagger.json");
 require("./services/auth-service");
 const config = require("./config");
 const app = addAsync(express());
@@ -49,6 +51,7 @@ app.use("/api/auth", DBConnectionMiddleware, AuthRouter);
 app.use("/api/mangas", DBConnectionMiddleware, AuthenticateMiddleware, MangaRouter);
 app.use("/api/user", DBConnectionMiddleware, AuthenticateMiddleware, UserRouter);
 app.use("/api/subscriptions", DBConnectionMiddleware, AuthenticateMiddleware, SubscriptionRouter);
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(ErrorHandler);
 
 // Any request that doesn't match one above, send back React's index.html file

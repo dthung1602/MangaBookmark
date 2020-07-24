@@ -11,7 +11,8 @@
     "build": "cd react-mb-client && yarn install && yarn build && rm -rf node_modules",
     "lint": "eslint --fix .",
     "test": "jest --runInBand",
-    "coverage": "jest --runInBand --coverage=true"
+    "coverage": "jest --runInBand --coverage=true",
+    "gendoc": "swagger-jsdoc -d swaggerDef.js"
   },
   "jest": {
     "testEnvironment": "node",
@@ -48,6 +49,8 @@
     "passport-local": "^1.0.0",
     "request": "^2.88.2",
     "supertest": "^4.0.2",
+    "swagger-jsdoc": "^4.0.0",
+    "swagger-ui-express": "^4.1.4",
     "web-push": "^3.4.4"
   },
   "devDependencies": {
