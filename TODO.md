@@ -31,7 +31,7 @@
     - [x] ~~App loaders~~ + set security headers
     - [x] Pagination 
     - [x] Test everything is working
-    - [ ] Filter by src -> where src from?  
+    - [x] Filter by src -> where src from?  
     - [x] ?? Rework on API
     - [ ] retire request-promise
  
