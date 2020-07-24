@@ -1,4 +1,4 @@
-const { fetch } = require("./utils");
+const { fetchAndLoad } = require("./utils");
 
 const URLRegex = /^https?:\/\/saytruyen\.com\/truyen-.+$/;
 
@@ -17,7 +17,7 @@ async function parseChapters($) {
 }
 
 async function parseManga(url) {
-  const $ = await fetch(url);
+  const $ = await fetchAndLoad(url);
   const lastBreadcrumb = $(".breadcrumb li:last-child a");
 
   return {

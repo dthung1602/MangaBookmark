@@ -14,9 +14,8 @@
 # MISCHIEVOUS
 
 - [ ] ***Migrate from mLab -> mongodb atlass***
-- [ ] Patch changes from v2 -> v3
-- [ ] mongoose (DeprecationWarning: collection.update is deprecated. Use updateOne, updateMany, or bulkWrite instead.
-- [ ] csrf token
+- [x] Patch changes from v2 -> v3
+- [ ] ~~mongoose (DeprecationWarning: collection.update is deprecated. Use updateOne, updateMany, or bulkWrite instead.~~
 
 # REFACTOR
 
@@ -99,6 +98,8 @@
     - [ ] confirm email
     - [ ] restore password
     - [ ] user avt
+
+- [ ] csrf token
 
 - [ ] Manga src from other languages
 

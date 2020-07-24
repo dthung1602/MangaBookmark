@@ -1,31 +1,13 @@
-const parserNames = [
-  "BlogTruyen",
-  "DocTruyenTranh",
-  "HamTruyen",
-  "HamTruyenTranh",
-  "HocVienTruyenTranh",
-  "MangaFox",
-  "Mangairo",
-  "Mangakakalot",
-  "MangakakalotS",
-  "Manganelo",
-  "MangaOwl",
-  "MangaWK",
-  "Mangazuki.fun",
-  "MeDocTruyenTranh",
-  "NetTruyen",
-  "Otakusan",
-  "SayTruyen",
-  "ThichTruyenTranh",
-  "TruyenQQ",
-  "TruyenSieuHay",
-  "TruyenTranh1",
-  "TruyenTranh86",
-  "TruyenTranh869",
-  "TruyenTranhTam",
-  "TruyenTranhTuan",
-  "TruyenVN",
-];
+const fs = require("fs");
+
+let parserNames = [];
+fs.readdir(__dirname, (err, files) => {
+  if (err) {
+    throw err;
+  }
+  const otherFiles = ["utils", "index"];
+  parserNames = files.map((file) => file.slice(0, file.length - 3)).filter((file) => otherFiles.indexOf(file) === -1);
+});
 
 const parsers = parserNames.map(function (p) {
   return require("./" + p);

@@ -19,7 +19,7 @@ if (config.NODE_ENV === "production") {
 app.use(helmet());
 
 app.use(logger("dev"));
-app.use(express.json());
+app.use(express.json({ limit: "64mb" }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 

@@ -1,4 +1,4 @@
-const { fetch } = require("./utils");
+const { fetchAndLoad } = require("./utils");
 
 const URLRegex = /^https?:\/\/m\.mangairo\.com\/story-.+$/;
 
@@ -17,7 +17,7 @@ async function parseChapters($) {
 }
 
 async function parseManga(url) {
-  const $ = await fetch(url);
+  const $ = await fetchAndLoad(url);
 
   return {
     name: $("h1").text(),

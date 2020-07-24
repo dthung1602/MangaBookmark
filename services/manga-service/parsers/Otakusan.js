@@ -1,4 +1,4 @@
-const { fetch } = require("./utils");
+const { fetchAndLoad } = require("./utils");
 
 const URLRegex = /^https?:\/\/otakusan\.net\/MangaDetail\/[0-9]+\/.+$/;
 
@@ -17,7 +17,7 @@ async function parseChapters($) {
 }
 
 async function parseManga(url) {
-  const $ = await fetch(url);
+  const $ = await fetchAndLoad(url);
 
   return {
     name: $(".title").text().trim(),

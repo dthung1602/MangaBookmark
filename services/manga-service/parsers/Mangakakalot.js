@@ -1,4 +1,4 @@
-const { fetch } = require("./utils");
+const { fetchAndLoad } = require("./utils");
 
 const URLRegex = /^https?:\/\/mangakakalot\.com\/(read-|manga\/).+$/;
 
@@ -8,8 +8,8 @@ async function parseChapters($) {
   const chapters = [];
   for (let i = 0; i < rows.length; i++) {
     chapters.push({
-      name: rows[i].children[0].data,
-      link: rows[i].attribs.href,
+      name: rows[i].children[0].data.trim(),
+      link: rows[i].attribs.href.trim(),
     });
   }
 
@@ -17,12 +17,12 @@ async function parseChapters($) {
 }
 
 async function parseManga(url) {
-  const $ = await fetch(url);
+  const $ = await fetchAndLoad(url);
 
   return {
-    name: $("h1").text(),
-    link: $('meta[property="og:url"]').attr("content"),
-    image: $(".manga-info-pic img").attr("src"),
+    name: $("h1").text().trim(),
+    link: $('meta[property="og:url"]').attr("content").trim(),
+    image: $(".manga-info-pic img").attr("src").trim(),
     isCompleted: $(".manga-info-text li")[2].children[0].data === "Status : Completed",
     chapters: await parseChapters($),
   };
