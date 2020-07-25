@@ -43,9 +43,9 @@
 
 - [x] Update dependencies to the latest
 
-- [ ] Add readme.md
+- [x] Add readme.md
 
-- [ ] Add API doc
+- [x] Add API doc
 
 # NEW FEATURES
 
