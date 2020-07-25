@@ -39,14 +39,14 @@ function codeToStatus(code) {
  *        type: object
  *        properties:
  *          id:
- *            type: uuid
+ *            $ref: '#/components/schemas/Id'
  *          name:
  *            type: string
  *          link:
  *            type: string
  *            format: uri
  *          isRead:
- *            type: bool
+ *            type: boolean
  *          createdAt:
  *            type: string
  *            format: date-time
@@ -77,9 +77,9 @@ const ChapterSchema = new mongoose.Schema(
  *        type: object
  *        properties:
  *          id:
- *            type: uuid
+ *            $ref: '#/components/schemas/Id'
  *          user:
- *            type: uuid
+ *            $ref: '#/components/schemas/Id'
  *          name:
  *            type: string
  *          link:
@@ -94,13 +94,13 @@ const ChapterSchema = new mongoose.Schema(
  *            items:
  *              $ref: '#/components/schemas/Chapter'
  *          newChapCount:
- *            type: int
+ *            type: integer
  *          unreadChapCount:
- *            type: int
+ *            type: integer
  *          isCompleted:
  *            type: boolean
  *          status:
- *            type: int
+ *            type: integer
  *            minimum: 0
  *            maximum: 3
  *          statusString:

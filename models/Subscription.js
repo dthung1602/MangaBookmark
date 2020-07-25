@@ -27,9 +27,9 @@ const OSs = Object.freeze({
  *        type: object
  *        properties:
  *          id:
- *            type: uuid
+ *            $ref: '#/components/schemas/Id'
  *          user:
- *            type: uuid
+ *            $ref: '#/components/schemas/Id'
  *          browser:
  *            type: string
  *            enum: [Opera, Internet Explorer, Chrome, Firefox, Safari, Unknown]

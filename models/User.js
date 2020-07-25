@@ -16,7 +16,7 @@ function setPassword(newPassword) {
  *        type: object
  *        properties:
  *          id:
- *            type: uuid
+ *            $ref: '#/components/schemas/Id'
  *          username:
  *            type: string
  *          password:
