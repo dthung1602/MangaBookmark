@@ -1,68 +1,10 @@
 {
   "name": "mangabookmark",
-  "version": "2.0.0",
+  "version": "3.0.0",
+  "description": "A web app that allow users to bookmark mangas from scanlation sites.",
+  "repository": "https://github.com/dthung1602/MangaBookmark.git",
+  "author": "dthung1602 <dthung1602@gmail.com>",
+  "license": "MIT",
   "private": true,
-  "engines": {
-    "node": "^12.16.1"
-  },
-  "scripts": {
-    "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www",
-    "build": "./bin/build.sh",
-    "lint": "eslint --fix .",
-    "test": "jest --runInBand",
-    "coverage": "jest --runInBand --coverage=true",
-    "gendoc": "swagger-jsdoc -d swaggerDef.js"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/react-mb-client/",
-      "/tests/",
-      "/services/manga-service/parsers"
-    ]
-  },
-  "dependencies": {
-    "@awaitjs/express": "^0.6.1",
-    "@jest/globals": "^26.1.0",
-    "bcrypt": "^4.0.1",
-    "cheerio": "^1.0.0-rc.3",
-    "cookie-parser": "~1.4.5",
-    "cookie-session": "^1.4.0",
-    "create-react-app": "^3.4.1",
-    "debug": "^4.1.1",
-    "express": "^4.17.1",
-    "express-enforces-ssl": "^1.1.0",
-    "express-validator": "^6.6.0",
-    "got": "^11.5.1",
-    "helmet": "^3.23.3",
-    "http-errors": "^1.8.0",
-    "lodash": "^4.17.19",
-    "mongoose": "^5.9.25",
-    "morgan": "~1.10.0",
-    "node-mongodb-fixtures": "^3.2.5",
-    "nodemon": "^2.0.4",
-    "passport": "^0.4.1",
-    "passport-facebook": "^3.0.0",
-    "passport-google-oauth20": "^2.0.0",
-    "passport-local": "^1.0.0",
-    "request": "^2.88.2",
-    "supertest": "^4.0.2",
-    "swagger-jsdoc": "^4.0.0",
-    "swagger-ui-express": "^4.1.4",
-    "web-push": "^3.4.4"
-  },
-  "devDependencies": {
-    "@jest/environment": "^26.0.1",
-    "@types/express": "^4.17.6",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^7.5.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-jest": "^23.18.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "faker": "^4.1.0",
-    "jest": "^26.1.0",
-    "prettier": "^2.0.5"
-  }
+  "workspaces": ["backend", "frontend"]
 }

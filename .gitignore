@@ -1,6 +1,6 @@
 .idea
 node_modules
-react-mb-client/build
+old-fronend/build
 foo*
 .env
 .env.export
