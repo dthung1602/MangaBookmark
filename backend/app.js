@@ -44,7 +44,7 @@ const SubscriptionRouter = require("./api/subscription");
 const { AuthenticateMiddleware, DBConnectionMiddleware, ErrorHandler } = require("./middlewares");
 
 // Static files handled by React
-app.use(express.static(path.join(__dirname, "old-fronend/build")));
+app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 // API
 app.use("/api/auth", DBConnectionMiddleware, AuthRouter);
@@ -56,7 +56,7 @@ app.use(ErrorHandler);
 
 // Any request that doesn't match one above, send back React's index.html file
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/old-fronend/build/index.html"));
+  res.sendFile(path.join(__dirname + "/fronend/build/index.html"));
 });
 
 module.exports = app;

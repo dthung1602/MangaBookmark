@@ -1,0 +1,38 @@
+{
+  "root": true,
+  "env": {
+    "node": true,
+    "browser": true,
+    "es6": true,
+    "jest/globals": true,
+    "serviceworker": true
+  },
+  "plugins": ["jest", "react-hooks", "react"],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "ignorePatterns": [
+    "/node_modules/**", "/build/**"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "plugin:jest/recommended",
+    "plugin:jest/style",
+    "plugin:react/recommended"
+  ],
+  "rules": {
+    "no-prototype-builtins": "off",
+    "curly": ["warn", "all"]
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}

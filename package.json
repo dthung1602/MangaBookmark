@@ -6,5 +6,15 @@
   "author": "dthung1602 <dthung1602@gmail.com>",
   "license": "MIT",
   "private": true,
-  "workspaces": ["backend", "frontend"]
+  "workspaces": ["backend", "frontend"],
+  "scripts": {
+    "start": "node backend/bin/www",
+    "build": "./build.sh",
+    "lint-fe": "frontend/node_modules/.bin/eslint frontend --fix",
+    "lint-be": "backend/node_modules/.bin/eslint backend --fix",
+    "lint": "yarn lint-fe && echo '\n------\n' && yarn lint-be",
+    "dev-fe": "frontend/node_modules/.bin/craco start",
+    "dev-be": "backend/node_modules/.bin/nodemon backend/bin/www",
+    "dev": "yarn dev-be & ; yarn dev-fe &"
+  }
 }

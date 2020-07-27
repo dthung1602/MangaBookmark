@@ -8,7 +8,6 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
-    "build": "./bin/build.sh",
     "lint": "eslint --fix .",
     "test": "jest --runInBand",
     "coverage": "jest --runInBand --coverage=true",

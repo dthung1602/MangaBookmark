@@ -2,6 +2,12 @@
   "name": "mangabookmark-frontend",
   "version": "3.0.0",
   "private": true,
+  "scripts": {
+    "dev": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "lint": "eslint . --fix"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -14,16 +20,14 @@
     "craco-less": "^1.17.0"
   },
   "devDependencies": {
-    "jest": "^24.9.0"
-  },
-  "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "jest": "^24.9.0",
+    "eslint": "^6.8.0",
+    "prettier": "^2.0.5",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-jest": "^23.18.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.4",
+    "eslint-plugin-react-hooks": "^4.0.8"
   },
   "browserslist": {
     "production": [
