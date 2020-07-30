@@ -13,8 +13,7 @@
     "lint-fe": "frontend/node_modules/.bin/eslint frontend --fix",
     "lint-be": "backend/node_modules/.bin/eslint backend --fix",
     "lint": "yarn lint-fe && echo '\n------\n' && yarn lint-be",
-    "dev-fe": "frontend/node_modules/.bin/craco start",
-    "dev-be": "backend/node_modules/.bin/nodemon backend/bin/www",
-    "dev": "yarn dev-be & ; yarn dev-fe &"
+    "dev-fe": "cd frontend; node_modules/.bin/craco start",
+    "dev-be": "cd backend; node_modules/.bin/nodemon backend/bin/www"
   }
 }
