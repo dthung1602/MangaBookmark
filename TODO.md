@@ -19,7 +19,7 @@
 
 # REFACTOR
 
-- [ ] Restructure folder BE
+- [x] Restructure folder BE
     - [x] Move business logic to services
     - [x] Use HTTP method patch, delete, etc.
     - [ ] ~~Combine sub-service modules to one service class?~~
@@ -33,13 +33,6 @@
     - [x] Filter by src -> where src from?  
     - [x] ?? Rework on API
     - [x] retire request-promise
- 
-- [ ] Restructure folder FE
-    - [ ] Split FE to small js chunk 
-    - [ ] Handle error
-    - [ ] Cancel old request when new one is sent
-    - [ ] Change URL when change filter
-    - [ ] Add API doc using Swagger
 
 - [x] Update dependencies to the latest
 
@@ -47,16 +40,66 @@
 
 - [x] Add API doc
 
-# NEW FEATURES
+# REWRITE FRONTEND
 
-- [ ] Right preview panel
-    - [ ] Improve manga table:
+- [x] Basic setup
+- [x] Design
+
+- [ ] Split FE to small js chunk 
+- [ ] Handle error
+- [ ] Cancel old request when new one is sent
+- [ ] Change URL when change filter
+
+- [ ] Basic components:
+    - [ ] Navbar
+    - [ ] Footer
+    - [ ] FAB
+        - [ ] to top
+        - [ ] add manga
+        - [ ] update mangas
+        - [ ] dark mode
+    - [ ] Manga listing table
         - [ ] Use sources favicon
         - [ ] Merge status column
-    - [ ] Can by toggled
-    - [ ] Summary of manga
-    - [ ] Crawl: alternative name, author, description, tag
-    - [ ] Expected next release
+    - [ ] Basic Search & filter
+            - [ ] status
+            - [ ] shelf (rename from following status)
+            - [ ] search by name
+    - [ ] Right panel (manga detail panel)
+        - [ ] display info
+        - [ ] edit
+        - [ ] delete
+        - [ ] update
+        - [ ] read
+        - [ ] mark chapters
+    - [ ] Advanced search & filter
+        - [ ] created date
+        - [ ] last updated date
+        - [ ] last read date
+        - [ ] src
+        
+- [ ] Add introduction page, legal notice 
+
+# NEW FEATURES
+
+- [ ] Toggle right panel
+
+- [ ] Improve search & filter:
+    - [ ] Create optimize index
+    - [ ] Filter by
+        - [ ] tag
+        - [ ] author
+    - [ ] Search by name, author, alternative name, description, note
+    - [ ] Search by partial keywords. See [this](https://stackoverflow.com/a/54318581/7342188)
+    - [ ] Search language ?
+
+- [ ] Manga expected next release
+
+- [ ] Crawl new info:
+    - [ ] alternative name
+    - [ ] tag
+    - [ ] description
+    - [ ] author
 
 - [ ] Latest updated mangas view
 
@@ -64,29 +107,12 @@
 
 - [ ] Change loading icon
 
-- [ ] Dark mode
-
-- [ ] NEW source. See [this](https://www.epubor.com/free-manga-sites-to-read-manga-online-for-free.html)
+- [ ] New source. See [this](https://www.epubor.com/free-manga-sites-to-read-manga-online-for-free.html)
 
 - [ ] One master note for user -> take note everything
 
-- [ ] Add introduction page, legal notice
-
 - [ ] Improve account page UI
 
-- [ ] Improve search & filter:
-    - [ ] Create optimize index
-    - [ ] Filter by
-        - [ ] created date
-        - [ ] last updated date
-        - [ ] last read date
-        - [ ] src
-        - [ ] tag
-        - [ ] status
-        - [ ] shelf (rename from following status)
-    - [ ] Search by name, author, alternative name, description, note
-    - [ ] Search by partial key words. See [this](https://stackoverflow.com/a/54318581/7342188)
-    - [ ] Search language ?
 - [ ] In-site reading mode (for some src only)
 
 - [ ] Notification:
