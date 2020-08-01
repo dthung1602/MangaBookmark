@@ -1,0 +1,80 @@
+@import "../../variables";
+
+.header {
+  background: @primary-color;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  padding: 0 25px;
+  text-align: center;
+}
+
+.header-push {
+  z-index: -1;
+  visibility: hidden;
+  height: 64px;
+  width: 100%;
+}
+
+.logo {
+  height: 100%;
+  float: left;
+
+  img {
+    height: 90%;
+  }
+
+  @media (max-width: @bp-lg) {
+    float: none;
+    img {
+      height: 70%;
+    }
+  }
+}
+
+.version-badge {
+  margin: 0 0 12px 12px;
+  .ant-badge-count {
+    background: @secondary-color;
+    color: white;
+    box-shadow: none;
+  }
+}
+
+.top-menu-btn-mobile {
+  float: left;
+  cursor: pointer;
+  &>* {
+    font-size: 20px;
+  }
+}
+
+.top-menu {
+  background: @primary-color;
+  color: white !important;
+  height: 100%;
+
+  &.ant-menu-horizontal {
+    border-bottom: none !important;
+
+    .ant-menu-item-active,
+    .ant-menu-submenu-active {
+      color: white;
+      font-weight: bold;
+      background: @primary-color-active !important;
+    }
+
+    .ant-menu-item a,
+    .ant-menu-item-active,
+    .ant-menu-item-selected,
+    .ant-menu-submenu-active,
+    .ant-menu-submenu-selected {
+      color: white !important;
+      :hover {
+        color: white !important;
+      }
+      border-bottom-color: white;
+      border-bottom-width: 3px;
+    }
+  }
+}

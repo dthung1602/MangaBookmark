@@ -57,7 +57,7 @@
         - [ ] to top
         - [ ] add manga
         - [ ] update mangas
-        - [ ] dark mode
+        - [ ] ~~dark mode~~ (not possible to toggle at runtime with antd)
     - [ ] Manga listing table
         - [ ] Use sources favicon
         - [ ] Merge status column
