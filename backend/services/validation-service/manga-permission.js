@@ -1,7 +1,7 @@
 const { check } = require("express-validator");
 
 const { Manga } = require("../../models");
-const { NotFoundError, PermissionError } = require("../../exceptions");
+const { NotFoundError, PermissionError } = require("../../errors");
 const ErrorFormatter = require("./validation-error-formatter");
 
 module.exports = [

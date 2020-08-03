@@ -6,12 +6,15 @@ function getEnv(envName, defaultValue = undefined, converter = (x) => x) {
   return converter(value);
 }
 
+const NODE_ENV = getEnv("NODE_ENV", "development");
+let fallbackDatabaseURL =
+  NODE_ENV === "test" ? "mongodb://localhost/TestMangaBookmark" : "mongodb://localhost/MangaBookmark";
+
 module.exports = {
-  NODE_ENV: getEnv("NODE_ENV", "development"),
+  NODE_ENV,
 
   PORT: getEnv("PORT", 3000, parseInt),
-  DB_URL: getEnv("DB_URL", "mongodb://localhost/MangaBookmark"),
-  TEST_DB_URL: getEnv("TEST_DB_URL", "mongodb://localhost/TestMangaBookmark"),
+  DB_URL: getEnv("DB_URL", fallbackDatabaseURL),
   CRAWL_CONCURRENCY: getEnv("CRAWL_CONCURRENCY", 5, parseInt),
 
   SECRET_KEY: getEnv("SECRET_KEY", "yIjaujJQOuen0MQPE2daXN8oBrPY1USc"),

@@ -22,8 +22,14 @@ function closeDBConnection() {
   mongoose.connection.close();
 }
 
+const DBConnectionMiddleware = async (req, res, next) => {
+  await ensureDBConnection();
+  next();
+};
+
 module.exports = {
   ensureDBConnection,
   closeDBConnection,
+  DBConnectionMiddleware,
   DB_DEFAULT_OPTIONS,
 };

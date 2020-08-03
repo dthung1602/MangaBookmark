@@ -1,6 +1,6 @@
 const { check } = require("express-validator");
 
-const { NotFoundError, PermissionError } = require("../../exceptions");
+const { NotFoundError, PermissionError } = require("../../errors");
 const { Subscription } = require("../../models");
 const ErrorFormatter = require("./validation-error-formatter");
 

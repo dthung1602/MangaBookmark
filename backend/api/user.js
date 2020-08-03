@@ -76,8 +76,12 @@ router.postAsync("/", LocalUserRegistrationValidator, async (req, res, next) => 
  *                $ref: '#/components/schemas/User'
  */
 router.getAsync("/", async (req, res) => {
-  const user = await User.findById(req.user.id);
-  res.json(removePassword(user));
+  if (req.user) {
+    const user = await User.findById(req.user.id);
+    res.json(removePassword(user));
+  } else {
+    res.json(null);
+  }
 });
 
 //-----------------------------------

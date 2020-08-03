@@ -1,7 +1,6 @@
 const { Router } = require("@awaitjs/express");
 const passport = require("passport");
 
-const { ValidationError } = require("../exceptions");
 const router = Router();
 
 const { redirectHome } = require("./utils");
@@ -47,22 +46,23 @@ router.postAsync("/logout", (req, res) => {
  *     responses:
  *       200:
  *         description: logged in
+ *       401:
+ *         description: incorrect username/password
  */
 
-// FIXME
-router.postAsync("/login", (req, res, next) => {
+router.post("/login", (req, res, next) => {
   passport.authenticate("local", function (err, user, info) {
     if (err) {
-      throw new Error(String(err));
+      return res.status(500).json({ errors: { "": "" + err } });
     }
     if (!user) {
-      throw new ValidationError({ login: info });
+      return res.status(401).json({ errors: info });
     }
     req.login(user, (err) => {
       if (err) {
-        next(new Error(String(err)));
+        return res.status(500).json({ errors: { "": "" + err } });
       } else {
-        next();
+        res.status(200).end();
       }
     });
   })(req, res, next);

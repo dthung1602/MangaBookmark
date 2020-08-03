@@ -9,7 +9,7 @@
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
     "lint": "eslint --fix .",
-    "test": "jest --runInBand",
+    "test": "NODE_ENV=test jest --runInBand",
     "coverage": "jest --runInBand --coverage=true",
     "gendoc": "swagger-jsdoc -d swaggerDef.js"
   },

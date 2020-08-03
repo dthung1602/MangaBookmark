@@ -8,6 +8,8 @@ const {
   unloadFixture,
   connectFixtureDB,
   disconnectFixtureDB,
+  loginAs,
+  resetLogin,
 } = require("./utils");
 const { closeDBConnection } = require("../../services/db-service");
 const { INVALID_NEW_USER, INVALID_PATCH_USER, INVALID_PASSWORD, INVALID_UNLINK } = require("./user.data");
@@ -52,6 +54,17 @@ describe("User API", () => {
       __v: 0,
       email: "user1@example.com",
     });
+  });
+
+  it("should return null when not login", async function () {
+    try {
+      loginAs(null);
+      const response = await request(app).get("/api/user");
+      expect(response.status).toEqual(200);
+      expect(response.body).toBeNull();
+    } finally {
+      resetLogin();
+    }
   });
 
   it("should create local user", async function () {

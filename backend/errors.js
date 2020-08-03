@@ -21,6 +21,15 @@ class PermissionError extends CustomError {
   }
 }
 
+class AuthenticationError extends CustomError {
+  static message = "Authentication required";
+
+  constructor(errors) {
+    super(errors, 401);
+    this.message = AuthenticationError.message;
+  }
+}
+
 class NotFoundError extends CustomError {
   static message = "Not found";
 
@@ -30,9 +39,21 @@ class NotFoundError extends CustomError {
   }
 }
 
+const ErrorHandlerMiddleware = (err, req, res, next) => {
+  if (err instanceof CustomError) {
+    res.status(err.statusCode).json({ errors: err.errors });
+    next();
+  } else {
+    const message = err.message || "Internal server error";
+    res.status(500).json({ "": message });
+  }
+};
+
 module.exports = {
   ValidationError,
   PermissionError,
   NotFoundError,
+  AuthenticationError,
   CustomError,
+  ErrorHandlerMiddleware,
 };

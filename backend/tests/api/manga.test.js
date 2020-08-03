@@ -12,7 +12,6 @@ const {
   INVALID_NEW_MANGA,
   INVALID_READ_CHAPTERS,
 } = require("./manga.data");
-const { TEST_DB_URL } = require("../../config");
 const { Manga } = require("../../models");
 const {
   expectErrors,
@@ -57,7 +56,7 @@ describe("Manga API", () => {
   });
 
   beforeEach(async () => {
-    await ensureDBConnection(TEST_DB_URL);
+    await ensureDBConnection();
     mockMiddleware();
     app = require("../../app");
     await loadFixtures();

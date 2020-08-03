@@ -1,7 +1,7 @@
 const Fixtures = require("node-mongodb-fixtures");
 
 const config = require("../../config");
-const mockErrorHandler = require("../../middlewares").ErrorHandler;
+const mockAuthService = require("../../services/auth-service");
 
 const TEST_DB_DEFAULT_OPTIONS = {
   useUnifiedTopology: true,
@@ -14,7 +14,7 @@ const fixtures = new Fixtures({
 
 async function connectFixtureDB(options = {}) {
   options = { ...TEST_DB_DEFAULT_OPTIONS, ...options };
-  await fixtures.connect(config.TEST_DB_URL, options);
+  await fixtures.connect(config.DB_URL, options);
 }
 
 async function disconnectFixtureDB() {
@@ -29,38 +29,26 @@ async function unloadFixture() {
   await fixtures.unload();
 }
 
+const defaultUserId = "111aaaaaaaaaaaaaaaaaa111";
+
+const mockUser = { id: defaultUserId };
+
+function loginAs(userId) {
+  mockUser.id = userId;
+}
+
+function resetLogin() {
+  mockUser.id = defaultUserId;
+}
+
 function mockMiddleware() {
   jest.mock("../../services/auth-service", () => {
-    // must at least implement serializeUser & deserializeUser
-    const passport = require("passport");
-    passport.serializeUser((user, done) => {
-      done(null, user.id);
-    });
-    passport.deserializeUser((userId, done) => {
-      done(null, { id: userId });
-    });
-
-    // always login as the 1st user
-    return (req, res, next) => {
-      req.user = { id: "111aaaaaaaaaaaaaaaaaa111" };
-      next();
-    };
-  });
-
-  jest.mock("../../middlewares", () => {
-    const { ensureDBConnection } = require("../../services/db-service");
-    const { TEST_DB_URL } = require("../../config");
-
     return {
-      DBConnectionMiddleware: async (req, res, next) => {
-        await ensureDBConnection(TEST_DB_URL);
-        next();
-      },
+      ...mockAuthService,
       AuthenticateMiddleware: (req, res, next) => {
-        req.user = { id: "111aaaaaaaaaaaaaaaaaa111" };
+        req.user = mockUser.id === null ? null : mockUser;
         next();
       },
-      ErrorHandler: mockErrorHandler,
     };
   });
 }
@@ -72,4 +60,13 @@ function expectErrors(expected, actual) {
   }
 }
 
-module.exports = { connectFixtureDB, disconnectFixtureDB, loadFixtures, unloadFixture, mockMiddleware, expectErrors };
+module.exports = {
+  connectFixtureDB,
+  disconnectFixtureDB,
+  loadFixtures,
+  unloadFixture,
+  mockMiddleware,
+  expectErrors,
+  loginAs,
+  resetLogin,
+};

@@ -1,4 +1,5 @@
 const express = require("express");
+const { Router } = express;
 const path = require("path");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
@@ -19,21 +20,16 @@ if (config.NODE_ENV === "production") {
   app.use(enforceSSL());
 }
 app.use(helmet());
-
 app.use(logger("dev"));
 app.use(express.json({ limit: "64mb" }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-
-// set up session cookies
 app.use(
   cookieSession({
     maxAge: config.COOKIE_MAX_AGE,
     keys: [config.SECRET_KEY],
   }),
 );
-
-// initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -41,22 +37,26 @@ const AuthRouter = require("./api/auth");
 const MangaRouter = require("./api/manga");
 const UserRouter = require("./api/user");
 const SubscriptionRouter = require("./api/subscription");
-const { AuthenticateMiddleware, DBConnectionMiddleware, ErrorHandler } = require("./middlewares");
+const { AuthenticateMiddleware } = require("./services/auth-service");
+const { DBConnectionMiddleware } = require("./services/db-service");
+const { ErrorHandlerMiddleware } = require("./errors");
 
 // Static files handled by React
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 // API
-app.use("/api/auth", DBConnectionMiddleware, AuthRouter);
-app.use("/api/mangas", DBConnectionMiddleware, AuthenticateMiddleware, MangaRouter);
-app.use("/api/user", DBConnectionMiddleware, AuthenticateMiddleware, UserRouter);
-app.use("/api/subscriptions", DBConnectionMiddleware, AuthenticateMiddleware, SubscriptionRouter);
-app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.use(ErrorHandler);
+const apiRouter = Router();
+apiRouter.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+apiRouter.use("/auth", AuthRouter);
+apiRouter.use("/mangas", MangaRouter);
+apiRouter.use("/user", UserRouter);
+apiRouter.use("/subscriptions", SubscriptionRouter);
+app.use("/api", DBConnectionMiddleware, AuthenticateMiddleware, apiRouter, ErrorHandlerMiddleware);
 
 // Any request that doesn't match one above, send back React's index.html file
+const frontendBuildIndex = path.join(__dirname, "frontend-build", "index.html");
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/fronend/build/index.html"));
+  res.sendFile(frontendBuildIndex);
 });
 
 module.exports = app;
