@@ -1,7 +1,7 @@
 @import "../../variables";
 
 .header {
-  background: @primary-color;
+  background: @default-color;
   position: fixed;
   z-index: 1;
   width: 100%;
@@ -42,6 +42,7 @@
 }
 
 .top-menu-btn-mobile {
+  color: @semi-transparent;
   float: left;
   cursor: pointer;
   &>* {
@@ -50,31 +51,33 @@
 }
 
 .top-menu {
-  background: @primary-color;
-  color: white !important;
+  color: @semi-transparent;
+  background: @default-color;
   height: 100%;
 
   &.ant-menu-horizontal {
-    border-bottom: none !important;
+    border-bottom: none;
 
     .ant-menu-item-active,
     .ant-menu-submenu-active {
-      color: white;
-      font-weight: bold;
-      background: @primary-color-active !important;
+      background: @default-color-active;
     }
 
-    .ant-menu-item a,
     .ant-menu-item-active,
     .ant-menu-item-selected,
     .ant-menu-submenu-active,
     .ant-menu-submenu-selected {
-      color: white !important;
-      :hover {
-        color: white !important;
+      border-bottom: 4px solid @primary-color;
+    }
+
+    .ant-menu-item {
+      a {
+        color: @semi-transparent;
       }
-      border-bottom-color: white;
-      border-bottom-width: 3px;
+      &.ant-menu-item-active a,
+      &.ant-menu-item-selected a {
+        color: @primary-color;
+      }
     }
   }
 }

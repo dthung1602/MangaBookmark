@@ -1,0 +1,75 @@
+@import "../../variables";
+
+.footer {
+  color: @semi-transparent !important;
+  z-index: 1;
+  padding: 0;
+  font-size: 14px;
+
+  @media (max-width: @bp-lg) {
+    text-align: center;
+  }
+}
+
+.upper-footer {
+  background: @default-color;
+  padding: 24px 50px;
+
+  @media (max-width: @bp-lg) {
+    padding: 24px;
+  }
+
+  img {
+    height: 75px;
+    @media (max-width: @bp-sm) {
+      height: 60px;
+    }
+  }
+
+  a {
+    display: block;
+    padding: 4px 0;
+    color: @semi-transparent;
+    transform: translateX(0);
+    &:hover {
+      color: white;
+      font-weight: bold;
+      transform: translateX(8px);
+    }
+    transition-property: transform;
+    transition-duration: 0.5s;
+  }
+}
+
+.footer-row-head {
+  color: @primary-color-active;
+  font-weight: bold;
+  font-size: large;
+  margin: 20px 0 8px 0;
+}
+
+.footer-icon {
+  font-size: 1.2rem;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.footer-version {
+  margin-top: 12px;
+  color: darken(@secondary-color, 10%);
+}
+
+.power-by {
+  img {
+    height: 35px;
+    margin-top: 8px;
+  }
+}
+
+.lower-footer {
+  background: @default-color;
+  opacity: 0.95;
+  padding: 12px 50px;
+  display: flex;
+  justify-content: center;
+}
