@@ -4,6 +4,14 @@ class AuthAPI extends BaseAPI {
   constructor() {
     super("auth");
   }
+
+  login(params) {
+    return this.post(params, "login");
+  }
+
+  logout() {
+    return this.post(undefined, "logout");
+  }
 }
 
-export default AuthAPI;
+export default new AuthAPI();

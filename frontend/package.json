@@ -3,11 +3,12 @@
   "version": "3.0.0",
   "private": true,
   "scripts": {
-    "dev": "craco start",
+    "dev": "PORT=3001 craco start",
     "build": "craco build",
     "test": "craco test",
     "lint": "eslint . --fix"
   },
+  "proxy": "http://localhost:3000",
   "dependencies": {
     "@ant-design/icons": "^4.2.1",
     "@craco/craco": "^5.6.4",

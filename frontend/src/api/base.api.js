@@ -4,46 +4,45 @@ export default class BaseAPI {
     this.basePath = `/api/${resource}`;
   }
 
-  query(params) {
+  createJSONBody(params) {
+    if (params) {
+      return {
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+    }
+    return {};
+  }
+
+  get(params, slug = "") {
     params = new URLSearchParams(params).toString();
-    const path = params ? `${this.basePath}?${params}` : this.basePath;
+    const path = params ? `${this.basePath}/${slug}?${params}` : `${this.basePath}/${slug}`;
     return fetch(path, {
       method: "GET",
       credentials: "same-origin",
     });
   }
 
-  get() {
-    return fetch(this.basePath, {
-      method: "GET",
-      credentials: "same-origin",
-    });
-  }
-
-  create(params) {
-    return fetch(this.basePath, {
+  post(params, slug = "") {
+    return fetch(`${this.basePath}/${slug}`, {
       method: "POST",
       credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(params),
+      ...this.createJSONBody(params),
     });
   }
 
-  update(id, params) {
-    return fetch(`${this.basePath}/${id}`, {
+  patch(params, slug = "") {
+    return fetch(`${this.basePath}/${slug}`, {
       method: "PATCH",
       credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(params),
+      ...this.createJSONBody(params),
     });
   }
 
-  delete(id) {
-    return fetch(`${this.basePath}/${id}`, {
+  delete(slug = "") {
+    return fetch(`${this.basePath}/${slug}`, {
       method: "DELETE",
       credentials: "same-origin",
     });

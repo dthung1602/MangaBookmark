@@ -1,18 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { Menu, Layout, Avatar, Badge, Drawer } from "antd";
-import { UserOutlined, LogoutOutlined, MenuOutlined, BookOutlined } from "@ant-design/icons";
-import LOGO from "./logo.png";
-import "./NavBar.less";
+import { Badge, Drawer, Layout, Menu } from "antd";
+import { BookOutlined, LoginOutlined, LogoutOutlined, MenuOutlined, UserOutlined } from "@ant-design/icons";
 
 import { FRONTEND_VERSION } from "../../utils/constants";
 import { Desktop, Mobile } from "../ScreenSize";
+import { AuthAPI } from "../../api";
+import { notifyError } from "../../utils/error-handler";
+import { GlobalContext } from "../GlobalContext";
+import User from "./User";
+import LOGO from "./logo.png";
+
+import "./NavBar.less";
 
 const { Header } = Layout;
 const { Item, SubMenu } = Menu;
 
 const NavBar = () => {
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false);
+  const [{ user: hasLoggedIn }] = useContext(GlobalContext);
 
   const showMenu = () => {
     setMobileMenuVisible(true);
@@ -23,16 +29,12 @@ const NavBar = () => {
   };
 
   const logout = () => {
-    // TODO logout
-    console.log("LOGOUT");
+    AuthAPI.logout()
+      .then(() => {
+        window.location = "/";
+      })
+      .catch(notifyError);
   };
-
-  const user = (
-    <div>
-      <Avatar icon={<UserOutlined />} />
-      &nbsp; &nbsp; My username
-    </div>
-  );
 
   return (
     <>
@@ -44,10 +46,10 @@ const NavBar = () => {
               <Badge count={FRONTEND_VERSION} className="version-badge" />
             </Link>
             <Menu mode="horizontal" className="justify-right top-menu">
-              <Item key="mangas">
+              <Item key="mangas" icon={<BookOutlined />}>
                 <Link to="/mangas">My mangas</Link>
               </Item>
-              <SubMenu key="user" title={user}>
+              <SubMenu key="user" title={<User />} icon={hasLoggedIn ? undefined : <LoginOutlined />}>
                 <Item key="account" icon={<UserOutlined />}>
                   <Link to="/account">Account</Link>
                 </Item>

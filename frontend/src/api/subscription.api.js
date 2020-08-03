@@ -6,4 +6,4 @@ class SubscriptionAPI extends BaseAPI {
   }
 }
 
-export default SubscriptionAPI;
+export default new SubscriptionAPI();

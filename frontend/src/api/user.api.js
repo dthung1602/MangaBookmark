@@ -6,4 +6,4 @@ class UserAPI extends BaseAPI {
   }
 }
 
-export default UserAPI;
+export default new UserAPI();

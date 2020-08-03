@@ -6,4 +6,4 @@ class MangaAPI extends BaseAPI {
   }
 }
 
-export default MangaAPI;
+export default new MangaAPI();

@@ -14,6 +14,7 @@
     "lint-be": "backend/node_modules/.bin/eslint backend --fix",
     "lint": "yarn lint-fe && echo '\n------\n' && yarn lint-be",
     "dev-fe": "cd frontend; node_modules/.bin/craco start",
-    "dev-be": "cd backend; node_modules/.bin/nodemon backend/bin/www"
+    "dev-be": "cd backend; node_modules/.bin/nodemon backend/bin/www",
+    "test-be": "cd backend; node_modules/.bin/jest --runInBand"
   }
 }
