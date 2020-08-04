@@ -32,7 +32,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
   return (
     <AntFooter className="footer">
-      <Row className="upper-footer">
+      <Row className="footer-upper">
         <Col xs={24} md={24} lg={8}>
           <img src={LOGO_INVERT} alt="MangaBookmark" />
           <div className="footer-version">Version {FRONTEND_VERSION}</div>
@@ -63,10 +63,10 @@ const Footer = () => {
             Issue tracker
           </a>
           <a href={ROUTE_API_DOC} rel="noopener noreferrer" target="_blank">
-            API documentation
+            API doc
           </a>
         </Col>
-        <Col xs={24} sm={8} lg={4} className="power-by">
+        <Col xs={24} sm={8} lg={4} className="footer-power-by">
           <div className="footer-row-head">Powered by</div>
           <a href="https://ant.design" rel="noopener noreferrer" target="_blank">
             <img src={ANT_DESIGN_LOGO} alt="ant design" />
@@ -85,7 +85,7 @@ const Footer = () => {
           </a>
         </Col>
       </Row>
-      <div className="lower-footer">
+      <div className="footer-lower">
         <div className="copyright">Manga Bookmark @{currentYear} dthung1602</div>
       </div>
     </AntFooter>

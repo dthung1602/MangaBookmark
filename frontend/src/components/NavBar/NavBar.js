@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { Badge, Drawer, Layout, Menu } from "antd";
+import { Badge, Drawer, Layout, Menu, Avatar } from "antd";
 import {
   BookOutlined,
   HistoryOutlined,
@@ -8,6 +8,7 @@ import {
   LogoutOutlined,
   MenuOutlined,
   UserOutlined,
+  FormOutlined,
 } from "@ant-design/icons";
 
 import {
@@ -17,6 +18,7 @@ import {
   ROUTE_ACCOUNT,
   ROUTE_MANGAS,
   ROUTE_HOME,
+  ROUTE_REGISTER,
 } from "../../utils/constants";
 import { Desktop, Mobile } from "../ScreenSize";
 import { AuthAPI } from "../../api";
@@ -70,9 +72,14 @@ const NavBar = () => {
     );
   } else {
     userButton = (
-      <Item key="login" icon={<LoginOutlined />}>
-        <Link to={ROUTE_LOGIN}>Login</Link>
-      </Item>
+      <SubMenu key="user" title={<User />}>
+        <Item key="login" icon={<LoginOutlined />}>
+          <Link to={ROUTE_LOGIN}>Login</Link>
+        </Item>
+        <Item key="register" icon={<FormOutlined />}>
+          <Link to={ROUTE_REGISTER}>Register</Link>
+        </Item>
+      </SubMenu>
     );
   }
 
@@ -81,11 +88,11 @@ const NavBar = () => {
       <Desktop
         render={() => (
           <Header className="header">
-            <Link to={ROUTE_HOME} className="logo">
+            <Link to={ROUTE_HOME} className="navbar-logo">
               <img src={LOGO} alt="MangaBookmark" />
-              <Badge count={FRONTEND_VERSION} className="version-badge" />
+              <Badge count={FRONTEND_VERSION} className="navbar-version-badge" />
             </Link>
-            <Menu mode="horizontal" className="justify-right top-menu">
+            <Menu mode="horizontal" className="justify-right navbar-menu">
               <Item key="mangas" icon={<BookOutlined />}>
                 <Link to={ROUTE_MANGAS}>All mangas</Link>
               </Item>
@@ -102,10 +109,10 @@ const NavBar = () => {
         render={() => (
           <>
             <Header className="header">
-              <div className="top-menu-btn-mobile" onClick={showMenu}>
+              <div className="navbar-mobile-menu-btn" onClick={showMenu}>
                 <MenuOutlined />
               </div>
-              <Link to="/" className="logo">
+              <Link to="/" className="navbar-logo">
                 <img src={LOGO} alt="MangaBookmark" />
               </Link>
             </Header>

@@ -14,12 +14,16 @@ const User = () => {
       avatar = <Avatar src={picURL} />;
     }
     return (
-      <div>
-        {avatar} &nbsp; &nbsp; {user.username}
+      <div className="navbar-user">
+        {avatar} &nbsp; {user.username}
       </div>
     );
   }
-  return "Login";
+  return (
+    <div className="navbar-user">
+      <Avatar>?</Avatar> &nbsp; Anonymous
+    </div>
+  );
 };
 
 export default User;

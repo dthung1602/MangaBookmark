@@ -16,7 +16,7 @@
   width: 100%;
 }
 
-.logo {
+.navbar-logo {
   height: 100%;
   float: left;
 
@@ -32,7 +32,7 @@
   }
 }
 
-.version-badge {
+.navbar-version-badge {
   margin: 0 0 12px 12px;
   .ant-badge-count {
     background: @secondary-color;
@@ -41,7 +41,7 @@
   }
 }
 
-.top-menu-btn-mobile {
+.navbar-mobile-menu-btn {
   color: @semi-transparent;
   float: left;
   cursor: pointer;
@@ -50,13 +50,15 @@
   }
 }
 
-.top-menu {
+.navbar-menu {
   color: @semi-transparent;
   background: @default-color;
   height: 100%;
 
   &.ant-menu-horizontal {
     border-bottom: none;
+    text-transform: uppercase;
+    font-weight: bold;
 
     .ant-menu-item-active,
     .ant-menu-submenu-active {
@@ -79,5 +81,13 @@
         color: @primary-color;
       }
     }
+  }
+}
+
+.navbar-user {
+  text-transform: none;
+  font-weight: normal;
+  .ant-avatar {
+    background: darkcyan;
   }
 }
