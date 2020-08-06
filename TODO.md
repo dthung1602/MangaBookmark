@@ -80,6 +80,8 @@
         
 - [ ] Add introduction page, legal notice 
 
+- [ ] BG Image credit in login page 
+
 # NEW FEATURES
 
 - [ ] Toggle right panel

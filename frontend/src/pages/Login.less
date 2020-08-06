@@ -1,0 +1,58 @@
+@import "../variables";
+
+.login-container {
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: flex-end;
+  padding: 48px 128px 48px;
+  @media (max-width: @bp-sm) {
+    padding: 32px 8px;
+  }
+  @media (max-width: @bp-lg) {
+    justify-content: center;
+  }
+}
+
+.login-form {
+  width: 350px;
+  @media (max-width: @bp-sm) {
+    width: 100%;
+  }
+  .ant-card-head {
+    background: @default-color;
+    color: @primary-color;
+    font-weight: bold;
+  }
+}
+
+.login-other-action {
+  display: flex;
+  justify-content: space-between;
+}
+
+.login-social-btn {
+  //border: none;
+  display: block;
+  margin-top: 12px;
+  color: white;
+  background: none;
+}
+
+.login-gg-btn {
+  .login-social-btn();
+  background: #dd4b39;
+  &:hover {
+    border-color: $background !important;
+    color: $background !important;
+  }
+}
+
+.login-fb-btn {
+  .login-social-btn();
+  background: #3a5794;
+  &:hover {
+    border-color: $background !important;
+    color: $background !important;
+  }
+}

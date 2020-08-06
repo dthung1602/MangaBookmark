@@ -6,20 +6,20 @@ import "./PageLayout.less";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 
-const PageLayout = ({ children }) => {
+const PageLayout = ({ children, showFooter = true, showNavBar = true }) => {
   return (
     <Layout>
-      <NavBar />
-      <Layout className="site-layout" style={{ marginRight: 200 }}>
-        {children}
-      </Layout>
-      <Footer />
+      {showNavBar ? <NavBar /> : null}
+      {children}
+      {showFooter ? <Footer /> : null}
     </Layout>
   );
 };
 
 PageLayout.propTypes = {
   children: PropTypes.node,
+  showFooter: PropTypes.bool,
+  showNavBar: PropTypes.bool,
 };
 
 export default PageLayout;

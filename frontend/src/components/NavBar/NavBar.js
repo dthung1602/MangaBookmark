@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { Badge, Drawer, Layout, Menu, Avatar } from "antd";
+import { Badge, Drawer, Layout, Menu } from "antd";
 import {
   BookOutlined,
   HistoryOutlined,
@@ -58,30 +58,35 @@ const NavBar = () => {
       .catch(notifyError);
   };
 
-  let userButton;
+  let userDependentMenu;
   if (user) {
-    userButton = (
-      <SubMenu key="user" title={<User />}>
-        <Item key="account" icon={<UserOutlined />}>
-          <Link to={ROUTE_ACCOUNT}>Account</Link>
-        </Item>
-        <Item key="logout" icon={<LogoutOutlined />} onClick={logout}>
-          Logout
-        </Item>
-      </SubMenu>
-    );
+    userDependentMenu = [
+      <Item key="account" icon={<UserOutlined />}>
+        <Link to={ROUTE_ACCOUNT}>Account</Link>
+      </Item>,
+      <Item key="logout" icon={<LogoutOutlined />} onClick={logout}>
+        Logout
+      </Item>,
+    ];
   } else {
-    userButton = (
-      <SubMenu key="user" title={<User />}>
-        <Item key="login" icon={<LoginOutlined />}>
-          <Link to={ROUTE_LOGIN}>Login</Link>
-        </Item>
-        <Item key="register" icon={<FormOutlined />}>
-          <Link to={ROUTE_REGISTER}>Register</Link>
-        </Item>
-      </SubMenu>
-    );
+    userDependentMenu = [
+      <Item key="login" icon={<LoginOutlined />}>
+        <Link to={ROUTE_LOGIN}>Login</Link>
+      </Item>,
+      <Item key="register" icon={<FormOutlined />}>
+        <Link to={ROUTE_REGISTER}>Register</Link>
+      </Item>,
+    ];
   }
+
+  const userIndependentMenu = [
+    <Item key="mangas" icon={<BookOutlined />}>
+      <Link to={ROUTE_MANGAS}>All mangas</Link>
+    </Item>,
+    <Item key="recent" icon={<HistoryOutlined />}>
+      <Link to={ROUTE_RECENT_MANGAS}>Recently updated</Link>
+    </Item>,
+  ];
 
   return (
     <>
@@ -93,13 +98,10 @@ const NavBar = () => {
               <Badge count={FRONTEND_VERSION} className="navbar-version-badge" />
             </Link>
             <Menu mode="horizontal" className="justify-right navbar-menu">
-              <Item key="mangas" icon={<BookOutlined />}>
-                <Link to={ROUTE_MANGAS}>All mangas</Link>
-              </Item>
-              <Item key="recent" icon={<HistoryOutlined />}>
-                <Link to={ROUTE_RECENT_MANGAS}>Recently updated</Link>
-              </Item>
-              {userButton}
+              {userIndependentMenu}
+              <SubMenu key="user" title={<User />}>
+                {userDependentMenu}
+              </SubMenu>
             </Menu>
           </Header>
         )}
@@ -126,15 +128,8 @@ const NavBar = () => {
               visible={mobileMenuVisible}
             >
               <Menu mode="inline" onClick={closeMenu}>
-                <Item key="mangas" icon={<BookOutlined />}>
-                  <Link to="/mangas">My mangas</Link>
-                </Item>
-                <Item key="account" icon={<UserOutlined />}>
-                  <Link to="/account">Account</Link>
-                </Item>
-                <Item key="logout" icon={<LogoutOutlined />} onClick={logout}>
-                  Logout
-                </Item>
+                {userIndependentMenu}
+                {userDependentMenu}
               </Menu>
             </Drawer>
           </>
