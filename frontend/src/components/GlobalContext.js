@@ -3,11 +3,19 @@ import PropTypes from "prop-types";
 import { UserAPI } from "../api";
 import { checkResponse, notifyError } from "../utils/error-handler";
 
-const GlobalContext = React.createContext([{}, () => {}]);
+const GlobalContext = React.createContext([{}, (s) => s]);
 
 const GlobalContextProvider = (props) => {
   const [state, setState] = useState({});
 
+  const updateState = (newState) => {
+    setState({
+      ...state,
+      ...newState,
+    });
+  };
+
+  // fetch all global data here
   useEffect(() => {
     UserAPI.get()
       .then(async (response) => {
@@ -21,7 +29,7 @@ const GlobalContextProvider = (props) => {
       .catch(notifyError);
   }, []);
 
-  return <GlobalContext.Provider value={[state, setState]}>{props.children}</GlobalContext.Provider>;
+  return <GlobalContext.Provider value={[state, updateState]}>{props.children}</GlobalContext.Provider>;
 };
 
 GlobalContextProvider.propTypes = {

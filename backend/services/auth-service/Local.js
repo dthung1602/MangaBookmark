@@ -10,10 +10,24 @@ passport.use(
         return done(err, false);
       }
       if (!user) {
-        return done(null, false, { username: "Incorrect username" });
+        return done(null, false, {
+          username: {
+            value: username,
+            msg: "Incorrect username",
+            param: "username",
+            location: "body",
+          },
+        });
       }
       if (!user.validPassword(password)) {
-        return done(null, false, { password: "Incorrect password" });
+        return done(null, false, {
+          password: {
+            value: "",
+            msg: "Incorrect password",
+            param: "password",
+            location: "body",
+          },
+        });
       }
       return done(null, user);
     });

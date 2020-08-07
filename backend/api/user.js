@@ -2,6 +2,7 @@ const { Router } = require("@awaitjs/express");
 const router = Router();
 
 const { User } = require("../models");
+const { removePassword } = require("./utils");
 const UserService = require("../services/user-service");
 const {
   UserPassValidator,
@@ -9,12 +10,6 @@ const {
   LocalUserRegistrationValidator,
   UnlinkAccountValidator,
 } = require("../services/validation-service");
-
-function removePassword(user) {
-  user = JSON.parse(JSON.stringify(user));
-  user.password = !!user.password;
-  return user;
-}
 
 //-----------------------------------
 //  Resister new user

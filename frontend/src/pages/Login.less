@@ -1,6 +1,7 @@
 @import "../variables";
 
 .login-container {
+  height: calc(100vh - @navbar-height);
   background-size: cover;
   background-repeat: no-repeat;
   display: flex;
@@ -16,6 +17,7 @@
 
 .login-form {
   width: 350px;
+  height: fit-content;
   @media (max-width: @bp-sm) {
     width: 100%;
   }
@@ -27,6 +29,7 @@
 }
 
 .login-other-action {
+  margin-top: 12px;
   display: flex;
   justify-content: space-between;
 }

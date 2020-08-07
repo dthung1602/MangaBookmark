@@ -3,7 +3,7 @@ const passport = require("passport");
 
 const router = Router();
 
-const { redirectHome } = require("./utils");
+const { redirectHome, removePassword } = require("./utils");
 
 //-----------------------------------
 //  Logout
@@ -46,6 +46,10 @@ router.postAsync("/logout", (req, res) => {
  *     responses:
  *       200:
  *         description: logged in
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/User'
  *       401:
  *         description: incorrect username/password
  */
@@ -62,7 +66,7 @@ router.post("/login", (req, res, next) => {
       if (err) {
         return res.status(500).json({ errors: { "": "" + err } });
       } else {
-        res.status(200).end();
+        res.status(200).json(removePassword(user));
       }
     });
   })(req, res, next);

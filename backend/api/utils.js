@@ -11,4 +11,11 @@ function removeUndefinedAttrs(obj) {
   return obj;
 }
 
-module.exports = { redirectHome, removeUndefinedAttrs };
+// TODO move this to user schema
+function removePassword(user) {
+  user = JSON.parse(JSON.stringify(user));
+  user.password = !!user.password;
+  return user;
+}
+
+module.exports = { redirectHome, removeUndefinedAttrs, removePassword };

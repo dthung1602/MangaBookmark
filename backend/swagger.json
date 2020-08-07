@@ -254,7 +254,14 @@
         },
         "responses": {
           "200": {
-            "description": "logged in"
+            "description": "logged in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
           },
           "401": {
             "description": "incorrect username/password"

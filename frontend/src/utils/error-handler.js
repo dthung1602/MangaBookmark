@@ -19,3 +19,13 @@ export const checkResponse = (response, ignoreStatuses = []) => {
 export const notifyError = (error) => {
   message.error(error.message);
 };
+
+export const formatErrors = (errors) => {
+  return Object.entries(errors).map(([name, { msg, value }]) => ({
+    value,
+    name,
+    touched: true,
+    validating: false,
+    errors: [msg],
+  }));
+};
