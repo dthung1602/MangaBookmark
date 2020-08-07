@@ -38,12 +38,16 @@ export const OS = [WIN, MAC, LNX, ADR, IOS, UNK];
 // ------------------------------------------
 //       ROUTES
 // ------------------------------------------
+// TODO anything nicer?
+const apiServer = process.env.NODE_ENV === "production" ? "" : "http://localhost:3000";
 export const ROUTE_HOME = "/";
 export const ROUTE_LEGAL_NOTICE = "/legal-notice";
 export const ROUTE_MANGAS = "/mangas";
 export const ROUTE_RECENT_MANGAS = "/recently";
 export const ROUTE_ACCOUNT = "/account";
 export const ROUTE_LOGIN = "/login";
+export const ROUTE_LOGIN_GOOGLE = `${apiServer}/api/auth/google`;
+export const ROUTE_LOGIN_FACEBOOK = `${apiServer}/api/auth/facebook`;
 export const ROUTE_REGISTER = "/register";
 export const ROUTE_API_DOC = "/api/docs";
 
