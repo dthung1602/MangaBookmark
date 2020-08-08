@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { Button, Form, Input, Tooltip } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 
@@ -10,6 +10,7 @@ import { AuthAPI } from "../api";
 
 const LoginForm = () => {
   const history = useHistory();
+  const location = useLocation();
   // eslint-disable-next-line no-unused-vars
   const [globalState, updateGlobalState] = useContext(GlobalContext);
   const [form] = Form.useForm();
@@ -22,8 +23,7 @@ const LoginForm = () => {
 
       if (response.ok) {
         updateGlobalState({ user: data });
-        const redirect = new URLSearchParams(window.location.search).get("redirect");
-        history.push(redirect || ROUTE_MANGAS);
+        history.push(location?.state?.next || ROUTE_MANGAS);
       } else {
         form.setFields(formatErrors(data.errors));
       }

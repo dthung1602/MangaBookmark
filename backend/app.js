@@ -28,6 +28,7 @@ app.use(
   cookieSession({
     maxAge: config.COOKIE_MAX_AGE,
     keys: [config.SECRET_KEY],
+    sameSite: "strict",
   }),
 );
 app.use(passport.initialize());
