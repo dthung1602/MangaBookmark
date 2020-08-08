@@ -8,6 +8,7 @@ const statusMapping = new Map([
 ]);
 
 export const checkResponse = (response, ignoreStatuses = []) => {
+  // Throw exception when response is not ok
   if (ignoreStatuses.indexOf(response.status) === -1) {
     const msg = statusMapping.get(response.status);
     if (msg) {
@@ -21,6 +22,7 @@ export const notifyError = (error) => {
 };
 
 export const formatErrors = (errors) => {
+  // Map backend error format to antd Form FieldData
   return Object.entries(errors).map(([name, { msg, value }]) => ({
     value,
     name,

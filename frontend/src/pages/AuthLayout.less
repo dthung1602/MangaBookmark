@@ -1,6 +1,6 @@
 @import "../variables";
 
-.login-container {
+.auth-form-container {
   height: calc(100vh - @navbar-height);
   background-size: cover;
   background-repeat: no-repeat;
@@ -15,7 +15,7 @@
   }
 }
 
-.login-form {
+.auth-form {
   width: 350px;
   height: fit-content;
   @media (max-width: @bp-sm) {
@@ -25,37 +25,17 @@
     background: @default-color;
     color: @primary-color;
     font-weight: bold;
+    text-transform: uppercase;
   }
 }
 
-.login-other-action {
+.auth-other-actions {
   margin-top: 12px;
   display: flex;
   justify-content: space-between;
 }
 
-.login-social-btn {
-  //border: none;
-  display: block;
-  margin-top: 12px;
-  color: white;
-  background: none;
-}
-
-.login-gg-btn {
-  .login-social-btn();
-  background: #dd4b39;
-  &:hover {
-    border-color: $background !important;
-    color: $background !important;
-  }
-}
-
-.login-fb-btn {
-  .login-social-btn();
-  background: #3a5794;
-  &:hover {
-    border-color: $background !important;
-    color: $background !important;
-  }
+.auth-other-actions-footer {
+  margin-top: 24px;
+  text-align: center;
 }

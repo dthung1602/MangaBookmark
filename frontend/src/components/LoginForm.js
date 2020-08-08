@@ -42,14 +42,14 @@ const LoginForm = () => {
         <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} type="password" />
       </Form.Item>
 
-      <div className="login-other-action">
+      <div className="auth-other-actions">
         <Tooltip title="Sorry, haven't implemented yet :(">
           <a>Forgot password?</a>
         </Tooltip>
         <Link to={ROUTE_REGISTER}>Register</Link>
       </div>
 
-      <Form.Item label={" "}>
+      <Form.Item label=" ">
         <Button type="primary" htmlType="submit" block={true}>
           Login
         </Button>
