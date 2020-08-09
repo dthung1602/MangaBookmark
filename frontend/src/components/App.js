@@ -14,6 +14,7 @@ import {
 import { GlobalContextProvider } from "./GlobalContext";
 import ErrorBoundary from "./ErrorBoundary";
 import PrivateRoute from "./PrivateRoute";
+import FullScreenLoading from "./FullScreenLoading";
 
 const Account = lazy(() => import("../pages/Account"));
 const Home = lazy(() => import("../pages/Home"));
@@ -22,12 +23,6 @@ const Mangas = lazy(() => import("../pages/Mangas"));
 const RecentlyUpdatedMangas = lazy(() => import("../pages/RecentlyUpdatedMangas"));
 const Register = lazy(() => import("../pages/Register"));
 const LegalNotice = lazy(() => import("../pages/LegalNotice"));
-
-const FullScreenLoading = () => (
-  <Spin size={"large"}>
-    <div style={{ height: "100vh" }} />
-  </Spin>
-);
 
 const App = () => {
   return (

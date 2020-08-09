@@ -3,17 +3,28 @@
 .header {
   background: @default-color;
   position: fixed;
+  top: 0;
+  transition: top 0.3s;
   z-index: 1;
   width: 100%;
   padding: 0 25px;
   text-align: center;
+
+  &.hide {
+    top: -@navbar-height;
+  }
 }
 
 .header-push {
   z-index: -1;
   visibility: hidden;
   height: @navbar-height;
+  transition: height 0.3s;
   width: 100%;
+
+  &.hide {
+    height: 0;
+  }
 }
 
 .navbar-logo {

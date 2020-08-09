@@ -3,10 +3,15 @@ import PropTypes from "prop-types";
 import { UserAPI } from "../api";
 import { checkResponse, notifyError } from "../utils/error-handler";
 
-const GlobalContext = React.createContext([{}, (s) => s]);
+const initContext = {
+  user: null,
+  isUserLoading: true,
+};
+
+const GlobalContext = React.createContext([initContext, (s) => s]);
 
 const GlobalContextProvider = (props) => {
-  const [state, setState] = useState({});
+  const [state, setState] = useState(initContext);
 
   const updateState = (newState) => {
     setState({
@@ -24,6 +29,7 @@ const GlobalContextProvider = (props) => {
         setState({
           ...state,
           user,
+          isUserLoading: false,
         });
       })
       .catch(notifyError);

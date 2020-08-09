@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Badge, Drawer, Layout, Menu } from "antd";
 import {
@@ -37,6 +37,22 @@ const NavBar = () => {
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false);
   const [globalContext, setGlobalContext] = useContext(GlobalContext);
   const { user } = globalContext;
+
+  useEffect(() => {
+    let prevScrollPos = window.pageYOffset;
+    const showHideNavBar = () => {
+      if (window.pageYOffset < prevScrollPos) {
+        document.querySelectorAll(".header, .header-push").forEach((e) => e.classList.remove("hide"));
+      } else {
+        document.querySelectorAll(".header, .header-push").forEach((e) => e.classList.add("hide"));
+      }
+      prevScrollPos = window.pageYOffset;
+    };
+    window.addEventListener("scroll", showHideNavBar);
+    return () => {
+      window.removeEventListener("scroll", showHideNavBar);
+    };
+  }, []);
 
   const showMenu = () => {
     setMobileMenuVisible(true);
@@ -136,7 +152,7 @@ const NavBar = () => {
         )}
       />
 
-      <div className={"header-push"} />
+      <div className="header-push" />
     </>
   );
 };
