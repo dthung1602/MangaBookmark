@@ -8,23 +8,27 @@ import FullScreenLoading from "./FullScreenLoading";
 
 function PrivateRoute({ component, ...rest }) {
   const [{ user, isUserLoading }] = useContext(GlobalContext);
-  const render = ({ location }) => {
-    if (isUserLoading) {
-      return <FullScreenLoading />;
-    }
-    if (user) {
-      return React.createElement(component);
-    }
-    return (
-      <Redirect
-        to={{
-          pathname: ROUTE_LOGIN,
-          state: { next: location },
-        }}
-      />
-    );
-  };
-  return <Route {...rest} render={render} />;
+  return (
+    <Route
+      {...rest}
+      render={({ location }) => {
+        if (isUserLoading) {
+          return <FullScreenLoading />;
+        }
+        if (user) {
+          return React.createElement(component);
+        }
+        return (
+          <Redirect
+            to={{
+              pathname: ROUTE_LOGIN,
+              state: { next: location },
+            }}
+          />
+        );
+      }}
+    />
+  );
 }
 
 PrivateRoute.propTypes = {

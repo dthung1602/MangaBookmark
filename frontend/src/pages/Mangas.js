@@ -4,6 +4,7 @@ import "./Mangas.less";
 
 import { Desktop, Mobile } from "../components/ScreenSize";
 import PageLayout from "./PageLayout";
+import FAB from "../components/FAB";
 
 const { Content } = Layout;
 
@@ -119,13 +120,14 @@ const Mangas = () => {
               height: "100vh",
               position: "fixed",
               right: 0,
-              background: "blue",
+              background: "lightgrey",
             }}
           >
             HELLO
           </Content>
         </Desktop>
         <Mobile>MOBILE APP</Mobile>
+        <FAB />
       </Layout>
     </PageLayout>
   );

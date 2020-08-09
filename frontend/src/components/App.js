@@ -1,6 +1,5 @@
 import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Spin } from "antd";
 
 import {
   ROUTE_ACCOUNT,
@@ -8,8 +7,8 @@ import {
   ROUTE_LEGAL_NOTICE,
   ROUTE_LOGIN,
   ROUTE_MANGAS,
-  ROUTE_REGISTER,
   ROUTE_RECENT_MANGAS,
+  ROUTE_REGISTER,
 } from "../utils/constants";
 import { GlobalContextProvider } from "./GlobalContext";
 import ErrorBoundary from "./ErrorBoundary";

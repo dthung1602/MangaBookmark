@@ -45,19 +45,20 @@
 - [x] Basic setup
 - [x] Design
 
-- [ ] Split FE to small js chunk 
-- [ ] Handle error
+- [x] Split FE to small js chunk 
+- [x] Handle error
 - [ ] Cancel old request when new one is sent
 - [ ] Change URL when change filter
 
 - [ ] Basic components:
-    - [ ] Navbar
-    - [ ] Footer
+    - [x] Navbar
+    - [x] Footer
     - [ ] FAB
-        - [ ] to top
+        - [x] to top
         - [ ] add manga
         - [ ] update mangas
         - [ ] ~~dark mode~~ (not possible to toggle at runtime with antd)
+    - [ ] Account page       
     - [ ] Manga listing table
         - [ ] Use sources favicon
         - [ ] Merge status column
@@ -78,7 +79,8 @@
         - [ ] last read date
         - [ ] src
         
-- [ ] Add introduction page, legal notice 
+- [ ] Home page
+- [ ] Legal notice page 
 
 - [ ] BG Image credit in login page 
 

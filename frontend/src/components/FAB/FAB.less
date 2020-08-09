@@ -1,0 +1,35 @@
+.fab-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 5;
+
+  .ant-btn {
+    margin: 8px 0;
+  }
+}
+
+.fab-root-btn {
+  &.hover {
+    transform: rotate(135deg);
+  }
+}
+
+.fab-expand-btn {
+  opacity: 0;
+  cursor: auto !important;
+  transform: scale(0.75);
+
+  &.hover {
+    cursor: pointer !important;
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.fab-tooltip-overlay {
+  position: fixed;
+}
