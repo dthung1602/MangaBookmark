@@ -1,0 +1,46 @@
+@import "../../variables";
+
+.manga-table-desktop {
+  overflow: initial;
+  padding: 24px;
+  margin-right: @right-panel-width;
+}
+
+.filter-container {
+  .ant-dropdown-trigger {
+    margin-right: 4px;
+  }
+}
+
+.filter-basic {
+  display: flex;
+
+  .advance {
+    width: 115px;
+    background: @secondary-color;
+    color: white;
+    border-color: @secondary-color;
+    &:hover {
+      background: lighten(@secondary-color, 10%);
+    };
+  }
+
+  .ant-input-affix-wrapper {
+    max-width: 200px !important;
+    transition: max-width 0.1s;
+    &.ant-input-affix-wrapper-focused {
+      max-width: 300px !important;
+    }
+  }
+}
+
+.filter-advance {
+  padding-bottom: 24px;
+  .ant-collapse-header {
+    padding: 6px !important;
+  }
+  .ant-collapse-content-box {
+    display: flex;
+    padding: 0 !important;
+  }
+}

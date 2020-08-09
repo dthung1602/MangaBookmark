@@ -63,9 +63,9 @@
         - [ ] Use sources favicon
         - [ ] Merge status column
     - [ ] Basic Search & filter
-            - [ ] status
-            - [ ] shelf (rename from following status)
-            - [ ] search by name
+        - [ ] status
+        - [ ] shelf (rename from following status)
+        - [ ] search by name
     - [ ] Right panel (manga detail panel)
         - [ ] display info
         - [ ] edit
