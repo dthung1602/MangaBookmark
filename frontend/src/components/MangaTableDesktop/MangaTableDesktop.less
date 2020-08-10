@@ -2,20 +2,37 @@
 
 .manga-table-desktop {
   overflow: initial;
-  padding: 24px;
   margin-right: @right-panel-width;
+  h3 {
+    margin-top: 24px;
+  }
+  &>* {
+    margin-right: 24px;
+    margin-left: 24px;
+  }
 }
 
 .filter-container {
+  margin: 0;
+
   .ant-dropdown-trigger {
     margin-right: 4px;
+  }
+
+  .ant-affix {
+    transition: top @navbar-toggle-duration;
+    &.offset {
+      top: @navbar-height !important;
+    }
   }
 }
 
 .filter-basic {
   display: flex;
+  background: white;
+  padding: 12px 24px 12px 24px;
 
-  .advance {
+  .advance-btn {
     width: 115px;
     background: @secondary-color;
     color: white;
@@ -35,12 +52,16 @@
 }
 
 .filter-advance {
-  padding-bottom: 24px;
+  padding: 0 24px;
+  background: white;
   .ant-collapse-header {
-    padding: 6px !important;
+    padding: 0 6px !important;
   }
   .ant-collapse-content-box {
     display: flex;
     padding: 0 !important;
+  }
+  .ant-collapse-content-active {
+    padding-bottom: 12px;
   }
 }

@@ -4,7 +4,7 @@
   background: @default-color;
   position: fixed;
   top: 0;
-  transition: top 0.3s;
+  transition: top @navbar-toggle-duration;
   z-index: 1;
   width: 100%;
   padding: 0 25px;
@@ -19,7 +19,7 @@
   z-index: -1;
   visibility: hidden;
   height: @navbar-height;
-  transition: height 0.3s;
+  transition: height @navbar-toggle-duration;
   width: 100%;
 
   &.hide {

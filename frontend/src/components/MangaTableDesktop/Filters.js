@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Menu, Dropdown, Collapse, Button, Input } from "antd";
+import { Menu, Dropdown, Collapse, Button, Input, Affix } from "antd";
 import { FilterOutlined, SearchOutlined } from "@ant-design/icons";
 
+import { useOnScreenScrollVertically } from "../../hooks";
+
 const { Panel } = Collapse;
-const { Search } = Input;
 
 const menu = (
   <Menu>
@@ -31,8 +32,14 @@ const Filters = ({ filters, setFilters }) => {
   filters.shelf = "reading";
   filters.status = "completed";
   filters.sort = "+name";
+
+  useOnScreenScrollVertically(
+    () => document.querySelector(".filter-container .ant-affix")?.classList.add("offset"),
+    () => document.querySelector(".filter-container .ant-affix")?.classList.remove("offset"),
+  );
+
   return (
-    <div className="filter-container">
+    <Affix className="filter-container">
       <div className="filter-basic">
         <Dropdown overlay={menu} placement="bottomCenter" arrow>
           <Button>Shelf: {filters.shelf}</Button>
@@ -45,16 +52,11 @@ const Filters = ({ filters, setFilters }) => {
         </Dropdown>
         <Input prefix={<SearchOutlined />} placeholder="Search ..." />
         <div className="flex-1" />
-        <Button className="advance" icon={<FilterOutlined />} onClick={() => setOpen(!open)}>
+        <Button className="advance-btn" icon={<FilterOutlined />} onClick={() => setOpen(!open)}>
           {open ? "Simple" : "Advance"}
         </Button>
       </div>
-      <Collapse
-        bordered={false}
-        ghost={true}
-        activeKey={open ? 1 : undefined}
-        className="site-collapse-custom-collapse"
-      >
+      <Collapse bordered={false} activeKey={open ? 1 : undefined}>
         <Panel header={""} key="1" showArrow={false} className="filter-advance">
           <Dropdown overlay={menu} placement="bottomCenter" arrow>
             <Button>bottomCenter</Button>
@@ -70,7 +72,7 @@ const Filters = ({ filters, setFilters }) => {
           </Dropdown>
         </Panel>
       </Collapse>
-    </div>
+    </Affix>
   );
 };
 

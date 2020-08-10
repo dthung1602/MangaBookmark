@@ -25,8 +25,8 @@ import { AuthAPI } from "../../api";
 import { notifyError } from "../../utils/error-handler";
 import { GlobalContext } from "../GlobalContext";
 import User from "./User";
+import { useOnScreenScrollVertically } from "../../hooks";
 import LOGO from "../../assets/logo-invert.png";
-
 import "./NavBar.less";
 
 const { Header } = Layout;
@@ -38,21 +38,10 @@ const NavBar = () => {
   const [globalContext, setGlobalContext] = useContext(GlobalContext);
   const { user } = globalContext;
 
-  useEffect(() => {
-    let prevScrollPos = window.pageYOffset;
-    const showHideNavBar = () => {
-      if (window.pageYOffset < prevScrollPos) {
-        document.querySelectorAll(".header, .header-push").forEach((e) => e.classList.remove("hide"));
-      } else {
-        document.querySelectorAll(".header, .header-push").forEach((e) => e.classList.add("hide"));
-      }
-      prevScrollPos = window.pageYOffset;
-    };
-    window.addEventListener("scroll", showHideNavBar);
-    return () => {
-      window.removeEventListener("scroll", showHideNavBar);
-    };
-  }, []);
+  useOnScreenScrollVertically(
+    () => document.querySelectorAll(".header, .header-push").forEach((e) => e.classList.remove("hide")),
+    () => document.querySelectorAll(".header, .header-push").forEach((e) => e.classList.add("hide")),
+  );
 
   const showMenu = () => {
     setMobileMenuVisible(true);
