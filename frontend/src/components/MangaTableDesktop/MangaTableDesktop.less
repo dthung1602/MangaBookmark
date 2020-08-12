@@ -4,11 +4,16 @@
   overflow: initial;
   margin-right: @right-panel-width;
   h3 {
-    margin-top: 24px;
+    padding: 24px 0 12px 24px;
+    margin-bottom: 0;
+    background: white;
   }
-  &>* {
-    margin-right: 24px;
-    margin-left: 24px;
+  .ant-table-wrapper {
+    margin: 12px;
+  }
+
+  .cover-image {
+    width: 100px;
   }
 }
 
@@ -21,6 +26,7 @@
 
   .ant-affix {
     transition: top @navbar-toggle-duration;
+    box-shadow: @box-shadow;
     &.offset {
       top: @navbar-height !important;
     }
@@ -35,8 +41,8 @@
   .advance-btn {
     width: 115px;
     background: @secondary-color;
-    color: white;
     border-color: @secondary-color;
+    color: white;
     &:hover {
       background: lighten(@secondary-color, 10%);
     };
@@ -54,6 +60,7 @@
 .filter-advance {
   padding: 0 24px;
   background: white;
+  box-shadow: @box-shadow;
   .ant-collapse-header {
     padding: 0 6px !important;
   }
@@ -63,5 +70,49 @@
   }
   .ant-collapse-content-active {
     padding-bottom: 12px;
+  }
+}
+
+.chapter-list {
+  background: white;
+  min-width: 300px;
+  max-height: 450px;
+  overflow: scroll;
+
+  .btn-container {
+    display: flex;
+    background: white;
+    border-bottom: 1px solid lightgray;
+
+    button {
+      flex: 1;
+      &:hover {
+        background: rgba(0, 0, 0, 0.08);
+      }
+    }
+  }
+
+  .chap-container {
+    padding-top: 12px;
+
+    button {
+      margin-right: 4px;
+      &:hover {
+        color: white;
+        background: @primary-color;
+      }
+    }
+  }
+
+  .chap {
+    width: 100%;
+    padding: 8px 12px;
+    &:hover {
+      background: @primary-color-light;
+    }
+  }
+
+  .ant-checkbox-wrapper {
+    margin: auto 8px;
   }
 }

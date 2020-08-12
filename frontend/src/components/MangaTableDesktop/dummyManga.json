@@ -1,0 +1,365 @@
+{
+  "_id": {
+    "$oid": "5f0bdeebdedfb6ace82eb0c3"
+  },
+  "isCompleted": false,
+  "following": "following",
+  "note": "",
+  "hidden": false,
+  "name": "Nuan Nuan Wu",
+  "link": "https://mangakakalot.commanga/nuan_nuan_wu",
+  "image": "https://avt.mkklcdnv6.com/29/d/2-1583466824.jpg",
+  "source": "Mangakakalot",
+  "newChapCount": 5,
+  "unreadChapCount": 6,
+  "user": {
+    "$oid": "5f0bc61398310ca2a9fa6b04"
+  },
+  "createdAt": {
+    "$date": "2020-07-13T04:11:23.306Z"
+  },
+  "updatedAt": {
+    "$date": "2020-07-13T04:11:23.306Z"
+  },
+  "status": 3,
+  "statusString": "Many to read",
+  "__v": 0,
+  "chapters": [
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0c4"
+      },
+      "name": "Chapter 24: Yuan Yuan's House (8)",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_24",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.302Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.302Z"
+      }
+    },
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0c5"
+      },
+      "name": "Chapter 23: Yuan Yuan's House (7)",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_23",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.302Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.302Z"
+      }
+    },
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0c6"
+      },
+      "name": "Chapter 22: Yuan Yuan's house (6)",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_22",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.303Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.303Z"
+      }
+    },
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0c7"
+      },
+      "name": "Chapter 21: Yuan Yuan's house (5)",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_21",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.303Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.303Z"
+      }
+    },
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0c8"
+      },
+      "name": "Chapter 20: Yuan Yuan's House (4)",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_20",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.303Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.303Z"
+      }
+    },
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0c9"
+      },
+      "name": "Chapter 19: Yuan Yuan's house (3)",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_19",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.303Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.303Z"
+      }
+    },
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0ca"
+      },
+      "name": "Chapter 18: Yuan Yuan's House (2)",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_18",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.303Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.303Z"
+      }
+    },
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0cb"
+      },
+      "name": "Chapter 17: Yuan Yuan's House (1)",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_17",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.303Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.303Z"
+      }
+    },
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0cc"
+      },
+      "name": "Chapter 16: A Client Visit",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_16",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.303Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.303Z"
+      }
+    },
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0cd"
+      },
+      "name": "Chapter 15: Friends",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_15",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.303Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.303Z"
+      }
+    },
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0ce"
+      },
+      "name": "Chapter 14: Request",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_14",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.304Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.304Z"
+      }
+    },
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0cf"
+      },
+      "name": "Chapter 13 : Ride",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_13",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.304Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.304Z"
+      }
+    },
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0d0"
+      },
+      "name": "Chapter 12 : Let s Do It!",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_12",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.304Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.304Z"
+      }
+    },
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0d1"
+      },
+      "name": "Chapter 11 : Teacher",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_11",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.304Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.304Z"
+      }
+    },
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0d2"
+      },
+      "name": "Chapter 10 : Smashing Walls",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_10",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.304Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.304Z"
+      }
+    },
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0d3"
+      },
+      "name": "Chapter 9 : Studio",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_9",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.304Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.304Z"
+      }
+    },
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0d4"
+      },
+      "name": "Chapter 8 : A Pleasant Decision",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_8",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.304Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.304Z"
+      }
+    },
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0d5"
+      },
+      "name": "Chapter 7 : Boyfriend?",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_7",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.304Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.304Z"
+      }
+    },
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0d6"
+      },
+      "name": "Chapter 6 : Conflict",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_6",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.304Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.304Z"
+      }
+    },
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0d7"
+      },
+      "name": "Chapter 5 : Moving",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_5",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.305Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.305Z"
+      }
+    },
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0d8"
+      },
+      "name": "Chapter 4--V2- : Can... I?",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_4.2",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.305Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.305Z"
+      }
+    },
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0d9"
+      },
+      "name": "Chapter 3 : Close-Up",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_3",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.305Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.305Z"
+      }
+    },
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0da"
+      },
+      "name": "Chapter 2 : The First Step Is Always The Hardest",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_2",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.305Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.305Z"
+      }
+    },
+    {
+      "isRead": false,
+      "_id": {
+        "$oid": "5f0bdeebdedfb6ace82eb0db"
+      },
+      "name": "Chapter 1 : This Kind Of House",
+      "link": "https://mangakakalot.com/chapter/nuan_nuan_wu/chapter_1",
+      "createdAt": {
+        "$date": "2020-07-13T04:11:23.305Z"
+      },
+      "updatedAt": {
+        "$date": "2020-07-13T04:11:23.305Z"
+      }
+    }
+  ]
+}

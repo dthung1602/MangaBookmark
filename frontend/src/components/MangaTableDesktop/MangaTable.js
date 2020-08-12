@@ -1,65 +1,41 @@
 import React from "react";
 import { Table } from "antd";
 
+import MangaBasicInfo from "./MangaBasicInfo";
+import MangaQuickAction from "./MangaQuickAction";
+import dummyManga from "./dummyManga.json";
+
 const { Column } = Table;
 
-const dataSource = [
-  {
-    key: "1",
-    name: "Mike",
-    age: 32,
-    address: "10 Downing Street",
-  },
-  {
-    key: "2",
-    name: "John",
-    age: 42,
-    address: "10 Downing Street",
-  },
-  {
-    key: "3",
-    name: "John",
-    age: 42,
-    address: "10 Downing Street",
-  },
-  {
-    key: "4",
-    name: "John",
-    age: 42,
-    address: "10 Downing Street",
-  },
-  {
-    key: "5",
-    name: "John",
-    age: 42,
-    address: "10 Downing Street",
-  },
-  {
-    key: "6",
-    name: "John",
-    age: 42,
-    address: "10 Downing Street",
-  },
-  {
-    key: "7",
-    name: "John",
-    age: 42,
-    address: "10 Downing Street",
-  },
-  {
-    key: "8",
-    name: "John",
-    age: 42,
-    address: "10 Downing Street",
-  },
-];
+const dataSource = Array(5).fill(dummyManga);
 
 const MangaTable = () => {
   return (
-    <Table dataSource={dataSource}>
-      <Column dataIndex="name" key="name" />
-      <Column dataIndex="age" key="age" />
-      <Column dataIndex="address" key="address" />
+    <Table dataSource={dataSource} showHeader={false}>
+      <Column
+        dataIndex="image"
+        key="image"
+        width={100}
+        render={(text, record) => {
+          return <img className="cover-image" src={record.image} alt={record.name} />;
+        }}
+      />
+      <Column
+        dataIndex="basicInfo"
+        key="basicInfo"
+        width="75%"
+        render={(text, record) => {
+          return <MangaBasicInfo {...record} />;
+        }}
+      />
+      <Column
+        dataIndex="quickActions"
+        key="quickActions"
+        width="25%"
+        render={(text, record) => {
+          return <MangaQuickAction {...record} />;
+        }}
+      />
     </Table>
   );
 };
