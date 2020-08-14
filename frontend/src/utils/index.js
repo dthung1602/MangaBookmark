@@ -8,3 +8,7 @@ export const truncString = (string, maxLength, dot = true) => {
   }
   return string;
 };
+
+export const isEmptyObject = (obj) => {
+  return Object.keys(obj).length === 0;
+};

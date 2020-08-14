@@ -1,13 +1,13 @@
 import React from "react";
-import {Typography} from "antd";
+import { Typography } from "antd";
 
-const {Title} = Typography;
+const { Title } = Typography;
 
 function MangaBasicInfo(manga) {
   return (
     <>
       <Title level={4}>
-        <a href={manga.link} target="_blank" rel="noreferrer">
+        <a href={manga.link} target="_blank" rel="noopener noreferrer">
           {manga.name}
         </a>
       </Title>

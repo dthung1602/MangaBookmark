@@ -46,7 +46,7 @@ function ChapterList(props) {
               size="small"
               title="Mark all chapters up to this one as read"
             />
-            <a href={chapter.link} target="_blank" rel="noreferrer">
+            <a href={chapter.link} target="_blank" rel="noopener noreferrer">
               {chapter.name}
             </a>
           </div>

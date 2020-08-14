@@ -26,7 +26,7 @@ function QuickAction(manga) {
   return (
     <>
       <Dropdown.Button overlay={<ChapterList chapters={chapters} />}>
-        <a href={nextChapToRead.link} target="_blank" rel="noreferrer">
+        <a href={nextChapToRead.link} target="_blank" rel="noopener noreferrer">
           {truncString(nextChapToRead.name, MAX_LEN_CHAP_NAME)}
         </a>
       </Dropdown.Button>
