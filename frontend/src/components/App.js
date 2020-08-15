@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { QueryParamProvider } from "use-query-params";
 
 import {
   ROUTE_ACCOUNT,
@@ -27,19 +28,21 @@ const App = () => {
   return (
     <ErrorBoundary>
       <Router>
-        <Suspense fallback={<FullScreenLoading />}>
-          <GlobalContextProvider>
-            <Switch>
-              <Route exact path={ROUTE_HOME} component={Home} />
-              <Route path={ROUTE_LEGAL_NOTICE} component={LegalNotice} />
-              <Route path={ROUTE_LOGIN} component={Login} />
-              <Route path={ROUTE_REGISTER} component={Register} />
-              <PrivateRoute path={ROUTE_ACCOUNT} component={Account} />
-              <PrivateRoute path={ROUTE_MANGAS} component={Mangas} />
-              <PrivateRoute path={ROUTE_RECENT_MANGAS} component={RecentlyUpdatedMangas} />
-            </Switch>
-          </GlobalContextProvider>
-        </Suspense>
+        <QueryParamProvider ReactRouterRoute={Route}>
+          <Suspense fallback={<FullScreenLoading />}>
+            <GlobalContextProvider>
+              <Switch>
+                <Route exact path={ROUTE_HOME} component={Home} />
+                <Route path={ROUTE_LEGAL_NOTICE} component={LegalNotice} />
+                <Route path={ROUTE_LOGIN} component={Login} />
+                <Route path={ROUTE_REGISTER} component={Register} />
+                <PrivateRoute path={ROUTE_ACCOUNT} component={Account} />
+                <PrivateRoute path={ROUTE_MANGAS} component={Mangas} />
+                <PrivateRoute path={ROUTE_RECENT_MANGAS} component={RecentlyUpdatedMangas} />
+              </Switch>
+            </GlobalContextProvider>
+          </Suspense>
+        </QueryParamProvider>
       </Router>
     </ErrorBoundary>
   );

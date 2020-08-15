@@ -2,16 +2,59 @@
 //       General
 // ------------------------------------------
 export const FRONTEND_VERSION = "3.0.0-a1";
+export const ALL = "all";
 
 // ------------------------------------------
 //       Manga following status
 // ------------------------------------------
 export const TO_READ = "toread";
-export const FOLLOWING = "following";
+export const READING = "reading";
 export const WAITING = "waiting";
 export const DROPPED = "dropped";
 export const FINISHED = "finished";
-export const FOLLOWING_STATUSES = [TO_READ, FOLLOWING, WAITING, DROPPED, FINISHED];
+export const SHELVES = {
+  [TO_READ]: "To read",
+  [READING]: "Reading",
+  [WAITING]: "Waiting",
+  [DROPPED]: "Dropped",
+  [FINISHED]: "Finished",
+};
+
+// ------------------------------------------
+//       Manga statuses
+// ------------------------------------------
+export const MG_FINISHED = 0;
+export const MG_LAST_CHAP_READ = 1;
+export const MG_MANY_TO_READ = 2;
+export const MG_NEW_CHAP = 3;
+export const MG_STATUSES = {
+  [MG_FINISHED]: "Finished",
+  [MG_LAST_CHAP_READ]: "Last chap reached",
+  [MG_MANY_TO_READ]: "Many to read",
+  [MG_NEW_CHAP]: "New chap",
+};
+
+// ------------------------------------------
+//       Sortable fields
+// ------------------------------------------
+export const SORT_ACC_NAME = "name";
+export const SORT_DEC_NAME = "-name";
+export const SORT_ACC_STATUS = "status";
+export const SORT_DEC_STATUS = "-status";
+export const SORT_ACC_DATE_CREATED = "createdAt";
+export const SORT_DEC_DATE_CREATED = "-createdAt";
+export const SORT_ACC_NEW_CHAP = "newChapCount";
+export const SORT_ACC_UNREAD = "unreadChapCount";
+export const SORTABLE_FIELDS = {
+  [SORT_ACC_STATUS]: "status ↑",
+  [SORT_DEC_STATUS]: "status ↓",
+  [SORT_ACC_NEW_CHAP]: "new chap",
+  [SORT_ACC_UNREAD]: "unread chap",
+  [SORT_ACC_NAME]: "name A-Z",
+  [SORT_DEC_NAME]: "name Z-A",
+  [SORT_ACC_DATE_CREATED]: "created date ↑",
+  [SORT_DEC_DATE_CREATED]: "created date ↓",
+};
 
 // ------------------------------------------
 //       Browsers

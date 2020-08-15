@@ -1,56 +1,50 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Menu, Dropdown, Collapse, Button, Input, Affix } from "antd";
+import { Dropdown, Collapse, Button, Input, Affix } from "antd";
 import { FilterOutlined, SearchOutlined } from "@ant-design/icons";
 
+import FilterDropdown from "./FilterDropdown";
+import { SHELVES, MG_STATUSES, SORTABLE_FIELDS } from "../../utils/constants";
 import { useOnScreenScrollVertically } from "../../hooks";
 
 const { Panel } = Collapse;
 
-const menu = (
-  <Menu>
-    <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
-        1st menu item
-      </a>
-    </Menu.Item>
-    <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">
-        2nd menu item
-      </a>
-    </Menu.Item>
-    <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
-        3rd menu item
-      </a>
-    </Menu.Item>
-  </Menu>
-);
-
-const Filters = ({ filters, setFilters }) => {
+const Filters = ({ filters, updateFilters }) => {
   const [open, setOpen] = useState(false);
-  filters.shelf = "reading";
-  filters.status = "completed";
-  filters.sort = "+name";
 
   useOnScreenScrollVertically(
     () => document.querySelector(".filter-container .ant-affix")?.classList.add("offset"),
     () => document.querySelector(".filter-container .ant-affix")?.classList.remove("offset"),
   );
 
+  const select = (field) => (value) => {
+    updateFilters({ [field]: value });
+  };
+
   return (
     <Affix className="filter-container">
       <div className="filter-basic">
-        <Dropdown overlay={menu} placement="bottomCenter" arrow>
-          <Button>Shelf: {filters.shelf}</Button>
-        </Dropdown>
-        <Dropdown overlay={menu} placement="bottomCenter" arrow>
-          <Button>Status: {filters.status}</Button>
-        </Dropdown>
-        <Dropdown overlay={menu} placement="bottomCenter" arrow>
-          <Button>Sort: {filters.sort}</Button>
-        </Dropdown>
-        <Input prefix={<SearchOutlined />} placeholder="Search ..." />
+        <FilterDropdown displayName={"Shelf"} options={SHELVES} selected={filters.shelf} onSelect={select("shelf")} />
+        <FilterDropdown
+          displayName={"Status"}
+          options={MG_STATUSES}
+          selected={filters.status}
+          onSelect={select("status")}
+        />
+        <FilterDropdown
+          displayName={"Sort"}
+          options={SORTABLE_FIELDS}
+          selected={filters.sort}
+          onSelect={select("sort")}
+          showALlOption={false}
+        />
+
+        <Input
+          prefix={<SearchOutlined />}
+          placeholder="Search ..."
+          value={filters.search}
+          onChange={(e) => updateFilters({ search: e.target.value === "" ? undefined : e.target.value })}
+        />
         <div className="flex-1" />
         <Button className="advance-btn" icon={<FilterOutlined />} onClick={() => setOpen(!open)}>
           {open ? "Simple" : "Advance"}
@@ -58,16 +52,16 @@ const Filters = ({ filters, setFilters }) => {
       </div>
       <Collapse bordered={false} activeKey={open ? 1 : undefined}>
         <Panel header={""} key="1" showArrow={false} className="filter-advance">
-          <Dropdown overlay={menu} placement="bottomCenter" arrow>
+          <Dropdown overlay={<div>s</div>} placement="bottomCenter" arrow>
             <Button>bottomCenter</Button>
           </Dropdown>
-          <Dropdown overlay={menu} placement="bottomCenter" arrow>
+          <Dropdown overlay={<div>s</div>} placement="bottomCenter" arrow>
             <Button>bottomCenter</Button>
           </Dropdown>
-          <Dropdown overlay={menu} placement="bottomCenter" arrow>
+          <Dropdown overlay={<div>s</div>} placement="bottomCenter" arrow>
             <Button>bottomCenter</Button>
           </Dropdown>
-          <Dropdown overlay={menu} placement="bottomCenter" arrow>
+          <Dropdown overlay={<div>s</div>} placement="bottomCenter" arrow>
             <Button>bottomCenter</Button>
           </Dropdown>
         </Panel>
@@ -78,7 +72,7 @@ const Filters = ({ filters, setFilters }) => {
 
 Filters.propTypes = {
   filters: PropTypes.object,
-  setFilters: PropTypes.func,
+  updateFilters: PropTypes.func,
 };
 
 export default Filters;
