@@ -1,19 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Typography } from "antd";
 import { useQueryParams, StringParam, withDefault } from "use-query-params";
 
 import Filters from "./Filters";
 import MangaTable from "./MangaTable";
 import EndOfList from "../EndOfList";
-import { SORT_DEC_STATUS, READING, ALL } from "../../utils/constants";
+import { MangaAPI } from "../../api";
+import { checkResponse, notifyError } from "../../utils/error-handler";
+import { SORT_DEC_STATUS, READING, ALL, MANGA_PER_PAGE } from "../../utils/constants";
 import "./MangaTableDesktop.less";
-import dummyManga from "./dummyManga.json";
 
 const { Title } = Typography;
 
 const MangaTableDesktop = () => {
-  const [mangas, setMangas] = useState(Array(5).fill(dummyManga));
-  const [isLoading, setIsLoading] = useState(false);
+  const [mangas, setMangas] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [mangaCount, setMangaCount] = useState(NaN);
+  const [allLoaded, setAllLoaded] = useState(false);
+
   const [filters, setFilters] = useQueryParams({
     shelf: withDefault(StringParam, READING),
     status: withDefault(StringParam, ALL),
@@ -21,24 +26,35 @@ const MangaTableDesktop = () => {
     search: StringParam,
   });
   const updateFilters = (values) => {
-    console.log({ ...filters, ...values });
     setFilters({ ...filters, ...values }, "push");
+    setPage(1);
   };
 
-  const callback = () => {
+  useEffect(() => {
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      setMangas([...mangas, ...Array(5).fill(dummyManga)]);
-    }, 3500);
-  };
+    MangaAPI.get({ ...filters, page, perPage: MANGA_PER_PAGE })
+      .then(async (response) => {
+        checkResponse(response);
+        const { data, totalItem, isLastPage } = await response.json();
+        setAllLoaded(isLastPage);
+        setMangas([...mangas, ...data]);
+        setMangaCount(totalItem);
+      })
+      .catch(notifyError)
+      .finally(() => setIsLoading(false));
+  }, [filters, page]);
 
   return (
     <div className="manga-table-desktop">
-      <Title level={3}>All mangas</Title>
+      <div className="title">
+        <Title level={3}>All mangas</Title>
+        <span>
+          {mangaCount} manga{mangaCount > 1 ? "s" : ""}
+        </span>
+      </div>
       <Filters filters={filters} updateFilters={updateFilters} />
       <MangaTable mangas={mangas} isLoading={isLoading} />
-      <EndOfList onReached={callback} disabled={isLoading} />
+      <EndOfList onReached={() => setPage(page + 1)} disabled={isLoading || allLoaded} />
     </div>
   );
 };

@@ -9,6 +9,17 @@ export const truncString = (string, maxLength, dot = true) => {
   return string;
 };
 
+export const removeUndefinedAttrs = (obj) => {
+  if (obj) {
+    for (let key of Object.keys(obj)) {
+      if (obj[key] === undefined) {
+        delete obj[key];
+      }
+    }
+  }
+  return obj;
+};
+
 export const isEmptyObject = (obj) => {
   return Object.keys(obj).length === 0;
 };

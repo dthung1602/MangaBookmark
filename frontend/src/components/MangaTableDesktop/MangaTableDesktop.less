@@ -3,11 +3,23 @@
 .manga-table-desktop {
   overflow: initial;
   margin-right: @right-panel-width;
-  h3 {
+
+  .title {
     padding: 12px;
     margin-bottom: 0;
     background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &>* {
+      display: inline-block;
+      margin: 0;
+    }
+    span {
+      font-size: large;
+    }
   }
+
   .ant-table-wrapper {
     margin: 12px;
   }

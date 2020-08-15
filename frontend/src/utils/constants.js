@@ -3,6 +3,7 @@
 // ------------------------------------------
 export const FRONTEND_VERSION = "3.0.0-a1";
 export const ALL = "all";
+export const MANGA_PER_PAGE = 8;
 
 // ------------------------------------------
 //       Manga shelves

@@ -72,6 +72,7 @@ describe("Manga API", () => {
     expectedTotalPage,
     expectPage,
     expectMangaIds,
+    expectedIsLastPage = undefined,
   ) {
     const response = await request(app).get("/api/mangas").query(filters);
     expect(response.status).toEqual(200);
@@ -84,6 +85,10 @@ describe("Manga API", () => {
       mangaIds = mangaIds.sort();
     }
     expect(mangaIds).toEqual(expectMangaIds);
+
+    if (expectedIsLastPage in [true, false]) {
+      expect(response.body.isLastPage).toEqual(expectedIsLastPage);
+    }
   });
 
   it("should create manga", async function () {

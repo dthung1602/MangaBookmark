@@ -16,6 +16,7 @@ module.exports = async function (query, page = 1, perPage = PAGE_SIZE) {
   const promises = [query, cloneQuery(query).countDocuments()];
   const [data, totalItem] = await Promise.all(promises);
 
-  let totalPage = usePagination ? Math.ceil(totalItem / perPage) : 1;
-  return { data, page, totalItem, totalPage };
+  const totalPage = usePagination ? Math.ceil(totalItem / perPage) : 1;
+  const isLastPage = page >= totalPage;
+  return { data, page, totalItem, totalPage, isLastPage };
 };

@@ -1,3 +1,5 @@
+import { removeUndefinedAttrs } from "../utils";
+
 export default class BaseAPI {
   constructor(resource) {
     this.resource = resource;
@@ -17,6 +19,7 @@ export default class BaseAPI {
   }
 
   get(params, slug = "") {
+    removeUndefinedAttrs(params);
     params = new URLSearchParams(params).toString();
     const path = params ? `${this.basePath}/${slug}?${params}` : `${this.basePath}/${slug}`;
     return fetch(path, {

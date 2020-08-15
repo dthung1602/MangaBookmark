@@ -58,17 +58,19 @@ const MANGA_FILTER = [
     1,
     1,
     ["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444", "555eeeeeeeeeeeeeeeeee555"],
+    true,
   ],
-  [{ page: 1, perPage: 2, sort: "id" }, 3, 2, 1, ["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444"]],
-  [{ page: 2, perPage: 2, sort: "id" }, 3, 2, 2, ["555eeeeeeeeeeeeeeeeee555"]],
-  [{ page: 1, perPage: 1, sort: "id" }, 3, 3, 1, ["111eeeeeeeeeeeeeeeeee111"]],
-  [{ page: 3, perPage: 1, sort: "id" }, 3, 3, 3, ["555eeeeeeeeeeeeeeeeee555"]],
+  [{ page: 1, perPage: 2, sort: "id" }, 3, 2, 1, ["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444"], false],
+  [{ page: 2, perPage: 2, sort: "id" }, 3, 2, 2, ["555eeeeeeeeeeeeeeeeee555"], true],
+  [{ page: 1, perPage: 1, sort: "id" }, 3, 3, 1, ["111eeeeeeeeeeeeeeeeee111"], false],
+  [{ page: 3, perPage: 1, sort: "id" }, 3, 3, 3, ["555eeeeeeeeeeeeeeeeee555"], true],
   [
     { page: 1, perPage: 0, sort: "name" },
     3,
     1,
     1,
     ["555eeeeeeeeeeeeeeeeee555", "111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444"],
+    true,
   ],
   [
     { page: 1, perPage: 0, sort: "-name" },
@@ -76,6 +78,7 @@ const MANGA_FILTER = [
     1,
     1,
     ["444eeeeeeeeeeeeeeeeee444", "111eeeeeeeeeeeeeeeeee111", "555eeeeeeeeeeeeeeeeee555"],
+    true,
   ],
   [
     { page: 1, perPage: 0, sort: "status" },
@@ -83,6 +86,7 @@ const MANGA_FILTER = [
     1,
     1,
     ["555eeeeeeeeeeeeeeeeee555", "444eeeeeeeeeeeeeeeeee444", "111eeeeeeeeeeeeeeeeee111"],
+    true,
   ],
   [
     { page: 1, perPage: 0, sort: "-newChapCount" },
@@ -90,6 +94,7 @@ const MANGA_FILTER = [
     1,
     1,
     ["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444", "555eeeeeeeeeeeeeeeeee555"],
+    true,
   ],
   [
     { page: 1, perPage: 0, sort: "-unreadChapCount" },
@@ -97,6 +102,7 @@ const MANGA_FILTER = [
     1,
     1,
     ["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444", "555eeeeeeeeeeeeeeeeee555"],
+    true,
   ],
   // ----------------------------
   //       MULTIPLE FILTERS
