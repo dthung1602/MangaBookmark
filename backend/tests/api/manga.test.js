@@ -103,14 +103,14 @@ describe("Manga API", () => {
       note: "this is a note",
       isCompleted: true,
       hidden: false,
-      following: "waiting",
+      shelf: "waiting",
     };
 
     const response = await request(app).post("/api/mangas").send(submittedManga);
     expect(response.status).toEqual(201);
 
     const expectedManga = expect.objectContaining({
-      ...pick(submittedManga, ["link", "note", "isCompleted", "hidden", "following"]),
+      ...pick(submittedManga, ["link", "note", "isCompleted", "hidden", "shelf"]),
       _id: expect.anything(),
       name: mockParsedManga.name,
       image: mockParsedManga.image,
@@ -119,7 +119,7 @@ describe("Manga API", () => {
       createdAt: expect.anything(),
       updatedAt: expect.anything(),
       status: 2,
-      statusString: "Many to read",
+      statusString: "many to read",
       unreadChapCount: 2,
       newChapCount: 2,
     });
@@ -141,7 +141,7 @@ describe("Manga API", () => {
     const mangaId = "111eeeeeeeeeeeeeeeeee111";
 
     const editContent = {
-      following: "dropped",
+      shelf: "dropped",
       note: "This is the new note",
       isCompleted: true,
       hidden: true,
@@ -257,7 +257,7 @@ describe("Manga API", () => {
       newChapCount: 2,
       unreadChapCount: 2,
       status: 2,
-      statusString: "Many to read",
+      statusString: "many to read",
     });
     expect(response.body).toEqual(expectedManga);
     expect(await Manga.findById(mangaId)).toEqual(expectedManga);

@@ -3,7 +3,7 @@
     "$oid": "5f0bdeebdedfb6ace82eb0c3"
   },
   "isCompleted": false,
-  "following": "following",
+  "shelf": "reading",
   "note": "",
   "hidden": false,
   "name": "Nuan Nuan Wu",
@@ -22,7 +22,7 @@
     "$date": "2020-07-13T04:11:23.306Z"
   },
   "status": 3,
-  "statusString": "Many to read",
+  "statusString": "many to read",
   "__v": 0,
   "chapters": [
     {

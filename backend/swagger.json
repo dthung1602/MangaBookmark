@@ -79,17 +79,17 @@
           "statusString": {
             "type": "string",
             "enum": [
-              "Finished",
-              "Last chap reached",
-              "Many to read",
-              "New chap"
+              "finished",
+              "last chap reached",
+              "many to read",
+              "new chap"
             ]
           },
-          "following": {
+          "shelf": {
             "type": "string",
             "enum": [
-              "toread",
-              "following",
+              "to read",
+              "reading",
               "waiting",
               "dropped",
               "finished"
@@ -324,12 +324,12 @@
           },
           {
             "in": "query",
-            "name": "following",
+            "name": "shelf",
             "schema": {
               "type": "string",
               "enum": [
-                "toread",
-                "following",
+                "to read",
+                "reading",
                 "waiting",
                 "dropped",
                 "finished"
@@ -396,7 +396,7 @@
             "schema": {
               "type": "string",
               "description": "The field name to sort. Add - to sort desc",
-              "example": "following, -status, name, -newChapCount",
+              "example": "reading, -status, name, -newChapCount",
               "required": false
             }
           }
@@ -463,11 +463,11 @@
                     "type": "boolean",
                     "required": false
                   },
-                  "following": {
+                  "shelf": {
                     "type": "string",
                     "enum": [
-                      "toread",
-                      "following",
+                      "to read",
+                      "reading",
                       "waiting",
                       "dropped",
                       "finished"
@@ -523,11 +523,11 @@
                     "type": "boolean",
                     "required": false
                   },
-                  "following": {
+                  "shelf": {
                     "type": "string",
                     "enum": [
-                      "toread",
-                      "following",
+                      "to read",
+                      "reading",
                       "waiting",
                       "dropped",
                       "finished"
@@ -698,12 +698,12 @@
           },
           {
             "in": "query",
-            "name": "following",
+            "name": "shelf",
             "schema": {
               "type": "string",
               "enum": [
-                "toread",
-                "following",
+                "to read",
+                "reading",
                 "waiting",
                 "dropped",
                 "finished"
@@ -770,7 +770,7 @@
             "schema": {
               "type": "string",
               "description": "The field name to sort. Add - to sort desc",
-              "example": "following, -status, name, -newChapCount",
+              "example": "reading, -status, name, -newChapCount",
               "required": false
             }
           }

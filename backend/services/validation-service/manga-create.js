@@ -1,7 +1,7 @@
 const { check } = require("express-validator");
 
 const { Manga } = require("../../models");
-const { FollowingStatuses } = Manga;
+const { Shelf } = Manga;
 const MangaService = require("../manga-service");
 const ErrorFormatter = require("./validation-error-formatter");
 
@@ -24,6 +24,6 @@ module.exports = [
   check("note").optional().trim(),
   check("isCompleted").optional().isBoolean().toBoolean(),
   check("hidden").optional().isBoolean().toBoolean(),
-  check("following").optional().isIn(Object.values(FollowingStatuses)),
+  check("shelf").optional().isIn(Object.values(Shelf)),
   ErrorFormatter,
 ];

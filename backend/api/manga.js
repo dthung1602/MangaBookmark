@@ -32,10 +32,10 @@ const {
  *           type: string
  *           required: false
  *       - in: query
- *         name: following
+ *         name: shelf
  *         schema:
  *           type: string
- *           enum: [toread, following, waiting, dropped, finished]
+ *           enum: [to read, reading, waiting, dropped, finished]
  *           required: false
  *       - in: query
  *         name: isCompleted
@@ -77,7 +77,7 @@ const {
  *         schema:
  *           type: string
  *           description: The field name to sort. Add - to sort desc
- *           example: following, -status, name, -newChapCount
+ *           example: reading, -status, name, -newChapCount
  *           required: false
  *     responses:
  *       200:
@@ -142,9 +142,9 @@ router.getAsync("/", MangaFilterValidator, async (req, res) => {
  *               hidden:
  *                 type: boolean
  *                 required: false
- *               following:
+ *               shelf:
  *                 type: string
- *                 enum: [toread, following, waiting, dropped, finished]
+ *                 enum: [to read, reading, waiting, dropped, finished]
  *                 required: false
  *     responses:
  *       201:
@@ -192,9 +192,9 @@ router.postAsync("/", MangaCreateValidator, async (req, res) => {
  *               hidden:
  *                 type: boolean
  *                 required: false
- *               following:
+ *               shelf:
  *                 type: string
- *                 enum: [toread, following, waiting, dropped, finished]
+ *                 enum: [to read, reading, waiting, dropped, finished]
  *                 required: false
  *     responses:
  *       204:
@@ -365,10 +365,10 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
  *           type: string
  *           required: false
  *       - in: query
- *         name: following
+ *         name: shelf
  *         schema:
  *           type: string
- *           enum: [toread, following, waiting, dropped, finished]
+ *           enum: [to read, reading, waiting, dropped, finished]
  *           required: false
  *       - in: query
  *         name: isCompleted
@@ -410,7 +410,7 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
  *         schema:
  *           type: string
  *           description: The field name to sort. Add - to sort desc
- *           example: following, -status, name, -newChapCount
+ *           example: reading, -status, name, -newChapCount
  *           required: false
  *     responses:
  *       200:
@@ -446,10 +446,11 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
  *                        source:
  *                          type: string
  */
+// TODO reconsider this
 router.postAsync("/update-multiple", MangaFilterValidator, async (req, res) => {
   const filters = removeUndefinedAttrs({
     user: req.user.id,
-    following: req.body.following,
+    shelf: req.body.shelf,
     hidden: req.body.hidden,
     isCompleted: req.body.isCompleted,
   });

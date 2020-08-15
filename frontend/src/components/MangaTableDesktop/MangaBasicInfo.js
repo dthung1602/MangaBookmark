@@ -12,7 +12,7 @@ function MangaBasicInfo(manga) {
         </a>
       </Title>
       <div>Source: {manga.source}</div>
-      <div>Shelf: {manga.following}</div>
+      <div>Shelf: {manga.shelf}</div>
       <div>Status: {manga.statusString}</div>
       <div>New chap: {manga.newChapCount}</div>
       <div>Unread: {manga.unreadChapCount}</div>

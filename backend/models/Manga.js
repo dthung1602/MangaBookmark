@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
-const FollowingStatuses = Object.freeze({
-  TO_READ: "toread",
-  FOLLOWING: "following",
+const Shelf = Object.freeze({
+  TO_READ: "to read",
+  READING: "reading",
   WAITING: "waiting",
   DROPPED: "dropped",
   FINISHED: "finished",
@@ -27,7 +27,7 @@ function getMangaStatusCode(manga) {
 }
 
 function codeToStatus(code) {
-  return ["Finished", "Last chap reached", "Many to read", "New chap"][code];
+  return ["finished", "last chap reached", "many to read", "new chap"][code];
 }
 
 /**
@@ -105,10 +105,10 @@ const ChapterSchema = new mongoose.Schema(
  *            maximum: 3
  *          statusString:
  *            type: string
- *            enum: [Finished, Last chap reached, Many to read, New chap]
- *          following:
+ *            enum: [finished, last chap reached, many to read, new chap]
+ *          shelf:
  *            type: string
- *            enum: [toread, following, waiting, dropped, finished]
+ *            enum: [to read, reading, waiting, dropped, finished]
  *          note:
  *            type: string
  *          hidden:
@@ -141,10 +141,10 @@ const MangaSchema = new mongoose.Schema(
     },
 
     status: Number,
-    following: {
+    shelf: {
       type: String,
-      enum: Object.values(FollowingStatuses),
-      default: FollowingStatuses.FOLLOWING,
+      enum: Object.values(Shelf),
+      default: Shelf.READING,
     },
 
     note: {
@@ -167,7 +167,7 @@ const MangaSchema = new mongoose.Schema(
 );
 
 MangaSchema.index({ name: "text" });
-MangaSchema.index({ user: 1, following: 1, status: 1, hidden: 1 });
+MangaSchema.index({ user: 1, shelf: 1, status: 1, hidden: 1 });
 MangaSchema.index({ user: 1, link: 1 }, { unique: true });
 
 MangaSchema.pre("save", function (next) {
@@ -181,7 +181,7 @@ MangaSchema.virtual("statusString").get(function () {
 });
 
 Object.assign(MangaSchema.statics, {
-  FollowingStatuses,
+  Shelf: Shelf,
 });
 
 let Manga = mongoose.model("Manga", MangaSchema);

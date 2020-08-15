@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const { Manga } = require("../models");
-const { TO_READ, FOLLOWING, WAITING } = Manga.FollowingStatuses;
+const { TO_READ, READING, WAITING } = Manga.Shelf;
 const MangaService = require("../services/manga-service");
 const db = require("../services/db-service");
 const { pushMangaNotifications } = require("../services/push-service");
@@ -17,7 +17,7 @@ async function main() {
 
   console.log("Fetching mangas to update");
   const mangasToUpdate = await Manga.find({
-    following: { $in: [TO_READ, FOLLOWING, WAITING] },
+    shelf: { $in: [TO_READ, READING, WAITING] },
     isCompleted: false,
   });
 

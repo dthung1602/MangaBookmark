@@ -1,7 +1,7 @@
 const { ObjectId } = require("mongoose").Types;
 
 const [user1, user2, user3] = require("./users").map((u) => u["_id"]);
-const { FollowingStatuses: FS } = require("../../models/Manga");
+const { Shelf } = require("../../models/Manga");
 const faker = require("faker");
 
 // const THE_PAST = new Date("2000-01-01");
@@ -46,7 +46,7 @@ function generateManga(override) {
   return {
     _id: new ObjectId(),
     isCompleted: false,
-    following: FS.FOLLOWING,
+    shelf: Shelf.READING,
     note: "",
     name: mangaName(),
     link: faker.internet.url(),
@@ -69,7 +69,7 @@ module.exports = [
     _id: new ObjectId("111eeeeeeeeeeeeeeeeee111"),
     link: "https://manga1.com",
     name: "Hello world",
-    following: FS.FOLLOWING,
+    shelf: Shelf.READING,
     status: 3,
     isCompleted: false,
     chapters: [
@@ -87,7 +87,7 @@ module.exports = [
   generateManga({
     _id: new ObjectId("222eeeeeeeeeeeeeeeeee222"),
     user: user2,
-    following: FS.FOLLOWING,
+    shelf: Shelf.READING,
     status: 3,
     isCompleted: false,
     chapters: [
@@ -103,7 +103,7 @@ module.exports = [
   generateManga({
     _id: new ObjectId("333eeeeeeeeeeeeeeeeee333"),
     user: user3,
-    following: FS.FOLLOWING,
+    shelf: Shelf.READING,
     status: 2,
     isCompleted: true,
     chapters: [generateChapter(), generateChapter({ isRead: true }), generateChapter({ isRead: true })],
@@ -114,7 +114,7 @@ module.exports = [
     _id: new ObjectId("444eeeeeeeeeeeeeeeeee444"),
     name: "WoRlD chó MÈO chuột",
     link: "https://manga4.com",
-    following: FS.TO_READ,
+    shelf: Shelf.TO_READ,
     status: 1,
     hidden: true,
     isCompleted: false,
@@ -131,7 +131,7 @@ module.exports = [
     _id: new ObjectId("555eeeeeeeeeeeeeeeeee555"),
     name: "get Married When You Grow Up!",
     link: "https://manga5.com",
-    following: FS.TO_READ,
+    shelf: Shelf.TO_READ,
     status: 0,
     isCompleted: true,
     chapters: [

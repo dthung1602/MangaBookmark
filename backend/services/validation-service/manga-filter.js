@@ -5,7 +5,7 @@ const ErrorFormatter = require("./validation-error-formatter");
 
 const MangaFilterValidator = [
   check("search").optional().trim(),
-  check("following").optional().isIn(Object.values(Manga.FollowingStatuses)),
+  check("shelf").optional().isIn(Object.values(Manga.Shelf)),
   check("isCompleted").optional().isBoolean().toBoolean(),
   check("status").optional().isInt({ min: 0, max: 3 }).toInt(),
   check("hidden").optional().isBoolean().toBoolean(),
@@ -18,6 +18,6 @@ const MangaFilterValidator = [
   ErrorFormatter,
 ];
 
-const MANGA_FILTER_FIELDS = ["following", "isCompleted", "status", "hidden", "source"];
+const MANGA_FILTER_FIELDS = ["shelf", "isCompleted", "status", "hidden", "source"];
 
 module.exports = { MangaFilterValidator, MANGA_FILTER_FIELDS };

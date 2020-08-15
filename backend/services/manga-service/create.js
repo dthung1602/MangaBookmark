@@ -3,12 +3,12 @@ const { pick } = require("lodash");
 const { Manga } = require("../../models");
 const { getParser } = require("../../services/manga-service/parsers");
 
-const fields = ["url", "user", "isCompleted", "following", "readChapters", "note", "hidden"];
+const fields = ["url", "user", "isCompleted", "shelf", "readChapters", "note", "hidden"];
 
 module.exports = async function (data, parser = null) {
   const defaultData = {
     isCompleted: false,
-    following: "following",
+    shelf: "reading",
     readChapters: [],
     note: "",
     hidden: false,
@@ -25,7 +25,7 @@ module.exports = async function (data, parser = null) {
   manga.newChapCount = manga.chapters.filter((chap) => !chap.isRead).length;
   manga.source = parser.source;
   manga.user = data.user;
-  manga.following = data.following;
+  manga.shelf = data.shelf;
   manga.note = data.note;
   manga.hidden = data.hidden;
   manga.isCompleted = data.isCompleted;

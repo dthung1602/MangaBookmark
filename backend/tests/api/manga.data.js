@@ -7,7 +7,7 @@
    expectMangaIds,
  Fields:
    search
-   following
+   shelf
    isCompleted
    status
    hidden
@@ -26,10 +26,10 @@ const MANGA_FILTER = [
   [{ search: "cho grow  " }, 2, 1, 1, ["444eeeeeeeeeeeeeeeeee444", "555eeeeeeeeeeeeeeeeee555"]],
   [{ search: "marry" }, 1, 1, 1, ["555eeeeeeeeeeeeeeeeee555"]],
   // --------------------
-  //     FOLLOWING
+  //     SHELF
   // --------------------
-  [{ following: "following" }, 1, 1, 1, ["111eeeeeeeeeeeeeeeeee111"]],
-  [{ following: "toread" }, 2, 1, 1, ["444eeeeeeeeeeeeeeeeee444", "555eeeeeeeeeeeeeeeeee555"]],
+  [{ shelf: "reading" }, 1, 1, 1, ["111eeeeeeeeeeeeeeeeee111"]],
+  [{ shelf: "to read" }, 2, 1, 1, ["444eeeeeeeeeeeeeeeeee444", "555eeeeeeeeeeeeeeeeee555"]],
   // --------------------
   //     IS COMPLETED
   // --------------------
@@ -50,22 +50,19 @@ const MANGA_FILTER = [
   // --------------------
   [{ source: "src1" }, 2, 1, 1, ["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444"]],
   // --------------------
-  //     PAGINATION
+  //  PAGINATION & SORT
   // --------------------
   [
-    { page: 1, perPage: 0 },
+    { page: 1, perPage: 0, sort: "id" },
     3,
     1,
     1,
     ["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444", "555eeeeeeeeeeeeeeeeee555"],
   ],
-  [{ page: 1, perPage: 2 }, 3, 2, 1, ["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444"]],
-  [{ page: 2, perPage: 2 }, 3, 2, 2, ["555eeeeeeeeeeeeeeeeee555"]],
-  [{ page: 1, perPage: 1 }, 3, 3, 1, ["111eeeeeeeeeeeeeeeeee111"]],
-  [{ page: 3, perPage: 1 }, 3, 3, 3, ["555eeeeeeeeeeeeeeeeee555"]],
-  // --------------------
-  //        SORT
-  // --------------------
+  [{ page: 1, perPage: 2, sort: "id" }, 3, 2, 1, ["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444"]],
+  [{ page: 2, perPage: 2, sort: "id" }, 3, 2, 2, ["555eeeeeeeeeeeeeeeeee555"]],
+  [{ page: 1, perPage: 1, sort: "id" }, 3, 3, 1, ["111eeeeeeeeeeeeeeeeee111"]],
+  [{ page: 3, perPage: 1, sort: "id" }, 3, 3, 3, ["555eeeeeeeeeeeeeeeeee555"]],
   [
     { page: 1, perPage: 0, sort: "name" },
     3,
@@ -104,7 +101,7 @@ const MANGA_FILTER = [
   // ----------------------------
   //       MULTIPLE FILTERS
   // ----------------------------
-  [{ page: 2, perPage: 1, sort: "name", following: "toread" }, 2, 2, 2, ["444eeeeeeeeeeeeeeeeee444"]],
+  [{ page: 2, perPage: 1, sort: "name", shelf: "to read" }, 2, 2, 2, ["444eeeeeeeeeeeeeeeeee444"]],
   [{ page: 1, perPage: 1, sort: "-status", hidden: false }, 2, 2, 1, ["111eeeeeeeeeeeeeeeeee111"]],
   [
     { page: 1, perPage: 0, sort: "newChapCount", search: "world" },
@@ -131,8 +128,8 @@ const INVALID_MANGA_PATCH = [
   ["222eeeeeeeeeeeeeeeeee222", {}, { manga: "Permission denied" }, 403],
   [
     "111eeeeeeeeeeeeeeeeee111",
-    { following: "random", isCompleted: "a string", hidden: "another string" },
-    { following: "Invalid value", isCompleted: "Invalid value", hidden: "Invalid value" },
+    { shelf: "random", isCompleted: "a string", hidden: "another string" },
+    { shelf: "Invalid value", isCompleted: "Invalid value", hidden: "Invalid value" },
     400,
   ],
 ];
@@ -143,7 +140,7 @@ const INVALID_MANGA_PATCH = [
   note: "this is a note",
   isCompleted: true,
   hidden: false,
-  following: "waiting",
+  shelf: "waiting",
  */
 const INVALID_NEW_MANGA = [
   [
@@ -151,13 +148,13 @@ const INVALID_NEW_MANGA = [
       link: "skdjfls dks d",
       isCompleted: "a string",
       hidden: "another string",
-      following: "random",
+      shelf: "random",
     },
     {
       link: "Invalid value",
       isCompleted: "Invalid value",
       hidden: "Invalid value",
-      following: "Invalid value",
+      shelf: "Invalid value",
     },
   ],
   [
