@@ -9,6 +9,7 @@ import { MangaAPI } from "../../api";
 import { checkResponse, notifyError } from "../../utils/error-handler";
 import { SORT_DEC_STATUS, READING, ALL, MANGA_PER_PAGE } from "../../utils/constants";
 import "./MangaTableDesktop.less";
+import { clonePlainObject } from "../../utils";
 
 const { Title } = Typography;
 
@@ -44,6 +45,17 @@ const MangaTableDesktop = () => {
       .finally(() => setIsLoading(false));
   }, [filters, page]);
 
+  const onChangeReadStatus = (manga, isRead, chapIds) => {
+    // TODO
+    // const cloneManga = clonePlainObject(manga);
+    // cloneManga.chapters.forEach((ch) => {
+    //   if (chapIds.includes(ch._id)) {
+    //     ch.isRead = isRead;
+    //   }
+    // });
+    // setManga(cloneManga);
+  };
+
   return (
     <div className="manga-table-desktop">
       <div className="title">
@@ -53,7 +65,7 @@ const MangaTableDesktop = () => {
         </span>
       </div>
       <Filters filters={filters} updateFilters={updateFilters} />
-      <MangaTable mangas={mangas} isLoading={isLoading} />
+      <MangaTable mangas={mangas} isLoading={isLoading} onChangeReadStatus={onChangeReadStatus} />
       <EndOfList onReached={() => setPage(page + 1)} disabled={isLoading || allLoaded} />
     </div>
   );

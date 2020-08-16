@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Checkbox, Button, Tooltip, Affix } from "antd";
+import { Checkbox, Button, Tooltip, Affix, Empty } from "antd";
 import { ForwardOutlined, CheckSquareOutlined, CheckOutlined, ClockCircleOutlined } from "@ant-design/icons";
 
-function ChapterList(props) {
-  const { chapters } = props;
+function ChapterList({
+  chapters,
+  onCheckboxChange,
+  onMarkUpTo,
+  onMarkAll,
+  defaultShowReadChaps,
+  defaultShowCheckBoxes,
+}) {
   const [chapListRef, setChapListRef] = useState(null);
-  const [showReadChaps, setShowReadChaps] = useState(props.showReadChaps);
-  const [showCheckboxes, setShowCheckboxes] = useState(props.showCheckboxes);
+  const [showReadChaps, setShowReadChaps] = useState(defaultShowReadChaps);
+  const [showCheckboxes, setShowCheckboxes] = useState(defaultShowCheckBoxes);
 
   const chaptersToShow = showReadChaps ? chapters : chapters.filter((ch) => !ch.isRead);
 
@@ -28,7 +34,7 @@ function ChapterList(props) {
           </Tooltip>
 
           <Tooltip title="Mark chapters all as read">
-            <Button type="text">
+            <Button type="text" onClick={onMarkAll}>
               <CheckOutlined />
             </Button>
           </Tooltip>
@@ -36,15 +42,17 @@ function ChapterList(props) {
       </Affix>
 
       <div className="chap-container">
+        {chaptersToShow.length > 0 ? null : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
         {chaptersToShow.map((chapter) => (
           <div key={chapter._id} className="chap">
-            {showCheckboxes ? <Checkbox checked={chapter.isRead} /> : null}
+            {showCheckboxes ? <Checkbox checked={chapter.isRead} onChange={() => onCheckboxChange(chapter)} /> : null}
             <Button
               icon={<ForwardOutlined />}
               type="text"
               shape="circle-outline"
               size="small"
               title="Mark all chapters up to this one as read"
+              onClick={() => onMarkUpTo(chapter)}
             />
             <a href={chapter.link} target="_blank" rel="noopener noreferrer">
               {chapter.name}
@@ -57,9 +65,12 @@ function ChapterList(props) {
 }
 
 ChapterList.propTypes = {
-  chapters: PropTypes.array,
-  showReadChaps: PropTypes.bool,
-  showCheckboxes: PropTypes.bool,
+  chapters: PropTypes.array.isRequired,
+  onCheckboxChange: PropTypes.func.isRequired,
+  onMarkUpTo: PropTypes.func.isRequired,
+  onMarkAll: PropTypes.func.isRequired,
+  defaultShowReadChaps: PropTypes.bool,
+  defaultShowCheckBoxes: PropTypes.bool,
 };
 
 export default ChapterList;

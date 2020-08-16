@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 import { Table, Skeleton } from "antd";
 
 import MangaBasicInfo from "./MangaBasicInfo";
-import MangaQuickAction from "./MangaQuickAction";
+import ChapterDropdownButton from "../ChapterDropdownButton";
 import { isEmptyObject } from "../../utils";
 
 const { Column } = Table;
 
 const skeletonData = Array(5).fill({});
 
-const MangaTable = ({ mangas, isLoading }) => {
+const MangaTable = ({ mangas, isLoading, onChangeReadStatus }) => {
   const dataSource = isLoading ? [...mangas, ...skeletonData] : mangas;
 
   return (
@@ -19,33 +19,38 @@ const MangaTable = ({ mangas, isLoading }) => {
         dataIndex="image"
         key="image"
         width={100}
-        render={(text, record) => {
-          if (isEmptyObject(record)) {
+        render={(text, manga) => {
+          if (isEmptyObject(manga)) {
             return <Skeleton.Image active />;
           }
-          return <img className="cover-image" src={record.image} alt={record.name} />;
+          return <img className="cover-image" src={manga.image} alt={manga.name} />;
         }}
       />
       <Column
         dataIndex="basicInfo"
         key="basicInfo"
         width="75%"
-        render={(text, record) => {
-          if (isEmptyObject(record)) {
+        render={(text, manga) => {
+          if (isEmptyObject(manga)) {
             return <Skeleton active />;
           }
-          return <MangaBasicInfo {...record} />;
+          return <MangaBasicInfo {...manga} />;
         }}
       />
       <Column
         dataIndex="quickActions"
         key="quickActions"
         width="25%"
-        render={(text, record) => {
-          if (isEmptyObject(record)) {
+        render={(text, manga) => {
+          if (isEmptyObject(manga)) {
             return <Skeleton.Button active />;
           }
-          return <MangaQuickAction {...record} />;
+          return (
+            <ChapterDropdownButton
+              chapters={manga.chapters}
+              onChangeReadStatus={(isRead, chapIds) => onChangeReadStatus(manga, isRead, chapIds)}
+            />
+          );
         }}
       />
     </Table>
@@ -53,8 +58,9 @@ const MangaTable = ({ mangas, isLoading }) => {
 };
 
 MangaTable.propTypes = {
-  mangas: PropTypes.array,
-  isLoading: PropTypes.bool,
+  mangas: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  onChangeReadStatus: PropTypes.func.isRequired,
 };
 
 export default MangaTable;

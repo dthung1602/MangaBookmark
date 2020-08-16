@@ -2,7 +2,8 @@ import React, { useState, useRef } from "react";
 import { Button, Tooltip } from "antd";
 import { PlusOutlined, UpOutlined, FileAddOutlined, ReloadOutlined } from "@ant-design/icons";
 
-import { useOnClickOutside } from "../../hooks";
+import NewMangaModal from "./NewMangaModal";
+import { useOnClickOutside } from "../hooks";
 import "./FAB.less";
 
 const scrollToTop = () => {
@@ -10,6 +11,7 @@ const scrollToTop = () => {
 };
 
 const FAB = () => {
+  const [newMangaModalOpen, setNewMangaModalOpen] = useState(true);
   const [showExpandBtns, setShowExpandBtns] = useState(false);
   const containerRef = useRef(null);
 
@@ -49,16 +51,6 @@ const FAB = () => {
           onClick={handleExpandBtnClickWrapper(scrollToTop)}
         />
       </Tooltip>
-      <Tooltip placement="left" visible={showExpandBtns} title="New manga" overlayClassName="fab-tooltip-overlay">
-        <Button
-          shape="circle"
-          type="primary"
-          className={expandBtnsClass}
-          icon={<FileAddOutlined />}
-          // disabled={!showExpandBtns}
-          onClick={handleExpandBtnClickWrapper(() => alert("button1"))}
-        />
-      </Tooltip>
       <Tooltip placement="left" visible={showExpandBtns} title="Update mangas" overlayClassName="fab-tooltip-overlay">
         <Button
           shape="circle"
@@ -67,6 +59,16 @@ const FAB = () => {
           icon={<ReloadOutlined />}
           // disabled={!showExpandBtns}
           onClick={handleExpandBtnClickWrapper(() => alert("button2"))}
+        />
+      </Tooltip>
+      <Tooltip placement="left" visible={showExpandBtns} title="New manga" overlayClassName="fab-tooltip-overlay">
+        <Button
+          shape="circle"
+          type="primary"
+          className={expandBtnsClass}
+          icon={<FileAddOutlined />}
+          // disabled={!showExpandBtns}
+          onClick={handleExpandBtnClickWrapper(() => setNewMangaModalOpen(true))}
         />
       </Tooltip>
       <Button
@@ -78,6 +80,7 @@ const FAB = () => {
         onClick={toggleExpandBtns}
         onMouseEnter={show}
       />
+      <NewMangaModal open={newMangaModalOpen} onCancel={() => setNewMangaModalOpen(false)} />
     </div>
   );
 };
