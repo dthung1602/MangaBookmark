@@ -16,6 +16,10 @@ class MangaAPI extends BaseAPI {
     }
     return super.get(params, slug);
   }
+
+  info(link) {
+    return this.get({ link }, "info");
+  }
 }
 
 export default new MangaAPI();

@@ -15,6 +15,16 @@ const {
   MangaPermissionValidator,
 } = require("../services/validation-service");
 
+function handleMangaParsingError(res, e) {
+  res.status(400).json({
+    errors: {
+      link: {
+        msg: "Cannot parse manga: " + e,
+      },
+    },
+  });
+}
+
 //-----------------------------------
 //  Filter & search mangas
 //-----------------------------------
@@ -159,7 +169,7 @@ router.postAsync("/", MangaCreateValidator, async (req, res) => {
     const manga = await MangaService.create({ ...req.body, user: req.user.id }, req.parser);
     res.status(201).json(manga);
   } catch (e) {
-    res.status(400).json({ link: "Cannot parse manga" });
+    handleMangaParsingError(res, e);
   }
 });
 
@@ -278,7 +288,7 @@ router.getAsync("/info", MangaInfoValidator, async (req, res) => {
     const manga = await req.parser.parseManga(req.query.link);
     res.json(manga);
   } catch (e) {
-    res.status(400).json({ link: "Cannot parse manga: " + e });
+    handleMangaParsingError(res, e);
   }
 });
 

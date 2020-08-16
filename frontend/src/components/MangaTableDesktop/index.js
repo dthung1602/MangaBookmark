@@ -49,7 +49,7 @@ const MangaTableDesktop = () => {
     // TODO
     // const cloneManga = clonePlainObject(manga);
     // cloneManga.chapters.forEach((ch) => {
-    //   if (chapIds.includes(ch._id)) {
+    //   if (chapIds.includes(ch.link)) {
     //     ch.isRead = isRead;
     //   }
     // });

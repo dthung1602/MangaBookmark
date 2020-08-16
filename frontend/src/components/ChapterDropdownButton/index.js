@@ -15,32 +15,36 @@ function ChapterDropdownButton({
   defaultShowCheckBoxes = false,
   size = "middle",
 }) {
-  let nextChapToRead = {
-    name: <i>Last chap reached</i>,
-    link: chapters[0].link,
-  };
+  let nextChapToRead;
   for (let i = 0; i < chapters.length - 1; i++) {
     if (!chapters[i].isRead && chapters[i + 1].isRead) {
       nextChapToRead = chapters[i];
       break;
     }
   }
-  if (nextChapToRead === undefined && !chapters[chapters.length - 1].isRead) {
-    nextChapToRead = chapters[chapters.length - 1];
+  if (nextChapToRead === undefined) {
+    if (!chapters[chapters.length - 1].isRead) {
+      nextChapToRead = chapters[chapters.length - 1];
+    } else {
+      nextChapToRead = {
+        name: <i>Last chap reached</i>,
+        link: chapters[0].link,
+      };
+    }
   }
 
   const checkboxChange = (chapter) => {
-    onChangeReadStatus(!chapter.isRead, [chapter._id]);
+    onChangeReadStatus(!chapter.isRead, [chapter.link]);
   };
 
   const markUpTo = (chapter) => {
     const idx = chapters.indexOf(chapter);
-    const chapsToMark = chapters.filter((ch, i) => i >= idx && !ch.isRead).map((ch) => ch._id);
+    const chapsToMark = chapters.filter((ch, i) => i >= idx && !ch.isRead).map((ch) => ch.link);
     onChangeReadStatus(true, chapsToMark);
   };
 
   const markALl = () => {
-    const chapsToMark = chapters.filter((ch) => !ch.isRead).map((ch) => ch._id);
+    const chapsToMark = chapters.filter((ch) => !ch.isRead).map((ch) => ch.link);
     onChangeReadStatus(true, chapsToMark);
   };
 

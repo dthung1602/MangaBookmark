@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Modal, Row, Col, Form, Input, Typography, Skeleton, Select, Switch, Button } from "antd";
+import { Button, Col, Form, Input, Modal, Row, Select, Skeleton, Switch, Typography, message } from "antd";
 
-import dummyManga from "../../utils/dummyManga.json";
 import ChapterDropdownButton from "../ChapterDropdownButton";
+import { MangaAPI } from "../../api";
 import { clonePlainObject } from "../../utils";
 import { READING, SHELVES } from "../../utils/constants";
+import { checkResponse, notifyError } from "../../utils/error-handler";
 import "./NewMangaModel.less";
 
 const { Search } = Input;
@@ -15,13 +16,16 @@ const { TextArea } = Input;
 
 const NewMangaModal = ({ open, onCancel }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [link, setLink] = useState();
+  const [isAdding, setIsAdding] = useState(false);
+  const [errors, setErrors] = useState();
+  const [link, setLink] = useState("");
   const [manga, setManga] = useState();
+  const [form] = Form.useForm();
 
   const changeChapterReadStatus = (isRead, chapIds) => {
     const cloneManga = clonePlainObject(manga);
     cloneManga.chapters.forEach((ch) => {
-      if (chapIds.includes(ch._id)) {
+      if (chapIds.includes(ch.link)) {
         ch.isRead = isRead;
       }
     });
@@ -29,22 +33,53 @@ const NewMangaModal = ({ open, onCancel }) => {
   };
 
   const addManga = () => {
-    console.log("ADD");
+    const readChapters = manga.chapters.filter((ch) => ch.isRead).map((ch) => ch.link);
+    const params = { ...form.getFieldsValue(), link, readChapters };
+    setIsAdding(true);
+    setErrors(undefined);
+    MangaAPI.post(params)
+      .then(async (response) => {
+        checkResponse(response);
+        const data = await response.json();
+        if (response.ok) {
+          message.success("Manga added");
+          onCancel();
+          setLink("");
+          setManga(undefined);
+          form.resetFields();
+        } else {
+          setErrors(data.errors);
+        }
+      })
+      .catch(notifyError)
+      .finally(() => setIsAdding(false));
   };
 
-  const getMangaInfo = (value) => {
-    setLink(value);
+  useEffect(() => {
+    if (link.trim() === "") {
+      return;
+    }
     setIsLoading(true);
-    setTimeout(() => {
-      setManga(dummyManga);
-      setIsLoading(false);
-    }, 5000);
-  };
+    setErrors(undefined);
+    MangaAPI.info(link)
+      .then(async (response) => {
+        checkResponse(response);
+        const data = await response.json();
+        if (response.ok) {
+          setManga(data);
+        } else {
+          setManga(undefined);
+          setErrors(data.errors);
+        }
+      })
+      .catch(notifyError)
+      .finally(() => setIsLoading(false));
+  }, [link]);
 
   let footer = null;
   if (manga) {
     footer = (
-      <Button type="primary" onClick={addManga}>
+      <Button type="primary" loading={isAdding} onClick={addManga}>
         Add
       </Button>
     );
@@ -63,6 +98,14 @@ const NewMangaModal = ({ open, onCancel }) => {
       </Row>
     );
   } else if (manga) {
+    const initialValues = {
+      link,
+      shelf: READING,
+      hidden: false,
+      isCompleted: manga.isCompleted,
+      note: "",
+      readChapters: [],
+    };
     content = (
       <Row gutter={16}>
         <Col xs={24} sm={8}>
@@ -70,38 +113,48 @@ const NewMangaModal = ({ open, onCancel }) => {
         </Col>
         <Col xs={24} sm={16}>
           <Title level={4}>{manga.name}</Title>
-          <div className="info-row">
-            <Text strong>Shelf</Text>
-            <Select size="small" defaultValue={READING}>
-              {Object.entries(SHELVES).map(([key, displayText]) => (
-                <Option value={key} key={key}>
-                  {displayText}
-                </Option>
-              ))}
-            </Select>
-          </div>
-          <div className="info-row">
-            <Text strong>Hidden</Text>
-            <Switch size="small" />
-          </div>
-          <div className="info-row">
-            <Text strong>Is completed</Text>
-            <Switch size="small" />
-          </div>
-          <div className="info-row">
-            <Text strong>Chapter list</Text>
-            <ChapterDropdownButton
-              chapters={manga.chapters}
-              defaultShowReadChaps={true}
-              defaultShowCheckBoxes={true}
-              onChangeReadStatus={changeChapterReadStatus}
-              size="small"
-            />
-          </div>
-          <div className="info-col">
-            <Text strong>Note</Text>
-            <TextArea row={2} />
-          </div>
+          <Form form={form} initialValues={initialValues}>
+            <div className="info-row">
+              <Text strong>Shelf</Text>
+              <Form.Item noStyle name="shelf">
+                <Select size="small" defaultValue={READING}>
+                  {Object.entries(SHELVES).map(([key, displayText]) => (
+                    <Option value={key} key={key}>
+                      {displayText}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </div>
+            <div className="info-row">
+              <Text strong>Hidden</Text>
+              <Form.Item noStyle name="hidden">
+                <Switch size="small" />
+              </Form.Item>
+            </div>
+            <div className="info-row">
+              <Text strong>Is completed</Text>
+              <Form.Item noStyle name="isCompleted">
+                <Switch size="small" />
+              </Form.Item>
+            </div>
+            <div className="info-row">
+              <Text strong>Chapter list</Text>
+              <ChapterDropdownButton
+                chapters={manga.chapters}
+                defaultShowReadChaps={true}
+                defaultShowCheckBoxes={true}
+                onChangeReadStatus={changeChapterReadStatus}
+                size="small"
+              />
+            </div>
+            <div className="info-col">
+              <Text strong>Note</Text>
+              <Form.Item noStyle name="note">
+                <TextArea row={2} />
+              </Form.Item>
+            </div>
+          </Form>
         </Col>
       </Row>
     );
@@ -116,8 +169,17 @@ const NewMangaModal = ({ open, onCancel }) => {
         enterButton
         autoFocus={true}
         loading={isLoading}
-        onSearch={getMangaInfo}
+        onSearch={(value) => setLink(value)}
       />
+      {!errors ? null : (
+        <div className="manga-preview-errors">
+          {Object.entries(errors).map(([field, { msg }]) => (
+            <div key={field}>
+              <b>{field}: </b> {msg}
+            </div>
+          ))}
+        </div>
+      )}
       <div className="manga-preview">{content}</div>
     </Modal>
   );

@@ -44,7 +44,7 @@ function ChapterList({
       <div className="chap-container">
         {chaptersToShow.length > 0 ? null : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
         {chaptersToShow.map((chapter) => (
-          <div key={chapter._id} className="chap">
+          <div key={chapter.link} className="chap">
             {showCheckboxes ? <Checkbox checked={chapter.isRead} onChange={() => onCheckboxChange(chapter)} /> : null}
             <Button
               icon={<ForwardOutlined />}
