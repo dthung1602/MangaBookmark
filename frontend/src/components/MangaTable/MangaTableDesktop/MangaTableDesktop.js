@@ -3,14 +3,15 @@ import PropTypes from "prop-types";
 import { Table, Skeleton } from "antd";
 
 import MangaBasicInfo from "./MangaBasicInfo";
-import ChapterDropdownButton from "../ChapterDropdownButton";
-import { isEmptyObject } from "../../utils";
+import ChapterDropdownButton from "../../ChapterDropdownButton";
+import { isEmptyObject } from "../../../utils";
+import "./MangaTableDesktop.less";
 
 const { Column } = Table;
 
 const skeletonData = Array(5).fill({});
 
-const MangaTable = ({ mangas, isLoading, onChangeReadStatus }) => {
+const MangaTableDesktop = ({ mangas, isLoading, onChangeReadStatus }) => {
   const dataSource = isLoading ? [...mangas, ...skeletonData] : mangas;
 
   return (
@@ -57,10 +58,10 @@ const MangaTable = ({ mangas, isLoading, onChangeReadStatus }) => {
   );
 };
 
-MangaTable.propTypes = {
+MangaTableDesktop.propTypes = {
   mangas: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,
   onChangeReadStatus: PropTypes.func.isRequired,
 };
 
-export default MangaTable;
+export default MangaTableDesktop;

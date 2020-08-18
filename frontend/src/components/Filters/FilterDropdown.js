@@ -15,7 +15,7 @@ const FilterDropdown = ({
 }) => {
   const onSelectWrapper = ({ key }) => onSelect(key);
 
-  // the <> is absolute necessary
+  // the <> is absolutely necessary
   return (
     <Dropdown
       overlay={
@@ -33,7 +33,7 @@ const FilterDropdown = ({
       arrow
     >
       <Button>
-        <b className="filter-text">{displayName}: </b>
+        <b>{displayName}: </b>
         {options[selected] || (showALlOption ? allText : "")}
       </Button>
     </Dropdown>
@@ -41,7 +41,7 @@ const FilterDropdown = ({
 };
 
 FilterDropdown.propTypes = {
-  options: PropTypes.array.isRequired,
+  options: PropTypes.object.isRequired,
   selected: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   displayName: PropTypes.string.isRequired,
   onSelect: PropTypes.func.isRequired,

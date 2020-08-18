@@ -15,7 +15,7 @@ function useOnScreenScrollVertically(onMoveUp, onMoveDown) {
     return () => {
       window.removeEventListener("scroll", showHideNavBar);
     };
-  }, []);
+  });
 }
 
 export default useOnScreenScrollVertically;

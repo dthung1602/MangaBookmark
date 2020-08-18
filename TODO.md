@@ -36,7 +36,7 @@
 
 - [x] Update dependencies to the latest
 
-- [x] Add readme.md
+- [ ] Add readme.md
 
 - [x] Add API doc
 
@@ -48,24 +48,25 @@
 - [x] Split FE to small js chunk 
 - [x] Handle error
 - [ ] Cancel old request when new one is sent
-- [ ] Change URL when change filter
+- [x] Change URL when change filter
 
 - [ ] Basic components:
     - [x] Navbar
     - [x] Footer
     - [ ] FAB
         - [x] to top
-        - [ ] add manga
+        - [x] add manga
         - [ ] update mangas
         - [ ] ~~dark mode~~ (not possible to toggle at runtime with antd)
     - [ ] Account page       
     - [ ] Manga listing table
         - [ ] Use sources favicon
-        - [ ] Merge status column
+        - [x] Merge status column
     - [ ] Basic Search & filter
-        - [ ] status
-        - [ ] shelf (rename from following status)
-        - [ ] search by name
+        - [x] status
+        - [x] shelf (rename from following status)
+        - [x] search by name
+        - [x] sort
     - [ ] Right panel (manga detail panel)
         - [ ] display info
         - [ ] edit

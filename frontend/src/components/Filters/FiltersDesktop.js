@@ -6,16 +6,17 @@ import { FilterOutlined, SearchOutlined } from "@ant-design/icons";
 import FilterDropdown from "./FilterDropdown";
 import { SHELVES, MG_STATUSES, SORTABLE_FIELDS } from "../../utils/constants";
 import { useOnScreenScrollVertically } from "../../hooks";
+import "./FiltersDesktop.less";
 
 const { Panel } = Collapse;
 
-const Filters = ({ filters, updateFilters }) => {
+const onMoveUp = () => document.querySelector(".filter-container .ant-affix")?.classList.add("offset");
+const onMoveDown = () => document.querySelector(".filter-container .ant-affix")?.classList.remove("offset");
+
+const FiltersDesktop = ({ filters, updateFilters }) => {
   const [open, setOpen] = useState(false);
 
-  useOnScreenScrollVertically(
-    () => document.querySelector(".filter-container .ant-affix")?.classList.add("offset"),
-    () => document.querySelector(".filter-container .ant-affix")?.classList.remove("offset"),
-  );
+  useOnScreenScrollVertically(onMoveUp, onMoveDown);
 
   const select = (field) => (value) => {
     updateFilters({ [field]: value });
@@ -42,14 +43,15 @@ const Filters = ({ filters, updateFilters }) => {
         <Input
           prefix={<SearchOutlined />}
           placeholder="Search ..."
-          value={filters.search}
-          onChange={(e) => updateFilters({ search: e.target.value === "" ? undefined : e.target.value })}
+          onPressEnter={(e) => updateFilters({ search: e.target.value })}
+          defaultValue={filters.search}
         />
         <div className="flex-1" />
         <Button className="advance-btn" icon={<FilterOutlined />} onClick={() => setOpen(!open)}>
           {open ? "Simple" : "Advance"}
         </Button>
       </div>
+
       <Collapse bordered={false} activeKey={open ? 1 : undefined}>
         <Panel header={""} key="1" showArrow={false} className="filter-advance">
           <Dropdown overlay={<div>s</div>} placement="bottomCenter" arrow>
@@ -70,9 +72,9 @@ const Filters = ({ filters, updateFilters }) => {
   );
 };
 
-Filters.propTypes = {
+FiltersDesktop.propTypes = {
   filters: PropTypes.object,
   updateFilters: PropTypes.func,
 };
 
-export default Filters;
+export default FiltersDesktop;

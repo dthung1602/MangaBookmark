@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Checkbox, Button, Tooltip, Affix, Empty } from "antd";
 import { ForwardOutlined, CheckSquareOutlined, CheckOutlined, ClockCircleOutlined } from "@ant-design/icons";
 
+import "./ChapterList.less";
+
 function ChapterList({
   chapters,
   onCheckboxChange,

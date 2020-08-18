@@ -11,7 +11,7 @@ const scrollToTop = () => {
 };
 
 const FAB = () => {
-  const [newMangaModalOpen, setNewMangaModalOpen] = useState(true);
+  const [newMangaModalOpen, setNewMangaModalOpen] = useState(false);
   const [showExpandBtns, setShowExpandBtns] = useState(false);
   const containerRef = useRef(null);
 
