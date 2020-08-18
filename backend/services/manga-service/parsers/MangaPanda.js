@@ -30,7 +30,8 @@ async function parseManga(url) {
 }
 
 module.exports = {
-  source: "MangaPanda",
+  site: "MangaPanda",
+  homepage: "http://www.mangapanda.com/",
   URLRegex,
   parseManga,
   parseChapters,

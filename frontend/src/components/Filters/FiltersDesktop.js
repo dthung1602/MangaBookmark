@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { Dropdown, Collapse, Button, Input, Affix } from "antd";
 import { FilterOutlined, SearchOutlined } from "@ant-design/icons";
@@ -7,6 +7,7 @@ import FilterDropdown from "./FilterDropdown";
 import { SHELVES, MG_STATUSES, SORTABLE_FIELDS } from "../../utils/constants";
 import { useOnScreenScrollVertically } from "../../hooks";
 import "./FiltersDesktop.less";
+import { GlobalContext } from "../GlobalContext";
 
 const { Panel } = Collapse;
 
@@ -15,6 +16,7 @@ const onMoveDown = () => document.querySelector(".filter-container .ant-affix")?
 
 const FiltersDesktop = ({ filters, updateFilters }) => {
   const [open, setOpen] = useState(false);
+  const [{ supportedSites }] = useContext(GlobalContext);
 
   useOnScreenScrollVertically(onMoveUp, onMoveDown);
 
@@ -54,9 +56,12 @@ const FiltersDesktop = ({ filters, updateFilters }) => {
 
       <Collapse bordered={false} activeKey={open ? 1 : undefined}>
         <Panel header={""} key="1" showArrow={false} className="filter-advance">
-          <Dropdown overlay={<div>s</div>} placement="bottomCenter" arrow>
-            <Button>bottomCenter</Button>
-          </Dropdown>
+          <FilterDropdown
+            displayName={"Site"}
+            options={supportedSites.map((site) => site.name)}
+            selected={filters.site}
+            onSelect={select("site")}
+          />
           <Dropdown overlay={<div>s</div>} placement="bottomCenter" arrow>
             <Button>bottomCenter</Button>
           </Dropdown>

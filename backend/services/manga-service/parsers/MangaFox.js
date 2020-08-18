@@ -29,7 +29,8 @@ async function parseManga(url) {
 }
 
 module.exports = {
-  source: "MangaFox",
+  site: "MangaFox",
+  homepage: "https://ww3.mangafox.online/",
   URLRegex,
   parseManga,
   parseChapters,

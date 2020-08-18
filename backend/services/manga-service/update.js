@@ -3,7 +3,7 @@ const { getParser } = require("./parsers");
 module.exports = async function (manga) {
   const parser = getParser(manga.link);
   if (parser === null) {
-    throw new Error("Unsupported manga source");
+    throw new Error("Unsupported manga site");
   }
 
   const crawledManga = await parser.parseManga(manga.link);

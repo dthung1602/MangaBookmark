@@ -30,6 +30,7 @@ const Mangas = () => {
     status: withDefault(StringParam, ALL),
     sort: withDefault(StringParam, SORT_DEC_STATUS),
     search: StringParam,
+    site: withDefault(StringParam, ALL),
   });
   const updateFilters = (values) => {
     setFilters({ ...filters, ...values }, "push");
@@ -38,7 +39,7 @@ const Mangas = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    MangaAPI.get({ ...filters, page, perPage: MANGA_PER_PAGE })
+    MangaAPI.find({ ...filters, page, perPage: MANGA_PER_PAGE })
       .then(async (response) => {
         checkResponse(response);
         const { data, totalItem, isLastPage } = await response.json();

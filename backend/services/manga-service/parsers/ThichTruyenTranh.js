@@ -29,7 +29,8 @@ async function parseManga(url) {
 }
 
 module.exports = {
-  source: "ThichTruyenTranh",
+  site: "ThichTruyenTranh",
+  homepage: "https://thichtruyentranh.com/",
   URLRegex,
   parseManga,
   parseChapters,

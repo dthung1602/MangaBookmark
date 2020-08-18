@@ -78,11 +78,19 @@
         - [ ] created date
         - [ ] last updated date
         - [ ] last read date
-        - [ ] src
+        - [x] site
         
 - [ ] Home page
 - [ ] Legal notice page 
-
+- [ ] Push notification
+- [ ] Account page
+    - [ ] Display info
+    - [ ] Edit
+        - [ ] basic info
+        - [ ] change pass
+        - [ ] link / unlink gg, fb
+        - [ ] Delete account
+    - [ ] Manage notification
 - [ ] BG Image credit in login page 
 
 # NEW FEATURES

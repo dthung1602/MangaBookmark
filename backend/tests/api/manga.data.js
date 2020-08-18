@@ -46,9 +46,9 @@ const MANGA_FILTER = [
   [{ hidden: true }, 1, 1, 1, ["444eeeeeeeeeeeeeeeeee444"]],
   [{ hidden: false }, 2, 1, 1, ["111eeeeeeeeeeeeeeeeee111", "555eeeeeeeeeeeeeeeeee555"]],
   // --------------------
-  //     SOURCE
+  //     SITE
   // --------------------
-  [{ source: "src1" }, 2, 1, 1, ["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444"]],
+  [{ site: "src1" }, 2, 1, 1, ["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444"]],
   // --------------------
   //  PAGINATION & SORT
   // --------------------
@@ -168,7 +168,7 @@ const INVALID_NEW_MANGA = [
       link: "https://example.com",
     },
     {
-      link: "Unsupported manga source",
+      link: "Unsupported manga site",
     },
   ],
   [

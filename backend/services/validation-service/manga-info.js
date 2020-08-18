@@ -9,7 +9,7 @@ module.exports = [
     .custom(async (link, { req }) => {
       const parser = MangaService.parsers.getParser(link);
       if (!parser) {
-        throw new Error("Unsupported manga source");
+        throw new Error("Unsupported manga site");
       }
       req.parser = parser;
     }),

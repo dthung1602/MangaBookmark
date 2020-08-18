@@ -29,7 +29,8 @@ async function parseManga(url) {
 }
 
 module.exports = {
-  source: "Mangairo",
+  site: "Mangairo",
+  homepage: "https://m.mangairo.com/page",
   URLRegex,
   parseManga,
   parseChapters,

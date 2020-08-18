@@ -74,7 +74,8 @@ async function parseManga(url) {
 }
 
 module.exports = {
-  source: "MangaDex",
+  site: "MangaDex",
+  homepage: "https://mangadex.org/",
   URLRegex,
   parseManga,
   parseChapters,

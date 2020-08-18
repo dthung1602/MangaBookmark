@@ -9,7 +9,7 @@ const MangaFilterValidator = [
   check("isCompleted").optional().isBoolean().toBoolean(),
   check("status").optional().isInt({ min: 0, max: 3 }).toInt(),
   check("hidden").optional().isBoolean().toBoolean(),
-  check("source").optional(),
+  check("site").optional(),
   check("page").optional().isInt({ min: 1 }).toInt(),
   check("perPage").optional().isInt({ min: 0 }).toInt(),
   check("sort")
@@ -18,6 +18,6 @@ const MangaFilterValidator = [
   ErrorFormatter,
 ];
 
-const MANGA_FILTER_FIELDS = ["shelf", "isCompleted", "status", "hidden", "source"];
+const MANGA_FILTER_FIELDS = ["shelf", "isCompleted", "status", "hidden", "site"];
 
 module.exports = { MangaFilterValidator, MANGA_FILTER_FIELDS };

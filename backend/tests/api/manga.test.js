@@ -96,7 +96,7 @@ describe("Manga API", () => {
     const mockParsedChapters = mockParsedManga.chapters;
 
     getParser.mockImplementation(() => ({
-      source: "Sauce",
+      site: "Sauce",
       URLRegex: /.*/,
       parseManga: () => mockParsedManga,
       parseChapters: () => mockParsedChapters,
@@ -119,7 +119,7 @@ describe("Manga API", () => {
       _id: expect.anything(),
       name: mockParsedManga.name,
       image: mockParsedManga.image,
-      source: mockParsedManga.source,
+      site: mockParsedManga.site,
       user: "111aaaaaaaaaaaaaaaaaa111",
       createdAt: expect.anything(),
       updatedAt: expect.anything(),
@@ -199,7 +199,7 @@ describe("Manga API", () => {
     const mockParsedManga = getMockParsedManga();
     const mockParsedChapters = mockParsedManga.chapters;
     getParser.mockImplementation(() => ({
-      source: "Sauce",
+      site: "Sauce",
       URLRegex: /.*/,
       parseManga: () => mockParsedManga,
       parseChapters: () => mockParsedChapters,
@@ -214,7 +214,7 @@ describe("Manga API", () => {
     getParser.mockImplementation(() => null);
     const response = await request(app).get("/api/mangas/info").query({ link: "https://example.com" });
     expect(response.status).toEqual(400);
-    expectErrors({ link: "Unsupported manga source" }, response.body.errors);
+    expectErrors({ link: "Unsupported manga site" }, response.body.errors);
   });
 
   it.each(READ_CHAPTERS)("should change chapters' read statuses", async function (isRead, chapters, expectedIsReads) {
@@ -247,7 +247,7 @@ describe("Manga API", () => {
     const mockParsedManga = getMockParsedManga({ isCompleted: true });
     const mockParsedChapters = mockParsedManga.chapters;
     getParser.mockImplementation(() => ({
-      source: "Sauce",
+      site: "Sauce",
       URLRegex: /.*/,
       parseManga: () => mockParsedManga,
       parseChapters: () => mockParsedChapters,
@@ -289,7 +289,7 @@ describe("Manga API", () => {
       }
       const mockParsedManga = getMockParsedManga({ image: "https://image.com" }, 6);
       return {
-        source: "Sauce",
+        site: "Sauce",
         URLRegex: /.*/,
         parseManga: () => mockParsedManga,
         parseChapters: () => mockParsedManga.chapters,

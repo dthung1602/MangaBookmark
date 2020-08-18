@@ -29,7 +29,8 @@ async function parseManga(url) {
 }
 
 module.exports = {
-  source: "Otakusan",
+  site: "Otakusan",
+  homepage: "https://otakusan.net/",
   URLRegex,
   parseManga,
   parseChapters,

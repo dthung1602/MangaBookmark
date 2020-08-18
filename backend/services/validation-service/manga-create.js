@@ -13,7 +13,7 @@ module.exports = [
     .custom(async (link, { req }) => {
       req.parser = MangaService.parsers.getParser(link);
       if (!req.parser) {
-        throw new Error("Unsupported manga source");
+        throw new Error("Unsupported manga site");
       }
       const manga = await Manga.findOne({ user: req.user.id, link: link });
       if (manga) {

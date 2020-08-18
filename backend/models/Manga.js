@@ -85,7 +85,7 @@ const ChapterSchema = new mongoose.Schema(
  *          link:
  *            type: string
  *            format: uri
- *          source:
+ *          site:
  *            type: string
  *          image:
  *            type: string
@@ -129,7 +129,7 @@ const MangaSchema = new mongoose.Schema(
 
     name: String,
     link: String,
-    source: String,
+    site: String,
     image: String,
 
     chapters: [ChapterSchema],

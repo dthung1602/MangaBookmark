@@ -4,7 +4,7 @@ const router = Router();
 
 const { removeUndefinedAttrs } = require("./utils");
 const MangaService = require("../services/manga-service");
-const { parserNames } = require("../services/manga-service/parsers");
+const { supportedSites } = require("../services/manga-service/parsers");
 const {
   MANGA_FILTER_FIELDS,
   MangaFilterValidator,
@@ -65,7 +65,7 @@ function handleMangaParsingError(res, e) {
  *           type: boolean
  *           required: false
  *       - in: query
- *         name: source
+ *         name: site
  *         schema:
  *           type: string
  *           required: false
@@ -398,7 +398,7 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
  *           type: boolean
  *           required: false
  *       - in: query
- *         name: source
+ *         name: site
  *         schema:
  *           type: string
  *           required: false
@@ -442,7 +442,7 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
  *                          $ref: '#/components/schemas/Id'
  *                        name:
  *                          type: string
- *                        source:
+ *                        site:
  *                          type: string
  *                  fail:
  *                    type: array
@@ -453,7 +453,7 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
  *                          $ref: '#/components/schemas/Id'
  *                        name:
  *                          type: string
- *                        source:
+ *                        site:
  *                          type: string
  */
 // TODO reconsider this
@@ -466,7 +466,7 @@ router.postAsync("/update-multiple", MangaFilterValidator, async (req, res) => {
   });
   const { data: mangas } = await MangaService.list(filters, undefined, undefined, 0, 0);
   const { successMangas, failMangas } = await MangaService.updateMultiple(mangas);
-  const reportFields = ["name", "_id", "source"];
+  const reportFields = ["name", "_id", "site"];
   res.json({
     total: mangas.length,
     success: successMangas.map((manga) => pick(manga, reportFields)),
@@ -475,14 +475,14 @@ router.postAsync("/update-multiple", MangaFilterValidator, async (req, res) => {
 });
 
 //-----------------------------------
-//  Get all manga sources
+//  Get all supported manga sites
 //-----------------------------------
 /**
  * @swagger
  *
- * /api/mangas/sources:
+ * /api/mangas/supported-sites:
  *   get:
- *     description: Get all supported manga sources
+ *     description: Get all supported manga sites
  *     responses:
  *       200:
  *         description: Retrieved successfully
@@ -492,10 +492,9 @@ router.postAsync("/update-multiple", MangaFilterValidator, async (req, res) => {
  *                type: array
  *                items:
  *                  type: string
- *                  format: uri
  */
-router.getAsync("/sources", async (req, res) => {
-  res.json(parserNames);
+router.getAsync("/supported-sites", async (req, res) => {
+  res.json(supportedSites);
 });
 
 module.exports = router;

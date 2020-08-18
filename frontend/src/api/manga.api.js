@@ -1,14 +1,14 @@
 import BaseAPI from "./base.api";
 import { ALL } from "../utils/constants";
 
-const allMeanNoneFields = ["status", "shelf"];
+const allMeanNoneFields = ["status", "shelf", "site"];
 
 class MangaAPI extends BaseAPI {
   constructor() {
     super("mangas");
   }
 
-  get(params, slug = "") {
+  find(params, slug = "") {
     for (let f of allMeanNoneFields) {
       if (params[f] === ALL) {
         delete params[f];
@@ -19,6 +19,10 @@ class MangaAPI extends BaseAPI {
 
   info(link) {
     return this.get({ link }, "info");
+  }
+
+  getSupportedSites() {
+    return this.get({}, "supported-sites");
   }
 }
 

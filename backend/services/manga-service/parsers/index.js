@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-const parserNames = [];
+const supportedSites = [];
 const parsers = [];
 const parserRegexMapping = {};
 
@@ -14,7 +14,7 @@ fs.readdir(__dirname, (err, files) => {
     .filter((file) => otherFiles.indexOf(file) === -1)
     .forEach((file) => {
       const parserModule = require("./" + file);
-      parserNames.push(file);
+      supportedSites.push({ name: file, homepage: parserModule.homepage });
       parsers.push(parserModule);
       parserRegexMapping[file] = parserModule.URLRegex;
     });
@@ -34,7 +34,7 @@ function getParser(url) {
 
 module.exports = {
   parsers,
-  parserNames,
+  supportedSites,
   parserRegexMapping,
   getParser,
 };
