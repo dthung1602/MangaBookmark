@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Button, Dropdown, Menu } from "antd";
 
-import { ALL } from "../../utils/constants";
+import { ANY } from "../../utils/constants";
 import "./FilterDropdown.less";
 
 const FilterDropdown = ({
@@ -10,9 +10,9 @@ const FilterDropdown = ({
   selected,
   displayName,
   onSelect,
-  showALlOption = true,
-  allOptionValue = ALL,
-  allText = "All",
+  showAnyOption = true,
+  anyOptionValue = ANY,
+  anyText = "--",
 }) => {
   const onSelectWrapper = ({ key }) => onSelect(key);
 
@@ -29,7 +29,7 @@ const FilterDropdown = ({
       overlay={
         <div className="filter-dropdown-menu">
           <Menu onSelect={onSelectWrapper} selectedKeys={[selected]}>
-            {showALlOption ? <Menu.Item key={allOptionValue}>{allText}</Menu.Item> : null}
+            {showAnyOption ? <Menu.Item key={anyOptionValue}>{anyText}</Menu.Item> : null}
             {Object.entries(options).map(([key, value]) => (
               <Menu.Item key={key}>{value}</Menu.Item>
             ))}
@@ -42,7 +42,7 @@ const FilterDropdown = ({
     >
       <Button>
         <b>{displayName}: </b>
-        {options[selected] || (showALlOption ? allText : "")}
+        {options[selected] || (showAnyOption ? anyText : "")}
       </Button>
     </Dropdown>
   );
@@ -53,9 +53,9 @@ FilterDropdown.propTypes = {
   selected: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   displayName: PropTypes.string.isRequired,
   onSelect: PropTypes.func.isRequired,
-  showALlOption: PropTypes.bool,
-  allOptionValue: PropTypes.any,
-  allText: PropTypes.node,
+  showAnyOption: PropTypes.bool,
+  anyOptionValue: PropTypes.any,
+  anyText: PropTypes.node,
 };
 
 export default FilterDropdown;

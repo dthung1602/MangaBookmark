@@ -10,12 +10,10 @@ import "./MangaTableDesktop.less";
 
 const { Column } = Table;
 
-const MangaTableDesktop = ({ mangas, mangaCount, isLoading, onChangeReadStatus }) => {
-  let dataSource = mangas;
-  if (isLoading) {
-    const skeletonsToShow = Math.min(MANGA_PER_PAGE, mangaCount - mangas.length) || MANGA_PER_PAGE;
-    dataSource = dataSource.concat(Array(skeletonsToShow).fill({}));
-  }
+const skeletonData = Array(MANGA_PER_PAGE).fill({});
+
+const MangaTableDesktop = ({ mangas, isLoading, onChangeReadStatus }) => {
+  const dataSource = isLoading ? [...mangas, ...skeletonData] : mangas;
 
   return (
     <Table dataSource={dataSource} showHeader={false} pagination={false}>
@@ -63,7 +61,6 @@ const MangaTableDesktop = ({ mangas, mangaCount, isLoading, onChangeReadStatus }
 
 MangaTableDesktop.propTypes = {
   mangas: PropTypes.array.isRequired,
-  mangaCount: PropTypes.number.isRequired,
   isLoading: PropTypes.bool.isRequired,
   onChangeReadStatus: PropTypes.func.isRequired,
 };

@@ -2,7 +2,7 @@
 //       General
 // ------------------------------------------
 export const FRONTEND_VERSION = "3.0.0-a1";
-export const ALL = "all";
+export const ANY = "any";
 export const MANGA_PER_PAGE = 3;
 
 // ------------------------------------------

@@ -5,10 +5,11 @@ import { Collapse, Button, Input, Affix, DatePicker } from "antd";
 import { FilterOutlined, SearchOutlined } from "@ant-design/icons";
 
 import FilterDropdown from "./FilterDropdown";
+import LoopButton from "./LoopButton";
 import { SHELVES, MG_STATUSES, SORTABLE_FIELDS } from "../../utils/constants";
 import { useOnScreenScrollVertically } from "../../hooks";
-import "./FiltersDesktop.less";
 import { GlobalContext } from "../GlobalContext";
+import "./FiltersDesktop.less";
 
 const { Panel } = Collapse;
 const { RangePicker } = DatePicker;
@@ -21,18 +22,17 @@ const FiltersDesktop = ({ filters, updateFilters }) => {
   const [{ supportedSites }] = useContext(GlobalContext);
 
   useOnScreenScrollVertically(onMoveUp, onMoveDown);
-  
+
   const { createdAtGTE, createdAtLTE, lastReleasedGTE, lastReleasedLTE } = filters;
   const createdAt = [
-    createdAtGTE ? moment.utc(createdAtGTE) : createdAtGTE, 
+    createdAtGTE ? moment.utc(createdAtGTE) : createdAtGTE,
     createdAtLTE ? moment.utc(createdAtLTE) : createdAtLTE,
   ];
   const lastReleased = [
     lastReleasedGTE ? moment.utc(lastReleasedGTE) : lastReleasedGTE,
     lastReleasedLTE ? moment.utc(lastReleasedLTE) : lastReleasedLTE,
   ];
-  
-  
+
   const select = (field) => (value) => {
     updateFilters({ [field]: value });
   };
@@ -54,18 +54,18 @@ const FiltersDesktop = ({ filters, updateFilters }) => {
           selected={filters.status}
           onSelect={select("status")}
         />
-        <FilterDropdown
-          displayName={"Site"}
-          options={supportedSites.map((site) => site.name)}
-          selected={filters.site}
-          onSelect={select("site")}
+        <LoopButton
+          displayName={"Completed"}
+          options={["true", "false"]}
+          selected={filters.isCompleted}
+          onSelect={select("isCompleted")}
         />
         <FilterDropdown
           displayName={"Sort"}
           options={SORTABLE_FIELDS}
           selected={filters.sort}
           onSelect={select("sort")}
-          showALlOption={false}
+          showAnyOption={false}
         />
         <Input
           prefix={<SearchOutlined />}
@@ -81,6 +81,18 @@ const FiltersDesktop = ({ filters, updateFilters }) => {
 
       <Collapse bordered={false} activeKey={open ? 1 : undefined}>
         <Panel header={""} key="1" showArrow={false} className="filter-advance">
+          <LoopButton
+            displayName={"Hidden"}
+            options={["true", "false"]}
+            selected={filters.hidden}
+            onSelect={select("hidden")}
+          />
+          <FilterDropdown
+            displayName={"Site"}
+            options={supportedSites.map((site) => site.name)}
+            selected={filters.site}
+            onSelect={select("site")}
+          />
           <div className="ant-btn date-picker">
             <b>Created:</b>
             <RangePicker

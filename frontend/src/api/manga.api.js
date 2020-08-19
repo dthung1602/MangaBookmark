@@ -1,7 +1,7 @@
 import BaseAPI from "./base.api";
-import { ALL } from "../utils/constants";
+import { ANY } from "../utils/constants";
 
-const allMeanNoneFields = ["status", "shelf", "site"];
+const ignoreIfAny = ["shelf", "status", "site", "isCompleted", "hidden"];
 
 class MangaAPI extends BaseAPI {
   constructor() {
@@ -9,8 +9,8 @@ class MangaAPI extends BaseAPI {
   }
 
   find(params, slug = "") {
-    for (let f of allMeanNoneFields) {
-      if (params[f] === ALL) {
+    for (let f of ignoreIfAny) {
+      if (params[f] === ANY) {
         delete params[f];
       }
     }

@@ -11,11 +11,12 @@ import FiltersMobile from "../components/Filters/FiltersMobile";
 import MangaTableDesktop from "../components/MangaTable/MangaTableDesktop";
 import MangaTableMobile from "../components/MangaTable/MangaTableMobile";
 import EndOfList from "../components/EndOfList";
-import { ALL, MANGA_PER_PAGE, READING, SORT_DEC_STATUS } from "../utils/constants";
+import { ANY, MANGA_PER_PAGE, SORT_DEC_STATUS } from "../utils/constants";
 import { MangaAPI } from "../api";
 import { removeUndefinedAttrs, removeEmptyStringAttrs } from "../utils";
 import { checkResponse, notifyError } from "../utils/error-handler";
 import "./Mangas.less";
+import { any } from "prop-types";
 
 const { Title } = Typography;
 
@@ -27,22 +28,26 @@ const Mangas = () => {
   const [allLoaded, setAllLoaded] = useState(false);
 
   const [filters, setFilters] = useQueryParams({
-    shelf: withDefault(StringParam, READING),
-    status: withDefault(StringParam, ALL),
+    shelf: withDefault(StringParam, ANY),
+    status: withDefault(StringParam, ANY),
     sort: withDefault(StringParam, SORT_DEC_STATUS),
     search: StringParam,
-    site: withDefault(StringParam, ALL),
+    isCompleted: withDefault(StringParam, ANY),
+    hidden: withDefault(StringParam, ANY),
+    site: withDefault(StringParam, ANY),
     createdAtGTE: StringParam,
     createdAtLTE: StringParam,
     lastReleasedGTE: StringParam,
     lastReleasedLTE: StringParam,
   });
+
   const updateFilters = (values) => {
     const newFilters = { ...filters, ...values };
     removeEmptyStringAttrs(newFilters);
     removeUndefinedAttrs(newFilters);
     setFilters(newFilters, "push");
     setPage(1);
+    setMangas([]);
   };
 
   useEffect(() => {
@@ -88,7 +93,7 @@ const Mangas = () => {
                   </span>
                 </div>
                 <FiltersDesktop filters={filters} updateFilters={updateFilters} />
-                <MangaTableDesktop mangas={mangas} mangaCount={mangaCount} isLoading={isLoading} onChangeReadStatus={onChangeReadStatus} />
+                <MangaTableDesktop mangas={mangas} isLoading={isLoading} onChangeReadStatus={onChangeReadStatus} />
                 <EndOfList onReached={() => setPage(page + 1)} disabled={isLoading || allLoaded} />
               </div>
               <RightPanel />

@@ -74,11 +74,12 @@
         - [ ] update
         - [ ] read
         - [ ] mark chapters
-    - [ ] Advanced search & filter
-        - [ ] created date
-        - [ ] last updated date
-        - [ ] last read date
+    - [x] Advanced search & filter
+        - [x] created date
+        - [x] last released
         - [x] site
+        - [x] is completed
+        - [x] hidden
         
 - [ ] Home page
 - [ ] Legal notice page 
