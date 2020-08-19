@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { StringParam, useQueryParams, withDefault } from "use-query-params";
 import { Layout, Typography } from "antd";
-import "./Mangas.less";
 
 import { Desktop, Mobile } from "../components/ScreenSize";
 import PageLayout from "./PageLayout";
@@ -10,11 +10,12 @@ import FiltersDesktop from "../components/Filters/FiltersDesktop";
 import FiltersMobile from "../components/Filters/FiltersMobile";
 import MangaTableDesktop from "../components/MangaTable/MangaTableDesktop";
 import MangaTableMobile from "../components/MangaTable/MangaTableMobile";
-import { StringParam, useQueryParams, withDefault } from "use-query-params";
+import EndOfList from "../components/EndOfList";
 import { ALL, MANGA_PER_PAGE, READING, SORT_DEC_STATUS } from "../utils/constants";
 import { MangaAPI } from "../api";
+import { removeUndefinedAttrs, removeEmptyStringAttrs } from "../utils";
 import { checkResponse, notifyError } from "../utils/error-handler";
-import EndOfList from "../components/EndOfList";
+import "./Mangas.less";
 
 const { Title } = Typography;
 
@@ -31,9 +32,16 @@ const Mangas = () => {
     sort: withDefault(StringParam, SORT_DEC_STATUS),
     search: StringParam,
     site: withDefault(StringParam, ALL),
+    createdAtGTE: StringParam,
+    createdAtLTE: StringParam,
+    lastReleasedGTE: StringParam,
+    lastReleasedLTE: StringParam,
   });
   const updateFilters = (values) => {
-    setFilters({ ...filters, ...values }, "push");
+    const newFilters = { ...filters, ...values };
+    removeEmptyStringAttrs(newFilters);
+    removeUndefinedAttrs(newFilters);
+    setFilters(newFilters, "push");
     setPage(1);
   };
 
@@ -80,7 +88,7 @@ const Mangas = () => {
                   </span>
                 </div>
                 <FiltersDesktop filters={filters} updateFilters={updateFilters} />
-                <MangaTableDesktop mangas={mangas} isLoading={isLoading} onChangeReadStatus={onChangeReadStatus} />
+                <MangaTableDesktop mangas={mangas} mangaCount={mangaCount} isLoading={isLoading} onChangeReadStatus={onChangeReadStatus} />
                 <EndOfList onReached={() => setPage(page + 1)} disabled={isLoading || allLoaded} />
               </div>
               <RightPanel />

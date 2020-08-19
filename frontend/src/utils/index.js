@@ -20,6 +20,17 @@ export const removeUndefinedAttrs = (obj) => {
   return obj;
 };
 
+export const removeEmptyStringAttrs = (obj) => {
+  if (obj) {
+    for (let key of Object.keys(obj)) {
+      if (obj[key] === "") {
+        delete obj[key];
+      }
+    }
+  }
+  return obj;
+};
+
 export const isEmptyObject = (obj) => {
   return Object.keys(obj).length === 0;
 };

@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
-import { Dropdown, Collapse, Button, Input, Affix } from "antd";
+import moment from "moment";
+import { Collapse, Button, Input, Affix, DatePicker } from "antd";
 import { FilterOutlined, SearchOutlined } from "@ant-design/icons";
 
 import FilterDropdown from "./FilterDropdown";
@@ -10,6 +11,7 @@ import "./FiltersDesktop.less";
 import { GlobalContext } from "../GlobalContext";
 
 const { Panel } = Collapse;
+const { RangePicker } = DatePicker;
 
 const onMoveUp = () => document.querySelector(".filter-container .ant-affix")?.classList.add("offset");
 const onMoveDown = () => document.querySelector(".filter-container .ant-affix")?.classList.remove("offset");
@@ -19,9 +21,27 @@ const FiltersDesktop = ({ filters, updateFilters }) => {
   const [{ supportedSites }] = useContext(GlobalContext);
 
   useOnScreenScrollVertically(onMoveUp, onMoveDown);
-
+  
+  const { createdAtGTE, createdAtLTE, lastReleasedGTE, lastReleasedLTE } = filters;
+  const createdAt = [
+    createdAtGTE ? moment.utc(createdAtGTE) : createdAtGTE, 
+    createdAtLTE ? moment.utc(createdAtLTE) : createdAtLTE,
+  ];
+  const lastReleased = [
+    lastReleasedGTE ? moment.utc(lastReleasedGTE) : lastReleasedGTE,
+    lastReleasedLTE ? moment.utc(lastReleasedLTE) : lastReleasedLTE,
+  ];
+  
+  
   const select = (field) => (value) => {
     updateFilters({ [field]: value });
+  };
+
+  const selectDateRange = (field) => (dates, dateStrings) => {
+    updateFilters({
+      [field + "GTE"]: dateStrings[0],
+      [field + "LTE"]: dateStrings[1],
+    });
   };
 
   return (
@@ -35,13 +55,18 @@ const FiltersDesktop = ({ filters, updateFilters }) => {
           onSelect={select("status")}
         />
         <FilterDropdown
+          displayName={"Site"}
+          options={supportedSites.map((site) => site.name)}
+          selected={filters.site}
+          onSelect={select("site")}
+        />
+        <FilterDropdown
           displayName={"Sort"}
           options={SORTABLE_FIELDS}
           selected={filters.sort}
           onSelect={select("sort")}
           showALlOption={false}
         />
-
         <Input
           prefix={<SearchOutlined />}
           placeholder="Search ..."
@@ -56,21 +81,26 @@ const FiltersDesktop = ({ filters, updateFilters }) => {
 
       <Collapse bordered={false} activeKey={open ? 1 : undefined}>
         <Panel header={""} key="1" showArrow={false} className="filter-advance">
-          <FilterDropdown
-            displayName={"Site"}
-            options={supportedSites.map((site) => site.name)}
-            selected={filters.site}
-            onSelect={select("site")}
-          />
-          <Dropdown overlay={<div>s</div>} placement="bottomCenter" arrow>
-            <Button>bottomCenter</Button>
-          </Dropdown>
-          <Dropdown overlay={<div>s</div>} placement="bottomCenter" arrow>
-            <Button>bottomCenter</Button>
-          </Dropdown>
-          <Dropdown overlay={<div>s</div>} placement="bottomCenter" arrow>
-            <Button>bottomCenter</Button>
-          </Dropdown>
+          <div className="ant-btn date-picker">
+            <b>Created:</b>
+            <RangePicker
+              value={createdAt}
+              onChange={selectDateRange("createdAt")}
+              size="small"
+              allowEmpty={[true, true]}
+              bordered={false}
+            />
+          </div>
+          <div className="ant-btn date-picker">
+            <b>Last released:</b>
+            <RangePicker
+              value={lastReleased}
+              onChange={selectDateRange("lastReleased")}
+              size="small"
+              allowEmpty={[true, true]}
+              bordered={false}
+            />
+          </div>
         </Panel>
       </Collapse>
     </Affix>

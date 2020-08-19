@@ -5,14 +5,17 @@ import { Table, Skeleton } from "antd";
 import MangaBasicInfo from "./MangaBasicInfo";
 import ChapterDropdownButton from "../../ChapterDropdownButton";
 import { isEmptyObject } from "../../../utils";
+import { MANGA_PER_PAGE } from "../../../utils/constants";
 import "./MangaTableDesktop.less";
 
 const { Column } = Table;
 
-const skeletonData = Array(5).fill({});
-
-const MangaTableDesktop = ({ mangas, isLoading, onChangeReadStatus }) => {
-  const dataSource = isLoading ? [...mangas, ...skeletonData] : mangas;
+const MangaTableDesktop = ({ mangas, mangaCount, isLoading, onChangeReadStatus }) => {
+  let dataSource = mangas;
+  if (isLoading) {
+    const skeletonsToShow = Math.min(MANGA_PER_PAGE, mangaCount - mangas.length) || MANGA_PER_PAGE;
+    dataSource = dataSource.concat(Array(skeletonsToShow).fill({}));
+  }
 
   return (
     <Table dataSource={dataSource} showHeader={false} pagination={false}>
@@ -60,6 +63,7 @@ const MangaTableDesktop = ({ mangas, isLoading, onChangeReadStatus }) => {
 
 MangaTableDesktop.propTypes = {
   mangas: PropTypes.array.isRequired,
+  mangaCount: PropTypes.number.isRequired,
   isLoading: PropTypes.bool.isRequired,
   onChangeReadStatus: PropTypes.func.isRequired,
 };

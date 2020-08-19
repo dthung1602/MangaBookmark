@@ -18,11 +18,12 @@ class ErrorBoundary extends React.Component {
   }
 
   reload() {
-    window.location.reload(true);
+    window.location.reload();
   }
 
   render() {
     if (this.state.error) {
+      console.log(this.state.error);
       return (
         <Result
           status="error"
