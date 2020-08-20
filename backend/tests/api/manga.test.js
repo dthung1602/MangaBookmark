@@ -153,10 +153,11 @@ describe("Manga API", () => {
     };
 
     const response = await request(app).patch(`/api/mangas/${mangaId}`).send(editContent);
-    expect(response.status).toEqual(204);
+    delete editContent.manga;
+    expect(response.status).toEqual(200);
+    expect(response.body).toEqual(expect.objectContaining(editContent));
 
     const manga = await Manga.findById(mangaId);
-    delete editContent.manga;
     expect(manga).toEqual(expect.objectContaining(editContent));
   });
 
@@ -225,7 +226,8 @@ describe("Manga API", () => {
     };
 
     const response = await request(app).post(`/api/mangas/${mangaId}/mark-chapters`).send(requestContent);
-    expect(response.status).toEqual(204);
+    expect(response.status).toEqual(200);
+    expect(map(response.body.chapters, "isRead")).toEqual(expectedIsReads);
 
     let manga = await Manga.findById(mangaId);
     expect(map(manga.chapters, "isRead")).toEqual(expectedIsReads);

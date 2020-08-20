@@ -10,6 +10,7 @@ const MAX_LEN_CHAP_NAME = 25;
 function ChapterDropdownButton({
   chapters,
   onChangeReadStatus,
+  isLoading = false,
   defaultShowReadChaps = false,
   defaultShowCheckBoxes = false,
   size = "middle",
@@ -52,6 +53,7 @@ function ChapterDropdownButton({
       size={size}
       overlay={
         <ChapterList
+          isLoading={isLoading}
           chapters={chapters}
           defaultShowReadChaps={defaultShowReadChaps}
           defaultShowCheckBoxes={defaultShowCheckBoxes}
@@ -71,6 +73,7 @@ function ChapterDropdownButton({
 ChapterDropdownButton.propTypes = {
   chapters: PropTypes.array.isRequired,
   onChangeReadStatus: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
   defaultShowReadChaps: PropTypes.bool,
   defaultShowCheckBoxes: PropTypes.bool,
   size: PropTypes.string,

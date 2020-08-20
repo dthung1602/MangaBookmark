@@ -24,6 +24,10 @@ class MangaAPI extends BaseAPI {
   getSupportedSites() {
     return this.get({}, "supported-sites");
   }
+
+  markChapters(mangaId, isRead, chapterLinks) {
+    return this.post({ isRead, chapters: chapterLinks }, `${mangaId}/mark-chapters`);
+  }
 }
 
 export default new MangaAPI();

@@ -373,6 +373,42 @@
           },
           {
             "in": "query",
+            "name": "createdAtGTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "createdAtLTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "lastReleasedGTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "lastReleasedLTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
             "name": "page",
             "schema": {
               "type": "integer",
@@ -540,8 +576,15 @@
           }
         },
         "responses": {
-          "204": {
-            "description": "Manga updated successfully"
+          "200": {
+            "description": "Manga edited successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Manga"
+                }
+              }
+            }
           }
         }
       }
@@ -651,8 +694,15 @@
           }
         },
         "responses": {
-          "204": {
-            "description": "Chapters updated successfully"
+          "201": {
+            "description": "Chapters marked successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Manga"
+                }
+              }
+            }
           }
         }
       }
@@ -742,6 +792,42 @@
             "name": "site",
             "schema": {
               "type": "string",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "createdAtGTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "createdAtLTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "lastReleasedGTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "lastReleasedLTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
               "required": false
             }
           },

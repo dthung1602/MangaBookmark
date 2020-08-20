@@ -50,7 +50,8 @@ const MangaTableDesktop = ({ mangas, isLoading, onChangeReadStatus }) => {
           return (
             <ChapterDropdownButton
               chapters={manga.chapters}
-              onChangeReadStatus={(isRead, chapIds) => onChangeReadStatus(manga, isRead, chapIds)}
+              isLoading={manga.isLoading}
+              onChangeReadStatus={(isRead, chapLinks) => onChangeReadStatus(manga._id, isRead, chapLinks)}
             />
           );
         }}

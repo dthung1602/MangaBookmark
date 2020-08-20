@@ -15,12 +15,11 @@ import { ANY, MANGA_PER_PAGE, SORT_DEC_STATUS } from "../utils/constants";
 import { MangaAPI } from "../api";
 import { removeUndefinedAttrs, removeEmptyStringAttrs } from "../utils";
 import { checkResponse, notifyError } from "../utils/error-handler";
-import "./Mangas.less";
-import { any } from "prop-types";
+import "./AllMangas.less";
 
 const { Title } = Typography;
 
-const Mangas = () => {
+const AllMangas = () => {
   const [mangas, setMangas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -56,27 +55,46 @@ const Mangas = () => {
       .then(async (response) => {
         checkResponse(response);
         const { data, totalItem, isLastPage } = await response.json();
+
+        setMangaCount(totalItem);
         setAllLoaded(isLastPage);
+
+        data.forEach((mg) => (mg.isLoading = false));
         if (page === 1) {
           setMangas([...data]);
         } else {
           setMangas([...mangas, ...data]);
         }
-        setMangaCount(totalItem);
       })
       .catch(notifyError)
       .finally(() => setIsLoading(false));
   }, [filters, page]);
 
-  const onChangeReadStatus = (manga, isRead, chapIds) => {
-    // TODO
-    // const cloneManga = clonePlainObject(manga);
-    // cloneManga.chapters.forEach((ch) => {
-    //   if (chapIds.includes(ch.link)) {
-    //     ch.isRead = isRead;
-    //   }
-    // });
-    // setManga(cloneManga);
+  const onChangeReadStatus = (mangaId, isRead, chapLinks) => {
+    setMangas((prevState) => {
+      prevState.find((mg) => mg._id === mangaId).isLoading = true;
+      return [...prevState];
+    });
+
+    MangaAPI.markChapters(mangaId, isRead, chapLinks)
+      .then(async (response) => {
+        checkResponse(response);
+        const newManga = await response.json();
+        console.log(newManga);
+        newManga.isLoading = false;
+        setMangas((prevState) => {
+          const idx = prevState.findIndex((mg) => mg._id === mangaId);
+          prevState[idx] = newManga;
+          return [...prevState];
+        });
+      })
+      .catch((e) => {
+        notifyError(e);
+        setMangas((prevState) => {
+          prevState.find((mg) => mg._id === mangaId).isLoading = false;
+          return [...prevState];
+        });
+      });
   };
 
   return (
@@ -114,4 +132,4 @@ const Mangas = () => {
   );
 };
 
-export default Mangas;
+export default AllMangas;

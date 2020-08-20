@@ -19,7 +19,7 @@ import FullScreenLoading from "./FullScreenLoading";
 const Account = lazy(() => import("../pages/Account"));
 const Home = lazy(() => import("../pages/Home"));
 const Login = lazy(() => import("../pages/Login"));
-const Mangas = lazy(() => import("../pages/Mangas"));
+const Mangas = lazy(() => import("../pages/AllMangas"));
 const RecentlyUpdatedMangas = lazy(() => import("../pages/RecentlyUpdatedMangas"));
 const Register = lazy(() => import("../pages/Register"));
 const LegalNotice = lazy(() => import("../pages/LegalNotice"));

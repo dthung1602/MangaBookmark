@@ -81,7 +81,7 @@ function handleMangaParsingError(res, e) {
  *           type: string
  *           format: date
  *           required: false
- *        - in: query
+ *       - in: query
  *         name: lastReleasedGTE
  *         schema:
  *           type: string
@@ -231,12 +231,16 @@ router.postAsync("/", MangaCreateValidator, async (req, res) => {
  *                 enum: [to read, reading, waiting, dropped, finished]
  *                 required: false
  *     responses:
- *       204:
- *         description: Manga updated successfully
+ *       200:
+ *         description: Manga edited successfully
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Manga'
  */
 router.patchAsync("/:manga", MangaPatchValidator, async (req, res) => {
-  await MangaService.patch(req.manga, req.body);
-  res.sendStatus(204);
+  let manga = await MangaService.patch(req.manga, req.body);
+  res.json(manga);
 });
 
 //-----------------------------------
@@ -341,14 +345,18 @@ router.getAsync("/info", MangaInfoValidator, async (req, res) => {
  *                   type: string
  *                   format: uri
  *     responses:
- *       204:
- *         description: Chapters updated successfully
+ *       201:
+ *         description: Chapters marked successfully
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Manga'
  */
 router.postAsync("/:manga/mark-chapters", MarkChapterValidator, async (req, res) => {
   const { chapters, isRead } = req.body;
-  const { manga } = req;
-  await MangaService.markChapters(manga, isRead, chapters);
-  res.sendStatus(204);
+  let { manga } = req;
+  manga = await MangaService.markChapters(manga, isRead, chapters);
+  res.json(manga);
 });
 
 //-----------------------------------
@@ -425,6 +433,30 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
  *         name: site
  *         schema:
  *           type: string
+ *           required: false
+ *       - in: query
+ *         name: createdAtGTE
+ *         schema:
+ *           type: string
+ *           format: date
+ *           required: false
+ *       - in: query
+ *         name: createdAtLTE
+ *         schema:
+ *           type: string
+ *           format: date
+ *           required: false
+ *       - in: query
+ *         name: lastReleasedGTE
+ *         schema:
+ *           type: string
+ *           format: date
+ *           required: false
+ *       - in: query
+ *         name: lastReleasedLTE
+ *         schema:
+ *           type: string
+ *           format: date
  *           required: false
  *       - in: query
  *         name: page
