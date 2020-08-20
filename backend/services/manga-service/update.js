@@ -25,6 +25,7 @@ module.exports = async function (manga) {
 
   if (manga.newChapCount > 0) {
     manga.chapters = crawledChapters;
+    manga.lastReleased = new Date();
     manga.markModified("chapters");
   }
 

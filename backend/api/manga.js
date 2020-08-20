@@ -70,6 +70,30 @@ function handleMangaParsingError(res, e) {
  *           type: string
  *           required: false
  *       - in: query
+ *         name: createdAtGTE
+ *         schema:
+ *           type: string
+ *           format: date
+ *           required: false
+ *       - in: query
+ *         name: createdAtLTE
+ *         schema:
+ *           type: string
+ *           format: date
+ *           required: false
+ *        - in: query
+ *         name: lastReleasedGTE
+ *         schema:
+ *           type: string
+ *           format: date
+ *           required: false
+ *       - in: query
+ *         name: lastReleasedLTE
+ *         schema:
+ *           type: string
+ *           format: date
+ *           required: false
+ *       - in: query
  *         name: page
  *         schema:
  *           type: integer

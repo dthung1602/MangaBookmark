@@ -74,6 +74,7 @@
         - [ ] update
         - [ ] read
         - [ ] mark chapters
+    - [ ] Latest updated mangas view
     - [x] Advanced search & filter
         - [x] created date
         - [x] last released
@@ -110,22 +111,22 @@
 - [ ] Manga expected next release
 
 - [ ] Crawl new info:
+    - [ ] language
+    - [ ] last released
     - [ ] alternative name
     - [ ] tag
     - [ ] description
     - [ ] author
 
-- [ ] Latest updated mangas view
+- [ ] Crawl error report
 
 - [ ] Reread shelf?
 
 - [ ] Change loading icon
 
-- [ ] New source. See [this](https://www.epubor.com/free-manga-sites-to-read-manga-online-for-free.html)
+- [ ] New sites. See [this](https://www.epubor.com/free-manga-sites-to-read-manga-online-for-free.html)
 
 - [ ] One master note for user -> take note everything
-
-- [ ] Improve account page UI
 
 - [ ] In-site reading mode (for some src only)
 

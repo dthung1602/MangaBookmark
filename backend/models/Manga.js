@@ -133,6 +133,7 @@ const MangaSchema = new mongoose.Schema(
     image: String,
 
     chapters: [ChapterSchema],
+    lastReleased: Date,
     newChapCount: Number,
     unreadChapCount: Number,
     isCompleted: {
