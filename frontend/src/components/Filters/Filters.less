@@ -1,11 +1,12 @@
 @import "../../variables";
 
+.filter-btn {
+  margin-top: 4px;
+  margin-right: 4px;
+}
+
 .filter-container {
   margin: 0;
-
-  .ant-btn {
-    margin-right: 4px;
-  }
 
   .ant-affix {
     transition: top @navbar-toggle-duration;
@@ -18,6 +19,7 @@
 
 .filter-basic {
   display: flex;
+  align-items: baseline;
   background: white;
   padding: 12px;
 
@@ -33,7 +35,6 @@
   }
 
   .ant-input-affix-wrapper {
-    margin-right: 4px;
     max-width: 200px !important;
     transition: max-width 0.3s;
     &.ant-input-affix-wrapper-focused {
@@ -46,24 +47,29 @@
   padding: 0 12px;
   background: white;
   box-shadow: @box-shadow;
+
   .ant-collapse-header {
     padding: 0 6px !important;
   }
   .ant-collapse-content-box {
-    display: flex;
     padding: 0 !important;
   }
   .ant-collapse-content-active {
     padding-bottom: 12px;
   }
+
   .date-picker {
     display: flex;
+    width: 100%;
     max-width: 325px;
-    .ant-picker {
-      padding-right: 0;
+    @media (max-width: @bp-sm) {
+      max-width: none;
     }
-    .ant-picker-clear {
-      right: 0 !important;
-    }
+  }
+  .ant-picker {
+    padding-right: 0;
+  }
+  .ant-picker-clear {
+    right: 0 !important;
   }
 }

@@ -36,6 +36,8 @@ const FilterDropdown = ({
           </Menu>
         </div>
       }
+      trigger={["hover", "click"]}
+      className="filter-btn"
       overlayClassName="box-shadow"
       placement="bottomCenter"
       arrow

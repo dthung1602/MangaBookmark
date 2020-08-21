@@ -26,7 +26,7 @@ const LoopButton = ({
   const nextValue = keys[(keys.indexOf(selected) + 1) % keys.length];
 
   return (
-    <Button onClick={() => onSelect(nextValue)}>
+    <Button className="filter-btn" onClick={() => onSelect(nextValue)}>
       <b>{displayName}: </b>
       {options[selected] || (showAnyOption ? anyText : "")}
     </Button>

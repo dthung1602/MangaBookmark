@@ -16,7 +16,7 @@ const MangaTableDesktop = ({ mangas, isLoading, onChangeReadStatus }) => {
   const dataSource = isLoading ? [...mangas, ...skeletonData] : mangas;
 
   return (
-    <Table dataSource={dataSource} showHeader={false} pagination={false}>
+    <Table className="manga-table-desktop" dataSource={dataSource} showHeader={false} pagination={false}>
       <Column
         dataIndex="image"
         key="image"

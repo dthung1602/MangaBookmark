@@ -6,8 +6,7 @@ import { Desktop, Mobile } from "../components/ScreenSize";
 import PageLayout from "./PageLayout";
 import FAB from "../components/FAB";
 import RightPanel from "../components/RightPanel";
-import FiltersDesktop from "../components/Filters/FiltersDesktop";
-import FiltersMobile from "../components/Filters/FiltersMobile";
+import Filters from "../components/Filters";
 import MangaTableDesktop from "../components/MangaTable/MangaTableDesktop";
 import MangaTableMobile from "../components/MangaTable/MangaTableMobile";
 import EndOfList from "../components/EndOfList";
@@ -63,7 +62,7 @@ const AllMangas = () => {
         if (page === 1) {
           setMangas([...data]);
         } else {
-          setMangas([...mangas, ...data]);
+          setMangas((prevState) => [...prevState, ...data]);
         }
       })
       .catch(notifyError)
@@ -103,14 +102,14 @@ const AllMangas = () => {
         <Desktop
           render={() => (
             <>
-              <div className="manga-table-desktop">
-                <div className="title">
+              <div className="left-panel">
+                <div className="manga-table-title">
                   <Title level={3}>All mangas</Title>
                   <span>
                     {mangaCount} manga{mangaCount > 1 ? "s" : ""}
                   </span>
                 </div>
-                <FiltersDesktop filters={filters} updateFilters={updateFilters} />
+                <Filters filters={filters} updateFilters={updateFilters} />
                 <MangaTableDesktop mangas={mangas} isLoading={isLoading} onChangeReadStatus={onChangeReadStatus} />
                 <EndOfList onReached={() => setPage(page + 1)} disabled={isLoading || allLoaded} />
               </div>
@@ -121,7 +120,13 @@ const AllMangas = () => {
         <Mobile
           render={() => (
             <>
-              <FiltersMobile />
+              <div className="manga-table-title">
+                <Title level={4}>All mangas</Title>
+                <span>
+                  {mangaCount} manga{mangaCount > 1 ? "s" : ""}
+                </span>
+              </div>
+              <Filters filters={filters} updateFilters={updateFilters} />
               <MangaTableMobile />
             </>
           )}
