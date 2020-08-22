@@ -38,3 +38,44 @@
 .ant-modal-footer {
   padding: 10px 24px;
 }
+
+.triangle {
+  position: relative;
+
+  &:after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-color: transparent;
+    border-width: 15px;
+    position: absolute;
+  }
+
+  &.top-right:after {
+    top: 0;
+    right: 0;
+    border-bottom-color: transparent !important;
+    border-left-color: transparent !important;
+  }
+
+  &.bottom-right:after {
+    bottom: 0;
+    right: 0;
+    border-top-color: transparent !important;
+    border-left-color: transparent !important;
+  }
+
+  &.new-chap:after {
+    border-color: @green-6;
+  }
+  &.many-to-read:after {
+    border-color: @gold-6;
+  }
+  &.last-chap-reached:after {
+    border-color: @blue-6;
+  }
+  &.finished:after {
+    border-color: grey;
+  }
+}

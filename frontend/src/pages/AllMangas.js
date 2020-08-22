@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StringParam, useQueryParams, withDefault } from "use-query-params";
-import { Layout, Typography } from "antd";
+import { Layout, PageHeader } from "antd";
 
 import { Desktop, Mobile } from "../components/ScreenSize";
 import PageLayout from "./PageLayout";
@@ -15,8 +15,6 @@ import { MangaAPI } from "../api";
 import { removeUndefinedAttrs, removeEmptyStringAttrs } from "../utils";
 import { checkResponse, notifyError } from "../utils/error-handler";
 import "./AllMangas.less";
-
-const { Title } = Typography;
 
 const AllMangas = () => {
   const [mangas, setMangas] = useState([]);
@@ -79,7 +77,6 @@ const AllMangas = () => {
       .then(async (response) => {
         checkResponse(response);
         const newManga = await response.json();
-        console.log(newManga);
         newManga.isLoading = false;
         setMangas((prevState) => {
           const idx = prevState.findIndex((mg) => mg._id === mangaId);
@@ -96,6 +93,17 @@ const AllMangas = () => {
       });
   };
 
+  const mangaCountString = `${mangaCount} manga${mangaCount > 1 ? "s" : ""}`;
+  const pageHeader = (
+    <PageHeader
+      title="All mangas"
+      extra={mangaCountString}
+      className="manga-table-title"
+      backIcon={false}
+      ghost={false}
+    />
+  );
+
   return (
     <PageLayout>
       <Layout>
@@ -103,12 +111,7 @@ const AllMangas = () => {
           render={() => (
             <>
               <div className="left-panel">
-                <div className="manga-table-title">
-                  <Title level={3}>All mangas</Title>
-                  <span>
-                    {mangaCount} manga{mangaCount > 1 ? "s" : ""}
-                  </span>
-                </div>
+                {pageHeader}
                 <Filters filters={filters} updateFilters={updateFilters} />
                 <MangaTableDesktop mangas={mangas} isLoading={isLoading} onChangeReadStatus={onChangeReadStatus} />
                 <EndOfList onReached={() => setPage(page + 1)} disabled={isLoading || allLoaded} />
@@ -120,14 +123,10 @@ const AllMangas = () => {
         <Mobile
           render={() => (
             <>
-              <div className="manga-table-title">
-                <Title level={4}>All mangas</Title>
-                <span>
-                  {mangaCount} manga{mangaCount > 1 ? "s" : ""}
-                </span>
-              </div>
+              {pageHeader}
               <Filters filters={filters} updateFilters={updateFilters} />
-              <MangaTableMobile />
+              <MangaTableMobile mangas={mangas} isLoading={isLoading} onChangeReadStatus={onChangeReadStatus} />
+              <EndOfList onReached={() => setPage(page + 1)} disabled={isLoading || allLoaded} />
             </>
           )}
         />

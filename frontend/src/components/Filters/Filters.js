@@ -35,10 +35,17 @@ const Filters = ({ filters, updateFilters }) => {
   };
 
   const shelfFilter = (
-    <FilterDropdown displayName={"Shelf"} options={SHELVES} selected={filters.shelf} onSelect={select("shelf")} />
+    <FilterDropdown
+      key="shelf"
+      displayName={"Shelf"}
+      options={SHELVES}
+      selected={filters.shelf}
+      onSelect={select("shelf")}
+    />
   );
   const statusFilter = (
     <FilterDropdown
+      key="status"
       displayName={"Status"}
       options={MG_STATUSES}
       selected={filters.status}
@@ -47,6 +54,7 @@ const Filters = ({ filters, updateFilters }) => {
   );
   const isCompletedFilter = (
     <LoopButton
+      key="isCompleted"
       displayName={"Completed"}
       options={["true", "false"]}
       selected={filters.isCompleted}
@@ -55,6 +63,7 @@ const Filters = ({ filters, updateFilters }) => {
   );
   const sort = (
     <FilterDropdown
+      key="sort"
       displayName={"Sort"}
       options={SORTABLE_FIELDS}
       selected={filters.sort}
@@ -64,6 +73,7 @@ const Filters = ({ filters, updateFilters }) => {
   );
   const search = (
     <Input
+      key="search"
       className="filter-btn"
       prefix={<SearchOutlined />}
       placeholder="Search ..."
@@ -73,6 +83,7 @@ const Filters = ({ filters, updateFilters }) => {
   );
   const hiddenFilter = (
     <LoopButton
+      key="hidden"
       displayName={"Hidden"}
       options={["true", "false"]}
       selected={filters.hidden}
@@ -81,6 +92,7 @@ const Filters = ({ filters, updateFilters }) => {
   );
   const siteFilter = (
     <FilterDropdown
+      key="site"
       displayName={"Site"}
       options={supportedSites.map((site) => site.name)}
       selected={filters.site}
@@ -89,6 +101,7 @@ const Filters = ({ filters, updateFilters }) => {
   );
   const createdAtFilter = (
     <DateFilter
+      key="createdAt"
       displayName={"Created"}
       onSelect={selectDateRange("createdAt")}
       value={[filters.createdAtGTE, filters.createdAtLTE]}
@@ -96,6 +109,7 @@ const Filters = ({ filters, updateFilters }) => {
   );
   const lastReleasedFilter = (
     <DateFilter
+      key="lastReleased"
       displayName={"Last released"}
       onSelect={selectDateRange("lastReleased")}
       value={[filters.lastReleasedGTE, filters.lastReleasedLTE]}

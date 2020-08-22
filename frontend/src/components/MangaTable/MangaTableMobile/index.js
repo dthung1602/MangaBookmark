@@ -1,4 +1,2 @@
-import React from "react";
-
-const MangaTableMobile = () => <div>manga table mobile</div>;
+import MangaTableMobile from "./MangaTableMobile";
 export default MangaTableMobile;

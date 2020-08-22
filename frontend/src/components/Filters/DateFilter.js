@@ -17,7 +17,7 @@ const DateFilter = ({ displayName, value, onSelect }) => {
 };
 
 DateFilter.propTypes = {
-  value: PropTypes.object.isRequired,
+  value: PropTypes.array.isRequired,
   displayName: PropTypes.string.isRequired,
   onSelect: PropTypes.func.isRequired,
 };

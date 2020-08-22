@@ -2,8 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Table, Skeleton } from "antd";
 
-import MangaBasicInfo from "./MangaBasicInfo";
+import MangaBasicInfo from "../MangaBasicInfo";
 import ChapterDropdownButton from "../../ChapterDropdownButton";
+import { statusToClassMapping } from "../utils";
 import { isEmptyObject } from "../../../utils";
 import { MANGA_PER_PAGE } from "../../../utils/constants";
 import "./MangaTableDesktop.less";
@@ -16,11 +17,17 @@ const MangaTableDesktop = ({ mangas, isLoading, onChangeReadStatus }) => {
   const dataSource = isLoading ? [...mangas, ...skeletonData] : mangas;
 
   return (
-    <Table className="manga-table-desktop" dataSource={dataSource} showHeader={false} pagination={false}>
+    <Table
+      className="manga-table-desktop"
+      dataSource={dataSource}
+      showHeader={false}
+      pagination={false}
+      rowClassName={(manga) => "triangle top-right " + statusToClassMapping[manga.status]}
+    >
       <Column
         dataIndex="image"
         key="image"
-        width={100}
+        width={120}
         render={(text, manga) => {
           if (isEmptyObject(manga)) {
             return <Skeleton.Image active />;
@@ -36,7 +43,7 @@ const MangaTableDesktop = ({ mangas, isLoading, onChangeReadStatus }) => {
           if (isEmptyObject(manga)) {
             return <Skeleton active />;
           }
-          return <MangaBasicInfo {...manga} />;
+          return <MangaBasicInfo manga={manga} />;
         }}
       />
       <Column
