@@ -1,9 +1,2 @@
-import React from "react";
-
-import "./RightPanel.less";
-
-const RightPanel = () => {
-  return <div className="right-panel">RIGHT PANEL</div>;
-};
-
+import RightPanel from "./RightPanel";
 export default RightPanel;

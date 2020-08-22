@@ -38,3 +38,7 @@ export const isEmptyObject = (obj) => {
 export const clonePlainObject = (obj) => {
   return JSON.parse(JSON.stringify(obj));
 };
+
+export const disableBackgroundScrolling = (disable) => {
+  document.body.style.overflowY = disable ? "hidden" : "scroll";
+};

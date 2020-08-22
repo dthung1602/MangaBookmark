@@ -18,6 +18,7 @@ import "./AllMangas.less";
 
 const AllMangas = () => {
   const [mangas, setMangas] = useState([]);
+  const [selectedManga, setSelectedManga] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [mangaCount, setMangaCount] = useState(NaN);
@@ -44,6 +45,7 @@ const AllMangas = () => {
     setFilters(newFilters, "push");
     setPage(1);
     setMangas([]);
+    setSelectedManga(null);
   };
 
   useEffect(() => {
@@ -113,10 +115,15 @@ const AllMangas = () => {
               <div className="left-panel">
                 {pageHeader}
                 <Filters filters={filters} updateFilters={updateFilters} />
-                <MangaTableDesktop mangas={mangas} isLoading={isLoading} onChangeReadStatus={onChangeReadStatus} />
+                <MangaTableDesktop
+                  mangas={mangas}
+                  isLoading={isLoading}
+                  onChangeReadStatus={onChangeReadStatus}
+                  onMangaClicked={(manga) => setSelectedManga(manga)}
+                />
                 <EndOfList onReached={() => setPage(page + 1)} disabled={isLoading || allLoaded} />
               </div>
-              <RightPanel />
+              <RightPanel manga={selectedManga} />
             </>
           )}
         />

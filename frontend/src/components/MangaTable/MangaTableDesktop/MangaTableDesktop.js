@@ -13,7 +13,7 @@ const { Column } = Table;
 
 const skeletonData = Array(MANGA_PER_PAGE).fill({});
 
-const MangaTableDesktop = ({ mangas, isLoading, onChangeReadStatus }) => {
+const MangaTableDesktop = ({ mangas, isLoading, onChangeReadStatus, onMangaClicked }) => {
   const dataSource = isLoading ? [...mangas, ...skeletonData] : mangas;
 
   return (
@@ -23,6 +23,11 @@ const MangaTableDesktop = ({ mangas, isLoading, onChangeReadStatus }) => {
       showHeader={false}
       pagination={false}
       rowClassName={(manga) => "triangle top-right " + statusToClassMapping[manga.status]}
+      onRow={(manga) => {
+        return {
+          onClick: () => (isEmptyObject(manga) ? null : onMangaClicked(manga)),
+        };
+      }}
     >
       <Column
         dataIndex="image"
@@ -71,6 +76,7 @@ MangaTableDesktop.propTypes = {
   mangas: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,
   onChangeReadStatus: PropTypes.func.isRequired,
+  onMangaClicked: PropTypes.func.isRequired,
 };
 
 export default MangaTableDesktop;

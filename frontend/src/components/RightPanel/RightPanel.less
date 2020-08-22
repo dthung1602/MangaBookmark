@@ -1,10 +1,38 @@
 @import "../../variables";
 
-.right-panel {
-  width: @right-panel-width;
-  height: 100%;
+#right-panel {
+  width: calc(@right-panel-width - 12px);
+  height: calc(100% - @navbar-height);
+
+  &.navbar-hidden {
+    height: 100%;
+  }
+
   overflow: auto;
   position: fixed;
   right: 0;
-  background: lightgrey;
+  background: white;
+  padding: 16px;
+
+  .cover {
+    text-align: center;
+    img {
+      width: 60%;
+      cursor: pointer;
+      transition: all 0.3s;
+      transform: scale(1);
+      &:hover {
+        transform: scale(1.02);
+        filter: brightness(110%);
+      }
+    }
+  }
+
+  h3 {
+    margin: 16px 0;
+  }
+}
+
+.right-panel-cover-large {
+  width: 100%;
 }

@@ -1,9 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { Button, Tooltip } from "antd";
 import { PlusOutlined, UpOutlined, FileAddOutlined, ReloadOutlined } from "@ant-design/icons";
 
 import NewMangaModal from "./NewMangaModal";
 import { useOnClickOutside } from "../hooks";
+import { disableBackgroundScrolling } from "../utils";
 import "./FAB.less";
 
 const scrollToTop = () => {
@@ -27,10 +28,7 @@ const FAB = () => {
 
   useOnClickOutside(containerRef, hide);
 
-  useEffect(() => {
-    // disable scrolling when modal is opened
-    document.body.style.overflowY = newMangaModalOpen ? "hidden" : "scroll";
-  }, [newMangaModalOpen]);
+  disableBackgroundScrolling(newMangaModalOpen);
 
   const expandBtnsClass = { "fab-expand-btn": true, hover: showExpandBtns };
   const rootBtnClass = { "fab-root-btn": true, hover: showExpandBtns };
