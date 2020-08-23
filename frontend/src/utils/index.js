@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const randomFrom = (array) => {
   return array[Math.floor(Math.random() * array.length)];
 };
@@ -42,3 +44,8 @@ export const clonePlainObject = (obj) => {
 export const disableBackgroundScrolling = (disable) => {
   document.body.style.overflowY = disable ? "hidden" : "scroll";
 };
+
+export const formatDate = (dateString, relative = false) => {
+  const date = moment.utc(dateString);
+  return relative ? date.fromNow() : date.format("DD-MM-YYYY");
+}

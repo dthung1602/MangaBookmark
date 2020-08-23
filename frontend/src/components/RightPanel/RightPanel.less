@@ -8,28 +8,52 @@
     height: 100%;
   }
 
+  scroll-behavior: smooth;
   overflow: auto;
   position: fixed;
   right: 0;
   background: white;
-  padding: 16px;
+  padding: 24px 12px 24px 24px;
 
-  .cover {
+  &::-webkit-scrollbar { /* Chrome, Safari and Opera */
+    display: none;
+  }
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+
+  &>* {
+    margin: 12px 0;
+  }
+  &>*:last-child {
+    margin-bottom: 96px !important;
+  }
+
+  .manga-cover-image-wrapper {
+    margin-top: 0;
     text-align: center;
-    img {
+    .manga-cover-image {
       width: 60%;
-      cursor: pointer;
-      transition: all 0.3s;
-      transform: scale(1);
-      &:hover {
-        transform: scale(1.02);
-        filter: brightness(110%);
-      }
     }
   }
 
-  h3 {
-    margin: 16px 0;
+  .editable-info {
+    display: flex;
+    justify-content: space-between;
+    .ant-btn {
+      margin: 0 !important;
+    }
+  }
+
+  .non-editable-info {
+    .ant-descriptions-title {
+      margin-bottom: 12px;
+    }
+    .ant-descriptions-row td {
+      padding-bottom: 4px;
+    }
+    .ant-descriptions-item-label {
+      font-weight: 500;
+    }
   }
 }
 

@@ -13,6 +13,8 @@ const FilterDropdown = ({
   showAnyOption = true,
   anyOptionValue = ANY,
   anyText = "--",
+  size = "default",
+  placement = "bottomCenter",
 }) => {
   const onSelectWrapper = ({ key }) => onSelect(key);
 
@@ -31,7 +33,9 @@ const FilterDropdown = ({
           <Menu onSelect={onSelectWrapper} selectedKeys={[selected]}>
             {showAnyOption ? <Menu.Item key={anyOptionValue}>{anyText}</Menu.Item> : null}
             {Object.entries(options).map(([key, value]) => (
-              <Menu.Item key={key}>{value}</Menu.Item>
+              <Menu.Item key={key} className={size}>
+                {value}
+              </Menu.Item>
             ))}
           </Menu>
         </div>
@@ -39,10 +43,10 @@ const FilterDropdown = ({
       trigger={["hover", "click"]}
       className="filter-btn"
       overlayClassName="box-shadow"
-      placement="bottomCenter"
+      placement={placement}
       arrow
     >
-      <Button>
+      <Button size={size}>
         <b>{displayName}: </b>
         {options[selected] || (showAnyOption ? anyText : "")}
       </Button>
@@ -58,6 +62,8 @@ FilterDropdown.propTypes = {
   showAnyOption: PropTypes.bool,
   anyOptionValue: PropTypes.any,
   anyText: PropTypes.node,
+  size: PropTypes.oneOf(["small", "default", "large"]),
+  placement: PropTypes.oneOf(["bottomLeft", "bottomCenter", "bottomRight", "topLeft", "topCenter", "topRight"]),
 };
 
 export default FilterDropdown;

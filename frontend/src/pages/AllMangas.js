@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StringParam, useQueryParams, withDefault } from "use-query-params";
-import { Layout, PageHeader } from "antd";
+import { Layout, Modal, PageHeader } from "antd";
+import { CloseSquareTwoTone } from "@ant-design/icons";
 
 import { Desktop, Mobile } from "../components/ScreenSize";
 import PageLayout from "./PageLayout";
@@ -12,7 +13,7 @@ import MangaTableMobile from "../components/MangaTable/MangaTableMobile";
 import EndOfList from "../components/EndOfList";
 import { ANY, MANGA_PER_PAGE, SORT_DEC_STATUS } from "../utils/constants";
 import { MangaAPI } from "../api";
-import { removeUndefinedAttrs, removeEmptyStringAttrs } from "../utils";
+import { removeUndefinedAttrs, removeEmptyStringAttrs, disableBackgroundScrolling } from "../utils";
 import { checkResponse, notifyError } from "../utils/error-handler";
 import "./AllMangas.less";
 
@@ -23,6 +24,7 @@ const AllMangas = () => {
   const [page, setPage] = useState(1);
   const [mangaCount, setMangaCount] = useState(NaN);
   const [allLoaded, setAllLoaded] = useState(false);
+  const [openImg, setOpenImg] = useState(false);
 
   const [filters, setFilters] = useQueryParams({
     shelf: withDefault(StringParam, ANY),
@@ -37,6 +39,8 @@ const AllMangas = () => {
     lastReleasedGTE: StringParam,
     lastReleasedLTE: StringParam,
   });
+
+  disableBackgroundScrolling(openImg);
 
   const updateFilters = (values) => {
     const newFilters = { ...filters, ...values };
@@ -120,13 +124,15 @@ const AllMangas = () => {
                   isLoading={isLoading}
                   onChangeReadStatus={onChangeReadStatus}
                   onMangaClicked={(manga) => setSelectedManga(manga)}
+                  showImage={setOpenImg}
                 />
                 <EndOfList onReached={() => setPage(page + 1)} disabled={isLoading || allLoaded} />
               </div>
-              <RightPanel manga={selectedManga} />
+              <RightPanel manga={selectedManga} showImage={setOpenImg} />
             </>
           )}
         />
+
         <Mobile
           render={() => (
             <>
@@ -137,8 +143,13 @@ const AllMangas = () => {
             </>
           )}
         />
-        <FAB />
       </Layout>
+
+      <FAB />
+
+      <Modal visible={openImg} footer={null} onCancel={() => setOpenImg(false)}>
+        <img className="right-panel-cover-large" src={openImg} alt={openImg} />
+      </Modal>
     </PageLayout>
   );
 };

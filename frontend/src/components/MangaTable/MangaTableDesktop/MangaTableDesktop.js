@@ -13,7 +13,7 @@ const { Column } = Table;
 
 const skeletonData = Array(MANGA_PER_PAGE).fill({});
 
-const MangaTableDesktop = ({ mangas, isLoading, onChangeReadStatus, onMangaClicked }) => {
+const MangaTableDesktop = ({ mangas, isLoading, onChangeReadStatus, onMangaClicked, showImage }) => {
   const dataSource = isLoading ? [...mangas, ...skeletonData] : mangas;
 
   return (
@@ -37,7 +37,9 @@ const MangaTableDesktop = ({ mangas, isLoading, onChangeReadStatus, onMangaClick
           if (isEmptyObject(manga)) {
             return <Skeleton.Image active />;
           }
-          return <img className="cover-image" src={manga.image} alt={manga.name} />;
+          return (
+            <img className="manga-cover-image" src={manga.image} alt={manga.name} onClick={() => showImage(manga.image)} />
+          );
         }}
       />
       <Column
@@ -77,6 +79,7 @@ MangaTableDesktop.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   onChangeReadStatus: PropTypes.func.isRequired,
   onMangaClicked: PropTypes.func.isRequired,
+  showImage: PropTypes.func.isRequired,
 };
 
 export default MangaTableDesktop;

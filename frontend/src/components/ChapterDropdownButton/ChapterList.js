@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Checkbox, Button, Tooltip, Affix, Empty, Spin } from "antd";
-import { ForwardOutlined, CheckSquareOutlined, CheckOutlined, ClockCircleOutlined } from "@ant-design/icons";
+import { Affix, Button, Checkbox, Empty, Popconfirm, Spin } from "antd";
+import { CheckOutlined, CheckSquareOutlined, ClockCircleOutlined, DoubleRightOutlined } from "@ant-design/icons";
 
 import "./ChapterList.less";
 
@@ -19,29 +19,26 @@ function ChapterList({
   const [showCheckboxes, setShowCheckboxes] = useState(defaultShowCheckBoxes);
 
   const chaptersToShow = showReadChaps ? chapters : chapters.filter((ch) => !ch.isRead);
+  const allChaptersRead = chapters.every((chap) => chap.isRead);
 
   return (
     <div className="chapter-list ant-dropdown-menu" ref={setChapListRef}>
       <Spin spinning={isLoading}>
         <Affix target={() => chapListRef}>
           <div className="btn-container">
-            <Tooltip title="Show checkbox">
-              <Button type="text" onClick={() => setShowCheckboxes(!showCheckboxes)}>
-                <CheckSquareOutlined />
-              </Button>
-            </Tooltip>
+            <Button title="Show checkbox" type="text" onClick={() => setShowCheckboxes(!showCheckboxes)}>
+              <CheckSquareOutlined />
+            </Button>
 
-            <Tooltip title="Show read chapters">
-              <Button type="text" onClick={() => setShowReadChaps(!showReadChaps)}>
-                <ClockCircleOutlined />
-              </Button>
-            </Tooltip>
+            <Button title="Show read chapters" type="text" onClick={() => setShowReadChaps(!showReadChaps)}>
+              <ClockCircleOutlined />
+            </Button>
 
-            <Tooltip title="Mark chapters all as read">
-              <Button type="text" onClick={onMarkAll}>
+            <Popconfirm title={"Mark all as read ?"} placement="right" disabled={allChaptersRead} onConfirm={onMarkAll}>
+              <Button title="Mark chapters all as read" type="text">
                 <CheckOutlined />
               </Button>
-            </Tooltip>
+            </Popconfirm>
           </div>
         </Affix>
 
@@ -51,9 +48,8 @@ function ChapterList({
             <div key={chapter.link} className="chap">
               {showCheckboxes ? <Checkbox checked={chapter.isRead} onChange={() => onCheckboxChange(chapter)} /> : null}
               <Button
-                icon={<ForwardOutlined />}
+                icon={<DoubleRightOutlined />}
                 type="text"
-                shape="circle-outline"
                 size="small"
                 title="Mark all chapters up to this one as read"
                 onClick={() => onMarkUpTo(chapter)}

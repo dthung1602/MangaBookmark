@@ -11,6 +11,7 @@ const LoopButton = ({
   showAnyOption = true,
   anyOptionValue = ANY,
   anyText = "--",
+  size = "default",
 }) => {
   // convert array to object format
   if (Array.isArray(options)) {
@@ -26,7 +27,7 @@ const LoopButton = ({
   const nextValue = keys[(keys.indexOf(selected) + 1) % keys.length];
 
   return (
-    <Button className="filter-btn" onClick={() => onSelect(nextValue)}>
+    <Button className="filter-btn" size={size} onClick={() => onSelect(nextValue)}>
       <b>{displayName}: </b>
       {options[selected] || (showAnyOption ? anyText : "")}
     </Button>
@@ -41,6 +42,7 @@ LoopButton.propTypes = {
   showAnyOption: PropTypes.bool,
   anyOptionValue: PropTypes.any,
   anyText: PropTypes.node,
+  size: PropTypes.oneOf(["small", "default", "large"]),
 };
 
 export default LoopButton;

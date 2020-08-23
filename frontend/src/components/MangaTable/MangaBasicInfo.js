@@ -27,30 +27,6 @@ function MangaBasicInfo({ manga }) {
       <Descriptions.Item label="New chap">{manga.newChapCount}</Descriptions.Item>
       <Descriptions.Item label="Unread">{manga.unreadChapCount}</Descriptions.Item>
     </Descriptions>
-    // <>
-    //   <table className="manga-basic-info">
-    //     <tr>
-    //       <td>Site</td>
-    //       <td>{manga.site}</td>
-    //     </tr>
-    //     <tr>
-    //       <td>Shelf</td>
-    //       <td>{SHELVES[manga.shelf]}</td>
-    //     </tr>
-    //     <tr>
-    //       <td>Status</td>
-    //       <td>{MG_STATUSES[manga.status]}</td>
-    //     </tr>
-    //     <tr>
-    //       <td>New chap</td>
-    //       <td>{manga.newChapCount}</td>
-    //     </tr>
-    //     <tr>
-    //       <td>Unread</td>
-    //       <td>{manga.unreadChapCount}</td>
-    /*    </tr>*/
-    /*  </table>*/
-    /*</>*/
   );
 }
 
