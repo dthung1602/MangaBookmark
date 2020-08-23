@@ -30,8 +30,7 @@ const FAB = () => {
 
   disableBackgroundScrolling(newMangaModalOpen);
 
-  const expandBtnsClass = { "fab-expand-btn": true, hover: showExpandBtns };
-  const rootBtnClass = { "fab-root-btn": true, hover: showExpandBtns };
+  const containerClass = `fab-container ${showExpandBtns ? "hover" : ""}`;
   const handleExpandBtnClickWrapper = (func) => {
     if (!showExpandBtns) {
       return undefined;
@@ -43,14 +42,13 @@ const FAB = () => {
   };
 
   return (
-    <div ref={containerRef} className="fab-container" onMouseLeave={hide}>
+    <div ref={containerRef} className={containerClass} onMouseLeave={hide}>
       <Tooltip placement="left" visible={showExpandBtns} title="Back to top" overlayClassName="fab-tooltip-overlay">
         <Button
           shape="circle"
           type="primary"
-          className={expandBtnsClass}
+          className="fab-expand-btn"
           icon={<UpOutlined />}
-          // disabled={!showExpandBtns}
           onClick={handleExpandBtnClickWrapper(scrollToTop)}
         />
       </Tooltip>
@@ -58,9 +56,8 @@ const FAB = () => {
         <Button
           shape="circle"
           type="primary"
-          className={expandBtnsClass}
+          className="fab-expand-btn"
           icon={<ReloadOutlined />}
-          // disabled={!showExpandBtns}
           onClick={handleExpandBtnClickWrapper(() => alert("button2"))}
         />
       </Tooltip>
@@ -68,9 +65,8 @@ const FAB = () => {
         <Button
           shape="circle"
           type="primary"
-          className={expandBtnsClass}
+          className="fab-expand-btn"
           icon={<FileAddOutlined />}
-          // disabled={!showExpandBtns}
           onClick={handleExpandBtnClickWrapper(() => setNewMangaModalOpen(true))}
         />
       </Tooltip>
@@ -78,7 +74,7 @@ const FAB = () => {
         shape="circle"
         type="primary"
         size="large"
-        className={rootBtnClass}
+        className="fab-root-btn"
         icon={<PlusOutlined />}
         onClick={toggleExpandBtns}
         onMouseEnter={show}

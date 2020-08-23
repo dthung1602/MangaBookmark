@@ -9,10 +9,16 @@
   margin: 0;
 
   .ant-affix {
+    top: @navbar-height !important;
     transition: top @navbar-toggle-duration;
     box-shadow: @box-shadow;
-    &.offset {
-      top: @navbar-height !important;
+  }
+}
+
+#root.navbar-hidden {
+  .filter-container {
+    .ant-affix {
+      top: 0 !important;
     }
   }
 }

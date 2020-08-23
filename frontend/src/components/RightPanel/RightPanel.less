@@ -4,10 +4,6 @@
   width: calc(@right-panel-width - 12px);
   height: calc(100% - @navbar-height);
 
-  &.navbar-hidden {
-    height: 100%;
-  }
-
   scroll-behavior: smooth;
   overflow: auto;
   position: fixed;
@@ -29,10 +25,46 @@
   }
 
   .manga-cover-image-wrapper {
+    position: relative;
     margin-top: 0;
     text-align: center;
     .manga-cover-image {
       width: 60%;
+    }
+  }
+
+  .quick-actions {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    cursor: pointer;
+
+    &>* {
+      width: 36px;
+      height: 36px;
+      //background: rgba(0, 0, 0, 0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      transition: all 0.3s;
+      //transform: translateX(0);
+      &:hover {
+        width: 48px;
+      }
+    }
+
+    .update {
+      background: #faad14;
+    }
+
+    .delete {
+      background: #f5222d;
     }
   }
 
@@ -54,6 +86,12 @@
     .ant-descriptions-item-label {
       font-weight: 500;
     }
+  }
+}
+
+#root.navbar-hidden {
+  #right-panel {
+    height: 100%;
   }
 }
 

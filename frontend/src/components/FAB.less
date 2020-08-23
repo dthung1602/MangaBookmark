@@ -1,4 +1,16 @@
 .fab-container {
+  pointer-events: none;
+  * {
+    pointer-events: none;
+  }
+
+  &.hover {
+    pointer-events: auto;
+    & * {
+      pointer-events: auto;
+    }
+  }
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,21 +25,24 @@
 }
 
 .fab-root-btn {
-  &.hover {
-    transform: rotate(135deg);
-  }
+  pointer-events: auto;
+}
+
+.hover .fab-root-btn {
+  transform: rotate(135deg);
 }
 
 .fab-expand-btn {
   opacity: 0;
   cursor: auto !important;
   transform: scale(0.75);
+}
 
-  &.hover {
-    cursor: pointer !important;
-    opacity: 1;
-    transform: scale(1);
-  }
+.hover .fab-expand-btn {
+  cursor: pointer !important;
+  pointer-events: auto;
+  opacity: 1;
+  transform: scale(1);
 }
 
 .fab-tooltip-overlay {

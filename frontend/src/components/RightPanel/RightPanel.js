@@ -1,39 +1,25 @@
 import React, { useState } from "react";
 import Proptypes from "prop-types";
-import { Typography, Empty, Descriptions } from "antd";
+import { Descriptions, Empty, Popconfirm, Typography } from "antd";
+import { DeleteOutlined, SyncOutlined } from "@ant-design/icons";
 
 import LoopButton from "../Filters/LoopButton";
 import FilterDropdown from "../Filters/FilterDropdown";
 import ChapterList from "./ChapterList";
 import { formatDate } from "../../utils";
-import { useOnScreenScrollVertically } from "../../hooks";
 import { MG_STATUSES, SHELVES } from "../../utils/constants";
 import "./RightPanel.less";
 
 const { Title } = Typography;
 
-const addNavbarHiddenClass = () => {
-  const rightPanel = document.getElementById("right-panel");
-  if (rightPanel) {
-    rightPanel.classList.add("navbar-hidden");
-  }
-};
-
-const removeNavbarHiddenClass = () => {
-  const rightPanel = document.getElementById("right-panel");
-  if (rightPanel) {
-    rightPanel.classList.remove("navbar-hidden");
-  }
-};
-
 const RightPanel = ({ manga, showImage }) => {
   const [relativeTime, setRelativeTime] = useState(false);
 
-  useOnScreenScrollVertically(removeNavbarHiddenClass, addNavbarHiddenClass);
-
   const edit = (field) => (value) => {
-    console.log(field, value)
+    console.log(field, value);
   };
+
+  const deleteManga = () => {};
 
   if (manga === null) {
     return (
@@ -48,6 +34,16 @@ const RightPanel = ({ manga, showImage }) => {
     <div id="right-panel">
       <div className="manga-cover-image-wrapper">
         <img className="manga-cover-image" src={manga.image} alt={manga.name} onClick={() => showImage(manga.image)} />
+        <div className="quick-actions">
+          <div className="update">
+            <SyncOutlined />
+          </div>
+          <Popconfirm title="Delete this manga?" placement="left" onConfirm={deleteManga}>
+            <div className="delete">
+              <DeleteOutlined />
+            </div>
+          </Popconfirm>
+        </div>
       </div>
       <Title level={3}>
         <a href={manga.link} rel="noopener noreferrer">
@@ -64,7 +60,12 @@ const RightPanel = ({ manga, showImage }) => {
         <Descriptions.Item label="New chap">{manga.newChapCount}</Descriptions.Item>
         <Descriptions.Item label="Last released">{formatDate(manga.lastReleased, relativeTime)}</Descriptions.Item>
         <Descriptions.Item label="Created at">{formatDate(manga.createdAt, relativeTime)}</Descriptions.Item>
-        <Descriptions.Item label="Updated at">{formatDate(manga.updatedAt, relativeTime)}</Descriptions.Item>
+        <Descriptions.Item label="Updated at" span={2}>
+          {formatDate(manga.updatedAt, relativeTime)}
+        </Descriptions.Item>
+        <Descriptions.Item label="Note" span={2}>
+          {manga.note}
+        </Descriptions.Item>
       </Descriptions>
       <div className="editable-info">
         <FilterDropdown

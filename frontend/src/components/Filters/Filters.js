@@ -6,7 +6,6 @@ import { FilterOutlined, SearchOutlined } from "@ant-design/icons";
 import FilterDropdown from "./FilterDropdown";
 import LoopButton from "./LoopButton";
 import DateFilter from "./DateFilter";
-import { useOnScreenScrollVertically } from "../../hooks";
 import { GlobalContext } from "../GlobalContext";
 import { MG_STATUSES, SHELVES, SORTABLE_FIELDS } from "../../utils/constants";
 import "./Filters.less";
@@ -14,14 +13,9 @@ import "./Filters.less";
 const { Panel } = Collapse;
 const { useBreakpoint } = Grid;
 
-const onMoveUp = () => document.querySelector(".filter-container .ant-affix")?.classList.add("offset");
-const onMoveDown = () => document.querySelector(".filter-container .ant-affix")?.classList.remove("offset");
-
 const Filters = ({ filters, updateFilters }) => {
   const [open, setOpen] = useState(false);
   const [{ supportedSites }] = useContext(GlobalContext);
-
-  useOnScreenScrollVertically(onMoveUp, onMoveDown);
 
   const select = (field) => (value) => {
     updateFilters({ [field]: value });

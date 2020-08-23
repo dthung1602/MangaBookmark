@@ -9,10 +9,6 @@
   width: 100%;
   padding: 0 25px;
   text-align: center;
-
-  &.hide {
-    top: -@navbar-height;
-  }
 }
 
 .header-push {
@@ -21,11 +17,18 @@
   height: @navbar-height;
   transition: height @navbar-toggle-duration;
   width: 100%;
+}
 
-  &.hide {
+
+#root.navbar-hidden {
+  .header {
+    top: -@navbar-height;
+  }
+  .header-push {
     height: 0;
   }
 }
+
 
 .navbar-logo {
   height: 100%;

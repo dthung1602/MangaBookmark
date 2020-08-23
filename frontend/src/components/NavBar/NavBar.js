@@ -39,8 +39,8 @@ const NavBar = () => {
   const { user } = globalContext;
 
   useOnScreenScrollVertically(
-    () => document.querySelectorAll(".header, .header-push").forEach((e) => e.classList.remove("hide")),
-    () => document.querySelectorAll(".header, .header-push").forEach((e) => e.classList.add("hide")),
+    () => document.querySelectorAll("#root").forEach((e) => e.classList.remove("navbar-hidden")),
+    () => document.querySelectorAll("#root").forEach((e) => e.classList.add("navbar-hidden")),
   );
 
   const showMenu = () => {
