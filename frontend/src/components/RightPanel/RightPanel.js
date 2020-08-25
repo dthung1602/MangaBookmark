@@ -8,6 +8,7 @@ import FilterDropdown from "../Filters/FilterDropdown";
 import ChapterList from "./ChapterList";
 import Note from "./Note";
 import { MangaAPI } from "../../api";
+import { useMarkChapterAPI } from "../../hooks";
 import { formatDate } from "../../utils";
 import { notifyError, checkResponse } from "../../utils/error-handler";
 import { MG_STATUSES, SHELVES } from "../../utils/constants";
@@ -15,7 +16,7 @@ import "./RightPanel.less";
 
 const { Title } = Typography;
 
-const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone, onChangeReadStatus }) => {
+const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const updateManga = () => {
@@ -56,20 +57,7 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone, onChan
       .finally(() => setIsLoading(false));
   };
 
-  const checkboxChange = (chapter) => {
-    onChangeReadStatus(manga._id, !chapter.isRead, [chapter.link]);
-  };
-
-  const markUpTo = (chapter) => {
-    const idx = manga.chapters.indexOf(chapter);
-    const chapsToMark = manga.chapters.filter((ch, i) => i >= idx && !ch.isRead).map((ch) => ch.link);
-    onChangeReadStatus(manga._id, true, chapsToMark);
-  };
-
-  const markALl = () => {
-    const chapsToMark = manga.chapters.filter((ch) => !ch.isRead).map((ch) => ch.link);
-    onChangeReadStatus(manga._id, true, chapsToMark);
-  };
+  const markChapters = useMarkChapterAPI(updateMangaDone);
 
   if (manga === null) {
     return (
@@ -146,12 +134,7 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone, onChan
             onSelect={editManga("hidden")}
           />
         </div>
-        <ChapterList
-          chapters={manga.chapters}
-          onMarkUpTo={markUpTo}
-          onMarkAll={markALl}
-          onCheckboxChange={checkboxChange}
-        />
+        <ChapterList manga={manga} onChangeChapterStatus={markChapters} changeChapterStatusAsync={true} />
       </Spin>
     </div>
   );
@@ -162,7 +145,6 @@ RightPanel.propTypes = {
   showImage: Proptypes.func.isRequired,
   deleteMangaDone: Proptypes.func.isRequired,
   updateMangaDone: Proptypes.func.isRequired,
-  onChangeReadStatus: Proptypes.func.isRequired,
 };
 
 export default RightPanel;

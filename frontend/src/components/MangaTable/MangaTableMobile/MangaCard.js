@@ -9,7 +9,7 @@ import "./MangaCard.less";
 
 const { Panel } = Collapse;
 
-const MangaCard = ({ manga, onChangeReadStatus }) => {
+const MangaCard = ({ manga, updateMangaDone }) => {
   const [open, setOpen] = useState(false);
   const statusClass = statusToClassMapping[manga.status];
 
@@ -51,7 +51,7 @@ const MangaCard = ({ manga, onChangeReadStatus }) => {
 
 MangaCard.propTypes = {
   manga: PropTypes.object.isRequired,
-  onChangeReadStatus: PropTypes.func.isRequired,
+  updateMangaDone: PropTypes.func.isRequired,
 };
 
 export default MangaCard;

@@ -4,14 +4,22 @@ import moment from "moment";
 import { Button, Checkbox, Spin, Table, Popconfirm } from "antd";
 import { DoubleLeftOutlined, CheckOutlined, ClockCircleOutlined } from "@ant-design/icons";
 
+import { useChapterListLogic } from "../../hooks";
 import { truncString } from "../../utils";
 import "./ChapterList.less";
 
 const { Column } = Table;
 
-function ChapterList({ chapters, onCheckboxChange, onMarkUpTo, onMarkAll, isLoading = false }) {
+function ChapterList({ manga, onChangeChapterStatus, changeChapterStatusAsync }) {
   const [showReadChapters, setShowReadChapters] = useState(true);
 
+  const [isLoading, checkboxChange, markUpTo, markAll] = useChapterListLogic(
+    manga,
+    onChangeChapterStatus,
+    changeChapterStatusAsync,
+  );
+
+  const { chapters } = manga;
   const displayChapters = showReadChapters ? chapters : chapters.filter((ch) => !ch.isRead);
   const allChaptersRead = chapters.every((chap) => chap.isRead);
 
@@ -40,7 +48,7 @@ function ChapterList({ chapters, onCheckboxChange, onMarkUpTo, onMarkAll, isLoad
                   title={"Mark all as read ?"}
                   placement="left"
                   disabled={allChaptersRead}
-                  onConfirm={onMarkAll}
+                  onConfirm={markAll}
                 >
                   <Button
                     size="small"
@@ -75,9 +83,9 @@ function ChapterList({ chapters, onCheckboxChange, onMarkUpTo, onMarkAll, isLoad
             render={(text, chapter) => {
               return (
                 <div className="action">
-                  <Button icon={<DoubleLeftOutlined />} size="small" type="text" onClick={() => onMarkUpTo(chapter)} />
+                  <Button icon={<DoubleLeftOutlined />} size="small" type="text" onClick={() => markUpTo(chapter)} />
                   &nbsp;&nbsp;
-                  <Checkbox checked={chapter.isRead} onChange={() => onCheckboxChange(chapter)} />
+                  <Checkbox checked={chapter.isRead} onChange={() => checkboxChange(chapter)} />
                 </div>
               );
             }}
@@ -89,13 +97,9 @@ function ChapterList({ chapters, onCheckboxChange, onMarkUpTo, onMarkAll, isLoad
 }
 
 ChapterList.propTypes = {
-  chapters: PropTypes.array.isRequired,
-  onCheckboxChange: PropTypes.func.isRequired,
-  onMarkUpTo: PropTypes.func.isRequired,
-  onMarkAll: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool,
-  defaultShowReadChaps: PropTypes.bool,
-  defaultShowCheckBoxes: PropTypes.bool,
+  manga: PropTypes.object.isRequired,
+  onChangeChapterStatus: PropTypes.func.isRequired,
+  changeChapterStatusAsync: PropTypes.bool.isRequired,
 };
 
 export default ChapterList;

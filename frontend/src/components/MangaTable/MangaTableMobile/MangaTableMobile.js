@@ -4,13 +4,13 @@ import PropTypes from "prop-types";
 import MangaCard from "./MangaCard";
 import "./MangaTableMobile.less";
 
-const MangaTableMobile = ({ mangas, isLoading, onChangeReadStatus }) => {
+const MangaTableMobile = ({ mangas, isLoading, updateMangaDone }) => {
   const dataSource = isLoading ? [...mangas, {}] : mangas;
 
   return (
     <div className="manga-table-mobile">
       {dataSource.map((manga) => {
-        return <MangaCard key={manga._id} manga={manga} onChangeReadStatus={onChangeReadStatus} />;
+        return <MangaCard key={manga._id} manga={manga} updateMangaDone={updateMangaDone} />;
       })}
     </div>
   );
@@ -19,7 +19,7 @@ const MangaTableMobile = ({ mangas, isLoading, onChangeReadStatus }) => {
 MangaTableMobile.propTypes = {
   mangas: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  onChangeReadStatus: PropTypes.func.isRequired,
+  updateMangaDone: PropTypes.func.isRequired,
 };
 
 export default MangaTableMobile;

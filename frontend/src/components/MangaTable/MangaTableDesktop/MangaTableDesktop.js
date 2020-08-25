@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Table, Skeleton } from "antd";
 
 import MangaBasicInfo from "../MangaBasicInfo";
-import ChapterDropdownButton from "../../ChapterDropdownButton";
+import MangaQuickActions from "./MangaQuickActions";
 import { statusToClassMapping } from "../utils";
 import { isEmptyObject } from "../../../utils";
 import { MANGA_PER_PAGE } from "../../../utils/constants";
@@ -13,7 +13,7 @@ const { Column } = Table;
 
 const skeletonData = Array(MANGA_PER_PAGE).fill({});
 
-const MangaTableDesktop = ({ mangas, isLoading, onChangeReadStatus, onMangaClicked, showImage }) => {
+const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked, showImage }) => {
   const dataSource = isLoading ? [...mangas, ...skeletonData] : mangas;
 
   return (
@@ -66,13 +66,7 @@ const MangaTableDesktop = ({ mangas, isLoading, onChangeReadStatus, onMangaClick
           if (isEmptyObject(manga)) {
             return <Skeleton.Button active />;
           }
-          return (
-            <ChapterDropdownButton
-              chapters={manga.chapters}
-              isLoading={manga.isLoading}
-              onChangeReadStatus={(isRead, chapLinks) => onChangeReadStatus(manga._id, isRead, chapLinks)}
-            />
-          );
+          return <MangaQuickActions manga={manga} updateMangaDone={updateMangaDone} />;
         }}
       />
     </Table>
@@ -82,7 +76,7 @@ const MangaTableDesktop = ({ mangas, isLoading, onChangeReadStatus, onMangaClick
 MangaTableDesktop.propTypes = {
   mangas: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  onChangeReadStatus: PropTypes.func.isRequired,
+  updateMangaDone: PropTypes.func.isRequired,
   onMangaClicked: PropTypes.func.isRequired,
   showImage: PropTypes.func.isRequired,
 };

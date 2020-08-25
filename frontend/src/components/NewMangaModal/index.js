@@ -22,10 +22,10 @@ const NewMangaModal = ({ open, onCancel }) => {
   const [manga, setManga] = useState();
   const [form] = Form.useForm();
 
-  const changeChapterReadStatus = (isRead, chapIds) => {
+  const changeChapterReadStatus = (mangaId, isRead, chapLinks) => {
     const cloneManga = clonePlainObject(manga);
     cloneManga.chapters.forEach((ch) => {
-      if (chapIds.includes(ch.link)) {
+      if (chapLinks.includes(ch.link)) {
         ch.isRead = isRead;
       }
     });
@@ -145,11 +145,9 @@ const NewMangaModal = ({ open, onCancel }) => {
             <div className="info-row">
               <Text strong>Chapter list</Text>
               <ChapterDropdownButton
-                chapters={manga.chapters}
-                defaultShowReadChaps={true}
-                defaultShowCheckBoxes={true}
-                onChangeReadStatus={changeChapterReadStatus}
-                size="small"
+                onChangeChapterStatus={changeChapterReadStatus}
+                changeChapterStatusAsync={false}
+                manga={manga}
               />
             </div>
             <div className="info-col">

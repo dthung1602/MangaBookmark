@@ -72,36 +72,6 @@ const AllMangas = () => {
       .finally(() => setIsLoading(false));
   }, [filters, page]);
 
-  const onChangeReadStatus = (mangaId, isRead, chapLinks) => {
-    console.log(mangaId, isRead, chapLinks);
-    setMangas((prevState) => {
-      prevState.find((mg) => mg._id === mangaId).isLoading = true;
-      return [...prevState];
-    });
-
-    MangaAPI.markChapters(mangaId, isRead, chapLinks)
-      .then(async (response) => {
-        checkResponse(response);
-        const newManga = await response.json();
-        newManga.isLoading = false;
-        setMangas((prevState) => {
-          const idx = prevState.findIndex((mg) => mg._id === mangaId);
-          prevState[idx] = newManga;
-          return [...prevState];
-        });
-        if (newManga._id === selectedManga._id) {
-          setSelectedManga(newManga);
-        }
-      })
-      .catch((e) => {
-        notifyError(e);
-        setMangas((prevState) => {
-          prevState.find((mg) => mg._id === mangaId).isLoading = false;
-          return [...prevState];
-        });
-      });
-  };
-
   const updateMangaDone = (newManga) => {
     setSelectedManga(newManga);
     setMangas((prevState) => {
@@ -126,6 +96,8 @@ const AllMangas = () => {
       ghost={false}
     />
   );
+  const endOfList = <EndOfList onReached={() => setPage(page + 1)} disabled={isLoading || allLoaded} />;
+  const filterBar = <Filters filters={filters} updateFilters={updateFilters} />;
 
   return (
     <PageLayout>
@@ -135,22 +107,21 @@ const AllMangas = () => {
             <>
               <div className="left-panel">
                 {pageHeader}
-                <Filters filters={filters} updateFilters={updateFilters} />
+                {filterBar}
                 <MangaTableDesktop
                   mangas={mangas}
                   isLoading={isLoading}
-                  onChangeReadStatus={onChangeReadStatus}
+                  updateMangaDone={updateMangaDone}
                   onMangaClicked={(manga) => setSelectedManga(manga)}
                   showImage={setOpenImg}
                 />
-                <EndOfList onReached={() => setPage(page + 1)} disabled={isLoading || allLoaded} />
+                {endOfList}
               </div>
               <RightPanel
                 manga={selectedManga}
                 showImage={setOpenImg}
                 deleteMangaDone={deleteMangaDone}
                 updateMangaDone={updateMangaDone}
-                onChangeReadStatus={onChangeReadStatus}
               />
             </>
           )}
@@ -160,9 +131,9 @@ const AllMangas = () => {
           render={() => (
             <>
               {pageHeader}
-              <Filters filters={filters} updateFilters={updateFilters} />
-              <MangaTableMobile mangas={mangas} isLoading={isLoading} onChangeReadStatus={onChangeReadStatus} />
-              <EndOfList onReached={() => setPage(page + 1)} disabled={isLoading || allLoaded} />
+              {filterBar}
+              <MangaTableMobile mangas={mangas} isLoading={isLoading} updateMangaDone={updateMangaDone} />
+              {endOfList}
             </>
           )}
         />
