@@ -28,6 +28,10 @@ class MangaAPI extends BaseAPI {
   markChapters(mangaId, isRead, chapterLinks) {
     return this.post({ isRead, chapters: chapterLinks }, `${mangaId}/mark-chapters`);
   }
+
+  update(mangaId) {
+    return this.post({}, `${mangaId}/update`);
+  }
 }
 
 export default new MangaAPI();

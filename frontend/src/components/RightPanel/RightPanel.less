@@ -17,11 +17,14 @@
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 
-  &>* {
-    margin: 12px 0;
-  }
-  &>*:last-child {
-    margin-bottom: 96px !important;
+  .ant-spin-container {
+    & > * {
+      margin: 12px 0;
+    }
+
+    & > *:last-child {
+      margin-bottom: 96px !important;
+    }
   }
 
   .manga-cover-image-wrapper {
@@ -85,6 +88,12 @@
     }
     .ant-descriptions-item-label {
       font-weight: 500;
+    }
+  }
+
+  .note-container {
+    .ant-descriptions-item-content {
+      width: 100%;
     }
   }
 }

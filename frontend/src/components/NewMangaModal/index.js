@@ -112,7 +112,11 @@ const NewMangaModal = ({ open, onCancel }) => {
           <img src={manga.image} alt={manga.name} />
         </Col>
         <Col xs={24} sm={16}>
-          <Title level={4}>{manga.name}</Title>
+          <Title level={4}>
+            <a href={manga.link} target="_blank" rel="noopener noreferrer">
+              {manga.name}
+            </a>
+          </Title>
           <Form form={form} initialValues={initialValues}>
             <div className="info-row">
               <Text strong>Shelf</Text>

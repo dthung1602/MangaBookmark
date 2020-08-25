@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StringParam, useQueryParams, withDefault } from "use-query-params";
 import { Layout, Modal, PageHeader } from "antd";
-import { CloseSquareTwoTone } from "@ant-design/icons";
 
 import { Desktop, Mobile } from "../components/ScreenSize";
 import PageLayout from "./PageLayout";
@@ -32,7 +31,7 @@ const AllMangas = () => {
     sort: withDefault(StringParam, SORT_DEC_STATUS),
     search: StringParam,
     isCompleted: withDefault(StringParam, ANY),
-    hidden: withDefault(StringParam, ANY),
+    hidden: withDefault(StringParam, "false"),
     site: withDefault(StringParam, ANY),
     createdAtGTE: StringParam,
     createdAtLTE: StringParam,
@@ -74,6 +73,7 @@ const AllMangas = () => {
   }, [filters, page]);
 
   const onChangeReadStatus = (mangaId, isRead, chapLinks) => {
+    console.log(mangaId, isRead, chapLinks);
     setMangas((prevState) => {
       prevState.find((mg) => mg._id === mangaId).isLoading = true;
       return [...prevState];
@@ -89,6 +89,9 @@ const AllMangas = () => {
           prevState[idx] = newManga;
           return [...prevState];
         });
+        if (newManga._id === selectedManga._id) {
+          setSelectedManga(newManga);
+        }
       })
       .catch((e) => {
         notifyError(e);
@@ -97,6 +100,20 @@ const AllMangas = () => {
           return [...prevState];
         });
       });
+  };
+
+  const updateMangaDone = (newManga) => {
+    setSelectedManga(newManga);
+    setMangas((prevState) => {
+      const idx = prevState.findIndex((mg) => mg._id === newManga._id);
+      prevState[idx] = newManga;
+      return [...prevState];
+    });
+  };
+
+  const deleteMangaDone = (mangaId) => {
+    setSelectedManga(null);
+    setMangas((prevState) => prevState.filter((mg) => mg._id !== mangaId));
   };
 
   const mangaCountString = `${mangaCount} manga${mangaCount > 1 ? "s" : ""}`;
@@ -128,7 +145,13 @@ const AllMangas = () => {
                 />
                 <EndOfList onReached={() => setPage(page + 1)} disabled={isLoading || allLoaded} />
               </div>
-              <RightPanel manga={selectedManga} showImage={setOpenImg} />
+              <RightPanel
+                manga={selectedManga}
+                showImage={setOpenImg}
+                deleteMangaDone={deleteMangaDone}
+                updateMangaDone={updateMangaDone}
+                onChangeReadStatus={onChangeReadStatus}
+              />
             </>
           )}
         />

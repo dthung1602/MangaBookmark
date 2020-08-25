@@ -38,7 +38,12 @@ const MangaTableDesktop = ({ mangas, isLoading, onChangeReadStatus, onMangaClick
             return <Skeleton.Image active />;
           }
           return (
-            <img className="manga-cover-image" src={manga.image} alt={manga.name} onClick={() => showImage(manga.image)} />
+            <img
+              className="manga-cover-image"
+              src={manga.image}
+              alt={manga.name}
+              onClick={() => showImage(manga.image)}
+            />
           );
         }}
       />

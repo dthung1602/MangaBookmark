@@ -77,7 +77,7 @@ function ChapterList({ chapters, onCheckboxChange, onMarkUpTo, onMarkAll, isLoad
                 <div className="action">
                   <Button icon={<DoubleLeftOutlined />} size="small" type="text" onClick={() => onMarkUpTo(chapter)} />
                   &nbsp;&nbsp;
-                  <Checkbox checked={chapter.isRead} onChange={onCheckboxChange} />
+                  <Checkbox checked={chapter.isRead} onChange={() => onCheckboxChange(chapter)} />
                 </div>
               );
             }}

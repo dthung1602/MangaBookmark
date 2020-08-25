@@ -48,4 +48,4 @@ export const disableBackgroundScrolling = (disable) => {
 export const formatDate = (dateString, relative = false) => {
   const date = moment.utc(dateString);
   return relative ? date.fromNow() : date.format("DD-MM-YYYY");
-}
+};
