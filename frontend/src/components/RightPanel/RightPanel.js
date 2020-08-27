@@ -57,7 +57,7 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
       .finally(() => setIsLoading(false));
   };
 
-  const markChapters = useMarkChapterAPI(updateMangaDone);
+  const [isChapterListLoading, markChapters] = useMarkChapterAPI(updateMangaDone);
 
   if (manga === null) {
     return (
@@ -134,7 +134,7 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
             onSelect={editManga("hidden")}
           />
         </div>
-        <ChapterList manga={manga} onChangeChapterStatus={markChapters} changeChapterStatusAsync={true} />
+        <ChapterList manga={manga} isLoading={isChapterListLoading} onChangeChapterStatus={markChapters} />
       </Spin>
     </div>
   );

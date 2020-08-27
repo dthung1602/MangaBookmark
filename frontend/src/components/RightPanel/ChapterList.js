@@ -4,20 +4,16 @@ import moment from "moment";
 import { Button, Checkbox, Spin, Table, Popconfirm } from "antd";
 import { DoubleLeftOutlined, CheckOutlined, ClockCircleOutlined } from "@ant-design/icons";
 
-import { useChapterListLogic } from "../../hooks";
+import chapterListLogic from "../../utils/chapterListLogic";
 import { truncString } from "../../utils";
 import "./ChapterList.less";
 
 const { Column } = Table;
 
-function ChapterList({ manga, onChangeChapterStatus, changeChapterStatusAsync }) {
+function ChapterList({ manga, isLoading, onChangeChapterStatus }) {
   const [showReadChapters, setShowReadChapters] = useState(true);
 
-  const [isLoading, checkboxChange, markUpTo, markAll] = useChapterListLogic(
-    manga,
-    onChangeChapterStatus,
-    changeChapterStatusAsync,
-  );
+  const [checkboxChange, markUpTo, markAll] = chapterListLogic(manga, onChangeChapterStatus);
 
   const { chapters } = manga;
   const displayChapters = showReadChapters ? chapters : chapters.filter((ch) => !ch.isRead);
@@ -98,8 +94,8 @@ function ChapterList({ manga, onChangeChapterStatus, changeChapterStatusAsync })
 
 ChapterList.propTypes = {
   manga: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   onChangeChapterStatus: PropTypes.func.isRequired,
-  changeChapterStatusAsync: PropTypes.bool.isRequired,
 };
 
 export default ChapterList;

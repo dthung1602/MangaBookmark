@@ -146,8 +146,11 @@ const NewMangaModal = ({ open, onCancel }) => {
               <Text strong>Chapter list</Text>
               <ChapterDropdownButton
                 onChangeChapterStatus={changeChapterReadStatus}
-                changeChapterStatusAsync={false}
+                isLoading={false}
                 manga={manga}
+                defaultShowReadChaps={true}
+                defaultShowCheckBoxes={true}
+                size="small"
               />
             </div>
             <div className="info-col">

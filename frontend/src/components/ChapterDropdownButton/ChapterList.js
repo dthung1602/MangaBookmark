@@ -3,13 +3,14 @@ import PropTypes from "prop-types";
 import { Affix, Button, Checkbox, Empty, Popconfirm, Spin } from "antd";
 import { CheckOutlined, CheckSquareOutlined, ClockCircleOutlined, DoubleRightOutlined } from "@ant-design/icons";
 
-import { useChapterListLogic } from "../../hooks";
+import chapterListLogic from "../../utils/chapterListLogic";
+
 import "./ChapterList.less";
 
 function ChapterList({
   manga,
   onChangeChapterStatus,
-  changeChapterStatusAsync,
+  isLoading = false,
   defaultShowReadChaps = false,
   defaultShowCheckBoxes = false,
 }) {
@@ -21,11 +22,7 @@ function ChapterList({
   const chaptersToShow = showReadChaps ? chapters : chapters.filter((ch) => !ch.isRead);
   const allChaptersRead = chapters.every((chap) => chap.isRead);
 
-  const [isLoading, checkboxChange, markUpTo, markAll] = useChapterListLogic(
-    manga,
-    onChangeChapterStatus,
-    changeChapterStatusAsync,
-  );
+  const [checkboxChange, markUpTo, markAll] = chapterListLogic(manga, onChangeChapterStatus);
 
   return (
     <div className="chapter-list ant-dropdown-menu" ref={setChapListRef}>
@@ -74,7 +71,7 @@ function ChapterList({
 ChapterList.propTypes = {
   manga: PropTypes.object.isRequired,
   onChangeChapterStatus: PropTypes.func.isRequired,
-  changeChapterStatusAsync: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool,
   defaultShowReadChaps: PropTypes.bool,
   defaultShowCheckBoxes: PropTypes.bool,
 };

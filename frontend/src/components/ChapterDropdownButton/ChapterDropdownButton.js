@@ -10,7 +10,7 @@ const MAX_LEN_CHAP_NAME = 25;
 function ChapterDropdownButton({
   manga,
   onChangeChapterStatus,
-  changeChapterStatusAsync,
+  isLoading = false,
   defaultShowReadChaps = false,
   defaultShowCheckBoxes = false,
   size = "middle",
@@ -41,7 +41,7 @@ function ChapterDropdownButton({
         <ChapterList
           manga={manga}
           onChangeChapterStatus={onChangeChapterStatus}
-          changeChapterStatusAsync={changeChapterStatusAsync}
+          isLoading={isLoading}
           defaultShowReadChaps={defaultShowReadChaps}
           defaultShowCheckBoxes={defaultShowCheckBoxes}
         />
@@ -57,7 +57,7 @@ function ChapterDropdownButton({
 ChapterDropdownButton.propTypes = {
   manga: PropTypes.object.isRequired,
   onChangeChapterStatus: PropTypes.func.isRequired,
-  changeChapterStatusAsync: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   defaultShowReadChaps: PropTypes.bool,
   defaultShowCheckBoxes: PropTypes.bool,
   size: PropTypes.string,

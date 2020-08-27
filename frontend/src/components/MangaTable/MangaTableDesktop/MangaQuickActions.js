@@ -5,15 +5,9 @@ import { useMarkChapterAPI } from "../../../hooks";
 import ChapterDropdownButton from "../../ChapterDropdownButton";
 
 const MangaQuickActions = ({ manga, updateMangaDone }) => {
-  const onChangeChapterStatus = useMarkChapterAPI(updateMangaDone);
+  const [isLoading, markChapters] = useMarkChapterAPI(updateMangaDone);
 
-  return (
-    <ChapterDropdownButton
-      manga={manga}
-      onChangeChapterStatus={onChangeChapterStatus}
-      changeChapterStatusAsync={true}
-    />
-  );
+  return <ChapterDropdownButton onChangeChapterStatus={markChapters} isLoading={isLoading} manga={manga} />;
 };
 
 MangaQuickActions.propTypes = {
