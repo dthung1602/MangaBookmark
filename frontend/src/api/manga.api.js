@@ -8,13 +8,13 @@ class MangaAPI extends BaseAPI {
     super("mangas");
   }
 
-  find(params, slug = "") {
+  find(params) {
     for (let f of ignoreIfAny) {
       if (params[f] === ANY) {
         delete params[f];
       }
     }
-    return super.get(params, slug);
+    return super.get(params);
   }
 
   info(link) {
@@ -31,6 +31,15 @@ class MangaAPI extends BaseAPI {
 
   update(mangaId) {
     return this.post({}, `${mangaId}/update`);
+  }
+
+  updateMultiple(params) {
+    for (let f of ignoreIfAny) {
+      if (params[f] === ANY) {
+        delete params[f];
+      }
+    }
+    return super.post(params, "update-multiple");
   }
 }
 

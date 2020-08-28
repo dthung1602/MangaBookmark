@@ -498,6 +498,9 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
  *                          $ref: '#/components/schemas/Id'
  *                        name:
  *                          type: string
+ *                        link:
+ *                          type: string
+ *                          format: uri
  *                        site:
  *                          type: string
  *                  fail:
@@ -509,10 +512,12 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
  *                          $ref: '#/components/schemas/Id'
  *                        name:
  *                          type: string
+ *                        link:
+ *                          type: string
+ *                          format: uri
  *                        site:
  *                          type: string
  */
-// TODO reconsider this
 router.postAsync("/update-multiple", MangaFilterValidator, async (req, res) => {
   const filters = removeUndefinedAttrs({
     user: req.user.id,
@@ -522,7 +527,7 @@ router.postAsync("/update-multiple", MangaFilterValidator, async (req, res) => {
   });
   const { data: mangas } = await MangaService.list(filters, undefined, undefined, 0, 0);
   const { successMangas, failMangas } = await MangaService.updateMultiple(mangas);
-  const reportFields = ["name", "_id", "site"];
+  const reportFields = ["name", "_id", "site", "link", "newChapCount"];
   res.json({
     total: mangas.length,
     success: successMangas.map((manga) => pick(manga, reportFields)),

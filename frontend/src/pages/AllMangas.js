@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { StringParam, useQueryParams, withDefault } from "use-query-params";
-import { Layout, Modal, PageHeader } from "antd";
+import { Layout, Modal } from "antd";
 
 import { Desktop, Mobile } from "../components/ScreenSize";
 import PageLayout from "./PageLayout";
 import FAB from "../components/FAB";
+import PageHeader from "../components/PageHeader";
 import RightPanel from "../components/RightPanel";
 import Filters from "../components/Filters";
 import MangaTableDesktop from "../components/MangaTable/MangaTableDesktop";
 import MangaTableMobile from "../components/MangaTable/MangaTableMobile";
+import NewMangaModal from "../components/NewMangaModal";
 import EndOfList from "../components/EndOfList";
 import { ANY, MANGA_PER_PAGE, SORT_DEC_STATUS } from "../utils/constants";
 import { MangaAPI } from "../api";
+import { useUpdateMultipleAPI } from "../hooks";
 import { removeUndefinedAttrs, removeEmptyStringAttrs, disableBackgroundScrolling } from "../utils";
 import { checkResponse, notifyError } from "../utils/error-handler";
 import "./AllMangas.less";
@@ -24,6 +27,7 @@ const AllMangas = () => {
   const [mangaCount, setMangaCount] = useState(NaN);
   const [allLoaded, setAllLoaded] = useState(false);
   const [openImg, setOpenImg] = useState(false);
+  const [newMangaModalOpen, setNewMangaModalOpen] = useState(false);
 
   const [filters, setFilters] = useQueryParams({
     shelf: withDefault(StringParam, ANY),
@@ -39,7 +43,7 @@ const AllMangas = () => {
     lastReleasedLTE: StringParam,
   });
 
-  disableBackgroundScrolling(openImg);
+  disableBackgroundScrolling(openImg || newMangaModalOpen);
 
   const updateFilters = (values) => {
     const newFilters = { ...filters, ...values };
@@ -72,6 +76,8 @@ const AllMangas = () => {
       .finally(() => setIsLoading(false));
   }, [filters, page]);
 
+  const [isUpdatingMangas, updateMangas] = useUpdateMultipleAPI(filters);
+
   const updateMangaDone = (newManga) => {
     setSelectedManga(newManga);
     setMangas((prevState) => {
@@ -86,14 +92,17 @@ const AllMangas = () => {
     setMangas((prevState) => prevState.filter((mg) => mg._id !== mangaId));
   };
 
-  const mangaCountString = `${mangaCount} manga${mangaCount > 1 ? "s" : ""}`;
+  const openNewMangaModal = () => setNewMangaModalOpen(true);
+  const closeNewMangaModal = () => setNewMangaModalOpen(false);
+
   const pageHeader = (
     <PageHeader
       title="All mangas"
-      extra={mangaCountString}
-      className="manga-table-title"
-      backIcon={false}
-      ghost={false}
+      updateBtnText="Update matched mangas"
+      mangaCount={mangaCount}
+      openNewMangaModal={openNewMangaModal}
+      isUpdatingMangas={isUpdatingMangas}
+      updateMangas={updateMangas}
     />
   );
   const endOfList = <EndOfList onReached={() => setPage(page + 1)} disabled={isLoading || allLoaded} />;
@@ -144,7 +153,9 @@ const AllMangas = () => {
         />
       </Layout>
 
-      <FAB />
+      <FAB openNewMangaModal={openNewMangaModal} isUpdatingMangas={isUpdatingMangas} updateMangas={updateMangas} />
+
+      <NewMangaModal open={newMangaModalOpen} onCancel={closeNewMangaModal} />
 
       <Modal visible={openImg} footer={null} onCancel={() => setOpenImg(false)}>
         <img className="right-panel-cover-large" src={openImg} alt={openImg} />

@@ -53,12 +53,11 @@
 - [ ] Basic components:
     - [x] Navbar
     - [x] Footer
-    - [ ] FAB
+    - [x] FAB
         - [x] to top
         - [x] add manga
-        - [ ] update mangas
-        - [ ] ~~dark mode~~ (not possible to toggle at runtime with antd)
-    - [ ] Account page       
+        - [x] update mangas
+        - [ ] ~~dark mode~~ (not possible to toggle at runtime with antd)    
     - [ ] Manga listing table
         - [ ] Use sources favicon
         - [x] Merge status column
@@ -67,14 +66,13 @@
         - [x] shelf (rename from following status)
         - [x] search by name
         - [x] sort
-    - [ ] Right panel (manga detail panel)
-        - [ ] display info
-        - [ ] edit
-        - [ ] delete
-        - [ ] update
-        - [ ] read
-        - [ ] mark chapters
-    - [ ] Latest updated mangas view
+    - [x] Right panel (manga detail panel)
+        - [x] display info
+        - [x] edit
+        - [x] delete
+        - [x] update
+        - [x] read
+        - [x] mark chapters
     - [x] Advanced search & filter
         - [x] created date
         - [x] last released
@@ -93,6 +91,7 @@
         - [ ] link / unlink gg, fb
         - [ ] Delete account
     - [ ] Manage notification
+- [ ] Latest updated mangas page
 - [ ] BG Image credit in login page 
 
 # NEW FEATURES

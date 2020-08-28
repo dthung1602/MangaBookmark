@@ -1,18 +1,16 @@
-import React, { useState, useRef } from "react";
+import React, { useRef, useState } from "react";
+import PropTypes from "prop-types";
 import { Button, Tooltip } from "antd";
-import { PlusOutlined, UpOutlined, FileAddOutlined, ReloadOutlined } from "@ant-design/icons";
+import { FileAddOutlined, PlusOutlined, ReloadOutlined, UpOutlined } from "@ant-design/icons";
 
-import NewMangaModal from "../NewMangaModal";
 import { useOnClickOutside } from "../../hooks";
-import { disableBackgroundScrolling } from "../../utils";
 import "./FAB.less";
 
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
-const FAB = () => {
-  const [newMangaModalOpen, setNewMangaModalOpen] = useState(false);
+const FAB = ({ openNewMangaModal, isUpdatingMangas, updateMangas }) => {
   const [showExpandBtns, setShowExpandBtns] = useState(false);
   const containerRef = useRef(null);
 
@@ -28,12 +26,10 @@ const FAB = () => {
 
   useOnClickOutside(containerRef, hide);
 
-  disableBackgroundScrolling(newMangaModalOpen);
-
   const containerClass = `fab-container ${showExpandBtns ? "hover" : ""}`;
   const handleExpandBtnClickWrapper = (func) => {
     if (!showExpandBtns) {
-      return undefined;
+      return;
     }
     return () => {
       func();
@@ -57,8 +53,9 @@ const FAB = () => {
           shape="circle"
           type="primary"
           className="fab-expand-btn"
+          loading={isUpdatingMangas}
           icon={<ReloadOutlined />}
-          onClick={handleExpandBtnClickWrapper(() => alert("button2"))}
+          onClick={handleExpandBtnClickWrapper(updateMangas)}
         />
       </Tooltip>
       <Tooltip placement="left" visible={showExpandBtns} title="New manga" overlayClassName="fab-tooltip-overlay">
@@ -67,7 +64,7 @@ const FAB = () => {
           type="primary"
           className="fab-expand-btn"
           icon={<FileAddOutlined />}
-          onClick={handleExpandBtnClickWrapper(() => setNewMangaModalOpen(true))}
+          onClick={handleExpandBtnClickWrapper(openNewMangaModal)}
         />
       </Tooltip>
       <Button
@@ -79,9 +76,14 @@ const FAB = () => {
         onClick={toggleExpandBtns}
         onMouseEnter={show}
       />
-      <NewMangaModal open={newMangaModalOpen} onCancel={() => setNewMangaModalOpen(false)} />
     </div>
   );
+};
+
+FAB.propTypes = {
+  openNewMangaModal: PropTypes.func.isRequired,
+  updateMangas: PropTypes.func.isRequired,
+  isUpdatingMangas: PropTypes.bool.isRequired,
 };
 
 export default FAB;

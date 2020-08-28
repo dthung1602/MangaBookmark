@@ -1,7 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
-import { Affix, Button, Collapse, Input, Grid } from "antd";
-import { FilterOutlined, SearchOutlined } from "@ant-design/icons";
+import { Affix, Button, Collapse, Grid, Input } from "antd";
+import { CaretDownOutlined, CaretUpOutlined, SearchOutlined } from "@ant-design/icons";
 
 import FilterDropdown from "./FilterDropdown";
 import LoopButton from "./LoopButton";
@@ -145,7 +145,11 @@ const Filters = ({ filters, updateFilters }) => {
       <div className="filter-basic">
         {basicFilters}
         <div className="flex-1" />
-        <Button className="advance-btn" icon={<FilterOutlined />} onClick={() => setOpen(!open)}>
+        <Button
+          className="advance-btn"
+          icon={open ? <CaretUpOutlined /> : <CaretDownOutlined />}
+          onClick={() => setOpen(!open)}
+        >
           {open ? "Simple" : "Advance"}
         </Button>
       </div>
