@@ -1,11 +1,13 @@
 @import "../../variables";
+@import "../../utils";
 
-.primary-button {
-  color: white;
-  background: @primary-color;
-}
+.chapter-list {
+  &.scroll {
+    max-height: 400px;
+    overflow-y: scroll;
+    .hide-scroll-bar();
+  }
 
-.right-panel-chapter-list {
   .ant-table-title, .ant-table-cell {
     padding: 8px 0 !important;
   }

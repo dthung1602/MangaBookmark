@@ -2,7 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Dropdown } from "antd";
 
-import ChapterList from "./ChapterList";
+import DropdownChapterList from "./DropdownChapterList";
+import { getNextChapToRead } from "../../utils/chapters";
 import { truncString } from "../../utils";
 
 const MAX_LEN_CHAP_NAME = 25;
@@ -16,29 +17,13 @@ function ChapterDropdownButton({
   size = "middle",
 }) {
   const { chapters } = manga;
-  let nextChapToRead;
-  for (let i = 0; i < chapters.length - 1; i++) {
-    if (!chapters[i].isRead && chapters[i + 1].isRead) {
-      nextChapToRead = chapters[i];
-      break;
-    }
-  }
-  if (nextChapToRead === undefined) {
-    if (!chapters[chapters.length - 1].isRead) {
-      nextChapToRead = chapters[chapters.length - 1];
-    } else {
-      nextChapToRead = {
-        name: <i>Last chap reached</i>,
-        link: chapters[0].link,
-      };
-    }
-  }
+  const nextChapToRead = getNextChapToRead(chapters);
 
   return (
     <Dropdown.Button
       size={size}
       overlay={
-        <ChapterList
+        <DropdownChapterList
           manga={manga}
           onChangeChapterStatus={onChangeChapterStatus}
           isLoading={isLoading}

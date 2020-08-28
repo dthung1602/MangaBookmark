@@ -4,29 +4,31 @@ import moment from "moment";
 import { Button, Checkbox, Spin, Table, Popconfirm } from "antd";
 import { DoubleLeftOutlined, CheckOutlined, ClockCircleOutlined } from "@ant-design/icons";
 
-import chapterListLogic from "../../utils/chapterListLogic";
+import { changeChapterReadStatusLogic } from "../../utils/chapters";
 import { truncString } from "../../utils";
 import "./ChapterList.less";
 
 const { Column } = Table;
 
-function ChapterList({ manga, isLoading, onChangeChapterStatus }) {
+function ChapterList({ manga, isLoading, onChangeChapterStatus, type, showDate = true, maxChapNameLen = 35 }) {
   const [showReadChapters, setShowReadChapters] = useState(true);
 
-  const [checkboxChange, markUpTo, markAll] = chapterListLogic(manga, onChangeChapterStatus);
+  const [checkboxChange, markUpTo, markAll] = changeChapterReadStatusLogic(manga, onChangeChapterStatus);
 
   const { chapters } = manga;
   const displayChapters = showReadChapters ? chapters : chapters.filter((ch) => !ch.isRead);
   const allChaptersRead = chapters.every((chap) => chap.isRead);
 
+  const pagination = type === "page" ? { hideOnSinglePage: true } : false;
+
   useEffect(() => setShowReadChapters(true), [chapters]);
 
   return (
-    <div className="right-panel-chapter-list">
+    <div className={`chapter-list ${type}`}>
       <Spin spinning={isLoading}>
         <Table
           size="small"
-          pagination={{ hideOnSinglePage: true }}
+          pagination={pagination}
           showHeader={false}
           dataSource={displayChapters}
           title={() => (
@@ -63,15 +65,17 @@ function ChapterList({ manga, isLoading, onChangeChapterStatus }) {
             key="name"
             render={(text, chapter) => (
               <a href={chapter.link} target="_blank" rel="noopener noreferrer">
-                {truncString(chapter.name, 35, true)}
+                {truncString(chapter.name, maxChapNameLen, true)}
               </a>
             )}
           />
-          <Column
-            dataIndex="createdAt"
-            key="createdAt"
-            render={(text, chapter) => <i>{moment.utc(chapter.createdAt).fromNow()}</i>}
-          />
+          {showDate ? (
+            <Column
+              dataIndex="createdAt"
+              key="createdAt"
+              render={(text, chapter) => <i>{moment.utc(chapter.createdAt).fromNow()}</i>}
+            />
+          ) : null}
           <Column
             dataIndex="action"
             key="action"
@@ -96,6 +100,9 @@ ChapterList.propTypes = {
   manga: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
   onChangeChapterStatus: PropTypes.func.isRequired,
+  type: PropTypes.oneOf(["scroll", "page"]).isRequired,
+  showDate: PropTypes.bool,
+  maxChapNameLen: PropTypes.number,
 };
 
 export default ChapterList;

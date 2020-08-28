@@ -7,7 +7,7 @@ import "./MangaBasicInfo.less";
 
 const { Title } = Typography;
 
-function MangaBasicInfo({ manga }) {
+function MangaBasicInfo({ manga, headerExtra }) {
   return (
     <Descriptions
       title={
@@ -17,6 +17,7 @@ function MangaBasicInfo({ manga }) {
           </a>
         </Title>
       }
+      extra={headerExtra}
       className="manga-basic-info"
       size="small"
       column={1}
@@ -32,6 +33,7 @@ function MangaBasicInfo({ manga }) {
 
 MangaBasicInfo.propTypes = {
   manga: PropTypes.object.isRequired,
+  headerExtra: PropTypes.node,
 };
 
 export default MangaBasicInfo;

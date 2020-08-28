@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { FacebookOutlined, GoogleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 
-import { ROUTE_LOGIN_FACEBOOK, ROUTE_LOGIN_GOOGLE } from "../utils/constants";
+import { ROUTE_LOGIN_FACEBOOK, ROUTE_LOGIN_GOOGLE } from "../../utils/constants";
 import "./Button.less";
 
 export const GoogleButton = ({ children }) => (

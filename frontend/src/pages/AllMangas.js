@@ -132,7 +132,12 @@ const AllMangas = () => {
             <>
               {pageHeader}
               {filterBar}
-              <MangaTableMobile mangas={mangas} isLoading={isLoading} updateMangaDone={updateMangaDone} />
+              <MangaTableMobile
+                mangas={mangas}
+                isLoading={isLoading}
+                deleteMangaDone={deleteMangaDone}
+                updateMangaDone={updateMangaDone}
+              />
               {endOfList}
             </>
           )}

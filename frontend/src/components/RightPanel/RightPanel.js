@@ -1,17 +1,13 @@
 import React, { useState } from "react";
 import Proptypes from "prop-types";
-import { Descriptions, Empty, Popconfirm, Typography, Spin, message } from "antd";
+import { Descriptions, Empty, message, Popconfirm, Spin, Typography } from "antd";
 import { DeleteOutlined, SyncOutlined } from "@ant-design/icons";
-
-import LoopButton from "../Filters/LoopButton";
-import FilterDropdown from "../Filters/FilterDropdown";
-import ChapterList from "./ChapterList";
-import Note from "./Note";
+import { BasicFields, ChapterList, Note } from "../EditManga";
 import { MangaAPI } from "../../api";
 import { useMarkChapterAPI } from "../../hooks";
 import { formatDate } from "../../utils";
-import { notifyError, checkResponse } from "../../utils/error-handler";
-import { MG_STATUSES, SHELVES } from "../../utils/constants";
+import { checkResponse, notifyError } from "../../utils/error-handler";
+import { MG_STATUSES } from "../../utils/constants";
 import "./RightPanel.less";
 
 const { Title } = Typography;
@@ -111,30 +107,8 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
             <Note note={manga.note} editNote={editManga("note")} />
           </Descriptions.Item>
         </Descriptions>
-        <div className="editable-info">
-          <FilterDropdown
-            displayName={"Shelf"}
-            options={SHELVES}
-            showAnyOption={false}
-            selected={manga.shelf}
-            onSelect={editManga("shelf")}
-          />
-          <LoopButton
-            displayName={"Completed"}
-            options={["true", "false"]}
-            showAnyOption={false}
-            selected={String(manga.isCompleted)}
-            onSelect={editManga("isCompleted")}
-          />
-          <LoopButton
-            displayName={"Hidden"}
-            options={["true", "false"]}
-            showAnyOption={false}
-            selected={String(manga.hidden)}
-            onSelect={editManga("hidden")}
-          />
-        </div>
-        <ChapterList manga={manga} isLoading={isChapterListLoading} onChangeChapterStatus={markChapters} />
+        <BasicFields manga={manga} editManga={editManga} layout="row" />
+        <ChapterList type="page" manga={manga} isLoading={isChapterListLoading} onChangeChapterStatus={markChapters} />
       </Spin>
     </div>
   );

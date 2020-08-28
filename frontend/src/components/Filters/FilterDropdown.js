@@ -15,6 +15,7 @@ const FilterDropdown = ({
   anyText = "--",
   size = "default",
   placement = "bottomCenter",
+  block = false,
 }) => {
   const onSelectWrapper = ({ key }) => onSelect(key);
 
@@ -25,7 +26,6 @@ const FilterDropdown = ({
     options = obj;
   }
 
-  // the <> is absolutely necessary
   return (
     <Dropdown
       overlay={
@@ -46,7 +46,7 @@ const FilterDropdown = ({
       placement={placement}
       arrow
     >
-      <Button size={size}>
+      <Button size={size} block={block}>
         <b>{displayName}: </b>
         {options[selected] || (showAnyOption ? anyText : "")}
       </Button>
@@ -64,6 +64,7 @@ FilterDropdown.propTypes = {
   anyText: PropTypes.node,
   size: PropTypes.oneOf(["small", "default", "large"]),
   placement: PropTypes.oneOf(["bottomLeft", "bottomCenter", "bottomRight", "topLeft", "topCenter", "topRight"]),
+  block: PropTypes.bool,
 };
 
 export default FilterDropdown;

@@ -1,7 +1,11 @@
 @import "../../../variables";
 
 .manga-card {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
+
+  h4 {
+    margin-bottom: 2px !important;
+  }
 
   .cover {
     height: 250px;
@@ -27,24 +31,28 @@
     }
   }
 
-  &:hover {
-    .cover {
-      img {
-        transform: scale(1.2, 1.2);
-      }
+  .next-chap-btn {
+    display: block;
+    margin-top: 8px;
+    padding: 8px;
+    text-align: center;
+    color: #808080;
+    background: #f3f3f3;
+    &:not(.empty) {
+      color: @primary-color;
+      background: @primary-color-light;
     }
   }
-}
 
-.manga-card-expand {
-  border: none !important;
-  background: white;
-  margin: 12px 0;
-
-  .ant-collapse-header {
-    padding: 0 6px !important;
+  .note {
+    margin: 16px 0;
   }
-  .ant-collapse-content-box {
-    padding: 0 !important;
+
+  .collapsable {
+    height: auto;
+    overflow-y: hidden;
+    &.collapsed {
+      height: 36px;
+    }
   }
 }

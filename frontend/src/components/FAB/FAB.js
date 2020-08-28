@@ -2,9 +2,9 @@ import React, { useState, useRef } from "react";
 import { Button, Tooltip } from "antd";
 import { PlusOutlined, UpOutlined, FileAddOutlined, ReloadOutlined } from "@ant-design/icons";
 
-import NewMangaModal from "./NewMangaModal";
-import { useOnClickOutside } from "../hooks";
-import { disableBackgroundScrolling } from "../utils";
+import NewMangaModal from "../NewMangaModal";
+import { useOnClickOutside } from "../../hooks";
+import { disableBackgroundScrolling } from "../../utils";
 import "./FAB.less";
 
 const scrollToTop = () => {

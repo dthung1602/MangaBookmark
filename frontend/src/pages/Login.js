@@ -3,7 +3,7 @@ import { Divider } from "antd";
 
 import AuthLayout from "./AuthLayout";
 import LoginForm from "../components/LoginForm";
-import { FacebookButton, GoogleButton } from "../components/Button";
+import { FacebookButton, GoogleButton } from "../components/SocialNetworkButton";
 
 const Login = () => {
   return (

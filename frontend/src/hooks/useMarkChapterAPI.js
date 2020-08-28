@@ -7,6 +7,9 @@ const useMarkChapterAPI = (updateMangaDone) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const markChapters = (mangaId, isRead, chapLinks) => {
+    if (chapLinks.length === 0) {
+      return;
+    }
     setIsLoading(true);
     MangaAPI.markChapters(mangaId, isRead, chapLinks)
       .then(async (response) => {
