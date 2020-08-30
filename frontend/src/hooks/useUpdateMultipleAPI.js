@@ -13,28 +13,32 @@ const UpdateResult = ({ success, fail }) => {
         {success.length} manga(s) updated <i>successfully</i>.
       </div>
       <div>{mangasWithNewChaps.length} of which has/have new chapters</div>
-      <ul>
-        {mangasWithNewChaps.map((mg) => (
-          <li key={mg._id}>
-            <a href={mg.link} rel="noopener noreferrer" target="_blank">
-              {mg.name}
-            </a>
-            &nbsp;&nbsp; ({mg.newChapCount})
-          </li>
-        ))}
-      </ul>
+      {mangasWithNewChaps.length === 0 ? null : (
+        <ul>
+          {mangasWithNewChaps.map((mg) => (
+            <li key={mg._id}>
+              <a href={mg.link} rel="noopener noreferrer" target="_blank">
+                {mg.name}
+              </a>
+              &nbsp;&nbsp; ({mg.newChapCount})
+            </li>
+          ))}
+        </ul>
+      )}
       <div>
         {fail.length} manga(s) <i>failed</i> to update
       </div>
-      <ul>
-        {fail.map((mg) => (
-          <li key={mg._id}>
-            <a href={mg.link} rel="noopener noreferrer" target="_blank">
-              {mg.name}
-            </a>
-          </li>
-        ))}
-      </ul>
+      {fail.length === 0 ? null : (
+        <ul>
+          {fail.map((mg) => (
+            <li key={mg._id}>
+              <a href={mg.link} rel="noopener noreferrer" target="_blank">
+                {mg.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
     </>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StringParam, useQueryParam, withDefault } from "use-query-params";
-import { Layout, Modal, Tabs, Typography, Affix } from "antd";
+import { Layout, Modal, Tabs, Typography, Affix, Switch } from "antd";
+import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 
 import { Desktop, Mobile } from "../components/ScreenSize";
 import PageLayout from "./PageLayout";
@@ -20,7 +21,7 @@ import "./Mangas.less";
 const { Text } = Typography;
 const { TabPane } = Tabs;
 
-const tabMapping = {
+const TAB_MAPPING = {
   reading: {
     displayName: "Reading",
     description: (
@@ -30,8 +31,8 @@ const tabMapping = {
     ),
     filters: {
       shelf: READING,
-      // unreadChapCountGTE: 1,
-      // sort: "-unreadChapCount",
+      unreadChapCountGTE: 1,
+      sort: "-unreadChapCount",
       page: 1,
       perPage: 0,
     },
@@ -46,8 +47,8 @@ const tabMapping = {
     ),
     filters: {
       shelf: WAITING,
-      // unreadChapCountGTE: WAITING_MG_UNREAD_CHAP_THRESHOLD,
-      // sort: "-unreadChapCount",
+      unreadChapCountGTE: WAITING_MG_UNREAD_CHAP_THRESHOLD,
+      sort: "-unreadChapCount",
       page: 1,
       perPage: 0,
     },
@@ -61,19 +62,21 @@ const tabMapping = {
     ),
     filters: {
       shelf: TO_READ,
-      // sort: "isCompleted createdAt -unreadChapCount",
+      sort: "-isCompleted createdAt -unreadChapCount",
       page: 1,
       perPage: TOP_TO_READ_MG_COUNT,
     },
   },
 };
 
-const updateFilters = {
-  shelf: `${READING} ${TO_READ} ${WAITING}`,
+const DAILY_UPDATE_FILTERS = {
+  shelf: [READING, WAITING, TO_READ],
+  isCompleted: false,
 };
 
 const QuickAccess = () => {
   const [mangas, setMangas] = useState([]);
+  const [showHidden, setShowHidden] = useState(false);
   const [selectedManga, setSelectedManga] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [mangaCount, setMangaCount] = useState(NaN);
@@ -86,8 +89,11 @@ const QuickAccess = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    const { filters } = tabMapping[tab];
-    MangaAPI.find({ ...filters })
+    const filters = { ...TAB_MAPPING[tab].filters };
+    if (!showHidden) {
+      filters.hidden = false;
+    }
+    MangaAPI.find(filters)
       .then(async (response) => {
         checkResponse(response);
         const { data, totalItem } = await response.json();
@@ -96,9 +102,9 @@ const QuickAccess = () => {
       })
       .catch(notifyError)
       .finally(() => setIsLoading(false));
-  }, [tab]);
+  }, [tab, showHidden]);
 
-  const [isUpdatingMangas, updateMangas] = useUpdateMultipleAPI(updateFilters);
+  const [isUpdatingMangas, updateMangas] = useUpdateMultipleAPI(DAILY_UPDATE_FILTERS);
 
   const updateMangaDone = (newManga) => {
     setSelectedManga(newManga);
@@ -130,8 +136,22 @@ const QuickAccess = () => {
 
   const tabs = (
     <Affix className="affix-container">
-      <Tabs defaultActiveKey={tab} onChange={setTab} className="tab">
-        {Object.entries(tabMapping).map(([tab, { displayName }]) => (
+      <Tabs
+        defaultActiveKey={tab}
+        onChange={setTab}
+        className="tab"
+        tabBarExtraContent={
+          <Switch
+            size="small"
+            title={showHidden ? "Hide hidden mangas" : "Show hidden mangas"}
+            checked={showHidden}
+            onChange={(v) => setShowHidden(v)}
+            checkedChildren={<EyeOutlined />}
+            unCheckedChildren={<EyeInvisibleOutlined />}
+          />
+        }
+      >
+        {Object.entries(TAB_MAPPING).map(([tab, { displayName }]) => (
           <TabPane key={tab} tab={displayName} />
         ))}
       </Tabs>
