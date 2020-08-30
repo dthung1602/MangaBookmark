@@ -32,6 +32,9 @@ module.exports = async function (filters = {}, search = undefined, sort = undefi
     if (sort.includes("name")) {
       mangas = mangas.collation({ locale: "en" }); // sort case-insensitively
     }
+    if (Array.isArray(sort)) {
+      sort = sort.join(" ");
+    }
     mangas = mangas.sort(sort);
   }
 

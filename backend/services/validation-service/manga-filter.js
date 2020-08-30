@@ -5,11 +5,11 @@ const ErrorFormatter = require("./validation-error-formatter");
 
 const MangaFilterValidator = [
   check("search").optional().trim(),
-  check("shelf").optional().isIn(Object.values(Manga.Shelf)),
+  check("shelf.*").optional().isIn(Object.values(Manga.Shelf)),
   check("isCompleted").optional().isBoolean().toBoolean(),
-  check("status").optional().isInt({ min: 0, max: 3 }).toInt(),
+  check("status.*").optional().isInt({ min: 0, max: 3 }).toInt(),
   check("hidden").optional().isBoolean().toBoolean(),
-  check("site").optional(),
+  check("site.*").optional(),
   check("createdAtGTE").optional().isDate(),
   check("createdAtLTE").optional().isDate(),
   check("lastReleasedGTE").optional().isDate(),
@@ -18,7 +18,7 @@ const MangaFilterValidator = [
   check("unreadChapCountLTE").optional().isInt().toInt(),
   check("page").optional().isInt({ min: 1 }).toInt(),
   check("perPage").optional().isInt({ min: 0 }).toInt(),
-  check("sort")
+  check("sort.*")
     .optional()
     .matches(/^-?[0-9a-zA-Z]+$/),
   ErrorFormatter,

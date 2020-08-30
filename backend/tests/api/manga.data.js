@@ -30,6 +30,13 @@ const MANGA_FILTER = [
   // --------------------
   [{ shelf: "reading" }, 1, 1, 1, ["111eeeeeeeeeeeeeeeeee111"]],
   [{ shelf: "to read" }, 2, 1, 1, ["444eeeeeeeeeeeeeeeeee444", "555eeeeeeeeeeeeeeeeee555"]],
+  [
+    { shelf: ["to read", "reading"] },
+    3,
+    1,
+    1,
+    ["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444", "555eeeeeeeeeeeeeeeeee555"],
+  ],
   // --------------------
   //     IS COMPLETED
   // --------------------
@@ -40,6 +47,7 @@ const MANGA_FILTER = [
   // --------------------
   [{ status: 0 }, 1, 1, 1, ["555eeeeeeeeeeeeeeeeee555"]],
   [{ status: 3 }, 1, 1, 1, ["111eeeeeeeeeeeeeeeeee111"]],
+  [{ status: [0, 3] }, 2, 1, 1, ["111eeeeeeeeeeeeeeeeee111", "555eeeeeeeeeeeeeeeeee555"]],
   // --------------------
   //     HIDDEN
   // --------------------
@@ -49,6 +57,13 @@ const MANGA_FILTER = [
   //     SITE
   // --------------------
   [{ site: "src1" }, 2, 1, 1, ["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444"]],
+  [
+    { site: ["src1", "src2"] },
+    3,
+    1,
+    1,
+    ["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444", "555eeeeeeeeeeeeeeeeee555"],
+  ],
   // --------------------
   //  PAGINATION & SORT
   // --------------------
@@ -89,11 +104,19 @@ const MANGA_FILTER = [
     true,
   ],
   [
-    { page: 1, perPage: 0, sort: "-newChapCount" },
+    { page: 1, perPage: 0, sort: "-newChapCount name" },
     3,
     1,
     1,
-    ["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444", "555eeeeeeeeeeeeeeeeee555"],
+    ["111eeeeeeeeeeeeeeeeee111", "555eeeeeeeeeeeeeeeeee555", "444eeeeeeeeeeeeeeeeee444"],
+    true,
+  ],
+  [
+    { page: 1, perPage: 0, sort: ["-newChapCount", "name"] },
+    3,
+    1,
+    1,
+    ["111eeeeeeeeeeeeeeeeee111", "555eeeeeeeeeeeeeeeeee555", "444eeeeeeeeeeeeeeeeee444"],
     true,
   ],
   [

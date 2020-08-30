@@ -143,6 +143,7 @@ module.exports = [
       generateChapter({ link: "https://example.com/chap2", isRead: true }),
       generateChapter({ link: "https://example.com/chap1", isRead: true }),
     ],
+    site: "src2",
     newChapCount: 0,
     unreadChapCount: 0,
     createdAt: new Date("2013-12-13T13:13:13.113Z"),

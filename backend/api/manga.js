@@ -44,8 +44,9 @@ function handleMangaParsingError(res, e) {
  *       - in: query
  *         name: shelf
  *         schema:
- *           type: string
- *           enum: [to read, reading, waiting, dropped, finished]
+ *           type: array
+ *           items:
+ *             enum: [to read, reading, waiting, dropped, finished]
  *           required: false
  *       - in: query
  *         name: isCompleted
@@ -55,9 +56,11 @@ function handleMangaParsingError(res, e) {
  *       - in: query
  *         name: status
  *         schema:
- *           type: integer
- *           minimum: 0
- *           maximum: 3
+ *           type: array
+ *           items:
+ *             type: integer
+ *             minimum: 0
+ *             maximum: 3
  *           required: false
  *       - in: query
  *         name: hidden
@@ -67,7 +70,9 @@ function handleMangaParsingError(res, e) {
  *       - in: query
  *         name: site
  *         schema:
- *           type: string
+ *           type: array
+ *           items:
+ *             type: string
  *           required: false
  *       - in: query
  *         name: createdAtGTE
@@ -121,9 +126,11 @@ function handleMangaParsingError(res, e) {
  *       - in: query
  *         name: sort
  *         schema:
- *           type: string
- *           description: The field name to sort. Add - to sort desc
- *           example: reading, -status, name, -newChapCount
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: The field name to sort. Add - to sort desc. This field can be a string of one filed
+ *                        a string of multiple fields separated by space, or an array of string.
  *           required: false
  *     responses:
  *       200:
@@ -421,8 +428,9 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
  *       - in: query
  *         name: shelf
  *         schema:
- *           type: string
- *           enum: [to read, reading, waiting, dropped, finished]
+ *           type: array
+ *           items:
+ *             enum: [to read, reading, waiting, dropped, finished]
  *           required: false
  *       - in: query
  *         name: isCompleted
@@ -432,9 +440,11 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
  *       - in: query
  *         name: status
  *         schema:
- *           type: integer
- *           minimum: 0
- *           maximum: 3
+ *           type: array
+ *           items:
+ *             type: integer
+ *             minimum: 0
+ *             maximum: 3
  *           required: false
  *       - in: query
  *         name: hidden
@@ -444,7 +454,9 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
  *       - in: query
  *         name: site
  *         schema:
- *           type: string
+ *           type: array
+ *           items:
+ *             type: string
  *           required: false
  *       - in: query
  *         name: createdAtGTE
@@ -498,9 +510,11 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
  *       - in: query
  *         name: sort
  *         schema:
- *           type: string
- *           description: The field name to sort. Add - to sort desc
- *           example: reading, -status, name, -newChapCount
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: The field name to sort. Add - to sort desc. This field can be a string of one filed
+ *                        a string of multiple fields separated by space, or an array of string.
  *           required: false
  *     responses:
  *       200:
@@ -510,37 +524,16 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
  *              schema:
  *                type: object
  *                properties:
- *                  total:
+ *                  data:
+ *                    type: array
+ *                    items:
+ *                      $ref: '#/components/schemas/Manga'
+ *                  page:
  *                    type: integer
- *                    description: Number of matched mangas
- *                  success:
- *                    type: array
- *                    items:
- *                      type: object
- *                      properties:
- *                        _id:
- *                          $ref: '#/components/schemas/Id'
- *                        name:
- *                          type: string
- *                        link:
- *                          type: string
- *                          format: uri
- *                        site:
- *                          type: string
- *                  fail:
- *                    type: array
- *                    items:
- *                      type: object
- *                      properties:
- *                        _id:
- *                          $ref: '#/components/schemas/Id'
- *                        name:
- *                          type: string
- *                        link:
- *                          type: string
- *                          format: uri
- *                        site:
- *                          type: string
+ *                  totalItem:
+ *                    type: integer
+ *                  totalPage:
+ *                    type: integer
  */
 router.postAsync("/update-multiple", MangaFilterValidator, async (req, res) => {
   const filters = removeUndefinedAttrs({
