@@ -2,9 +2,9 @@ const { Manga } = require("../../models");
 const { PAGE_SIZE } = require("../../config");
 const paginate = require("../pagination-service");
 
-function convertDateRange(filters, field) {
-  const gte = filters[`${field}GTE`];
-  const lte = filters[`${field}LTE`];
+function convertRange(filters, field, isDate = false) {
+  let gte = filters[`${field}GTE`];
+  let lte = filters[`${field}LTE`];
   if (gte || lte) {
     filters[field] = {};
     if (gte) {
@@ -13,7 +13,8 @@ function convertDateRange(filters, field) {
     }
     if (lte) {
       delete filters[`${field}LTE`];
-      filters[field].$lte = lte + "T23:59:59.999Z";
+      lte = isDate ? lte + "T23:59:59.999Z" : lte;
+      filters[field].$lte = lte;
     }
   }
 }
@@ -22,8 +23,9 @@ module.exports = async function (filters = {}, search = undefined, sort = undefi
   if (search) {
     filters.$text = { $search: search };
   }
-  convertDateRange(filters, "createdAt");
-  convertDateRange(filters, "lastReleased");
+  convertRange(filters, "createdAt", true);
+  convertRange(filters, "lastReleased", true);
+  convertRange(filters, "unreadChapCount");
 
   let mangas = Manga.find(filters);
   if (sort) {

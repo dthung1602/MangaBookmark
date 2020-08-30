@@ -104,6 +104,16 @@ const MANGA_FILTER = [
     ["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444", "555eeeeeeeeeeeeeeeeee555"],
     true,
   ],
+  // --------------------
+  //  CREATED AT
+  // --------------------
+  [{ createdAtGTE: "2012-12-12" }, 2, 1, 1, ["444eeeeeeeeeeeeeeeeee444", "555eeeeeeeeeeeeeeeeee555"], true],
+  [{ createdAtLTE: "2012-12-12" }, 2, 1, 1, ["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444"], true],
+  // --------------------
+  //  UNREAD CHAP COUNT
+  // --------------------
+  [{ unreadChapCountGTE: 3 }, 1, 1, 1, ["111eeeeeeeeeeeeeeeeee111"], true],
+  [{ unreadChapCountLTE: 2 }, 2, 1, 1, ["444eeeeeeeeeeeeeeeeee444", "555eeeeeeeeeeeeeeeeee555"], true],
   // ----------------------------
   //       MULTIPLE FILTERS
   // ----------------------------

@@ -409,6 +409,24 @@
           },
           {
             "in": "query",
+            "name": "unreadChapCountGTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "unreadChapCountLTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
             "name": "page",
             "schema": {
               "type": "integer",
@@ -833,6 +851,24 @@
           },
           {
             "in": "query",
+            "name": "unreadChapCountGTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "unreadChapCountLTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
             "name": "page",
             "schema": {
               "type": "integer",
@@ -884,6 +920,10 @@
                           "name": {
                             "type": "string"
                           },
+                          "link": {
+                            "type": "string",
+                            "format": "uri"
+                          },
                           "site": {
                             "type": "string"
                           }
@@ -900,6 +940,10 @@
                           },
                           "name": {
                             "type": "string"
+                          },
+                          "link": {
+                            "type": "string",
+                            "format": "uri"
                           },
                           "site": {
                             "type": "string"

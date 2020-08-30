@@ -14,6 +14,8 @@ const MangaFilterValidator = [
   check("createdAtLTE").optional().isDate(),
   check("lastReleasedGTE").optional().isDate(),
   check("lastReleasedLTE").optional().isDate(),
+  check("unreadChapCountGTE").optional().isInt().toInt(),
+  check("unreadChapCountLTE").optional().isInt().toInt(),
   check("page").optional().isInt({ min: 1 }).toInt(),
   check("perPage").optional().isInt({ min: 0 }).toInt(),
   check("sort")
@@ -32,6 +34,8 @@ const MANGA_FILTER_FIELDS = [
   "createdAtLTE",
   "lastReleasedGTE",
   "lastReleasedLTE",
+  "unreadChapCountGTE",
+  "unreadChapCountLTE",
 ];
 
 module.exports = { MangaFilterValidator, MANGA_FILTER_FIELDS };

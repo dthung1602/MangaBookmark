@@ -94,6 +94,18 @@ function handleMangaParsingError(res, e) {
  *           format: date
  *           required: false
  *       - in: query
+ *         name: unreadChapCountGTE
+ *         schema:
+ *           type: string
+ *           format: date
+ *           required: false
+ *       - in: query
+ *         name: unreadChapCountLTE
+ *         schema:
+ *           type: string
+ *           format: date
+ *           required: false
+ *       - in: query
  *         name: page
  *         schema:
  *           type: integer
@@ -454,6 +466,18 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
  *           required: false
  *       - in: query
  *         name: lastReleasedLTE
+ *         schema:
+ *           type: string
+ *           format: date
+ *           required: false
+ *       - in: query
+ *         name: unreadChapCountGTE
+ *         schema:
+ *           type: string
+ *           format: date
+ *           required: false
+ *       - in: query
+ *         name: unreadChapCountLTE
  *         schema:
  *           type: string
  *           format: date

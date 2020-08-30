@@ -83,6 +83,8 @@ module.exports = [
     site: "src1",
     newChapCount: 2,
     unreadChapCount: 3,
+    createdAt: new Date("2011-11-11T11:11:11.112Z"),
+    updatedAt: new Date("2012-12-12T12:12:12.122Z"),
   }),
   generateManga({
     _id: new ObjectId("222eeeeeeeeeeeeeeeeee222"),
@@ -126,6 +128,8 @@ module.exports = [
     site: "src1",
     newChapCount: 0,
     unreadChapCount: 0,
+    createdAt: new Date("2012-12-12T12:12:12.122Z"),
+    updatedAt: new Date("2013-12-13T13:13:13.113Z"),
   }),
   generateManga({
     _id: new ObjectId("555eeeeeeeeeeeeeeeeee555"),
@@ -141,5 +145,7 @@ module.exports = [
     ],
     newChapCount: 0,
     unreadChapCount: 0,
+    createdAt: new Date("2013-12-13T13:13:13.113Z"),
+    updatedAt: new Date("2014-12-14T14:14:14.114Z"),
   }),
 ];
