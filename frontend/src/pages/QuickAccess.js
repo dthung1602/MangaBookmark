@@ -1,81 +1,104 @@
 import React, { useEffect, useState } from "react";
-import { StringParam, useQueryParams, withDefault } from "use-query-params";
-import { Layout, Modal } from "antd";
+import { StringParam, useQueryParam, withDefault } from "use-query-params";
+import { Layout, Modal, Tabs, Typography, Affix } from "antd";
 
 import { Desktop, Mobile } from "../components/ScreenSize";
 import PageLayout from "./PageLayout";
 import FAB from "../components/FAB";
 import PageHeader from "../components/PageHeader";
 import RightPanel from "../components/RightPanel";
-import Filters from "../components/Filters";
 import MangaTableDesktop from "../components/MangaTable/MangaTableDesktop";
 import MangaTableMobile from "../components/MangaTable/MangaTableMobile";
 import NewMangaModal from "../components/NewMangaModal";
-import EndOfList from "../components/EndOfList";
-import { ANY, MANGA_PER_PAGE, SORT_DEC_STATUS } from "../utils/constants";
+import { READING, TO_READ, TOP_TO_READ_MG_COUNT, WAITING, WAITING_MG_UNREAD_CHAP_THRESHOLD } from "../utils/constants";
 import { MangaAPI } from "../api";
 import { useUpdateMultipleAPI } from "../hooks";
-import { removeUndefinedAttrs, removeEmptyStringAttrs, disableBackgroundScrolling } from "../utils";
+import { disableBackgroundScrolling } from "../utils";
 import { checkResponse, notifyError } from "../utils/error-handler";
 import "./Mangas.less";
 
-const AllMangas = () => {
+const { Text } = Typography;
+const { TabPane } = Tabs;
+
+const tabMapping = {
+  reading: {
+    displayName: "Reading",
+    description: (
+      <>
+        Mangas in <Text keyboard>Reading</Text> shelf that has unread chapters
+      </>
+    ),
+    filters: {
+      shelf: READING,
+      // unreadChapCountGTE: 1,
+      // sort: "-unreadChapCount",
+      page: 1,
+      perPage: 0,
+    },
+  },
+  waiting: {
+    displayName: "Waiting",
+    description: (
+      <>
+        Mangas in <Text keyboard>Waiting</Text>
+        shelf that has more than {WAITING_MG_UNREAD_CHAP_THRESHOLD} unread chapters
+      </>
+    ),
+    filters: {
+      shelf: WAITING,
+      // unreadChapCountGTE: WAITING_MG_UNREAD_CHAP_THRESHOLD,
+      // sort: "-unreadChapCount",
+      page: 1,
+      perPage: 0,
+    },
+  },
+  toread: {
+    displayName: "Top to read",
+    description: (
+      <>
+        Top {TOP_TO_READ_MG_COUNT} mangas in <Text keyboard>To read</Text> shelf that `should` be read first
+      </>
+    ),
+    filters: {
+      shelf: TO_READ,
+      // sort: "isCompleted createdAt -unreadChapCount",
+      page: 1,
+      perPage: TOP_TO_READ_MG_COUNT,
+    },
+  },
+};
+
+const updateFilters = {
+  shelf: `${READING} ${TO_READ} ${WAITING}`,
+};
+
+const QuickAccess = () => {
   const [mangas, setMangas] = useState([]);
   const [selectedManga, setSelectedManga] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState(1);
   const [mangaCount, setMangaCount] = useState(NaN);
-  const [allLoaded, setAllLoaded] = useState(false);
   const [openImg, setOpenImg] = useState(false);
   const [newMangaModalOpen, setNewMangaModalOpen] = useState(false);
 
-  const [filters, setFilters] = useQueryParams({
-    shelf: withDefault(StringParam, ANY),
-    status: withDefault(StringParam, ANY),
-    sort: withDefault(StringParam, SORT_DEC_STATUS),
-    search: StringParam,
-    isCompleted: withDefault(StringParam, ANY),
-    hidden: withDefault(StringParam, "false"),
-    site: withDefault(StringParam, ANY),
-    createdAtGTE: StringParam,
-    createdAtLTE: StringParam,
-    lastReleasedGTE: StringParam,
-    lastReleasedLTE: StringParam,
-  });
+  const [tab, setTab] = useQueryParam("tab", withDefault(StringParam, "reading"));
 
   disableBackgroundScrolling(openImg || newMangaModalOpen);
 
-  const updateFilters = (values) => {
-    const newFilters = { ...filters, ...values };
-    removeEmptyStringAttrs(newFilters);
-    removeUndefinedAttrs(newFilters);
-    setFilters(newFilters, "push");
-    setPage(1);
-    setMangas([]);
-    setSelectedManga(null);
-  };
-
   useEffect(() => {
     setIsLoading(true);
-    MangaAPI.find({ ...filters, page, perPage: MANGA_PER_PAGE })
+    const { filters } = tabMapping[tab];
+    MangaAPI.find({ ...filters })
       .then(async (response) => {
         checkResponse(response);
-        const { data, totalItem, isLastPage } = await response.json();
-
+        const { data, totalItem } = await response.json();
         setMangaCount(totalItem);
-        setAllLoaded(isLastPage);
-
-        if (page === 1) {
-          setMangas([...data]);
-        } else {
-          setMangas((prevState) => [...prevState, ...data]);
-        }
+        setMangas(data);
       })
       .catch(notifyError)
       .finally(() => setIsLoading(false));
-  }, [filters, page]);
+  }, [tab]);
 
-  const [isUpdatingMangas, updateMangas] = useUpdateMultipleAPI(filters);
+  const [isUpdatingMangas, updateMangas] = useUpdateMultipleAPI(updateFilters);
 
   const updateMangaDone = (newManga) => {
     setSelectedManga(newManga);
@@ -96,16 +119,24 @@ const AllMangas = () => {
 
   const pageHeader = (
     <PageHeader
-      title="All mangas"
-      updateBtnText="Update matched mangas"
+      title="Quick access"
+      updateBtnText="Daily update"
       mangaCount={mangaCount}
       openNewMangaModal={openNewMangaModal}
       isUpdatingMangas={isUpdatingMangas}
       updateMangas={updateMangas}
     />
   );
-  const endOfList = <EndOfList onReached={() => setPage(page + 1)} disabled={isLoading || allLoaded} />;
-  const filterBar = <Filters filters={filters} updateFilters={updateFilters} />;
+
+  const tabs = (
+    <Affix className="affix-container">
+      <Tabs defaultActiveKey={tab} onChange={setTab} className="tab">
+        {Object.entries(tabMapping).map(([tab, { displayName }]) => (
+          <TabPane key={tab} tab={displayName} />
+        ))}
+      </Tabs>
+    </Affix>
+  );
 
   return (
     <PageLayout>
@@ -115,7 +146,7 @@ const AllMangas = () => {
             <>
               <div className="left-panel">
                 {pageHeader}
-                {filterBar}
+                {tabs}
                 <MangaTableDesktop
                   mangas={mangas}
                   isLoading={isLoading}
@@ -123,7 +154,6 @@ const AllMangas = () => {
                   onMangaClicked={(manga) => setSelectedManga(manga)}
                   showImage={setOpenImg}
                 />
-                {endOfList}
               </div>
               <RightPanel
                 manga={selectedManga}
@@ -139,14 +169,13 @@ const AllMangas = () => {
           render={() => (
             <>
               {pageHeader}
-              {filterBar}
+              {tabs}
               <MangaTableMobile
                 mangas={mangas}
                 isLoading={isLoading}
                 deleteMangaDone={deleteMangaDone}
                 updateMangaDone={updateMangaDone}
               />
-              {endOfList}
             </>
           )}
         />
@@ -163,4 +192,4 @@ const AllMangas = () => {
   );
 };
 
-export default AllMangas;
+export default QuickAccess;

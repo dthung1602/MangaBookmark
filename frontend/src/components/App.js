@@ -7,8 +7,8 @@ import {
   ROUTE_HOME,
   ROUTE_LEGAL_NOTICE,
   ROUTE_LOGIN,
-  ROUTE_MANGAS,
-  ROUTE_RECENT_MANGAS,
+  ROUTE_ALL_MANGAS,
+  ROUTE_QUICK_ACCESS,
   ROUTE_REGISTER,
 } from "../utils/constants";
 import { GlobalContextProvider } from "./GlobalContext";
@@ -19,8 +19,8 @@ import FullScreenLoading from "./FullScreenLoading";
 const Account = lazy(() => import("../pages/Account"));
 const Home = lazy(() => import("../pages/Home"));
 const Login = lazy(() => import("../pages/Login"));
-const Mangas = lazy(() => import("../pages/AllMangas"));
-const RecentlyUpdatedMangas = lazy(() => import("../pages/RecentlyUpdatedMangas"));
+const AllMangas = lazy(() => import("../pages/AllMangas"));
+const QuickAccess = lazy(() => import("../pages/QuickAccess"));
 const Register = lazy(() => import("../pages/Register"));
 const LegalNotice = lazy(() => import("../pages/LegalNotice"));
 
@@ -37,8 +37,8 @@ const App = () => {
                 <Route path={ROUTE_LOGIN} component={Login} />
                 <Route path={ROUTE_REGISTER} component={Register} />
                 <PrivateRoute path={ROUTE_ACCOUNT} component={Account} />
-                <PrivateRoute path={ROUTE_MANGAS} component={Mangas} />
-                <PrivateRoute path={ROUTE_RECENT_MANGAS} component={RecentlyUpdatedMangas} />
+                <PrivateRoute path={ROUTE_ALL_MANGAS} component={AllMangas} />
+                <PrivateRoute path={ROUTE_QUICK_ACCESS} component={QuickAccess} />
               </Switch>
             </GlobalContextProvider>
           </Suspense>

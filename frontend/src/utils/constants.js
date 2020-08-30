@@ -4,6 +4,8 @@
 export const FRONTEND_VERSION = "3.0.0-a1";
 export const ANY = "any";
 export const MANGA_PER_PAGE = 5;
+export const WAITING_MG_UNREAD_CHAP_THRESHOLD = 5;
+export const TOP_TO_READ_MG_COUNT = 10;
 
 // ------------------------------------------
 //       Manga shelves
@@ -86,8 +88,8 @@ export const OS = [WIN, MAC, LNX, ADR, IOS, UNK];
 const apiServer = process.env.NODE_ENV === "production" ? "" : "http://localhost:3000";
 export const ROUTE_HOME = "/";
 export const ROUTE_LEGAL_NOTICE = "/legal-notice";
-export const ROUTE_MANGAS = "/mangas";
-export const ROUTE_RECENT_MANGAS = "/recently";
+export const ROUTE_ALL_MANGAS = "/mangas";
+export const ROUTE_QUICK_ACCESS = "/quick-access";
 export const ROUTE_ACCOUNT = "/account";
 export const ROUTE_LOGIN = "/login";
 export const ROUTE_LOGIN_GOOGLE = `${apiServer}/api/auth/google`;

@@ -4,7 +4,7 @@ import { Button, Form, Input } from "antd";
 import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 
 import { GlobalContext } from "./GlobalContext";
-import { ROUTE_MANGAS } from "../utils/constants";
+import { ROUTE_ALL_MANGAS } from "../utils/constants";
 import { checkResponse, formatErrors, notifyError } from "../utils/error-handler";
 import { UserAPI } from "../api";
 
@@ -23,7 +23,7 @@ const RegisterForm = () => {
 
       if (response.ok) {
         updateGlobalState({ user: data });
-        history.push(ROUTE_MANGAS);
+        history.push(ROUTE_ALL_MANGAS);
       } else {
         form.setFields(formatErrors(data.errors));
       }

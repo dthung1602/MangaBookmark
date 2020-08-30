@@ -1,12 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, PageHeader as AntPageHeader } from "antd";
+import { Button, PageHeader as AntPageHeader, Grid } from "antd";
 import { PlusOutlined, ReloadOutlined } from "@ant-design/icons";
 
 import "./PageHeader.less";
 
+const { useBreakpoint } = Grid;
+
 const PageHeader = ({ title, mangaCount, openNewMangaModal, updateMangas, isUpdatingMangas, updateBtnText }) => {
   const mangaCountString = `${mangaCount} manga${mangaCount > 1 ? "s" : ""}`;
+
+  const desktop = useBreakpoint().lg;
 
   return (
     <AntPageHeader
@@ -15,10 +19,10 @@ const PageHeader = ({ title, mangaCount, openNewMangaModal, updateMangas, isUpda
       extra={
         <>
           <Button icon={<ReloadOutlined />} onClick={updateMangas} loading={isUpdatingMangas}>
-            {updateBtnText}
+            {desktop ? updateBtnText : null}
           </Button>
           <Button type="primary" icon={<PlusOutlined />} onClick={openNewMangaModal}>
-            Add manga
+            {desktop ? "Add manga" : null}
           </Button>
         </>
       }

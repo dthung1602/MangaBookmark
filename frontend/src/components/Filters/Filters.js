@@ -141,7 +141,7 @@ const Filters = ({ filters, updateFilters }) => {
   }
 
   return (
-    <Affix className="filter-container">
+    <Affix className="affix-container">
       <div className="filter-basic">
         {basicFilters}
         <div className="flex-1" />

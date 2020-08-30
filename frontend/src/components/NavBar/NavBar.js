@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import { Badge, Drawer, Layout, Menu } from "antd";
 import {
   BookOutlined,
-  HistoryOutlined,
+  StarOutlined,
   LoginOutlined,
   LogoutOutlined,
   MenuOutlined,
@@ -14,9 +14,9 @@ import {
 import {
   FRONTEND_VERSION,
   ROUTE_LOGIN,
-  ROUTE_RECENT_MANGAS,
+  ROUTE_QUICK_ACCESS,
   ROUTE_ACCOUNT,
-  ROUTE_MANGAS,
+  ROUTE_ALL_MANGAS,
   ROUTE_HOME,
   ROUTE_REGISTER,
 } from "../../utils/constants";
@@ -85,11 +85,11 @@ const NavBar = () => {
   }
 
   const userIndependentMenu = [
-    <Item key="mangas" icon={<BookOutlined />}>
-      <Link to={ROUTE_MANGAS}>All mangas</Link>
+    <Item key="quick" icon={<StarOutlined />}>
+      <Link to={ROUTE_QUICK_ACCESS}>Quick access</Link>
     </Item>,
-    <Item key="recent" icon={<HistoryOutlined />}>
-      <Link to={ROUTE_RECENT_MANGAS}>Recently updated</Link>
+    <Item key="mangas" icon={<BookOutlined />}>
+      <Link to={ROUTE_ALL_MANGAS}>All mangas</Link>
     </Item>,
   ];
 

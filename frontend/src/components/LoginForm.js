@@ -4,7 +4,7 @@ import { Button, Form, Input, Tooltip } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 
 import { GlobalContext } from "./GlobalContext";
-import { ROUTE_MANGAS, ROUTE_REGISTER } from "../utils/constants";
+import { ROUTE_ALL_MANGAS, ROUTE_REGISTER } from "../utils/constants";
 import { checkResponse, formatErrors, notifyError } from "../utils/error-handler";
 import { AuthAPI } from "../api";
 
@@ -23,7 +23,7 @@ const LoginForm = () => {
 
       if (response.ok) {
         updateGlobalState({ user: data });
-        history.push(location?.state?.next || ROUTE_MANGAS);
+        history.push(location?.state?.next || ROUTE_ALL_MANGAS);
       } else {
         form.setFields(formatErrors(data.errors));
       }

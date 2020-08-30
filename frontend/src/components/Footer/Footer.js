@@ -16,8 +16,8 @@ import {
   ROUTE_HOME,
   ROUTE_LEGAL_NOTICE,
   ROUTE_LOGIN,
-  ROUTE_MANGAS,
-  ROUTE_RECENT_MANGAS,
+  ROUTE_ALL_MANGAS,
+  ROUTE_QUICK_ACCESS,
   ROUTE_REGISTER,
   ROUTE_API_DOC,
   LINK_EMAIL,
@@ -42,8 +42,8 @@ const Footer = () => {
           <Link to={ROUTE_HOME}>Home</Link>
           <Link to={ROUTE_LEGAL_NOTICE}>Legal notice</Link>
           <Link to={ROUTE_ACCOUNT}>My account</Link>
-          <Link to={ROUTE_MANGAS}>All mangas</Link>
-          <Link to={ROUTE_RECENT_MANGAS}>Recently updated</Link>
+          <Link to={ROUTE_ALL_MANGAS}>All mangas</Link>
+          <Link to={ROUTE_QUICK_ACCESS}>Recently updated</Link>
           <Link to={ROUTE_LOGIN}>Login</Link>
           <Link to={ROUTE_REGISTER}>Register</Link>
         </Col>
