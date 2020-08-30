@@ -91,7 +91,7 @@
         - [ ] link / unlink gg, fb
         - [ ] Delete account
     - [ ] Manage notification
-- [ ] Latest updated mangas page
+- [x] Latest updated mangas page
 - [ ] BG Image credit in login page 
 
 # NEW FEATURES

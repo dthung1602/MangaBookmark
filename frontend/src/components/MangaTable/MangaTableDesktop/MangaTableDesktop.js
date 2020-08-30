@@ -14,7 +14,14 @@ const { Column } = Table;
 const skeletonData = Array(MANGA_PER_PAGE).fill({});
 
 const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked, showImage }) => {
-  const dataSource = isLoading ? [...mangas, ...skeletonData] : mangas;
+  let dataSource;
+  if (isLoading === "reload") {
+    dataSource = skeletonData;
+  } else if (isLoading) {
+    dataSource = [...mangas, ...skeletonData];
+  } else {
+    dataSource = mangas;
+  }
 
   return (
     <Table
@@ -75,7 +82,7 @@ const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked,
 
 MangaTableDesktop.propTypes = {
   mangas: PropTypes.array.isRequired,
-  isLoading: PropTypes.bool.isRequired,
+  isLoading: PropTypes.oneOf([true, false, "reload"]).isRequired,
   updateMangaDone: PropTypes.func.isRequired,
   onMangaClicked: PropTypes.func.isRequired,
   showImage: PropTypes.func.isRequired,

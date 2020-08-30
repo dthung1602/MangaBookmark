@@ -4,11 +4,8 @@ import { Button, Tooltip } from "antd";
 import { FileAddOutlined, PlusOutlined, ReloadOutlined, UpOutlined } from "@ant-design/icons";
 
 import { useOnClickOutside } from "../../hooks";
+import { scrollToTop } from "../../utils";
 import "./FAB.less";
-
-const scrollToTop = () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-};
 
 const FAB = ({ openNewMangaModal, isUpdatingMangas, updateMangas }) => {
   const [showExpandBtns, setShowExpandBtns] = useState(false);

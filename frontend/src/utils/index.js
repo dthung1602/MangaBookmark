@@ -49,3 +49,7 @@ export const formatDate = (dateString, relative = false) => {
   const date = moment.utc(dateString);
   return relative ? date.fromNow() : date.format("DD-MM-YYYY");
 };
+
+export const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};

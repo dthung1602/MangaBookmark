@@ -15,7 +15,7 @@ import EndOfList from "../components/EndOfList";
 import { ANY, MANGA_PER_PAGE, SORT_DEC_STATUS } from "../utils/constants";
 import { MangaAPI } from "../api";
 import { useUpdateMultipleAPI } from "../hooks";
-import { removeUndefinedAttrs, removeEmptyStringAttrs, disableBackgroundScrolling } from "../utils";
+import { removeUndefinedAttrs, removeEmptyStringAttrs, disableBackgroundScrolling, scrollToTop } from "../utils";
 import { checkResponse, notifyError } from "../utils/error-handler";
 import "./Mangas.less";
 
@@ -56,7 +56,7 @@ const AllMangas = () => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
+    setIsLoading(page === 1 ? "reload" : true);
     MangaAPI.find({ ...filters, page, perPage: MANGA_PER_PAGE })
       .then(async (response) => {
         checkResponse(response);
@@ -67,6 +67,7 @@ const AllMangas = () => {
 
         if (page === 1) {
           setMangas([...data]);
+          setTimeout(scrollToTop, 500);
         } else {
           setMangas((prevState) => [...prevState, ...data]);
         }
