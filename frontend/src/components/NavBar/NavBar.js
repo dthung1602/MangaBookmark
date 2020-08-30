@@ -1,5 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { throttle } from "lodash";
 import { Badge, Drawer, Layout, Menu } from "antd";
 import {
   BookOutlined,
@@ -20,17 +21,26 @@ import {
   ROUTE_HOME,
   ROUTE_REGISTER,
 } from "../../utils/constants";
+import User from "./User";
 import { Desktop, Mobile } from "../ScreenSize";
 import { AuthAPI } from "../../api";
+import { useOnScreenScrollVertically } from "../../hooks";
+import { scrollToTop } from "../../utils";
 import { notifyError } from "../../utils/error-handler";
 import { GlobalContext } from "../GlobalContext";
-import User from "./User";
-import { useOnScreenScrollVertically } from "../../hooks";
 import LOGO from "../../assets/logo-invert.png";
 import "./NavBar.less";
 
 const { Header } = Layout;
 const { Item, SubMenu } = Menu;
+
+const alterPushDownClass = throttle(
+  (action) => document.getElementById("root").classList[action]("navbar-hidden"),
+  500,
+);
+
+const removePushDownClass = () => alterPushDownClass("remove");
+const addPushDownClass = () => alterPushDownClass("add");
 
 const NavBar = () => {
   const history = useHistory();
@@ -38,10 +48,14 @@ const NavBar = () => {
   const [globalContext, setGlobalContext] = useContext(GlobalContext);
   const { user } = globalContext;
 
-  useOnScreenScrollVertically(
-    () => document.querySelectorAll("#root").forEach((e) => e.classList.remove("navbar-hidden")),
-    () => document.querySelectorAll("#root").forEach((e) => e.classList.add("navbar-hidden")),
-  );
+  useOnScreenScrollVertically(removePushDownClass, addPushDownClass);
+
+  useEffect(() => {
+    removePushDownClass();
+    return history.listen(() => {
+      setTimeout(scrollToTop, 500);
+    });
+  }, []);
 
   const showMenu = () => {
     setMobileMenuVisible(true);

@@ -43,7 +43,7 @@ const Footer = () => {
           <Link to={ROUTE_LEGAL_NOTICE}>Legal notice</Link>
           <Link to={ROUTE_ACCOUNT}>My account</Link>
           <Link to={ROUTE_ALL_MANGAS}>All mangas</Link>
-          <Link to={ROUTE_QUICK_ACCESS}>Recently updated</Link>
+          <Link to={ROUTE_QUICK_ACCESS}>Quick access</Link>
           <Link to={ROUTE_LOGIN}>Login</Link>
           <Link to={ROUTE_REGISTER}>Register</Link>
         </Col>

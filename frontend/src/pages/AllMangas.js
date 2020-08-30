@@ -35,7 +35,7 @@ const AllMangas = () => {
     sort: withDefault(StringParam, SORT_DEC_STATUS),
     search: StringParam,
     isCompleted: withDefault(StringParam, ANY),
-    hidden: withDefault(StringParam, "false"),
+    hidden: withDefault(StringParam, ANY),
     site: withDefault(StringParam, ANY),
     createdAtGTE: StringParam,
     createdAtLTE: StringParam,
