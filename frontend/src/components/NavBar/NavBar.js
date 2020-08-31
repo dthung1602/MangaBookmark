@@ -1,33 +1,30 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { throttle } from "lodash";
 import { Badge, Drawer, Layout, Menu } from "antd";
 import {
   BookOutlined,
-  StarOutlined,
+  FormOutlined,
   LoginOutlined,
   LogoutOutlined,
   MenuOutlined,
+  StarOutlined,
   UserOutlined,
-  FormOutlined,
 } from "@ant-design/icons";
 
 import {
   FRONTEND_VERSION,
-  ROUTE_LOGIN,
-  ROUTE_QUICK_ACCESS,
   ROUTE_ACCOUNT,
   ROUTE_ALL_MANGAS,
   ROUTE_HOME,
+  ROUTE_LOGIN,
+  ROUTE_QUICK_ACCESS,
   ROUTE_REGISTER,
 } from "../../utils/constants";
 import User from "./User";
 import { Desktop, Mobile } from "../ScreenSize";
-import { AuthAPI } from "../../api";
-import { useOnScreenScrollVertically } from "../../hooks";
+import { useLogoutAPI, useOnScreenScrollVertically } from "../../hooks";
 import { scrollToTop } from "../../utils";
-import { notifyError } from "../../utils/error-handler";
-import { GlobalContext } from "../GlobalContext";
 import LOGO from "../../assets/logo-invert.png";
 import "./NavBar.less";
 
@@ -45,8 +42,7 @@ const addPushDownClass = () => alterPushDownClass("add");
 const NavBar = () => {
   const history = useHistory();
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false);
-  const [globalContext, setGlobalContext] = useContext(GlobalContext);
-  const { user } = globalContext;
+  const [logout, user] = useLogoutAPI();
 
   useOnScreenScrollVertically(removePushDownClass, addPushDownClass);
 
@@ -63,18 +59,6 @@ const NavBar = () => {
 
   const closeMenu = () => {
     setMobileMenuVisible(false);
-  };
-
-  const logout = () => {
-    AuthAPI.logout()
-      .then(() => {
-        setGlobalContext({
-          ...globalContext,
-          user: null,
-        });
-        history.push("/");
-      })
-      .catch(notifyError);
   };
 
   let userDependentMenu;
