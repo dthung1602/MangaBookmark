@@ -45,15 +45,13 @@ const INVALID_PASSWORD = [
 ];
 
 const INVALID_UNLINK = [
+  ["111aaaaaaaaaaaaaaaaaa111", { provider: "github" }, { provider: "Invalid value" }],
+  ["222aaaaaaaaaaaaaaaaaa222", { provider: "facebook" }, { provider: "There's no linked Facebook account" }],
   [
-    { provider: "github", newPrimaryAccount: "twitter" },
-    { provider: "Invalid value", newPrimaryAccount: "Invalid value" },
+    "333aaaaaaaaaaaaaaaaaa333",
+    { provider: "facebook" },
+    { provider: "Cannot unlink Facebook account. This is the only way to login." },
   ],
-  [
-    { provider: "google", newPrimaryAccount: "google" },
-    { newPrimaryAccount: "Primary account must be changed after unlink" },
-  ],
-  // TODO test when newPrimaryAccount = google & use.googleId == null
 ];
 
 module.exports = { INVALID_NEW_USER, INVALID_PATCH_USER, INVALID_PASSWORD, INVALID_UNLINK };

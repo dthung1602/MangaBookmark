@@ -38,7 +38,7 @@ const useAuthBtnLogic = (type, ssNetwork) => {
       UserAPI.unlink(ssNetwork)
         .then(async (response) => {
           checkResponse(response);
-          const newUser = response.json();
+          const newUser = await response.json();
           updateGlobalContext({ user: newUser });
           message.success(`${ssNetworkName} account unlinked`);
         })

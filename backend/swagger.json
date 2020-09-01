@@ -195,14 +195,6 @@
             "type": "string",
             "format": "email"
           },
-          "primaryAccount": {
-            "type": "string",
-            "enum": [
-              "local",
-              "google",
-              "facebook"
-            ]
-          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -1201,15 +1193,6 @@
                       "google",
                       "facebook"
                     ]
-                  },
-                  "newPrimaryAccount": {
-                    "type": "string",
-                    "enum": [
-                      "google",
-                      "facebook",
-                      "local"
-                    ],
-                    "description": "The new primary account used for login. Must be different from `provider`"
                   }
                 }
               }

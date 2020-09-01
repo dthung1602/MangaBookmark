@@ -160,21 +160,20 @@ router.patchAsync("/change-password", UserPassValidator, async (req, res) => {
  *               provider:
  *                 type: string
  *                 enum: [google, facebook]
- *               newPrimaryAccount:
- *                 type: string
- *                 enum: [google, facebook, local]
- *                 description: The new primary account used for login. Must be different from `provider`
  *     responses:
- *       204:
+ *       200:
  *         description: Account unlinked successfully
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/User'
  */
 router.patchAsync("/unlink", UnlinkAccountValidator, async (req, res) => {
-  const { newPrimaryAccount, provider } = req.body;
-  const { user } = req;
+  const { provider } = req.body;
 
-  await UserService.unlink(user, provider, newPrimaryAccount);
+  const user = await UserService.unlink(req.user, provider);
 
-  res.sendStatus(204);
+  res.json(removePassword(user));
 });
 
 //-----------------------------------

@@ -26,7 +26,7 @@ passport.use(
       // not found:
       //    user has login -> link account
       //    else ->  create user
-      const user = req.user ? await User.findById(req.user.id) : new User({ primaryAccount: "google" });
+      const user = req.user ? await User.findById(req.user.id) : new User();
 
       user.googleId = profile.id;
       user.googlePic = get(profile, "photos[0].value");

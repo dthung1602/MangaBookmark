@@ -38,9 +38,6 @@ function setPassword(newPassword) {
  *          email:
  *            type: string
  *            format: email
- *          primaryAccount:
- *            type: string
- *            enum: [local, google, facebook]
  *          createdAt:
  *            type: string
  *            format: date-time
@@ -64,11 +61,6 @@ let userSchema = new mongoose.Schema({
   facebookName: String,
 
   email: String,
-  primaryAccount: {
-    type: String,
-    enum: ["local", "google", "facebook"],
-    required: true,
-  },
 });
 
 userSchema.methods.validPassword = function (password) {

@@ -27,7 +27,7 @@ passport.use(
       // not found:
       //    user has login -> link account
       //    else ->  create user
-      const user = req.user ? await User.findById(req.user.id) : new User({ primaryAccount: "facebook" });
+      const user = req.user ? await User.findById(req.user.id) : new User();
 
       user.facebookId = profile.id;
       user.facebookPic = get(profile, "photos[0].value");

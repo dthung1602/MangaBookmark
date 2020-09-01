@@ -50,7 +50,6 @@ describe("User API", () => {
       facebookId: "1111111111111111",
       facebookName: "Facebook User 1",
       facebookPic: "https://www.example.com/facebook/pic1",
-      primaryAccount: "local",
       __v: 0,
       email: "user1@example.com",
     });
@@ -81,7 +80,6 @@ describe("User API", () => {
       expect.objectContaining({
         ...userInfo,
         password: true,
-        primaryAccount: "local",
       }),
     );
     expect(response.body._id).not.toBeUndefined();
@@ -114,7 +112,6 @@ describe("User API", () => {
       expect.objectContaining({
         ...userInfo,
         password: true,
-        primaryAccount: "local",
         _id: "111aaaaaaaaaaaaaaaaaa111",
       }),
     );
@@ -148,16 +145,13 @@ describe("User API", () => {
   it("should unlink social network accounts", async function () {
     const requestBody = {
       provider: "google",
-      newPrimaryAccount: "facebook",
     };
 
     const response = await request(app).patch("/api/user/unlink").send(requestBody);
-    expect(response.status).toEqual(204);
+    expect(response.status).toEqual(200);
 
-    const user = await User.findById("111aaaaaaaaaaaaaaaaaa111");
-    expect(user).toEqual(
+    expect(response.body).toEqual(
       expect.objectContaining({
-        primaryAccount: "facebook",
         googlePic: null,
         googleName: null,
         googleId: null,
@@ -166,11 +160,17 @@ describe("User API", () => {
   });
 
   it.each(INVALID_UNLINK)("should validate input when unlinking social network accounts", async function (
+    userId,
     data,
     expectedErrs,
   ) {
-    const response = await request(app).patch("/api/user/unlink").send(data);
-    expect(response.status).toEqual(400);
-    expectErrors(expectedErrs, response.body.errors);
+    try {
+      loginAs(userId);
+      const response = await request(app).patch("/api/user/unlink").send(data);
+      expect(response.status).toEqual(400);
+      expectErrors(expectedErrs, response.body.errors);
+    } finally {
+      resetLogin();
+    }
   });
 });
