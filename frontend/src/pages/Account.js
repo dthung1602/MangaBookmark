@@ -8,9 +8,11 @@ import { Desktop, Mobile } from "../components/ScreenSize";
 import { BasicInfo, ChangePassword, LinkedAccount, Notification } from "../components/Account";
 import { useLogoutAPI } from "../hooks";
 import { checkResponse, notifyError } from "../utils/error-handler";
+import backgroundImages from "../assets/background";
 import { UserAPI } from "../api";
 
 import "./Account.less";
+import { randomFrom } from "../utils";
 
 const { TabPane } = Tabs;
 const { useBreakpoint } = Grid;
@@ -42,6 +44,7 @@ const Account = () => {
   const [logout] = useLogoutAPI();
 
   const tabPosition = useBreakpoint().lg ? "left" : "top";
+  const bgUrl = randomFrom(backgroundImages);
 
   const deleteAccount = () => {
     setDeletingAccount(true);
@@ -65,10 +68,10 @@ const Account = () => {
 
   return (
     <PageLayout>
-      <Layout className="account-container">
+      <Layout className="account-container" style={{ backgroundImage: `url(${bgUrl})` }}>
         <Desktop>
           <PageHeader
-            title={<>My account &nbsp;&nbsp;›&nbsp;&nbsp; {TAB_MAPPING[tab].displayName} </>}
+            title="My account"
             ghost={false}
             extra={[
               <Button key="logout" icon={<LogoutOutlined />} onClick={logout}>
@@ -110,16 +113,20 @@ const Account = () => {
             }
           />
         </Mobile>
-        <Tabs tabPosition={tabPosition} defaultActiveKey={tab} onChange={setTab}>
-          {Object.entries(TAB_MAPPING).map(([key, { displayName, component }]) => {
-            const content = React.createElement(component);
-            return (
-              <TabPane key={key} tab={displayName}>
-                <Card>{content}</Card>
-              </TabPane>
-            );
-          })}
-        </Tabs>
+        <div className="tab-container">
+          <Tabs tabPosition={tabPosition} defaultActiveKey={tab} onChange={setTab}>
+            {Object.entries(TAB_MAPPING).map(([key, { displayName, component }]) => {
+              const content = React.createElement(component);
+              return (
+                <TabPane key={key} tab={displayName}>
+                  <Card title={displayName} className="card-form">
+                    {content}
+                  </Card>
+                </TabPane>
+              );
+            })}
+          </Tabs>
+        </div>
       </Layout>
     </PageLayout>
   );

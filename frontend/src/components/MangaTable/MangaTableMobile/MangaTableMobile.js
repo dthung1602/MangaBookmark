@@ -9,7 +9,7 @@ const MangaTableMobile = ({ mangas, isLoading, updateMangaDone, deleteMangaDone 
   let dataSource;
   if (isLoading === "reload") {
     dataSource = [{}, {}];
-  } else if(isLoading) {
+  } else if (isLoading) {
     dataSource = [...mangas, {}];
   } else {
     dataSource = mangas;

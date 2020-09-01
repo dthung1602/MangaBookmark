@@ -8,6 +8,14 @@ class UserAPI extends BaseAPI {
   create(params) {
     return this.post(params);
   }
+
+  changePassword(params) {
+    return this.patch(params, "/change-password");
+  }
+
+  unlink(provider) {
+    return this.patch({ provider }, "/unlink");
+  }
 }
 
 export default new UserAPI();

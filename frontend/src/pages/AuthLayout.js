@@ -14,8 +14,8 @@ const AuthLayout = ({ showFooter = false, title, children }) => {
 
   return (
     <PageLayout showFooter={showFooter}>
-      <Content className="auth-form-container" style={{ backgroundImage: `url(${bgUrl})` }}>
-        <Card title={title} className="auth-form">
+      <Content className="card-form-container" style={{ backgroundImage: `url(${bgUrl})` }}>
+        <Card title={title} className="card-form">
           {children}
         </Card>
       </Content>

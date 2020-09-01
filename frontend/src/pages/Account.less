@@ -1,14 +1,33 @@
 @import "../variables";
 
 .account-container {
-  .ant-tabs {
-    margin: 30px 100px;
-    @media (max-device-width: @bp-md) {
-      margin: 24px;
-    }
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: calc(100vh - @navbar-height);
 
-    @media (max-device-width: @bp-sm) {
+  .ant-tabs {
+    margin: 24px;
+    max-width: 1200px;
+    @media (min-width: @bp-md) {
+      min-width: 650px;
+    }
+    @media (max-width: @bp-sm) {
       margin: 12px;
     }
+  }
+
+  .ant-tabs-content-holder {
+    border: none;
+  }
+  .ant-tabs-nav-list {
+    background: rgba(255, 255, 255, 0.9);
+    @media (min-width: @bp-lg) {
+      padding-top: 12px
+    }
+  }
+
+  .tab-container {
+    display: flex;
+    justify-content: flex-end;
   }
 }

@@ -89,3 +89,17 @@
     filter: brightness(110%);
   }
 }
+
+.card-form {
+  width: 350px;
+  height: fit-content;
+  @media (max-width: @bp-sm) {
+    width: 100%;
+  }
+  .ant-card-head {
+    background: @default-color;
+    color: @primary-color;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+}
