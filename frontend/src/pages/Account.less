@@ -20,7 +20,7 @@
     border: none;
   }
   .ant-tabs-nav-list {
-    background: rgba(255, 255, 255, 0.9);
+    background: @white-transparent;
     @media (min-width: @bp-lg) {
       padding-top: 12px
     }
@@ -29,5 +29,15 @@
   .tab-container {
     display: flex;
     justify-content: flex-end;
+  }
+
+  @media (max-width: @bp-lg) {
+    .ant-tabs-tab:first-child {
+      margin-left: 32px;
+    }
+  }
+
+  .ant-page-header {
+    background: @white-transparent;
   }
 }

@@ -46,7 +46,7 @@ const BasicInfo = () => {
         <Input prefix={<MailOutlined className="site-form-item-icon" />} />
       </Form.Item>
 
-      <Button type="primary" htmlType="submit" loading={isLoading}>
+      <Button type="primary" htmlType="submit" loading={isLoading} className="float-right">
         Update
       </Button>
     </Form>

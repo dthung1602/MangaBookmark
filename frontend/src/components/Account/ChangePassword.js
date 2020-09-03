@@ -77,7 +77,7 @@ const ChangePassword = () => {
         <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} type="password" />
       </Form.Item>
 
-      <Button type="primary" htmlType="submit" loading={isLoading}>
+      <Button type="primary" htmlType="submit" loading={isLoading} className="float-right">
         Change password
       </Button>
     </Form>
