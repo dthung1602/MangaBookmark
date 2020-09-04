@@ -1200,8 +1200,15 @@
           }
         },
         "responses": {
-          "204": {
-            "description": "Account unlinked successfully"
+          "200": {
+            "description": "Account unlinked successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
           }
         }
       }

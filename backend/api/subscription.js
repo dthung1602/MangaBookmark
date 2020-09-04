@@ -63,7 +63,7 @@ router.getAsync("/", async (req, res) => {
  *                $ref: '#/components/schemas/Subscription'
  */
 router.postAsync("/", SubscriptionCreateValidator, async (req, res) => {
-  const sub = await SubscriptionService.create(req.body);
+  const sub = await SubscriptionService.create({ ...req.body, user: req.user.id });
   res.status(201).json(sub);
 });
 

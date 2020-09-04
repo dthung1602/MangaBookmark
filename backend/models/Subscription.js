@@ -48,23 +48,28 @@ const OSs = Object.freeze({
  *            type: string
  *            format: date-time
  */
-let SubscriptionSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+let SubscriptionSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    browser: {
+      type: String,
+      enum: Object.values(Browsers),
+    },
+    os: {
+      type: String,
+      enum: Object.values(OSs),
+    },
+    endpoint: String,
+    auth: String,
+    p256dh: String,
   },
-  browser: {
-    type: String,
-    enum: Object.values(Browsers),
+  {
+    timestamps: true,
   },
-  os: {
-    type: String,
-    enum: Object.values(OSs),
-  },
-  endpoint: String,
-  auth: String,
-  p256dh: String,
-});
+);
 
 SubscriptionSchema.index({ endpoint: 1 }, { unique: true });
 

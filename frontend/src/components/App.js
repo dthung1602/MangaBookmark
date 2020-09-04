@@ -15,6 +15,7 @@ import { GlobalContextProvider } from "./GlobalContext";
 import ErrorBoundary from "./ErrorBoundary";
 import PrivateRoute from "./PrivateRoute";
 import FullScreenLoading from "./FullScreenLoading";
+import Subscription from "./Subscription";
 
 const Account = lazy(() => import("../pages/Account"));
 const Home = lazy(() => import("../pages/Home"));
@@ -31,6 +32,7 @@ const App = () => {
         <QueryParamProvider ReactRouterRoute={Route}>
           <Suspense fallback={<FullScreenLoading />}>
             <GlobalContextProvider>
+              <Subscription />
               <Switch>
                 <Route exact path={ROUTE_HOME} component={Home} />
                 <Route path={ROUTE_LEGAL_NOTICE} component={LegalNotice} />

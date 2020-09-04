@@ -134,7 +134,7 @@ const MangaCard = ({ manga, updateMangaDone, deleteMangaDone }) => {
       </Dropdown>
     );
   }
-  console.log(nextChapToRead.empty);
+
   return (
     <Spin spinning={isLoading}>
       <Card

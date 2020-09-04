@@ -57,7 +57,6 @@ const useUpdateMultipleAPI = (filters) => {
       .then(async (response) => {
         checkResponse(response);
         const { total, success, fail } = await response.json();
-        console.log(total, success, fail);
         notification.open({
           message: <b>Update {total} mangas in total</b>,
           description: <UpdateResult total={total} success={success} fail={fail} />,

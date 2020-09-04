@@ -36,7 +36,6 @@ function prepareNotificationTitle(mangas) {
 
 self.addEventListener("push", (event) => {
   const mangas = event.data.json();
-  console.log(mangas);
   const title = prepareNotificationTitle(mangas);
   const option = {
     body: prepareNotificationBody(mangas),

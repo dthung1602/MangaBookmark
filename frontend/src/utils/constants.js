@@ -6,6 +6,7 @@ export const ANY = "any";
 export const MANGA_PER_PAGE = 5;
 export const WAITING_MG_UNREAD_CHAP_THRESHOLD = 5;
 export const TOP_TO_READ_MG_COUNT = 10;
+export const SERVER_VAPID_KEY = process.env.REACT_APP_VAPID_PUBLIC_KEY;
 
 // ------------------------------------------
 //       Manga shelves

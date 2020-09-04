@@ -61,7 +61,7 @@
     - [ ] Manga listing table
         - [ ] Use sources favicon
         - [x] Merge status column
-    - [ ] Basic Search & filter
+    - [x] Basic Search & filter
         - [x] status
         - [x] shelf (rename from following status)
         - [x] search by name
@@ -82,15 +82,15 @@
         
 - [ ] Home page
 - [ ] Legal notice page 
-- [ ] Push notification
-- [ ] Account page
-    - [ ] Display info
-    - [ ] Edit
-        - [ ] basic info
-        - [ ] change pass
-        - [ ] link / unlink gg, fb
-        - [ ] Delete account
-    - [ ] Manage notification
+- [x] Push notification
+- [x] Account page
+    - [x] Display info
+    - [x] Edit
+        - [x] basic info
+        - [x] change pass
+        - [x] link / unlink gg, fb
+        - [x] Delete account
+    - [x] Manage notification
 - [x] Latest updated mangas page
 - [ ] BG Image credit in login page 
 

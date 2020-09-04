@@ -23,7 +23,7 @@ class ErrorBoundary extends React.Component {
 
   render() {
     if (this.state.error) {
-      console.log(this.state.error);
+      console.error(this.state.error);
       return (
         <Result
           status="error"
