@@ -1,0 +1,140 @@
+@import "../variables";
+
+.home {
+  .logo-container {
+    text-align: center;
+    background: @default-color;
+
+    padding-bottom: 200px;
+
+    img {
+      width: 450px;
+      max-width: 95%;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      color: white;
+      font-size: large;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: @bp-md) {
+      .subtitle {
+        display: block;
+      }
+    }
+  }
+
+  &>*:not(:first-child) {
+    position: relative;
+    top: -160px;
+    margin-bottom: 36px;
+  }
+
+  .card-container {
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @media (max-width: @bp-md) {
+      flex-direction: column;
+    }
+  }
+
+  .card {
+    width: 300px;
+    padding: 24px;
+    margin: 4px 12px;
+    border-radius: 8px;
+
+    .title {
+      text-align: center;
+    }
+    p {
+      font-size: 15px;
+    }
+
+    &:nth-child(1) {
+      background-image: linear-gradient(to top, #0fd850 0%, #f9f047 100%);
+    }
+    &:nth-child(2) {
+      background-image: linear-gradient(-60deg, #ff5858 0%, #f09819 100%);
+    }
+    &:nth-child(3) {
+      background-image: linear-gradient(to top, #00c6fb 0%, #005bea 100%);
+    }
+
+    .ant-btn {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    transition-duration: 0.3s;
+    transform: scale(1);
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    .cover {
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 4rem;
+    }
+  }
+
+  .title {
+    text-align: center;
+  }
+
+  #supported-sites {
+    img {
+      width: 95%;
+      transition-duration: 0.3s;
+      transform: scale(1);
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  .contact {
+    a {
+      margin: 12px;
+    }
+  }
+
+  .for-dev {
+    padding: 0 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    p {
+      font-size: medium;
+    }
+    &>div {
+      max-width: 600px;
+    }
+  }
+
+  .power-by {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    img {
+      height: 35px;
+      margin-top: 8px;
+    }
+
+    .ant-row {
+      max-width: 600px;
+    }
+  }
+
+  .back-to-top {
+    position: relative;
+    top: -100px;
+  }
+}

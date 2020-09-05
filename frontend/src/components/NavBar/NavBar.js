@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { Link, useHistory } from "react-router-dom";
 import { throttle } from "lodash";
 import { Badge, Drawer, Layout, Menu } from "antd";
@@ -10,6 +11,7 @@ import {
   MenuOutlined,
   StarOutlined,
   UserOutlined,
+  AuditOutlined,
 } from "@ant-design/icons";
 
 import {
@@ -17,6 +19,7 @@ import {
   ROUTE_ACCOUNT,
   ROUTE_ALL_MANGAS,
   ROUTE_HOME,
+  ROUTE_LEGAL_NOTICE,
   ROUTE_LOGIN,
   ROUTE_QUICK_ACCESS,
   ROUTE_REGISTER,
@@ -39,7 +42,7 @@ const alterPushDownClass = throttle(
 const removePushDownClass = () => alterPushDownClass("remove");
 const addPushDownClass = () => alterPushDownClass("add");
 
-const NavBar = () => {
+const NavBar = ({ hideLogo = false }) => {
   const history = useHistory();
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false);
   const [logout, user] = useLogoutAPI();
@@ -76,11 +79,16 @@ const NavBar = () => {
       <Item key="login" icon={<LoginOutlined />}>
         <Link to={ROUTE_LOGIN}>Login</Link>
       </Item>,
-      <Item key="register" icon={<FormOutlined />}>
-        <Link to={ROUTE_REGISTER}>Register</Link>
-      </Item>,
     ];
   }
+  userDependentMenu = userDependentMenu.concat([
+    <Item key="register" icon={<FormOutlined />}>
+      <Link to={ROUTE_REGISTER}>Register</Link>
+    </Item>,
+    <Item key="legal" icon={<AuditOutlined />}>
+      <Link to={ROUTE_LEGAL_NOTICE}>Legal notice</Link>
+    </Item>,
+  ]);
 
   const userIndependentMenu = [
     <Item key="quick" icon={<StarOutlined />}>
@@ -96,10 +104,12 @@ const NavBar = () => {
       <Desktop
         render={() => (
           <Header className="header">
-            <Link to={ROUTE_HOME} className="navbar-logo">
-              <img src={LOGO} alt="MangaBookmark" />
-              <Badge count={FRONTEND_VERSION} className="navbar-version-badge" />
-            </Link>
+            {hideLogo ? null : (
+              <Link to={ROUTE_HOME} className="navbar-logo">
+                <img src={LOGO} alt="MangaBookmark" />
+                <Badge count={FRONTEND_VERSION} className="navbar-version-badge" />
+              </Link>
+            )}
             <Menu mode="horizontal" className="justify-right navbar-menu">
               {userIndependentMenu}
               <SubMenu key="user" title={<User />}>
@@ -117,9 +127,11 @@ const NavBar = () => {
               <div className="navbar-mobile-menu-btn" onClick={showMenu}>
                 <MenuOutlined />
               </div>
-              <Link to="/" className="navbar-logo">
-                <img src={LOGO} alt="MangaBookmark" />
-              </Link>
+              {hideLogo ? null : (
+                <Link to="/" className="navbar-logo">
+                  <img src={LOGO} alt="MangaBookmark" />
+                </Link>
+              )}
             </Header>
 
             <Drawer
@@ -142,6 +154,10 @@ const NavBar = () => {
       <div className="header-push" />
     </>
   );
+};
+
+NavBar.propTypes = {
+  hideLogo: PropTypes.bool,
 };
 
 export default NavBar;

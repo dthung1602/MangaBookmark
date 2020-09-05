@@ -36,6 +36,7 @@ const GlobalContextProvider = (props) => {
         });
       })
       .catch(notifyError);
+
     MangaAPI.getSupportedSites()
       .then(async (response) => {
         checkResponse(response);
