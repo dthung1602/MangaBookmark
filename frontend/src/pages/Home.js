@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { Layout, Typography, Button, Row, Col } from "antd";
+import { Layout, Typography, Button, Row, Col, Divider } from "antd";
 import {
   ThunderboltFilled,
   GlobalOutlined,
@@ -53,7 +53,7 @@ const Home = () => {
             <span className="subtitle">Keep tracks of your mangas on scanlation sites</span> &nbsp;&nbsp;
             <Link to={ROUTE_REGISTER}>
               <Button type="primary" size="medium" icon={<FormOutlined />}>
-                Register now
+                Create free account
               </Button>
             </Link>
           </div>
@@ -117,30 +117,33 @@ const Home = () => {
 
           <div className="text-align-center" id="supported-sites">
             <Title level={2}>Supported sites</Title>
-            <Row>
+            <Row gutter={{ xs: 16, sm: 24, md: 32 }}>
               {supportedSites.map((site) => (
                 <Col key={site.name} xs={12} sm={8} md={6} lg={4}>
                   <a href={site.homepage} target="_blank" rel="noreferrer noopener">
-                    <img src={site.logoURL} alt={site.name} />
+                    <img src={`/sites-logo/${site.name}.png`} alt={site.name} />
                   </a>
                 </Col>
               ))}
             </Row>
           </div>
 
-          <div className="text-align-center">
+          <Divider>
             <Link to={ROUTE_REGISTER}>
               <Button type="primary" size="large" icon={<FormOutlined />}>
-                Register now
+                Create free account
               </Button>
             </Link>
-            <br />
-            <br />
+          </Divider>
+
+          <div className="text-align-center">
             <p>For the term & condition as well as other</p>
             <p>
               legal issues, please consult our <Link to={ROUTE_LEGAL_NOTICE}>Legal notice</Link>
             </p>
-            <p><b>Contact me at</b></p>
+            <p>
+              <b>Contact me at</b>
+            </p>
             <a href={LINK_EMAIL} rel="noopener noreferrer" target="_blank">
               <MailOutlined className="footer-icon" />
               Email
@@ -226,6 +229,7 @@ const Home = () => {
           </div>
         </div>
       </Layout>
+
       <Footer />
     </Layout>
   );

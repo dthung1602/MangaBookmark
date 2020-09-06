@@ -12,3 +12,11 @@
   color: white;
   background: @primary-color;
 }
+
+.scale-when-hover {
+  transition: transform 0.3s;
+  transform: scale(1);
+  &:hover {
+    transform: scale(1.05);
+  }
+}

@@ -51,10 +51,12 @@ const NavBar = ({ hideLogo = false }) => {
 
   useEffect(() => {
     removePushDownClass();
-    return history.listen(() => {
-      setTimeout(scrollToTop, 500);
+    return history.listen((location) => {
+      if (!location.hash) {
+        setTimeout(scrollToTop, 300);
+      }
     });
-  }, []);
+  }, [history]);
 
   const showMenu = () => {
     setMobileMenuVisible(true);
