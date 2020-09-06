@@ -35,7 +35,7 @@ import LOOKA_LOGO from "../assets/looka-logo.png";
 import HEROKU_LOGO from "../assets/heroku-logo.png";
 import "./Home.less";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 const Home = () => {
   const [{ supportedSites }] = useContext(GlobalContext);
