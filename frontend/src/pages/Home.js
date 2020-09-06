@@ -26,6 +26,8 @@ import {
   ROUTE_LEGAL_NOTICE,
   LINK_EMAIL,
   LINK_LINKEDIN,
+  EMBED_QUICK_TOUR_VIDEO_LINK,
+  FRONTEND_VERSION,
 } from "../utils/constants";
 import LOGO from "../assets/logo-invert.png";
 import ANT_DESIGN_LOGO from "../assets/ant-design-logo-light.png";
@@ -47,8 +49,9 @@ const Home = () => {
       <Layout>
         <div className="home">
           <div className="logo-container">
-            <div>
+            <div className="logo">
               <img src={LOGO} alt="MangaBookmark" />
+              <span className="version">version {FRONTEND_VERSION}</span>
             </div>
             <span className="subtitle">Keep tracks of your mangas on scanlation sites</span> &nbsp;&nbsp;
             <Link to={ROUTE_REGISTER}>
@@ -106,9 +109,7 @@ const Home = () => {
             <Title level={2}>Quick tour</Title>
             <iframe
               title="quick-tour-video"
-              width="853"
-              height="480"
-              src="https://www.youtube.com/embed/NQMmZ4Psb7w"
+              src={EMBED_QUICK_TOUR_VIDEO_LINK}
               frameBorder="0"
               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen

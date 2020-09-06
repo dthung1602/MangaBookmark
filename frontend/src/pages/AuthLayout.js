@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Card, Layout } from "antd";
 
 import PageLayout from "./PageLayout";
+import CornerImageSource from "../components/CornerImageSource";
+import { Desktop } from "../components/ScreenSize";
 import { randomFrom } from "../utils";
 import backgroundImages from "../assets/background";
 import "./AuthLayout.less";
@@ -18,6 +20,9 @@ const AuthLayout = ({ showFooter = false, title, children }) => {
         <Card title={title} className="card-form">
           {children}
         </Card>
+        <Desktop>
+          <CornerImageSource url="https://wall.alphacoders.com" name="Wallpaper Abyss" />
+        </Desktop>
       </Content>
     </PageLayout>
   );

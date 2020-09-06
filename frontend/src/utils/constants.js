@@ -7,6 +7,7 @@ export const MANGA_PER_PAGE = 5;
 export const WAITING_MG_UNREAD_CHAP_THRESHOLD = 5;
 export const TOP_TO_READ_MG_COUNT = 10;
 export const SERVER_VAPID_KEY = process.env.REACT_APP_VAPID_PUBLIC_KEY;
+export const EMBED_QUICK_TOUR_VIDEO_LINK = "https://www.youtube.com/embed/NQMmZ4Psb7w";
 
 // ------------------------------------------
 //       Manga shelves

@@ -47,10 +47,9 @@
 
 - [x] Split FE to small js chunk 
 - [x] Handle error
-- [ ] Cancel old request when new one is sent
 - [x] Change URL when change filter
 
-- [ ] Basic components:
+- [x] Basic components:
     - [x] Navbar
     - [x] Footer
     - [x] FAB
@@ -58,8 +57,8 @@
         - [x] add manga
         - [x] update mangas
         - [ ] ~~dark mode~~ (not possible to toggle at runtime with antd)    
-    - [ ] Manga listing table
-        - [ ] Use sources favicon
+    - [x] Manga listing table
+        - [ ] ~~Use sources favicon~~
         - [x] Merge status column
     - [x] Basic Search & filter
         - [x] status
@@ -80,8 +79,8 @@
         - [x] is completed
         - [x] hidden
         
-- [ ] Home page
-- [ ] Legal notice page 
+- [x] Home page
+- [x] Legal notice page 
 - [x] Push notification
 - [x] Account page
     - [x] Display info
@@ -92,7 +91,7 @@
         - [x] Delete account
     - [x] Manage notification
 - [x] Latest updated mangas page
-- [ ] BG Image credit in login page 
+- [x] BG Image credit in login page 
 
 # NEW FEATURES
 
@@ -126,6 +125,8 @@
 - [ ] New sites. See [this](https://www.epubor.com/free-manga-sites-to-read-manga-online-for-free.html)
 
 - [ ] One master note for user -> take note everything
+
+- [ ] Cancel old request when new one is sent
 
 - [ ] In-site reading mode (for some src only)
 

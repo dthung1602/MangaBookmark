@@ -13,6 +13,7 @@ import { UserAPI } from "../api";
 
 import "./Account.less";
 import { randomFrom } from "../utils";
+import CornerImageSource from "../components/CornerImageSource";
 
 const { TabPane } = Tabs;
 const { useBreakpoint } = Grid;
@@ -89,6 +90,7 @@ const Account = () => {
               </Popconfirm>,
             ]}
           />
+          <CornerImageSource url="https://wall.alphacoders.com" name="Wallpaper Abyss" />
         </Desktop>
         <Mobile>
           <PageHeader

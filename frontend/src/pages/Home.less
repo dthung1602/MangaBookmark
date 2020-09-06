@@ -8,10 +8,18 @@
 
     padding: 12px 12px 200px 12px;
 
+    .logo {
+      margin-bottom: 12px;
+    }
+
+    .version {
+      color: @secondary-color;
+      margin-left: 24px;
+    }
+
     img {
       width: 450px;
       max-width: 95%;
-      margin-bottom: 12px;
     }
 
     .subtitle {
@@ -83,6 +91,15 @@
 
   .title {
     text-align: center;
+  }
+
+  iframe {
+    width: 768px;
+    height: 432px;
+    @media (max-width: @bp-md) {
+      width: 100vw;
+      height: 56.25vw;
+    }
   }
 
   #supported-sites {

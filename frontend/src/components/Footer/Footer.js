@@ -86,7 +86,7 @@ const Footer = () => {
         </Col>
       </Row>
       <div className="footer-lower">
-        <div className="copyright">Manga Bookmark @{currentYear} dthung1602</div>
+        <div className="copyright">Manga Bookmark @{currentYear} dthung</div>
       </div>
     </AntFooter>
   );

@@ -36,7 +36,7 @@ const { Item, SubMenu } = Menu;
 
 const alterPushDownClass = throttle(
   (action) => document.getElementById("root").classList[action]("navbar-hidden"),
-  500,
+  250,
 );
 
 const removePushDownClass = () => alterPushDownClass("remove");
