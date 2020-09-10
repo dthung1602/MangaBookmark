@@ -9,7 +9,7 @@
   "workspaces": ["backend", "frontend"],
   "scripts": {
     "start": "node backend/bin/www",
-    "build": "./build.sh",
+    "build": "chmod +x ./build.sh && ./build.sh",
     "lint-fe": "frontend/node_modules/.bin/eslint frontend --fix",
     "lint-be": "backend/node_modules/.bin/eslint backend --fix",
     "lint": "yarn lint-fe && echo '\n------\n' && yarn lint-be",

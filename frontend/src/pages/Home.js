@@ -171,7 +171,7 @@ const Home = () => {
                 </a>
               </p>
               <p>
-                Pull request with improvements or new features are welcome but the author reserves the rights to accept
+                Pull requests with improvements or new features are more than welcome but the author reserves the rights
                 or reject at will.
               </p>
               <p>
