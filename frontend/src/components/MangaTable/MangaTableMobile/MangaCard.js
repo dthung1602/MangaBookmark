@@ -153,7 +153,7 @@ const MangaCard = ({ manga, updateMangaDone, deleteMangaDone }) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            {truncString(nextChapToRead.name, 35)} &nbsp;&nbsp; <DoubleRightOutlined />
+            {truncString(nextChapToRead.name, 30)} &nbsp;&nbsp; <DoubleRightOutlined />
           </a>
         </div>
         {enableEdit

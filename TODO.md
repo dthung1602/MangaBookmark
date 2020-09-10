@@ -93,6 +93,22 @@
 - [x] Latest updated mangas page
 - [x] BG Image credit in login page 
 
+# POLISH 
+ 
+- [ ] Improve background loading:
+    - [ ] Host images on another server
+    - [ ] Reduce image size
+- [ ] Fix bug can only access FE homepage
+    - https://dev-manga-bookmark.herokuapp.com/api/subscriptions/5d65532aebe75900044d3f52
+- [x] After login -> quick-access 
+- [ ] MangakaklotS image 
+- [x] FE 404 page
+- [x] Right panel when image not found, set height
+- [x] Manga table break line for long titles    
+- [x] Set right panel null when manga table changes
+- [x] Reset all filters ~~+ reload btn~~
+- [x] More info in error boundary -> add issue tracker link + show user error
+
 # NEW FEATURES
 
 - [ ] Toggle right panel

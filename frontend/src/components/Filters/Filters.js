@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { Affix, Button, Collapse, Grid, Input } from "antd";
-import { CaretDownOutlined, CaretUpOutlined, SearchOutlined } from "@ant-design/icons";
+import { CaretDownOutlined, CaretUpOutlined, SearchOutlined, ClearOutlined } from "@ant-design/icons";
 
 import FilterDropdown from "./FilterDropdown";
 import LoopButton from "./LoopButton";
@@ -13,7 +13,7 @@ import "./Filters.less";
 const { Panel } = Collapse;
 const { useBreakpoint } = Grid;
 
-const Filters = ({ filters, updateFilters }) => {
+const Filters = ({ filters, updateFilters, resetFilters }) => {
   const [open, setOpen] = useState(false);
   const [{ supportedSites }] = useContext(GlobalContext);
 
@@ -145,6 +145,9 @@ const Filters = ({ filters, updateFilters }) => {
       <div className="filter-basic">
         {basicFilters}
         <div className="flex-1" />
+        <Button className="clear-btn" type="text" icon={<ClearOutlined />} onClick={resetFilters}>
+          Clear
+        </Button>
         <Button
           className="advance-btn"
           icon={open ? <CaretUpOutlined /> : <CaretDownOutlined />}
@@ -164,8 +167,9 @@ const Filters = ({ filters, updateFilters }) => {
 };
 
 Filters.propTypes = {
-  filters: PropTypes.object,
-  updateFilters: PropTypes.func,
+  filters: PropTypes.object.isRequired,
+  updateFilters: PropTypes.func.isRequired,
+  resetFilters: PropTypes.func.isRequired,
 };
 
 export default Filters;

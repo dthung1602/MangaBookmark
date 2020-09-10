@@ -55,6 +55,22 @@ const AllMangas = () => {
     setSelectedManga(null);
   };
 
+  const resetFilters = () => {
+    setFilters({
+      shelf: undefined,
+      status: undefined,
+      sort: undefined,
+      search: undefined,
+      isCompleted: undefined,
+      hidden: undefined,
+      site: undefined,
+      createdAtGTE: undefined,
+      createdAtLTE: undefined,
+      lastReleasedGTE: undefined,
+      lastReleasedLTE: undefined,
+    });
+  };
+
   useEffect(() => {
     setIsLoading(page === 1 ? "reload" : true);
     MangaAPI.find({ ...filters, page, perPage: MANGA_PER_PAGE })
@@ -106,7 +122,7 @@ const AllMangas = () => {
     />
   );
   const endOfList = <EndOfList onReached={() => setPage(page + 1)} disabled={isLoading || allLoaded} />;
-  const filterBar = <Filters filters={filters} updateFilters={updateFilters} />;
+  const filterBar = <Filters filters={filters} updateFilters={updateFilters} resetFilters={resetFilters} />;
 
   return (
     <PageLayout>

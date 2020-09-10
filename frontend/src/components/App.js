@@ -24,6 +24,7 @@ const AllMangas = lazy(() => import("../pages/AllMangas"));
 const QuickAccess = lazy(() => import("../pages/QuickAccess"));
 const Register = lazy(() => import("../pages/Register"));
 const LegalNotice = lazy(() => import("../pages/LegalNotice"));
+const NotFound = lazy(() => import("../pages/NotFound"));
 
 const App = () => {
   return (
@@ -41,6 +42,7 @@ const App = () => {
                 <PrivateRoute path={ROUTE_ACCOUNT} component={Account} />
                 <PrivateRoute path={ROUTE_ALL_MANGAS} component={AllMangas} />
                 <PrivateRoute path={ROUTE_QUICK_ACCESS} component={QuickAccess} />
+                <Route path="*" component={NotFound} />
               </Switch>
             </GlobalContextProvider>
           </Suspense>

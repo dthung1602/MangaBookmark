@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Table, Skeleton } from "antd";
+import { Table, Skeleton, Typography } from "antd";
 
 import MangaBasicInfo from "../MangaBasicInfo";
 import MangaQuickActions from "./MangaQuickActions";
@@ -10,6 +10,7 @@ import { MANGA_PER_PAGE } from "../../../utils/constants";
 import "./MangaTableDesktop.less";
 
 const { Column } = Table;
+const { Title } = Typography;
 
 const skeletonData = Array(MANGA_PER_PAGE).fill({});
 
@@ -57,23 +58,23 @@ const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked,
       <Column
         dataIndex="basicInfo"
         key="basicInfo"
-        width="75%"
         render={(text, manga) => {
           if (isEmptyObject(manga)) {
             return <Skeleton active />;
           }
-          return <MangaBasicInfo manga={manga} />;
-        }}
-      />
-      <Column
-        dataIndex="quickActions"
-        key="quickActions"
-        width="25%"
-        render={(text, manga) => {
-          if (isEmptyObject(manga)) {
-            return <Skeleton.Button active />;
-          }
-          return <MangaQuickActions manga={manga} updateMangaDone={updateMangaDone} />;
+          return (
+            <>
+              <Title level={4}>
+                <a href={manga.link} target="_blank" rel="noopener noreferrer">
+                  {manga.name}
+                </a>
+              </Title>
+              <div className="manga-details">
+                <MangaBasicInfo manga={manga} showTitle={false} />
+                <MangaQuickActions manga={manga} updateMangaDone={updateMangaDone} />
+              </div>
+            </>
+          );
         }}
       />
     </Table>

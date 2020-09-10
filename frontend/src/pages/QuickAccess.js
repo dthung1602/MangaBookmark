@@ -104,6 +104,8 @@ const QuickAccess = () => {
       .finally(() => setIsLoading(false));
   }, [tab, showHidden]);
 
+  useEffect(() => setSelectedManga(null), [tab]);
+
   const [isUpdatingMangas, updateMangas] = useUpdateMultipleAPI(DAILY_UPDATE_FILTERS);
 
   const updateMangaDone = (newManga) => {

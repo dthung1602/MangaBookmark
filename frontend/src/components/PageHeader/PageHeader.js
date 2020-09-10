@@ -37,7 +37,7 @@ PageHeader.propTypes = {
   title: PropTypes.string.isRequired,
   mangaCount: PropTypes.number.isRequired,
   openNewMangaModal: PropTypes.func.isRequired,
-  updateMangas: PropTypes.object.isRequired,
+  updateMangas: PropTypes.func.isRequired,
   isUpdatingMangas: PropTypes.bool.isRequired,
   updateBtnText: PropTypes.string.isRequired,
 };

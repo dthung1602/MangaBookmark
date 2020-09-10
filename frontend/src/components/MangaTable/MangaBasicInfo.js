@@ -7,15 +7,17 @@ import "./MangaBasicInfo.less";
 
 const { Title } = Typography;
 
-function MangaBasicInfo({ manga, headerExtra }) {
+function MangaBasicInfo({ manga, showTitle = true, headerExtra }) {
   return (
     <Descriptions
       title={
-        <Title level={4}>
-          <a href={manga.link} target="_blank" rel="noopener noreferrer">
-            {manga.name}
-          </a>
-        </Title>
+        showTitle ? (
+          <Title level={4}>
+            <a href={manga.link} target="_blank" rel="noopener noreferrer">
+              {manga.name}
+            </a>
+          </Title>
+        ) : undefined
       }
       extra={headerExtra}
       className="manga-basic-info"
@@ -33,6 +35,7 @@ function MangaBasicInfo({ manga, headerExtra }) {
 
 MangaBasicInfo.propTypes = {
   manga: PropTypes.object.isRequired,
+  showTitle: PropTypes.bool,
   headerExtra: PropTypes.node,
 };
 
