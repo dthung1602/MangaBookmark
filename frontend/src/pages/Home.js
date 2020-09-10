@@ -142,7 +142,7 @@ const Home = () => {
             <p>
               legal issues, please consult our <Link to={ROUTE_LEGAL_NOTICE}>Legal notice</Link>
             </p>
-            <p>
+            <p id="contact">
               <b>Contact me at</b>
             </p>
             <a href={LINK_EMAIL} rel="noopener noreferrer" target="_blank">

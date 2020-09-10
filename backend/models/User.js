@@ -45,23 +45,28 @@ function setPassword(newPassword) {
  *            type: string
  *            format: date-time
  */
-let userSchema = new mongoose.Schema({
-  username: String,
-  password: {
-    type: String,
-    set: setPassword,
+let userSchema = new mongoose.Schema(
+  {
+    username: String,
+    password: {
+      type: String,
+      set: setPassword,
+    },
+
+    googleId: String,
+    googlePic: String,
+    googleName: String,
+
+    facebookId: String,
+    facebookPic: String,
+    facebookName: String,
+
+    email: String,
   },
-
-  googleId: String,
-  googlePic: String,
-  googleName: String,
-
-  facebookId: String,
-  facebookPic: String,
-  facebookName: String,
-
-  email: String,
-});
+  {
+    timestamps: true,
+  },
+);
 
 userSchema.methods.validPassword = function (password) {
   if (!this.password) {

@@ -1,13 +1,13 @@
 // ------------------------------------------
 //       General
 // ------------------------------------------
-export const FRONTEND_VERSION = "3.0.0-a1";
+export const FRONTEND_VERSION = "3.0-beta";
 export const ANY = "any";
 export const MANGA_PER_PAGE = 5;
 export const WAITING_MG_UNREAD_CHAP_THRESHOLD = 5;
 export const TOP_TO_READ_MG_COUNT = 10;
 export const SERVER_VAPID_KEY = process.env.REACT_APP_VAPID_PUBLIC_KEY;
-export const EMBED_QUICK_TOUR_VIDEO_LINK = "https://www.youtube.com/embed/NQMmZ4Psb7w";
+export const EMBED_QUICK_TOUR_VIDEO_LINK = "https://www.youtube.com/embed/kxbIQr31LIU";
 
 // ------------------------------------------
 //       Manga shelves

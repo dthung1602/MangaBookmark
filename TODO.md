@@ -13,7 +13,7 @@
 
 # MISCHIEVOUS
 
-- [ ] ***Migrate from mLab -> mongodb atlass***
+- [x] ***Migrate from mLab -> mongodb atlass***
 - [x] Patch changes from v2 -> v3
 - [ ] ~~mongoose (DeprecationWarning: collection.update is deprecated. Use updateOne, updateMany, or bulkWrite instead.~~
 

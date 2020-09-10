@@ -113,6 +113,9 @@ const ChapterSchema = new mongoose.Schema(
  *            type: string
  *          hidden:
  *            type: boolean
+ *          lastReleased:
+ *            type: string
+ *            format: date-time
  *          createdAt:
  *            type: string
  *            format: date-time
