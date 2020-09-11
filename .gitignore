@@ -1,6 +1,7 @@
 .idea
 node_modules
-old-fronend/build
+frontend/build
+backend/frontend-build
 foo*
 .env
 .env.export

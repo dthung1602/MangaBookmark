@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "PORT=3001 craco start",
-    "build": "craco build",
+    "build": "craco build && yarn run rebuild-service-worker",
     "test": "craco test",
-    "lint": "eslint . --fix"
+    "lint": "eslint . --fix",
+    "rebuild-service-worker": "node ./rebuild-service-worker.js"
   },
   "proxy": "http://localhost:3000",
   "dependencies": {

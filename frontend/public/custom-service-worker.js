@@ -1,3 +1,5 @@
+import { ROUTE_QUICK_ACCESS } from "../src/utils/constants";
+
 const MAX_TITLE_LENGTH = 40;
 
 function prepareNotificationBody(mangas) {
@@ -52,7 +54,7 @@ self.addEventListener("push", (event) => {
 });
 
 self.addEventListener("notificationclick", (event) => {
-  const urlToOpen = new URL("/", self.location.origin).href;
+  const urlToOpen = new URL(ROUTE_QUICK_ACCESS, self.location.origin).href;
 
   const promise = clients
     .matchAll({
@@ -63,7 +65,8 @@ self.addEventListener("notificationclick", (event) => {
       let matchingWindow = null;
       for (let i = 0; i < windowClients.length; i++) {
         const wc = windowClients[i];
-        if (wc.url === urlToOpen) {
+        // wc.url starts with urlToOpen
+        if (wc.url.indexOf(urlToOpen) === 0) {
           matchingWindow = wc;
           break;
         }
