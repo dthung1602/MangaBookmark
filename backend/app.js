@@ -43,7 +43,7 @@ const { DBConnectionMiddleware } = require("./services/db-service");
 const { ErrorHandlerMiddleware } = require("./errors");
 
 // Static files handled by React
-app.use(express.static(path.join(__dirname, "../frontend/build")));
+app.use(express.static(path.join(__dirname, "frontend-build")));
 
 // API
 const apiRouter = Router();
