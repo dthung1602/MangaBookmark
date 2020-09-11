@@ -39,8 +39,11 @@ const alterPushDownClass = throttle(
   250,
 );
 
-const removePushDownClass = () => alterPushDownClass("remove");
-const addPushDownClass = () => alterPushDownClass("add");
+// FIXME
+const enablePushDown = false;
+
+const removePushDownClass = enablePushDown ? () => alterPushDownClass("remove") : () => {};
+const addPushDownClass = enablePushDown ? () => alterPushDownClass("add") : () => {};
 
 const NavBar = ({ hideLogo = false }) => {
   const history = useHistory();

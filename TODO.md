@@ -95,13 +95,12 @@
 
 # POLISH 
  
-- [ ] Improve background loading:
-    - [ ] Host images on another server
-    - [ ] Reduce image size
-- [ ] Fix bug can only access FE homepage
-    - https://dev-manga-bookmark.herokuapp.com/api/subscriptions/5d65532aebe75900044d3f52
+- [x] Improve background loading:
+    - [ ] ~~Host images on another server~~
+    - [ ] ~~Reduce image size~~
+    - [x] Cache by service worker
+- [x] Fix bug can only access FE homepage
 - [x] After login -> quick-access 
-- [ ] MangakaklotS image 
 - [x] FE 404 page
 - [x] Right panel when image not found, set height
 - [x] Manga table break line for long titles    

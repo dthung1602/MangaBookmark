@@ -1,5 +1,3 @@
-import { ROUTE_QUICK_ACCESS } from "../src/utils/constants";
-
 const MAX_TITLE_LENGTH = 40;
 
 function prepareNotificationBody(mangas) {
@@ -54,7 +52,7 @@ self.addEventListener("push", (event) => {
 });
 
 self.addEventListener("notificationclick", (event) => {
-  const urlToOpen = new URL(ROUTE_QUICK_ACCESS, self.location.origin).href;
+  const urlToOpen = new URL("/quick-access", self.location.origin).href;
 
   const promise = clients
     .matchAll({
