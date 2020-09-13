@@ -65,12 +65,12 @@ export const SORTABLE_FIELDS = {
 //       Browsers
 // ------------------------------------------
 export const OP = "Opera";
-export const IE = "Internet Explorer";
 export const CH = "Chrome";
 export const SA = "Safari";
 export const FF = "Firefox";
-export const UK = "Unknown";
-export const BROWSERS = [OP, IE, CH, SA, FF, UK];
+export const ED = "Edge";
+export const UNKNOWN_BROWSER = "Unknown Browser";
+export const BROWSERS = [OP, CH, SA, FF, ED, UNKNOWN_BROWSER];
 
 // ------------------------------------------
 //       Operating systems
@@ -80,8 +80,8 @@ export const MAC = "MacOS";
 export const LNX = "Linux";
 export const ADR = "Android";
 export const IOS = "iOS";
-export const UNK = "Unknown";
-export const OS = [WIN, MAC, LNX, ADR, IOS, UNK];
+export const UNKNOWN_OS = "Unknown OS";
+export const OS = [WIN, MAC, LNX, ADR, IOS, UNKNOWN_OS];
 
 // ------------------------------------------
 //       ROUTES

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Button, List, Popconfirm } from "antd";
 import {
   AndroidOutlined,
@@ -12,7 +12,7 @@ import {
 
 import { SubscriptionAPI } from "../../api";
 import { checkResponse, notifyError } from "../../utils/error-handler";
-import { ADR, IOS, LNX, MAC, UNK, WIN } from "../../utils/constants";
+import { ADR, IOS, LNX, MAC, UNKNOWN_OS, WIN } from "../../utils/constants";
 import { askPermissionThenSubscribe } from "../../utils/subscription";
 import { truncString } from "../../utils";
 
@@ -22,10 +22,11 @@ const OS_ICON_MAPPING = {
   [MAC]: <AppleOutlined />,
   [ADR]: <AndroidOutlined />,
   [IOS]: <AppleOutlined />,
-  [UNK]: <QuestionOutlined />,
+  [UNKNOWN_OS]: <QuestionOutlined />,
 };
 
 const Notification = () => {
+  const subscriptionsLoaded = useRef(false);
   const [subscriptions, setSubscriptions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [thisBrowserSubscription, setThisBrowserSubscription] = useState(null);
@@ -38,28 +39,43 @@ const Notification = () => {
         setSubscriptions(await response.json());
       })
       .catch(notifyError)
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setIsLoading(false);
+        subscriptionsLoaded.current = true;
+      });
   }, []);
 
   useEffect(() => {
     navigator.serviceWorker.ready.then(async (registration) => {
       const sub = await registration.pushManager.getSubscription();
-      setThisBrowserSubscription(sub?.toJSON());
+      if (sub) {
+        if (subscriptions.find((s) => s.endpoint === sub.endpoint)) {
+          setThisBrowserSubscription(sub.toJSON());
+        } else if (subscriptionsLoaded.current) {
+          // the sub has been deleted from another browser
+          console.log("UNSUBED");
+          await sub.unsubscribe();
+        }
+      }
     });
   }, [subscriptions]);
 
-  const unsubscribe = (subId) => () => {
+  const unsubscribe = (sub) => () => {
     setIsLoading(true);
-    SubscriptionAPI.delete(subId)
+    SubscriptionAPI.delete(sub._id)
       .then(checkResponse)
       .then(async () => {
+        // unsubscribe if the user unsubscribed this browser
         const registration = await navigator.serviceWorker.ready;
-        const sub = await registration.pushManager.getSubscription();
-        await sub.unsubscribe();
+        const currentSub = await registration.pushManager.getSubscription();
+        if (currentSub && sub.endpoint === currentSub.endpoint) {
+          await currentSub.unsubscribe();
+          setThisBrowserSubscription(null);
+        }
 
-        setThisBrowserSubscription(null);
+        // remove deleted sub
         setSubscriptions((prevState) => {
-          return prevState.filter((x) => x._id !== subId);
+          return prevState.filter((x) => x._id !== sub._id);
         });
       })
       .catch(notifyError)
@@ -89,7 +105,7 @@ const Notification = () => {
         const title = (
           <>
             {sub.browser} on {sub.os}
-            {thisBrowserSubscription?.keys?.auth === sub.auth ? " (this browser)" : null}
+            {thisBrowserSubscription?.endpoint === sub.endpoint ? " (this browser)" : null}
           </>
         );
         const description = (
@@ -102,7 +118,7 @@ const Notification = () => {
         return (
           <List.Item>
             <List.Item.Meta avatar={OS_ICON_MAPPING[sub.os]} title={title} description={description} />
-            <Popconfirm title="Unsubscribe this browser?" okType="danger" onConfirm={unsubscribe(sub._id)}>
+            <Popconfirm title="Unsubscribe this browser?" okType="danger" onConfirm={unsubscribe(sub)}>
               <Button type="text" danger={true} icon={<DeleteOutlined />} />
             </Popconfirm>
           </List.Item>

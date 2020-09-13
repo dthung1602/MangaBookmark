@@ -1,7 +1,8 @@
 import { message } from "antd";
+import { detect } from "detect-browser";
 
 import { SubscriptionAPI } from "../api";
-import { SERVER_VAPID_KEY } from "./constants";
+import { SERVER_VAPID_KEY, BROWSERS, OS, UNKNOWN_BROWSER, UNKNOWN_OS } from "./constants";
 import { checkResponse } from "./error-handler";
 import { getCookie } from "./index";
 
@@ -19,39 +20,31 @@ function urlBase64ToUint8Array(base64String) {
 }
 
 function detectOS() {
-  const userAgent = window.navigator.userAgent,
-    platform = window.navigator.platform,
-    macosPlatforms = ["Macintosh", "MacIntel", "MacPPC", "Mac68K"],
-    windowsPlatforms = ["Win32", "Win64", "Windows", "WinCE"],
-    iosPlatforms = ["iPhone", "iPad", "iPod"];
-  let os = "Unknown";
-
-  if (macosPlatforms.indexOf(platform) !== -1) {
-    os = "MacOS";
-  } else if (iosPlatforms.indexOf(platform) !== -1) {
-    os = "iOS";
-  } else if (windowsPlatforms.indexOf(platform) !== -1) {
-    os = "Windows";
-  } else if (/Android/.test(userAgent)) {
-    os = "Android";
-  } else if (os === "Unknown" && /Linux/.test(platform)) {
-    os = "Linux";
+  const browser = detect();
+  console.log(browser);
+  if (browser) {
+    for (let os of OS) {
+      if (browser.os.toLowerCase().includes(os.toLowerCase())) {
+        return os;
+      }
+    }
   }
 
-  return os;
+  return UNKNOWN_OS;
 }
 
 function detectBrowser() {
-  const browsers = ["MSIE", "Opera", "Chrome", "Safari", "Firefox"];
-  for (let i = 0; i < browsers.length; i++) {
-    if (window.navigator.userAgent.includes(browsers[i])) {
-      if (i === 0) {
-        return "Internet Explorer";
+  const browser = detect();
+  console.log(browser);
+  if (browser) {
+    for (let br of BROWSERS) {
+      if (browser.name.toLowerCase().includes(br.toLowerCase())) {
+        return br;
       }
-      return browsers[i];
     }
   }
-  return "Unknown";
+
+  return UNKNOWN_BROWSER;
 }
 
 async function shouldSubscribe(user) {

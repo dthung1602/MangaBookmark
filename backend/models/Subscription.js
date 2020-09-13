@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const Browsers = Object.freeze({
   OP: "Opera",
-  IE: "Internet Explorer",
   CH: "Chrome",
   SA: "Safari",
   FF: "Firefox",
-  UK: "Unknown",
+  ED: "Edge",
+  UK: "Unknown Browser",
 });
 
 const OSs = Object.freeze({
@@ -15,7 +15,7 @@ const OSs = Object.freeze({
   LNX: "Linux",
   ADR: "Android",
   IOS: "iOS",
-  UNK: "Unknown",
+  UNK: "Unknown OS",
 });
 
 /**

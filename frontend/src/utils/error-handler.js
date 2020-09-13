@@ -18,6 +18,7 @@ export const checkResponse = (response, ignoreStatuses = []) => {
 };
 
 export const notifyError = (error) => {
+  console.error(error);
   message.error(error.message);
 };
 
