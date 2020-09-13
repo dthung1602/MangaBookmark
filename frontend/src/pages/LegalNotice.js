@@ -1,12 +1,13 @@
 import React from "react";
 import { Anchor, Grid, Layout, PageHeader, Typography, Divider, Button } from "antd";
 import { GithubOutlined, LinkedinOutlined, MailOutlined, ArrowUpOutlined } from "@ant-design/icons";
+
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
-import "./LegalNotice.less";
 import { Desktop } from "../components/ScreenSize";
 import { LINK_EMAIL, LINK_GITHUB, LINK_LINKEDIN } from "../utils/constants";
 import { scrollToTop } from "../utils";
+import "./LegalNotice.less";
 
 const { useBreakpoint } = Grid;
 const { Link } = Anchor;
@@ -26,22 +27,22 @@ const LegalNotice = () => {
               <Link href="#tldr" title={"TL;DR"} />
               <Link href="#contact" title={"Contact"} />
               <Link href="#term" title={"Term and condition"}>
-                <Link href="#account">Account</Link>
-                <Link href="#cookie">Cookie</Link>
-                <Link href="#license">License</Link>
-                <Link href="#removal">Removal of links from our website</Link>
-                <Link href="#no-warranties">Disclaimers; No Warranties</Link>
-                <Link href="#liability">Limitation of Liability and Damages</Link>
-                <Link href="#right">Reservation of Rights</Link>
+                <Link href="#account" title={"Account"} />
+                <Link href="#cookie" title={"Cookie"} />
+                <Link href="#license" title={"License"} />
+                <Link href="#removal" title={"Removal of links from our website"} />
+                <Link href="#no-warranties" title={"Disclaimers; No Warranties"} />
+                <Link href="#liability" title={"Limitation of Liability and Damages"} />
+                <Link href="#right" title={"Reservation of Rights"} />
               </Link>
               <Link href="#privacy" title={"Privacy policy"}>
-                <Link href="#collect-data">Information Collection</Link>
-                <Link href="#use-data">Use of Data</Link>
-                <Link href="#transfer-data">Transfer Of Data</Link>
-                <Link href="#disclosure-data">Disclosure Of Data</Link>
-                <Link href="#security-data">Security Of Data</Link>
-                <Link href="#service">Service Providers</Link>
-                <Link href="#change-policy">Changes To This Privacy Policy</Link>
+                <Link href="#collect-data" title={"Information Collection"} />
+                <Link href="#use-data" title={"Use of Data"} />
+                <Link href="#transfer-data" title={"Transfer Of Data"} />
+                <Link href="#disclosure-data" title={"Disclosure Of Data"} />
+                <Link href="#security-data" title="Security Of Data" />
+                <Link href="#service" title={"Service Providers"} />
+                <Link href="#change-policy" title={"Changes To This Privacy Policy"} />
               </Link>
             </Anchor>
           </Sider>
@@ -57,12 +58,11 @@ const LegalNotice = () => {
               TL;DR
             </Title>
             <ul>
-              <li>You use this website however you want, free of charge. Yay!</li>
-              <li>However, we are NOT responsible for your misusage of this website (i.e. don&apos;t sue us)</li>
-              <li>
-                We can add/change/remove features of the website or close it entirety we wish. (hope that we will never
-                have to)
-              </li>
+              <li>You can use this website however you want, free of charge. Yay!</li>
+              <li>We do NOT own or host any mangas on our site. We simply provide the bookmarking service.</li>
+              <li>Your data will be used for this site only.</li>
+              <li>We are NOT responsible for your misusage of this website.</li>
+              <li>We reserve the right to add/change/remove features of the website or close it entirety.</li>
             </ul>
 
             <Title level={3} id="contact">
@@ -295,7 +295,7 @@ const LegalNotice = () => {
               </li>
             </ul>
             <h3 id="use-data">Use of Data</h3>
-            <p>SpendTrackApp uses the collected data for various purposes:</p>
+            <p>MangaBookmark uses the collected data for various purposes:</p>
             <ul>
               <li>To provide and maintain the Service</li>
               <li>To notify you about changes to our Service</li>
@@ -310,15 +310,15 @@ const LegalNotice = () => {
               may differ than those from your jurisdiction.
             </p>
             <p>
-              If you are located outside the European Union (EU) and choose to provide information to us, please note
-              that we transfer the data, including Personal Data, to EU and process it there.
+              If you are located outside the United States of America (US) and choose to provide information to us,
+              please note that we transfer the data, including Personal Data, to US and process it there.
             </p>
             <p>
               Your consent to this Privacy Policy followed by your submission of such information represents your
               agreement to that transfer.
             </p>
             <p>
-              SpendTrackApp will take all steps reasonably necessary to ensure that your data is treated securely and in
+              MangaBookmark will take all steps reasonably necessary to ensure that your data is treated securely and in
               accordance with this Privacy Policy and no transfer of your Personal Data will take place to an
               organization or a country unless there are adequate controls in place including the security of your data
               and other personal information.
@@ -326,11 +326,11 @@ const LegalNotice = () => {
             <h3 id="disclosure-data">Disclosure Of Data</h3>
             <h5>Legal Requirements</h5>
             <p>
-              SpendTrackApp may disclose your Personal Data in the good faith belief that such action is necessary to:
+              MangaBookmark may disclose your Personal Data in the good faith belief that such action is necessary to:
             </p>
             <ul>
               <li>To comply with a legal obligation</li>
-              <li>To protect and defend the rights or property of SpendTrackApp</li>
+              <li>To protect and defend the rights or property of MangaBookmark</li>
               <li>To prevent or investigate possible wrongdoing in connection with the Service</li>
               <li>To protect the personal safety of users of the Service or the public</li>
               <li>To protect against legal liability</li>

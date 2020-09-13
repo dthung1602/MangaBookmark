@@ -14,19 +14,29 @@ ReactDOM.render(
 );
 
 serviceWorker.register({
-  onUpdate: () =>
-    Modal.info({
-      title: "New version available",
-      content: (
-        <>
-          <p>
-            A new version of this website is available, which might not be compatible with the current version cached on
-            your device.
-          </p>
-          <p>
-            Please close <b>all</b> tabs of this page and then reopen (reloading will not work)
-          </p>
-        </>
-      ),
-    }),
+  onUpdate: (registration) => {
+    console.log(registration.waiting);
+    if (registration.waiting) {
+      Modal.info({
+        title: "New version available",
+        content: (
+          <>
+            <p>
+              A new version of this website is available, which might not be compatible with the current version cached
+              on your device.
+            </p>
+            <p>
+              Please close <b>all</b> other tabs of this page and then reload.
+            </p>
+          </>
+        ),
+        okText: "Reload",
+        onOk: () => {
+          registration.waiting.postMessage({ type: "SKIP_WAITING" });
+          window.location.reload();
+          return false;
+        },
+      });
+    }
+  },
 });

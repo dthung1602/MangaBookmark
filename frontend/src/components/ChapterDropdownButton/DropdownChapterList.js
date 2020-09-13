@@ -1,40 +1,36 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Affix, Button, Checkbox, Empty, Popconfirm, Spin } from "antd";
-import { CheckOutlined, CheckSquareOutlined, ClockCircleOutlined, DoubleRightOutlined } from "@ant-design/icons";
+import { CheckOutlined, ClockCircleOutlined, DoubleRightOutlined, PlusSquareOutlined } from "@ant-design/icons";
 
-import { changeChapterReadStatusLogic } from "../../utils/chapters";
+import { changeChapterReadStatusLogic, getNextChapToRead } from "../../utils/chapters";
 
 import "./DropdownChapterList.less";
 
-function DropdownChapterList({
-  manga,
-  onChangeChapterStatus,
-  isLoading = false,
-  defaultShowReadChaps = false,
-  defaultShowCheckBoxes = false,
-}) {
+function DropdownChapterList({ manga, onChangeChapterStatus, isLoading = false, defaultShowReadChaps = false }) {
   const [chapListRef, setChapListRef] = useState(null);
   const [showReadChaps, setShowReadChaps] = useState(defaultShowReadChaps);
-  const [showCheckboxes, setShowCheckboxes] = useState(defaultShowCheckBoxes);
 
   const { chapters } = manga;
   const chaptersToShow = showReadChaps ? chapters : chapters.filter((ch) => !ch.isRead);
   const allChaptersRead = chapters.every((chap) => chap.isRead);
 
   const [checkboxChange, markUpTo, markAll] = changeChapterReadStatusLogic(manga, onChangeChapterStatus);
+  const markLatestChapter = () => {
+    checkboxChange(getNextChapToRead(manga.chapters));
+  };
 
   return (
     <div className="dropdown-chapter-list ant-dropdown-menu" ref={setChapListRef}>
       <Spin spinning={isLoading}>
         <Affix target={() => chapListRef}>
           <div className="btn-container">
-            <Button title="Show checkbox" type="text" onClick={() => setShowCheckboxes(!showCheckboxes)}>
-              <CheckSquareOutlined />
-            </Button>
-
             <Button title="Show read chapters" type="text" onClick={() => setShowReadChaps(!showReadChaps)}>
               <ClockCircleOutlined />
+            </Button>
+
+            <Button title="Mark one chapter" type="text" onClick={markLatestChapter}>
+              <PlusSquareOutlined />
             </Button>
 
             <Popconfirm title={"Mark all as read ?"} placement="right" disabled={allChaptersRead} onConfirm={markAll}>
@@ -49,7 +45,7 @@ function DropdownChapterList({
           {chaptersToShow.length > 0 ? null : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
           {chaptersToShow.map((chapter) => (
             <div key={chapter.link} className="chap">
-              {showCheckboxes ? <Checkbox checked={chapter.isRead} onChange={() => checkboxChange(chapter)} /> : null}
+              <Checkbox checked={chapter.isRead} onChange={() => checkboxChange(chapter)} />
               <Button
                 icon={<DoubleRightOutlined />}
                 type="text"
@@ -73,7 +69,6 @@ DropdownChapterList.propTypes = {
   onChangeChapterStatus: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
   defaultShowReadChaps: PropTypes.bool,
-  defaultShowCheckBoxes: PropTypes.bool,
 };
 
 export default DropdownChapterList;

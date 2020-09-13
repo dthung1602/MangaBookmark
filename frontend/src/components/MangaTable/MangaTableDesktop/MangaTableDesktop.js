@@ -30,7 +30,6 @@ const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked,
       dataSource={dataSource}
       showHeader={false}
       pagination={false}
-      rowClassName={(manga) => "triangle top-right " + statusToClassMapping[manga.status]}
       onRow={(manga) => {
         return {
           onClick: () => (isEmptyObject(manga) ? null : onMangaClicked(manga)),
@@ -63,7 +62,7 @@ const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked,
             return <Skeleton active />;
           }
           return (
-            <>
+            <div className={"triangle top-right " + statusToClassMapping[manga.status]}>
               <Title level={4}>
                 <a href={manga.link} target="_blank" rel="noopener noreferrer">
                   {manga.name}
@@ -73,7 +72,7 @@ const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked,
                 <MangaBasicInfo manga={manga} showTitle={false} />
                 <MangaQuickActions manga={manga} updateMangaDone={updateMangaDone} />
               </div>
-            </>
+            </div>
           );
         }}
       />

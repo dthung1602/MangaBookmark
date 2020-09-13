@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StringParam, useQueryParam, withDefault } from "use-query-params";
-import { Layout, Modal, Tabs, Typography, Affix, Switch } from "antd";
+import { Layout, Modal, Tabs, Affix, Switch } from "antd";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 
 import { Desktop, Mobile } from "../components/ScreenSize";
@@ -18,17 +18,12 @@ import { disableBackgroundScrolling } from "../utils";
 import { checkResponse, notifyError } from "../utils/error-handler";
 import "./Mangas.less";
 
-const { Text } = Typography;
 const { TabPane } = Tabs;
 
 const TAB_MAPPING = {
   reading: {
     displayName: "Reading",
-    description: (
-      <>
-        Mangas in <Text keyboard>Reading</Text> shelf that has unread chapters
-      </>
-    ),
+    description: "Mangas in Reading shelf that has unread chapters",
     filters: {
       shelf: READING,
       unreadChapCountGTE: 1,
@@ -39,12 +34,7 @@ const TAB_MAPPING = {
   },
   waiting: {
     displayName: "Waiting",
-    description: (
-      <>
-        Mangas in <Text keyboard>Waiting</Text>
-        shelf that has more than {WAITING_MG_UNREAD_CHAP_THRESHOLD} unread chapters
-      </>
-    ),
+    description: `Mangas in Waiting shelf that has more than ${WAITING_MG_UNREAD_CHAP_THRESHOLD} unread chapters`,
     filters: {
       shelf: WAITING,
       unreadChapCountGTE: WAITING_MG_UNREAD_CHAP_THRESHOLD,
@@ -55,11 +45,7 @@ const TAB_MAPPING = {
   },
   toread: {
     displayName: "Top to read",
-    description: (
-      <>
-        Top {TOP_TO_READ_MG_COUNT} mangas in <Text keyboard>To read</Text> shelf that `should` be read first
-      </>
-    ),
+    description: `Top ${TOP_TO_READ_MG_COUNT} mangas in To Read shelf that *should* be read first`,
     filters: {
       shelf: TO_READ,
       sort: "-isCompleted createdAt -unreadChapCount",
@@ -90,9 +76,6 @@ const QuickAccess = () => {
   useEffect(() => {
     setIsLoading(true);
     const filters = { ...TAB_MAPPING[tab].filters };
-    if (!showHidden) {
-      filters.hidden = false;
-    }
     MangaAPI.find(filters)
       .then(async (response) => {
         checkResponse(response);
@@ -102,7 +85,7 @@ const QuickAccess = () => {
       })
       .catch(notifyError)
       .finally(() => setIsLoading(false));
-  }, [tab, showHidden]);
+  }, [tab]);
 
   useEffect(() => setSelectedManga(null), [tab]);
 
@@ -124,6 +107,8 @@ const QuickAccess = () => {
 
   const openNewMangaModal = () => setNewMangaModalOpen(true);
   const closeNewMangaModal = () => setNewMangaModalOpen(false);
+
+  const displayMangas = mangas.filter((mg) => showHidden || !mg.hidden);
 
   const pageHeader = (
     <PageHeader
@@ -153,8 +138,8 @@ const QuickAccess = () => {
           />
         }
       >
-        {Object.entries(TAB_MAPPING).map(([tab, { displayName }]) => (
-          <TabPane key={tab} tab={displayName} />
+        {Object.entries(TAB_MAPPING).map(([tab, { displayName, description }]) => (
+          <TabPane key={tab} tab={<span title={description}>{displayName}</span>} />
         ))}
       </Tabs>
     </Affix>
@@ -170,7 +155,7 @@ const QuickAccess = () => {
                 {pageHeader}
                 {tabs}
                 <MangaTableDesktop
-                  mangas={mangas}
+                  mangas={displayMangas}
                   isLoading={isLoading}
                   updateMangaDone={updateMangaDone}
                   onMangaClicked={(manga) => setSelectedManga(manga)}

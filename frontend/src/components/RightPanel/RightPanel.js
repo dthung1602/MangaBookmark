@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import Proptypes from "prop-types";
 import { Descriptions, Empty, message, Popconfirm, Spin, Typography } from "antd";
 import { DeleteOutlined, SyncOutlined } from "@ant-design/icons";
+
+import MangaStatus from "../MangaStatus";
 import { BasicFields, ChapterList, Note } from "../EditManga";
 import { MangaAPI } from "../../api";
 import { useMarkChapterAPI } from "../../hooks";
 import { formatDate } from "../../utils";
 import { checkResponse, notifyError } from "../../utils/error-handler";
-import { MG_STATUSES } from "../../utils/constants";
 import "./RightPanel.less";
 
 const { Title } = Typography;
@@ -94,7 +95,9 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
           <Descriptions.Item label="Site" span={2}>
             {manga.site}
           </Descriptions.Item>
-          <Descriptions.Item label="Status">{MG_STATUSES[manga.status]}</Descriptions.Item>
+          <Descriptions.Item label="Status">
+            <MangaStatus status={manga.status} />
+          </Descriptions.Item>
           <Descriptions.Item label="Total chapters">{manga.chapters.length}</Descriptions.Item>
           <Descriptions.Item label="Unread">{manga.unreadChapCount}</Descriptions.Item>
           <Descriptions.Item label="New chap">{manga.newChapCount}</Descriptions.Item>

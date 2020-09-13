@@ -213,7 +213,7 @@
   },
   "info": {
     "title": "MangaBookmark API",
-    "version": "3.0.0-beta",
+    "version": "3.0.0-beta-2",
     "description": "API for MangaBookmark client"
   },
   "paths": {

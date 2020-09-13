@@ -2,7 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Descriptions, Typography } from "antd";
 
-import { MG_STATUSES, SHELVES } from "../../utils/constants";
+import MangaStatus from "../MangaStatus";
+import { SHELVES } from "../../utils/constants";
 import "./MangaBasicInfo.less";
 
 const { Title } = Typography;
@@ -26,7 +27,9 @@ function MangaBasicInfo({ manga, showTitle = true, headerExtra }) {
     >
       <Descriptions.Item label="Site">{manga.site}</Descriptions.Item>
       <Descriptions.Item label="Shelf">{SHELVES[manga.shelf]}</Descriptions.Item>
-      <Descriptions.Item label="Status">{MG_STATUSES[manga.status]}</Descriptions.Item>
+      <Descriptions.Item label="Status">
+        <MangaStatus status={manga.status} />
+      </Descriptions.Item>
       <Descriptions.Item label="New chap">{manga.newChapCount}</Descriptions.Item>
       <Descriptions.Item label="Unread">{manga.unreadChapCount}</Descriptions.Item>
     </Descriptions>

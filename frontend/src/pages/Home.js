@@ -51,7 +51,7 @@ const Home = () => {
           <div className="logo-container">
             <div className="logo">
               <img src={LOGO} alt="MangaBookmark" />
-              <span className="version">version {FRONTEND_VERSION}</span>
+              <span className="version">Version {FRONTEND_VERSION}</span>
             </div>
             <span className="subtitle">Keep tracks of your mangas on scanlation sites</span> &nbsp;&nbsp;
             <Link to={ROUTE_REGISTER}>
