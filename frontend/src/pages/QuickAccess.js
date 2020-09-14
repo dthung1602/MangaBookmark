@@ -74,7 +74,7 @@ const QuickAccess = () => {
   disableBackgroundScrolling(openImg || newMangaModalOpen);
 
   useEffect(() => {
-    setIsLoading(true);
+    setIsLoading("reload");
     const filters = { ...TAB_MAPPING[tab].filters };
     MangaAPI.find(filters)
       .then(async (response) => {
@@ -114,7 +114,7 @@ const QuickAccess = () => {
     <PageHeader
       title="Quick access"
       updateBtnText="Daily update"
-      mangaCount={mangaCount}
+      mangaCount={isLoading ? "?" : mangaCount}
       openNewMangaModal={openNewMangaModal}
       isUpdatingMangas={isUpdatingMangas}
       updateMangas={updateMangas}
@@ -178,7 +178,7 @@ const QuickAccess = () => {
               {pageHeader}
               {tabs}
               <MangaTableMobile
-                mangas={mangas}
+                mangas={displayMangas}
                 isLoading={isLoading}
                 deleteMangaDone={deleteMangaDone}
                 updateMangaDone={updateMangaDone}

@@ -115,7 +115,7 @@ const AllMangas = () => {
     <PageHeader
       title="All mangas"
       updateBtnText="Update matched mangas"
-      mangaCount={mangaCount}
+      mangaCount={isLoading ? "?" : mangaCount}
       openNewMangaModal={openNewMangaModal}
       isUpdatingMangas={isUpdatingMangas}
       updateMangas={updateMangas}

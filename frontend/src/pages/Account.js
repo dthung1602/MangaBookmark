@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StringParam, useQueryParam, withDefault } from "use-query-params";
-import { Button, Card, Grid, Layout, PageHeader, Popconfirm, Tabs, message, Dropdown, Menu, Modal } from "antd";
-import { DeleteOutlined, LogoutOutlined, MoreOutlined } from "@ant-design/icons";
+import { Button, Card, Grid, Layout, message, Modal, PageHeader, Popconfirm, Tabs } from "antd";
+import { DeleteOutlined, LogoutOutlined } from "@ant-design/icons";
 
 import PageLayout from "./PageLayout";
 import { Desktop, Mobile } from "../components/ScreenSize";
@@ -97,21 +97,10 @@ const Account = () => {
             title="My account"
             ghost={false}
             extra={
-              <Dropdown
-                overlay={
-                  <Menu>
-                    <Menu.Item icon={<LogoutOutlined />} onClick={logout}>
-                      Logout
-                    </Menu.Item>
-                    <Menu.Item danger={true} icon={<DeleteOutlined />} onClick={confirmDeleteAccount}>
-                      Delete account
-                    </Menu.Item>
-                  </Menu>
-                }
-                trigger={["click", "hover"]}
-              >
-                <Button type="text" shape="circle" icon={<MoreOutlined />} />
-              </Dropdown>
+              <>
+                <Button icon={<LogoutOutlined />} onClick={logout} />
+                <Button danger={true} icon={<DeleteOutlined />} onClick={confirmDeleteAccount} />
+              </>
             }
           />
         </Mobile>

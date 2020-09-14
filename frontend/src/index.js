@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { ReloadOutlined } from "@ant-design/icons";
 import { Modal } from "antd";
 
 import "./index.less";
@@ -15,8 +16,8 @@ ReactDOM.render(
 
 serviceWorker.register({
   onUpdate: (registration) => {
-    console.log(registration.waiting);
-    if (registration.waiting) {
+    const { waiting } = registration;
+    if (waiting) {
       Modal.info({
         title: "New version available",
         content: (
@@ -30,9 +31,13 @@ serviceWorker.register({
             </p>
           </>
         ),
-        okText: "Reload",
+        okText: (
+          <span>
+            <ReloadOutlined /> &nbsp; Reload
+          </span>
+        ),
         onOk: () => {
-          registration.waiting.postMessage({ type: "SKIP_WAITING" });
+          waiting.postMessage({ type: "SKIP_WAITING" });
           window.location.reload();
           return false;
         },
