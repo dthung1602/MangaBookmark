@@ -13,7 +13,7 @@ const BasicInfo = () => {
   const onFinish = (values) => {
     setIsLoading(true);
     UserAPI.patch(values)
-      .then(async (response) => {
+      .result.then(async (response) => {
         checkResponse(response);
         const newUser = await response.json();
         updateGlobalContext({ user: newUser });

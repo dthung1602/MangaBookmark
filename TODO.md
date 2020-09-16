@@ -107,6 +107,7 @@
 - [x] Set right panel null when manga table changes
 - [x] Reset all filters ~~+ reload btn~~
 - [x] More info in error boundary -> add issue tracker link + show user error
+- [x] Cancel old request when new one is sent
 
 # NEW FEATURES
 
@@ -140,8 +141,6 @@
 - [ ] New sites. See [this](https://www.epubor.com/free-manga-sites-to-read-manga-online-for-free.html)
 
 - [ ] One master note for user -> take note everything
-
-- [ ] Cancel old request when new one is sent
 
 - [ ] In-site reading mode (for some src only)
 

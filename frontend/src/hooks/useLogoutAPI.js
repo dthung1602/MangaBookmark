@@ -11,7 +11,7 @@ const useLogoutAPI = () => {
 
   const logout = () => {
     AuthAPI.logout()
-      .then(() => {
+      .result.then(() => {
         setGlobalContext({
           ...globalContext,
           user: null,

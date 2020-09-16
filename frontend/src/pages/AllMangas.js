@@ -73,13 +73,15 @@ const AllMangas = () => {
 
   useEffect(() => {
     setIsLoading(page === 1 ? "reload" : true);
-    MangaAPI.find({ ...filters, page, perPage: MANGA_PER_PAGE })
+    const { abort, result } = MangaAPI.find({ ...filters, page, perPage: MANGA_PER_PAGE });
+    result
       .then(async (response) => {
         checkResponse(response);
         const { data, totalItem, isLastPage } = await response.json();
 
         setMangaCount(totalItem);
         setAllLoaded(isLastPage);
+        setIsLoading(false);
 
         if (page === 1) {
           setMangas([...data]);
@@ -88,8 +90,16 @@ const AllMangas = () => {
           setMangas((prevState) => [...prevState, ...data]);
         }
       })
-      .catch(notifyError)
-      .finally(() => setIsLoading(false));
+      .catch((e) => {
+        // silently ignore AbortError while report others
+        // if a request is aborted => another is being made => loading = true
+        if (e.name !== "AbortError") {
+          notifyError(e);
+          setIsLoading(false);
+        }
+      });
+
+    return abort;
   }, [filters, page]);
 
   const [isUpdatingMangas, updateMangas] = useUpdateMultipleAPI(filters);

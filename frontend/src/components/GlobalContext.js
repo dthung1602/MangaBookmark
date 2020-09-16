@@ -24,7 +24,7 @@ const GlobalContextProvider = (props) => {
   // fetch all global data here
   useEffect(() => {
     UserAPI.get()
-      .then(async (response) => {
+      .result.then(async (response) => {
         checkResponse(response);
         const user = await response.json();
         setState((prevState) => {
@@ -38,7 +38,7 @@ const GlobalContextProvider = (props) => {
       .catch(notifyError);
 
     MangaAPI.getSupportedSites()
-      .then(async (response) => {
+      .result.then(async (response) => {
         checkResponse(response);
         const supportedSites = await response.json();
         setState((prevState) => {

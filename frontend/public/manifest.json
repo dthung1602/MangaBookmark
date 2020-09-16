@@ -1,6 +1,7 @@
 {
   "short_name": "MangaBookmark",
   "name": "Manga Bookmark",
+  "description": "Organize and keep track of mangas from scanlation sites",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,13 +9,44 @@
       "type": "image/x-icon"
     },
     {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
       "src": "logo256.png",
       "type": "image/png",
       "sizes": "256x256"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "/quick-access",
   "display": "standalone",
   "theme_color": "#00bea6",
-  "background_color": "#00bea6"
+  "background_color": "#001529",
+  "shortcuts": [
+    {
+      "name": "Quick access",
+      "short_name": "QuickAccess",
+      "description": "Access recent mangas",
+      "url": "/quick-access"
+    },
+    {
+      "name": "All mangas",
+      "short_name": "AllMangas",
+      "description": "Filter & search all mangas",
+      "url": "/mangas"
+    },
+    {
+      "name": "My account",
+      "short_name": "Account",
+      "description": "View & edit my account",
+      "url": "/account"
+    }
+  ]
 }

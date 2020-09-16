@@ -90,9 +90,9 @@ async function subscribeUser() {
     p256dh: subscription.keys.p256dh,
   };
 
-  const response = await SubscriptionAPI.post(params);
+  const response = await SubscriptionAPI.post(params).result;
   checkResponse(response);
-  return await response.json();
+  return response.json();
 }
 
 function askPermissionThenSubscribe() {

@@ -19,7 +19,7 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
   const updateManga = () => {
     setIsLoading(true);
     MangaAPI.update(manga._id)
-      .then(async (response) => {
+      .result.then(async (response) => {
         checkResponse(response);
         const newManga = await response.json();
         message.success("Manga updated");
@@ -32,7 +32,7 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
   const deleteManga = () => {
     setIsLoading(true);
     MangaAPI.delete(manga._id)
-      .then(async (response) => {
+      .result.then(async (response) => {
         checkResponse(response);
         message.success("Manga deleted");
         deleteMangaDone(manga._id);
@@ -44,7 +44,7 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
   const editManga = (field) => (value) => {
     setIsLoading(true);
     return MangaAPI.patch({ [field]: value }, manga._id)
-      .then(async (response) => {
+      .result.then(async (response) => {
         checkResponse(response);
         const newManga = await response.json();
         // message.success();

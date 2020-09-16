@@ -54,7 +54,7 @@ const useUpdateMultipleAPI = (filters) => {
   const updateMangas = () => {
     setIsLoading(true);
     MangaAPI.updateMultiple(filters)
-      .then(async (response) => {
+      .result.then(async (response) => {
         checkResponse(response);
         const { total, success, fail } = await response.json();
         notification.open({

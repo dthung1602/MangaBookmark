@@ -17,7 +17,7 @@ const LoginForm = () => {
 
   const onFinish = async (values) => {
     try {
-      const response = await AuthAPI.login(values);
+      const response = await AuthAPI.login(values).result;
       checkResponse(response, [401]);
       const data = await response.json();
 

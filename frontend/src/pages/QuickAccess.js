@@ -11,7 +11,14 @@ import RightPanel from "../components/RightPanel";
 import MangaTableDesktop from "../components/MangaTable/MangaTableDesktop";
 import MangaTableMobile from "../components/MangaTable/MangaTableMobile";
 import NewMangaModal from "../components/NewMangaModal";
-import { READING, TO_READ, TOP_TO_READ_MG_COUNT, WAITING, WAITING_MG_UNREAD_CHAP_THRESHOLD } from "../utils/constants";
+import {
+  READING,
+  TO_READ,
+  TOP_TO_READ_MG_COUNT,
+  TOP_WAITING_MG_COUNT,
+  WAITING,
+  WAITING_MG_UNREAD_CHAP_THRESHOLD,
+} from "../utils/constants";
 import { MangaAPI } from "../api";
 import { useUpdateMultipleAPI } from "../hooks";
 import { disableBackgroundScrolling } from "../utils";
@@ -34,13 +41,13 @@ const TAB_MAPPING = {
   },
   waiting: {
     displayName: "Waiting",
-    description: `Mangas in Waiting shelf that has more than ${WAITING_MG_UNREAD_CHAP_THRESHOLD} unread chapters`,
+    description: `Top ${TOP_WAITING_MG_COUNT} mangas in Waiting shelf that has more than ${WAITING_MG_UNREAD_CHAP_THRESHOLD} unread chapters`,
     filters: {
       shelf: WAITING,
       unreadChapCountGTE: WAITING_MG_UNREAD_CHAP_THRESHOLD,
       sort: "-unreadChapCount",
       page: 1,
-      perPage: 0,
+      perPage: TOP_WAITING_MG_COUNT,
     },
   },
   toread: {
@@ -76,15 +83,25 @@ const QuickAccess = () => {
   useEffect(() => {
     setIsLoading("reload");
     const filters = { ...TAB_MAPPING[tab].filters };
-    MangaAPI.find(filters)
+    const { abort, result } = MangaAPI.find(filters);
+    result
       .then(async (response) => {
         checkResponse(response);
         const { data, totalItem } = await response.json();
         setMangaCount(totalItem);
         setMangas(data);
+        setIsLoading(false);
       })
-      .catch(notifyError)
+      .catch((e) => {
+        // silently ignore AbortError while report others
+        // if a request is aborted => another is being made => loading = true
+        if (e.name !== "AbortError") {
+          notifyError(e);
+        }
+      })
       .finally(() => setIsLoading(false));
+
+    return abort;
   }, [tab]);
 
   useEffect(() => setSelectedManga(null), [tab]);

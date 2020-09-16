@@ -12,7 +12,7 @@ const useMarkChapterAPI = (updateMangaDone) => {
     }
     setIsLoading(true);
     MangaAPI.markChapters(mangaId, isRead, chapLinks)
-      .then(async (response) => {
+      .result.then(async (response) => {
         checkResponse(response);
         const newManga = await response.json();
         updateMangaDone(newManga);

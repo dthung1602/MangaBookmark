@@ -50,7 +50,7 @@ const Account = () => {
   const deleteAccount = () => {
     setDeletingAccount(true);
     UserAPI.delete()
-      .then((response) => {
+      .result.then((response) => {
         checkResponse(response);
         logout();
         message.success("Account deleted");

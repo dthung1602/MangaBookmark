@@ -38,7 +38,7 @@ const NewMangaModal = ({ open, onCancel }) => {
     setIsAdding(true);
     setErrors(undefined);
     MangaAPI.post(params)
-      .then(async (response) => {
+      .result.then(async (response) => {
         checkResponse(response);
         const data = await response.json();
         if (response.ok) {
@@ -62,7 +62,7 @@ const NewMangaModal = ({ open, onCancel }) => {
     setIsLoading(true);
     setErrors(undefined);
     MangaAPI.info(link)
-      .then(async (response) => {
+      .result.then(async (response) => {
         checkResponse(response);
         const data = await response.json();
         if (response.ok) {

@@ -58,26 +58,24 @@ Take note in Excel? Write down to a paper? Or even remember them all?
 
 `MangaBookmark` will take care of that for you!
 
-[![Product Name Screen Shot][product-screenshot]](https://mangabookmark.herokuapp.com/)
+Demo video:
+
+[![MangaBookmark quick tour video](http://img.youtube.com/vi/sftVRbPcmoo/0.jpg)](http://www.youtube.com/watch?v=sftVRbPcmoo "MangaBookmark quicktour")
 
 With this web app, you can add a manga to your collection by 
 clicking the `+` button and paste the link of the manga detail page.
 
 `MangaBookmark` features include:
-- Organizing mangas according to its status (to read, following, waiting, dropped, finished)
-- Sorting mangas by name, status, etc
+- Organizing mangas by shelves (to read, reading, waiting, dropped, finished)
+- Search, filter mangas by name, shelf, status, created date, etc.
 - Mark each chapter as read / unread
 - Receive web push notifications when a new chapter is released
-- Toggle hidden manga by double clicking the `to top` button
-
-
+- Mobile friendly!
 
 ### Built With
 * [MongoDB](https://www.mongodb.com/)
 * [ExpressJS](https://expressjs.com/)
-* [MaterialUI](https://material-ui.com/)
-
-
+* [Ant Design](https://ant.design/)
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -85,9 +83,9 @@ clicking the `+` button and paste the link of the manga detail page.
 ### Prerequisites
 
 Make sure you have the following installed on your system:
-* `yarn`
+* `yarn` >= 1.22.5
 * `node` ^12.16.1
-* `mongo` ^3.6.8
+* `mongo` >= 3.6.8
 
 ### Installation
 
@@ -95,19 +93,17 @@ Make sure you have the following installed on your system:
 and [Facebook Login](https://developers.facebook.com/docs/facebook-login/).
 Make sure you have the API key and secret.
 2. Clone the repo
-```sh
-git clone https://github.com/dthung1602/MangaBookmark
-```
+    ```sh
+    git clone https://github.com/dthung1602/MangaBookmark
+    ```
 3. Install NPM packages
-```sh
-yarn install
-cd react-mb-client
-yarn install
-```
+    ```sh
+    yarn install
+    ```
 4. Copy file `.env.example` to `.env` and add your Google & Facebook API key
-```JS
-cp .env.example .env
-```
+    ```sh
+    cp .env.example .env
+    ```
 
 ### Start the development server
 
@@ -115,30 +111,34 @@ To start dev mode for both backend & front end:
 
 ```sh
 # run backend on port 3000
-yarn run dev &
+yarn run dev-be &
 
 # run frontend on port 3001
-cd react-mb-client
-yarn run start &
+yarn run dev-fe &
 ```
 
 Now you can go to [http://localhost:3001](http://localhost:3001) to see the page.
 
 APIs are served both at `localhost:3000` and `localhost:3001` (which forwards to port 3000).
-API documentaion can be found at [http://localhost:3001/api/docs](http://localhost:3001/api/docs).
+API documentation can be found at [http://localhost:3001/api/docs](http://localhost:3001/api/docs).
+
+This website uses `Service Worker` to cache files and display push notifications so make sure you clear service worker
+after making changes to the FE.
 
 If you only wish to make changes only to the backend, you can build the frontend and let the BE serve it.
 
 ```sh
-cd react-mb-client
 yarn run build
-cd ..
-yarn run dev
 ```
 
 Everything now runs at [http://localhost:3000](http://localhost:3000)
 
 If you make changes to the Swagger js doc, run `yarn run gendoc` to update the API doc.
+
+To lint BE `yarn lint-be`, to lint FE: `yarn lint-fe`, and to lint both just run `yarn lint`.
+
+There's no test for FE (yet). `yarn test-be` would obviously run test for BE.
+
 
 <!-- ROADMAP -->
 ## Roadmap
@@ -200,4 +200,3 @@ Project Link: [https://github.com/dthung1602/MangaBookmark](https://github.com/d
 [issues-url]: https://github.com/dthung1602/MangaBookmark/issues
 [license-shield]: https://img.shields.io/github/license/dthung1602/MangaBookmark.svg?style=flat-square
 [license-url]: https://github.com/dthung1602/MangaBookmark/blob/master/LICENSE
-[product-screenshot]: screenshot.png

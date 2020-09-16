@@ -17,7 +17,7 @@ const RegisterForm = () => {
   const onFinish = async (values) => {
     try {
       delete values.confirmPassword;
-      const response = await UserAPI.create(values);
+      const response = await UserAPI.create(values).result;
       checkResponse(response);
       const data = await response.json();
 

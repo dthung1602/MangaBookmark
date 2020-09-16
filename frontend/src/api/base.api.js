@@ -6,6 +6,15 @@ export default class BaseAPI {
     this.basePath = `/api/${resource}`;
   }
 
+  abortableFetch(request, opts) {
+    const controller = new AbortController();
+    const { signal } = controller;
+    return {
+      result: fetch(request, { ...opts, signal }),
+      abort: () => controller.abort(),
+    };
+  }
+
   createJSONBody(params) {
     if (params) {
       return {
@@ -22,14 +31,14 @@ export default class BaseAPI {
     removeUndefinedAttrs(params);
     params = new URLSearchParams(params).toString();
     const path = params ? `${this.basePath}/${slug}?${params}` : `${this.basePath}/${slug}`;
-    return fetch(path, {
+    return this.abortableFetch(path, {
       method: "GET",
       credentials: "same-origin",
     });
   }
 
   post(params, slug = "") {
-    return fetch(`${this.basePath}/${slug}`, {
+    return this.abortableFetch(`${this.basePath}/${slug}`, {
       method: "POST",
       credentials: "same-origin",
       ...this.createJSONBody(params),
@@ -37,7 +46,7 @@ export default class BaseAPI {
   }
 
   patch(params, slug = "") {
-    return fetch(`${this.basePath}/${slug}`, {
+    return this.abortableFetch(`${this.basePath}/${slug}`, {
       method: "PATCH",
       credentials: "same-origin",
       ...this.createJSONBody(params),
@@ -45,7 +54,7 @@ export default class BaseAPI {
   }
 
   delete(slug = "") {
-    return fetch(`${this.basePath}/${slug}`, {
+    return this.abortableFetch(`${this.basePath}/${slug}`, {
       method: "DELETE",
       credentials: "same-origin",
     });

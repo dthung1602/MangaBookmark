@@ -15,7 +15,7 @@ const ChangePassword = () => {
     setIsLoading(true);
     delete values.confirmPassword;
     UserAPI.changePassword(values)
-      .then(async (response) => {
+      .result.then(async (response) => {
         checkResponse(response);
         form.resetFields();
         message.success("Password changed");

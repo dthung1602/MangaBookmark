@@ -36,7 +36,7 @@ const useAuthBtnLogic = (type, ssNetwork) => {
     if (type === "unlink") {
       setIsLoading(true);
       UserAPI.unlink(ssNetwork)
-        .then(async (response) => {
+        .result.then(async (response) => {
           checkResponse(response);
           const newUser = await response.json();
           updateGlobalContext({ user: newUser });

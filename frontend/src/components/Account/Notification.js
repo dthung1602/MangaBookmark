@@ -34,7 +34,7 @@ const Notification = () => {
   useEffect(() => {
     setIsLoading(true);
     SubscriptionAPI.get()
-      .then(async (response) => {
+      .result.then(async (response) => {
         checkResponse(response);
         setSubscriptions(await response.json());
       })
@@ -53,7 +53,6 @@ const Notification = () => {
           setThisBrowserSubscription(sub.toJSON());
         } else if (subscriptionsLoaded.current) {
           // the sub has been deleted from another browser
-          console.log("UNSUBED");
           await sub.unsubscribe();
         }
       }
@@ -63,7 +62,7 @@ const Notification = () => {
   const unsubscribe = (sub) => () => {
     setIsLoading(true);
     SubscriptionAPI.delete(sub._id)
-      .then(checkResponse)
+      .result.then(checkResponse)
       .then(async () => {
         // unsubscribe if the user unsubscribed this browser
         const registration = await navigator.serviceWorker.ready;
