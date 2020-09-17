@@ -6,6 +6,8 @@ const cookieSession = require("cookie-session");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const helmet = require("helmet");
+const staticGZIP = require("express-static-gzip");
+const dynamicGZIP = require("compression");
 const swaggerUi = require("swagger-ui-express");
 const enforceSSL = require("express-enforces-ssl");
 const { addAsync } = require("@awaitjs/express");
@@ -42,9 +44,6 @@ const { AuthenticateMiddleware } = require("./services/auth-service");
 const { DBConnectionMiddleware } = require("./services/db-service");
 const { ErrorHandlerMiddleware } = require("./errors");
 
-// Static files handled by React
-app.use(express.static(path.join(__dirname, "frontend-build")));
-
 // API
 const apiRouter = Router();
 apiRouter.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -52,7 +51,10 @@ apiRouter.use("/auth", AuthRouter);
 apiRouter.use("/mangas", MangaRouter);
 apiRouter.use("/user", UserRouter);
 apiRouter.use("/subscriptions", SubscriptionRouter);
-app.use("/api", DBConnectionMiddleware, AuthenticateMiddleware, apiRouter, ErrorHandlerMiddleware);
+app.use("/api", dynamicGZIP(), DBConnectionMiddleware, AuthenticateMiddleware, apiRouter, ErrorHandlerMiddleware);
+
+// Serve static files
+app.use("/", staticGZIP(path.join(__dirname, "frontend-build"), {}));
 
 // Any request that doesn't match one above, send back React's index.html file
 const frontendBuildIndex = path.join(__dirname, "frontend-build", "index.html");

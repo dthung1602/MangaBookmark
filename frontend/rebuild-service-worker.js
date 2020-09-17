@@ -8,7 +8,7 @@ const fs = require("fs");
 const serviceWorkerFile = `${__dirname}/build/service-worker.js`;
 const customServiceWorkerFile = `${__dirname}/build/custom-service-worker.js`;
 
-console.log("Rebuilding service worker");
+console.log("Rebuilding service worker ...");
 let text = fs.readFileSync(serviceWorkerFile).toString();
 const start = text.indexOf("blacklist: [");
 const end = text.indexOf("\n", start) - 2;
@@ -24,4 +24,3 @@ text += "\n" + customServiceWorkerText;
 
 fs.writeFileSync(serviceWorkerFile, text);
 fs.unlinkSync(customServiceWorkerFile);
-console.log("Done");
