@@ -87,7 +87,7 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
           </div>
         </div>
         <Title level={3}>
-          <a href={manga.link} rel="noopener noreferrer">
+          <a href={manga.link} target="_blank" rel="noopener noreferrer">
             {manga.name}
           </a>
         </Title>
