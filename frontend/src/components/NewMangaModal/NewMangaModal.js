@@ -14,7 +14,7 @@ const { Title, Text } = Typography;
 const { Option } = Select;
 const { TextArea } = Input;
 
-const NewMangaModal = ({ open, onCancel }) => {
+const NewMangaModal = ({ open, onCancel, addMangaDone }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [errors, setErrors] = useState();
@@ -47,6 +47,7 @@ const NewMangaModal = ({ open, onCancel }) => {
           setLink("");
           setManga(undefined);
           form.resetFields();
+          addMangaDone(data);
         } else {
           setErrors(data.errors);
         }
@@ -139,7 +140,7 @@ const NewMangaModal = ({ open, onCancel }) => {
             <div className="info-row">
               <Text strong>Is completed</Text>
               <Form.Item noStyle name="isCompleted">
-                <Switch size="small" />
+                <Switch size="small" defaultChecked={manga.isCompleted} />
               </Form.Item>
             </div>
             <div className="info-row">
@@ -191,8 +192,9 @@ const NewMangaModal = ({ open, onCancel }) => {
 };
 
 NewMangaModal.propTypes = {
-  open: PropTypes.bool,
-  onCancel: PropTypes.func,
+  open: PropTypes.bool.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  addMangaDone: PropTypes.func.isRequired,
 };
 
 export default NewMangaModal;

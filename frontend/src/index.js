@@ -18,7 +18,7 @@ serviceWorker.register({
   onUpdate: (registration) => {
     const { waiting } = registration;
     if (waiting) {
-      Modal.info({
+      Modal.confirm({
         title: "New version available",
         content: (
           <>
@@ -41,6 +41,7 @@ serviceWorker.register({
           window.location.reload();
           return false;
         },
+        cancelText: "Cancel",
       });
     }
   },

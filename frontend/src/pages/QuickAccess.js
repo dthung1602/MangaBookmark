@@ -108,6 +108,13 @@ const QuickAccess = () => {
 
   const [isUpdatingMangas, updateMangas] = useUpdateMultipleAPI(DAILY_UPDATE_FILTERS);
 
+  const addMangaDone = (newManga) => {
+    if (newManga.shelf === TAB_MAPPING[tab].filters.shelf) {
+      setMangas([newManga, ...mangas]);
+      setMangaCount(mangaCount + 1);
+    }
+  };
+
   const updateMangaDone = (newManga) => {
     setSelectedManga(newManga);
     setMangas((prevState) => {
@@ -207,7 +214,7 @@ const QuickAccess = () => {
 
       <FAB openNewMangaModal={openNewMangaModal} isUpdatingMangas={isUpdatingMangas} updateMangas={updateMangas} />
 
-      <NewMangaModal open={newMangaModalOpen} onCancel={closeNewMangaModal} />
+      <NewMangaModal open={newMangaModalOpen} onCancel={closeNewMangaModal} addMangaDone={addMangaDone} />
 
       <Modal visible={openImg} footer={null} onCancel={() => setOpenImg(false)}>
         <img className="right-panel-cover-large" src={openImg} alt={openImg} />

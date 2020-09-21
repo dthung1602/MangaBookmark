@@ -1,7 +1,7 @@
 // ------------------------------------------
 //       General
 // ------------------------------------------
-export const FRONTEND_VERSION = "3.0.0";
+export const FRONTEND_VERSION = "3.0.1";
 export const ANY = "any";
 export const MANGA_PER_PAGE = 5;
 export const WAITING_MG_UNREAD_CHAP_THRESHOLD = 5;

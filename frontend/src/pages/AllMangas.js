@@ -104,6 +104,10 @@ const AllMangas = () => {
 
   const [isUpdatingMangas, updateMangas] = useUpdateMultipleAPI(filters);
 
+  const addMangaDone = (newManga) => {
+    setMangas([newManga, ...mangas]);
+  };
+
   const updateMangaDone = (newManga) => {
     setSelectedManga(newManga);
     setMangas((prevState) => {
@@ -181,7 +185,7 @@ const AllMangas = () => {
 
       <FAB openNewMangaModal={openNewMangaModal} isUpdatingMangas={isUpdatingMangas} updateMangas={updateMangas} />
 
-      <NewMangaModal open={newMangaModalOpen} onCancel={closeNewMangaModal} />
+      <NewMangaModal open={newMangaModalOpen} onCancel={closeNewMangaModal} addMangaDone={addMangaDone} />
 
       <Modal visible={openImg} footer={null} onCancel={() => setOpenImg(false)}>
         <img className="right-panel-cover-large" src={openImg} alt={openImg} />
