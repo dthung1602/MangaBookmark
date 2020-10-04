@@ -21,7 +21,7 @@ async function parseManga(url) {
 
   return {
     name: $('meta[property="og:title"]').attr("content"),
-    link: $('meta[property="og:url"]').attr("content"),
+    link: url,
     image: $("#content_truyen img").attr("src"),
     isCompleted: $(".icon_trangthai").parent().text().includes("Hoàn thành"),
     chapters: await parseChapters($),

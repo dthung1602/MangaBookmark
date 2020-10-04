@@ -22,7 +22,7 @@ async function parseManga(url) {
 
   return {
     name: aTag.attr("title"),
-    link: "http://truyentranh1.info" + aTag.attr("href"),
+    link: url,
     image: $(".cImage img").attr("src"),
     isCompleted: $(".info").text().includes("Full Bộ"),
     chapters: await parseChapters($),

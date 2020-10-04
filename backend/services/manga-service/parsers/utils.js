@@ -11,18 +11,23 @@ function getDefaultHeaders() {
   };
 }
 
-async function fetch(url, cookie = "") {
+async function fetch(url, headers = {}, cookie = "") {
   return got(url, {
     headers: {
       ...getDefaultHeaders(),
+      ...headers,
       Cookie: cookie,
     },
   });
 }
 
-async function fetchAndLoad(url, cookie = "") {
-  const response = await fetch(url, cookie);
+async function fetchAndLoad(url, headers = {}, cookie = "") {
+  const response = await fetch(url, headers, cookie);
   return cheerio.load(response.body);
 }
 
-module.exports = { fetch, fetchAndLoad, getDefaultHeaders };
+function removeMangaNamePrefix(chapterName) {
+  return chapterName.split("-").slice(1).join("-").trim();
+}
+
+module.exports = { fetch, fetchAndLoad, getDefaultHeaders, removeMangaNamePrefix };

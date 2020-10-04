@@ -1,14 +1,14 @@
 const { fetchAndLoad } = require("./utils");
 
-const URLRegex = /^http:\/\/www\.hamtruyentranh\.net\/truyen\/.+$/;
+const URLRegex = /^https?:\/\/mangahasu\.se\/.+/;
 
 async function parseChapters($) {
-  const rows = $(".total-chapter .content a");
+  const rows = $(".list-chapter a");
 
   const chapters = [];
   for (let i = 0; i < rows.length; i++) {
     chapters.push({
-      name: rows[i].children[0].data,
+      name: rows[i].children[1].data,
       link: rows[i].attribs.href,
     });
   }
@@ -20,17 +20,17 @@ async function parseManga(url) {
   const $ = await fetchAndLoad(url);
 
   return {
-    name: $(".title-manga").text(),
+    name: $("h1").text(),
     link: url,
-    image: "http://www.hamtruyentranh.net/" + $(".cover-detail img").attr("src"),
-    isCompleted: $(".description-update").text().includes("Kết thúc"),
+    image: $(".info-img img").attr("src"),
+    isCompleted: $(".detail_item a").text().includes("Completed"),
     chapters: await parseChapters($),
   };
 }
 
 module.exports = {
-  site: "HamTruyenTranh",
-  homepage: "https://hamtruyentranh.com/",
+  site: "MangaHasu",
+  homepage: "http://mangahasu.se/",
   URLRegex,
   parseManga,
   parseChapters,

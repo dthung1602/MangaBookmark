@@ -21,7 +21,7 @@ async function parseManga(url) {
 
   return {
     name: $(".title").text(),
-    link: $(".breadCrumbCon a:last-child").attr("href"),
+    link: url,
     image: $(".detail_info img").attr("src"),
     isCompleted: $(".other_infos").text().includes("Đã kết thúc"),
     chapters: await parseChapters($),

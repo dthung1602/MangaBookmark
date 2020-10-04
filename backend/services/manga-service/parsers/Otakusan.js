@@ -21,7 +21,7 @@ async function parseManga(url) {
 
   return {
     name: $(".title").text().trim(),
-    link: $('meta[property="og:url"]').attr("content"),
+    link: url,
     image: $(".manga-top-img img").attr("src"),
     isCompleted: $(".manga-top .table-info").text().includes("Done"),
     chapters: await parseChapters($),

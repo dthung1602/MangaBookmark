@@ -94,7 +94,8 @@
 - [x] BG Image credit in login page 
 
 # POLISH 
- 
+
+- [ ] **Fix GG & FB auth**
 - [x] Improve background loading:
     - [ ] ~~Host images on another server~~
     - [ ] ~~Reduce image size~~
@@ -110,6 +111,15 @@
 - [x] Cancel old request when new one is sent
 
 # NEW FEATURES
+
+- [x] New sites
+    - [x] http://fanfox.net
+    - [x] https://www.mangaread.org
+    - [x] https://kissmanga.org/
+    - [x] https://mangahub.io/
+    - [x] https://www.readm.org/
+    - [x] https://mangafast.net
+    - [x] http://mangahasu.se
 
 - [ ] Toggle right panel
 
@@ -137,8 +147,6 @@
 - [ ] Reread shelf?
 
 - [ ] Change loading icon
-
-- [ ] New sites. See [this](https://www.epubor.com/free-manga-sites-to-read-manga-online-for-free.html)
 
 - [ ] One master note for user -> take note everything
 

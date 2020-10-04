@@ -1,5 +1,5 @@
-const URLRegex = /^https?:\/\/(ww1\.)?mangakakalots\.com\/manga\/.+$/;
-const baseURL = "https://ww1.mangakakalots.com";
+const URLRegex = /^https?:\/\/(ww[12]\.)?mangakakalots\.com\/manga\/.+$/;
+const baseURL = "https://ww2.mangakakalots.com";
 
 const { fetchAndLoad } = require("./utils");
 
@@ -22,7 +22,7 @@ async function parseManga(url) {
 
   return {
     name: $("h1").text().trim(),
-    link: baseURL + $('meta[property="og:url"]').attr("content").trim(),
+    link: url,
     image: baseURL + $(".manga-info-pic img").attr("src").trim(),
     isCompleted: $(".manga-info-text li")[2].children[0].data === "Status : Completed",
     chapters: await parseChapters($),
@@ -31,7 +31,7 @@ async function parseManga(url) {
 
 module.exports = {
   site: "MangakakalotS",
-  homepage: "https://ww1.mangakakalots.com/",
+  homepage: "https://ww2.mangakakalots.com/",
   URLRegex,
   parseManga,
   parseChapters,

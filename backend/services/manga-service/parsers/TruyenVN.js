@@ -22,7 +22,7 @@ async function parseManga(url) {
 
   return {
     name: $(".info .name").text(),
-    link: $('meta[property="og:url"]').attr("content"),
+    link: url,
     image: $(".comic-info picture img").attr("data-src"),
     isCompleted: $(".meta-data").text().includes("Hoàn Thành"),
     chapters: await parseChapters($),

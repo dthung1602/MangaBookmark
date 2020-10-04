@@ -1,14 +1,14 @@
 const { fetchAndLoad } = require("./utils");
 
-const URLRegex = /^http:\/\/www\.hamtruyentranh\.net\/truyen\/.+$/;
+const URLRegex = /^https?:\/\/mangafast\.net\/read\/.+/;
 
 async function parseChapters($) {
-  const rows = $(".total-chapter .content a");
+  const rows = $(".lsch .jds a");
 
   const chapters = [];
   for (let i = 0; i < rows.length; i++) {
     chapters.push({
-      name: rows[i].children[0].data,
+      name: rows[i].attribs.title,
       link: rows[i].attribs.href,
     });
   }
@@ -20,17 +20,17 @@ async function parseManga(url) {
   const $ = await fetchAndLoad(url);
 
   return {
-    name: $(".title-manga").text(),
+    name: $("h1").text(),
     link: url,
-    image: "http://www.hamtruyentranh.net/" + $(".cover-detail img").attr("src"),
-    isCompleted: $(".description-update").text().includes("Kết thúc"),
+    image: $("#Thumbnail").attr("data-src"),
+    isCompleted: $(".inftable").text().includes("StatusCompleted"),
     chapters: await parseChapters($),
   };
 }
 
 module.exports = {
-  site: "HamTruyenTranh",
-  homepage: "https://hamtruyentranh.com/",
+  site: "MangaFast",
+  homepage: "https://mangafast.net/",
   URLRegex,
   parseManga,
   parseChapters,

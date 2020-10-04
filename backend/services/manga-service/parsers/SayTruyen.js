@@ -22,7 +22,7 @@ async function parseManga(url) {
 
   return {
     name: lastBreadcrumb.text().trim(),
-    link: lastBreadcrumb.attr("href"),
+    link: url,
     image: $('meta[property="og:image"]').attr("content"),
     isCompleted: $(".manga-info").text().includes("Hoàn thành"),
     chapters: await parseChapters($),
