@@ -30,7 +30,7 @@ const MangaCard = ({ manga, updateMangaDone, deleteMangaDone }) => {
   const [isChapterListLoading, onChangeChapterStatus] = useMarkChapterAPI(updateMangaDone);
 
   const statusClass = statusToClassMapping[manga.status];
-  const nextChapToRead = getNextChapToRead(manga.chapters);
+  const [nextChapToRead] = getNextChapToRead(manga.chapters);
   // eslint-disable-next-line no-unused-vars
   const [markOne, markUpTo, markAll] = changeChapterReadStatusLogic(manga, onChangeChapterStatus);
 

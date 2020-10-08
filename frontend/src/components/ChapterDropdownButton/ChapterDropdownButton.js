@@ -17,7 +17,7 @@ function ChapterDropdownButton({
   size = "middle",
 }) {
   const { chapters } = manga;
-  const nextChapToRead = getNextChapToRead(chapters);
+  const [nextChapToRead] = getNextChapToRead(chapters);
 
   return (
     <Dropdown.Button

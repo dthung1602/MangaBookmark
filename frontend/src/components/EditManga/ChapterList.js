@@ -4,7 +4,8 @@ import moment from "moment";
 import { Button, Checkbox, Spin, Table, Popconfirm } from "antd";
 import { DoubleLeftOutlined, CheckOutlined, ClockCircleOutlined } from "@ant-design/icons";
 
-import { changeChapterReadStatusLogic } from "../../utils/chapters";
+import { changeChapterReadStatusLogic, getNextChapToRead } from "../../utils/chapters";
+import { RIGHT_PANEL_TABLE_PAGE_SIZE } from "../../utils/constants";
 import { truncString } from "../../utils";
 import "./ChapterList.less";
 
@@ -19,7 +20,16 @@ function ChapterList({ manga, isLoading, onChangeChapterStatus, type, showDate =
   const displayChapters = showReadChapters ? chapters : chapters.filter((ch) => !ch.isRead);
   const allChaptersRead = chapters.every((chap) => chap.isRead);
 
-  const pagination = type === "page" ? { hideOnSinglePage: true } : false;
+  let pagination = false;
+  if (type === "page") {
+    const nextChapIdx = getNextChapToRead(chapters)[1];
+    pagination = {
+      hideOnSinglePage: true,
+      defaultCurrent: nextChapIdx === -1 ? 1 : Math.ceil((nextChapIdx + 1) / RIGHT_PANEL_TABLE_PAGE_SIZE),
+      defaultPageSize: RIGHT_PANEL_TABLE_PAGE_SIZE,
+    };
+  }
+  console.log(pagination);
 
   useEffect(() => setShowReadChapters(true), [chapters]);
 
@@ -39,7 +49,7 @@ function ChapterList({ manga, isLoading, onChangeChapterStatus, type, showDate =
                   size="small"
                   type="text"
                   icon={<ClockCircleOutlined />}
-                  title={(showReadChapters ? "Hide" : "Show") + " unread chapters"}
+                  title={(showReadChapters ? "Hide" : "Show") + " read chapters"}
                   onClick={() => setShowReadChapters(!showReadChapters)}
                 />
                 <Popconfirm

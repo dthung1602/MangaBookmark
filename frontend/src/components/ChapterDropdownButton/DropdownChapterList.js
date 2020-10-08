@@ -17,7 +17,7 @@ function DropdownChapterList({ manga, onChangeChapterStatus, isLoading = false, 
 
   const [checkboxChange, markUpTo, markAll] = changeChapterReadStatusLogic(manga, onChangeChapterStatus);
   const markLatestChapter = () => {
-    checkboxChange(getNextChapToRead(manga.chapters));
+    checkboxChange(getNextChapToRead(manga.chapters)[0]);
   };
 
   return (

@@ -23,14 +23,17 @@ export const changeChapterReadStatusLogic = (manga, onChangeChapterStatus) => {
 
 export const getNextChapToRead = (chapters) => {
   if (!chapters) {
-    return {};
+    return [{}, -1];
   }
   if (chapters.length === 0) {
-    return {
-      empty: true,
-      name: <i>No chapter found</i>,
-      link: "#",
-    };
+    return [
+      {
+        empty: true,
+        name: <i>No chapter found</i>,
+        link: "#",
+      },
+      -1,
+    ];
   }
 
   let nextChapToRead = {
@@ -38,14 +41,17 @@ export const getNextChapToRead = (chapters) => {
     name: <i>Last chap reached</i>,
     link: chapters[0].link,
   };
+  let lastChapIdx = -1;
   for (let i = 0; i < chapters.length - 1; i++) {
     if (!chapters[i].isRead && chapters[i + 1].isRead) {
       nextChapToRead = chapters[i];
+      lastChapIdx = i;
       break;
     }
   }
   if (nextChapToRead.empty && !chapters[chapters.length - 1].isRead) {
-    nextChapToRead = chapters[chapters.length - 1];
+    lastChapIdx = chapters.length - 1;
+    nextChapToRead = chapters[lastChapIdx];
   }
-  return nextChapToRead;
+  return [nextChapToRead, lastChapIdx];
 };
