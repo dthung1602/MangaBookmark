@@ -4,7 +4,7 @@ import moment from "moment";
 import { Button, Checkbox, Spin, Table, Popconfirm } from "antd";
 import { DoubleLeftOutlined, CheckOutlined, ClockCircleOutlined } from "@ant-design/icons";
 
-import { changeChapterReadStatusLogic, getNextChapToRead } from "../../utils/chapters";
+import { changeChapterReadStatusLogic, getNextChapToRead, getNextChapPage } from "../../utils/chapters";
 import { RIGHT_PANEL_TABLE_PAGE_SIZE } from "../../utils/constants";
 import { truncString } from "../../utils";
 import "./ChapterList.less";
@@ -12,33 +12,40 @@ import "./ChapterList.less";
 const { Column } = Table;
 
 function ChapterList({ manga, isLoading, onChangeChapterStatus, type, showDate = true, maxChapNameLen = 35 }) {
+  const { chapters } = manga;
+  const nextChapIdx = getNextChapToRead(chapters)[1];
+  const nextChapPage = getNextChapPage(chapters, nextChapIdx);
+
   const [showReadChapters, setShowReadChapters] = useState(true);
 
-  const [checkboxChange, markUpTo, markAll] = changeChapterReadStatusLogic(manga, onChangeChapterStatus);
-
-  const { chapters } = manga;
   const displayChapters = showReadChapters ? chapters : chapters.filter((ch) => !ch.isRead);
   const allChaptersRead = chapters.every((chap) => chap.isRead);
 
-  let pagination = false;
-  if (type === "page") {
-    const nextChapIdx = getNextChapToRead(chapters)[1];
-    pagination = {
-      hideOnSinglePage: true,
-      defaultCurrent: nextChapIdx === -1 ? 1 : Math.ceil((nextChapIdx + 1) / RIGHT_PANEL_TABLE_PAGE_SIZE),
-      defaultPageSize: RIGHT_PANEL_TABLE_PAGE_SIZE,
-    };
-  }
-  console.log(pagination);
+  const [pagination, setPagination] = useState({
+    hideOnSinglePage: true,
+    current: nextChapPage,
+    showSizeChanger: false,
+    defaultPageSize: RIGHT_PANEL_TABLE_PAGE_SIZE,
+  });
+  const onPageChange = (newPage) => {
+    setPagination({ ...pagination, current: newPage });
+  };
+
+  const [checkboxChange, markUpTo, markAll] = changeChapterReadStatusLogic(manga, onChangeChapterStatus);
 
   useEffect(() => setShowReadChapters(true), [chapters]);
+  useEffect(() => {
+    const nextChapIdx = getNextChapToRead(chapters)[1];
+    const currentPage = getNextChapPage(chapters, nextChapIdx);
+    setPagination({ ...pagination, current: currentPage });
+  }, [manga]);
 
   return (
     <div className={`chapter-list ${type}`}>
       <Spin spinning={isLoading}>
         <Table
           size="small"
-          pagination={pagination}
+          pagination={type === "scroll" ? false : { ...pagination, onChange: onPageChange }}
           showHeader={false}
           dataSource={displayChapters}
           title={() => (

@@ -1,4 +1,5 @@
 import React from "react";
+import { RIGHT_PANEL_TABLE_PAGE_SIZE } from "./constants";
 
 export const changeChapterReadStatusLogic = (manga, onChangeChapterStatus) => {
   const onChangeChapterStatusWrapper = (isRead, chaps) => onChangeChapterStatus(manga._id, isRead, chaps);
@@ -54,4 +55,8 @@ export const getNextChapToRead = (chapters) => {
     nextChapToRead = chapters[lastChapIdx];
   }
   return [nextChapToRead, lastChapIdx];
+};
+
+export const getNextChapPage = (chapters, nextChapIdx) => {
+  return nextChapIdx === -1 ? 1 : Math.ceil((nextChapIdx + 1) / RIGHT_PANEL_TABLE_PAGE_SIZE);
 };
