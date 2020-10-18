@@ -36,7 +36,7 @@
 
 - [x] Update dependencies to the latest
 
-- [ ] Add readme.md
+- [x] Add readme.md
 
 - [x] Add API doc
 
@@ -121,6 +121,8 @@
     - [x] https://mangafast.net
     - [x] http://mangahasu.se
 
+- [ ] Scale crawling
+
 - [ ] Toggle right panel
 
 - [ ] Improve search & filter:
@@ -141,8 +143,6 @@
     - [ ] tag
     - [ ] description
     - [ ] author
-
-- [ ] Crawl error report
 
 - [ ] Reread shelf?
 
