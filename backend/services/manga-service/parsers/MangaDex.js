@@ -1,14 +1,14 @@
 const got = require("got");
 const cheerio = require("cheerio");
+const { chunk } = require("lodash");
 
-const { fetchAndLoad, getDefaultHeaders } = require("./utils");
-
+const { fetchAndLoad, getDefaultHeaders, wait } = require("./utils");
 const URLRegex = /^https?:\/\/mangadex\.org\/title\/[0-9]+\/.+$/;
 const chapterRegex = /^(.*\/)chapters\/([0-9]+)\/$/;
 const baseURL = "https://mangadex.org";
-const maxMangaPerPage = 100;
 
-function getChapters(response) {
+async function getChapters(responsePromise) {
+  const response = await responsePromise;
   const $ = cheerio.load(response.body);
   const rows = $(".chapter-container a.text-truncate");
   const isEnglish = $(".chapter-container .flag").map((i, e) => {
@@ -28,7 +28,7 @@ function getChapters(response) {
   return chapters;
 }
 
-async function parseChapters(url) {
+async function parseChapters($, url) {
   // ensure / at the end of url
   url = url.trim();
   if (url[url.length - 1] !== "/") {
@@ -41,24 +41,28 @@ async function parseChapters(url) {
     url = match[1];
   }
 
-  return got.paginate({
-    url: url + "chapters/1/",
-    headers: getDefaultHeaders(),
-    pagination: {
-      transform: getChapters,
-      paginate: (response, allItems, currentItems) => {
-        if (currentItems.length < maxMangaPerPage) {
-          return false;
-        }
-        const prevURL = response.request.options.url;
-        const match = prevURL.match(chapterRegex);
-        const nextChap = Number(match[2]) + 1;
-        return {
-          url: url + `chapters/${nextChap}/`,
-        };
-      },
-    },
-  });
+  const lastPageURLParts = $(".pagination li:last-child a")[0].attribs.href.split("/");
+  const totalChapterPage = parseInt(lastPageURLParts[lastPageURLParts.length - 2]);
+
+  const chunks = chunk([...Array(totalChapterPage).keys()], 3);
+  let chapters = [];
+  for (let chunk of chunks) {
+    chapters.push(
+      await Promise.all(
+        chunk
+          .map((currentPage) =>
+            got({
+              url: url + `chapters/${currentPage + 1}/`,
+              headers: getDefaultHeaders(),
+            }),
+          )
+          .map(getChapters),
+      ),
+    );
+    await wait(500);
+  }
+
+  return chapters.flat().flat();
 }
 
 async function parseManga(url) {
@@ -69,7 +73,7 @@ async function parseManga(url) {
     link: url,
     image: $("#content img")[0].attribs.src,
     isCompleted: $("#content .m-0:nth-child(9)").text().includes("Completed"),
-    chapters: await parseChapters(url),
+    chapters: await parseChapters($, url),
   };
 }
 

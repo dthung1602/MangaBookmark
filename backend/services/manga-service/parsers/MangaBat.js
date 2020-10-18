@@ -1,6 +1,6 @@
 const { fetchAndLoad } = require("./utils");
 
-const URLRegex = /^https?:\/\/m.mangabat\.com\/read-.+$/;
+const URLRegex = /^https?:\/\/(m|read)\.mangabat\.com\/read-.+$/;
 
 async function parseChapters($) {
   const rows = $(".chapter-name");

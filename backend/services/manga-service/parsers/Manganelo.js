@@ -1,6 +1,6 @@
 const { fetchAndLoad } = require("./utils");
 
-const URLRegex = /^https?:\/\/manganelo\.com\/manga\/.+$/;
+const URLRegex = /^https?:\/\/(chap\.|m\.)?manganelo\.com\/manga.+$/;
 
 async function parseChapters($) {
   const rows = $(".panel-story-chapter-list a");

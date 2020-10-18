@@ -30,4 +30,10 @@ function removeMangaNamePrefix(chapterName) {
   return chapterName.split("-").slice(1).join("-").trim();
 }
 
-module.exports = { fetch, fetchAndLoad, getDefaultHeaders, removeMangaNamePrefix };
+async function wait(ms) {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(), ms);
+  });
+}
+
+module.exports = { fetch, fetchAndLoad, getDefaultHeaders, removeMangaNamePrefix, wait };
