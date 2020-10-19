@@ -10,7 +10,7 @@ passport.use(
     {
       clientID: config.FACEBOOK_AUTH_ID,
       clientSecret: config.FACEBOOK_AUTH_PASSWORD,
-      callbackURL: "/auth/facebook/callback",
+      callbackURL: "/api/auth/facebook/callback",
       profileFields: ["id", "email", "displayName", "picture"],
       passReqToCallback: true,
     },
@@ -32,9 +32,9 @@ passport.use(
       user.facebookId = profile.id;
       user.facebookPic = get(profile, "photos[0].value");
       user.facebookName = profile.displayName;
-      if (!user.email) {
-        user.email = get(profile, "emails[0].value");
-      }
+      user.email = user.email || get(profile, "emails[0].value");
+      user.avatar = user.avatar || user.facebookPic;
+      user.username = user.username || user.facebookName;
 
       await user.save();
       done(null, user);

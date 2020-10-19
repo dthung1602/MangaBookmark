@@ -10,7 +10,7 @@ passport.use(
     {
       clientID: config.GOOGLE_AUTH_ID,
       clientSecret: config.GOOGLE_AUTH_PASSWORD,
-      callbackURL: "/auth/google/callback",
+      callbackURL: "/api/auth/google/callback",
       passReqToCallback: true,
     },
     async (req, accessToken, refreshToken, profile, done) => {
@@ -31,9 +31,9 @@ passport.use(
       user.googleId = profile.id;
       user.googlePic = get(profile, "photos[0].value");
       user.googleName = profile.displayName;
-      if (!user.email) {
-        user.email = get(profile, "emails[0].value");
-      }
+      user.email = user.email || get(profile, "emails[0].value");
+      user.avatar = user.avatar || user.googlePic;
+      user.username = user.username || user.googleName;
 
       await user.save();
       done(null, user);

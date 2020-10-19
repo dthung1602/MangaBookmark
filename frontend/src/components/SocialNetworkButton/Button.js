@@ -4,7 +4,7 @@ import { upperFirst } from "lodash";
 import { FacebookOutlined, GoogleOutlined } from "@ant-design/icons";
 import { Button, message } from "antd";
 
-import { UserAPI } from "../../api";
+import { UserAPI, AuthAPI } from "../../api";
 import { GlobalContext } from "../GlobalContext";
 import { checkResponse, notifyError } from "../../utils/error-handler";
 import { ROUTE_LOGIN_FACEBOOK, ROUTE_LOGIN_GOOGLE } from "../../utils/constants";
@@ -45,7 +45,11 @@ const useAuthBtnLogic = (type, ssNetwork) => {
         .catch(notifyError)
         .finally(() => setIsLoading(false));
     } else {
-      window.location = ssNetwork === "google" ? ROUTE_LOGIN_GOOGLE : ROUTE_LOGIN_FACEBOOK;
+      AuthAPI.logout()
+        .result.then(() => {
+          window.location = ssNetwork === "google" ? ROUTE_LOGIN_GOOGLE : ROUTE_LOGIN_FACEBOOK;
+        })
+        .catch(notifyError);
     }
   };
 

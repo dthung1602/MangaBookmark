@@ -21,6 +21,8 @@ function setPassword(newPassword) {
  *            type: string
  *          password:
  *            type: string
+ *          avatar:
+ *            type: string
  *          googleId:
  *            type: string
  *          googlePic:
@@ -52,6 +54,8 @@ let userSchema = new mongoose.Schema(
       type: String,
       set: setPassword,
     },
+
+    avatar: String,
 
     googleId: String,
     googlePic: String,

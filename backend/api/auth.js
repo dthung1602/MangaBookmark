@@ -3,7 +3,7 @@ const passport = require("passport");
 
 const router = Router();
 
-const { redirectHome, removePassword } = require("./utils");
+const { removePassword } = require("./utils");
 
 //-----------------------------------
 //  Logout
@@ -85,7 +85,7 @@ router.post("/login", (req, res, next) => {
  *       302:
  *         description: Redirect to Google login page
  */
-router.getAsync("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 /**
  * @swagger
@@ -97,7 +97,10 @@ router.getAsync("/google", passport.authenticate("google", { scope: ["profile", 
  *       302:
  *         description: Logged in successfully. Redirect home.
  */
-router.getAsync("/google/callback", passport.authenticate("google"), redirectHome);
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { successRedirect: "/quick-access", failureRedirect: "/login" }),
+);
 
 //-----------------------------------
 //  Login with Facebook
@@ -112,7 +115,7 @@ router.getAsync("/google/callback", passport.authenticate("google"), redirectHom
  *       302:
  *         description: Redirect to Facebook login page
  */
-router.getAsync("/facebook", passport.authenticate("facebook"));
+router.get("/facebook", passport.authenticate("facebook"));
 
 /**
  * @swagger
@@ -124,6 +127,9 @@ router.getAsync("/facebook", passport.authenticate("facebook"));
  *       302:
  *         description: Logged in successfully. Redirect home.
  */
-router.getAsync("/facebook/callback", passport.authenticate("facebook"), redirectHome);
+router.get(
+  "/facebook/callback",
+  passport.authenticate("facebook", { successRedirect: "/quick-access", failureRedirect: "/login" }),
+);
 
 module.exports = router;

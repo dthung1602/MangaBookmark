@@ -13,8 +13,10 @@ function removeUndefinedAttrs(obj) {
 
 // TODO move this to user schema
 function removePassword(user) {
-  user = JSON.parse(JSON.stringify(user));
-  user.password = !!user.password;
+  if (user) {
+    user = JSON.parse(JSON.stringify(user));
+    user.password = !!user.password;
+  }
   return user;
 }
 
