@@ -143,11 +143,7 @@ describe("User API", () => {
   });
 
   it("should unlink social network accounts", async function () {
-    const requestBody = {
-      provider: "google",
-    };
-
-    const response = await request(app).patch("/api/user/unlink").send(requestBody);
+    const response = await request(app).delete("/api/user/google");
     expect(response.status).toEqual(200);
 
     expect(response.body).toEqual(
@@ -161,14 +157,17 @@ describe("User API", () => {
 
   it.each(INVALID_UNLINK)("should validate input when unlinking social network accounts", async function (
     userId,
-    data,
+    authProvider,
+    expectedStatusCode,
     expectedErrs,
   ) {
     try {
       loginAs(userId);
-      const response = await request(app).patch("/api/user/unlink").send(data);
-      expect(response.status).toEqual(400);
-      expectErrors(expectedErrs, response.body.errors);
+      const response = await request(app).delete("/api/user/" + authProvider);
+      expect(response.status).toEqual(expectedStatusCode);
+      if (expectedStatusCode === 400) {
+        expectErrors(expectedErrs, response.body.errors);
+      }
     } finally {
       resetLogin();
     }

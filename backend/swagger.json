@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.2",
+  "openapi": "3.0.0",
   "components": {
     "schemas": {
       "Id": {
@@ -175,6 +175,9 @@
           "password": {
             "type": "string"
           },
+          "avatar": {
+            "type": "string"
+          },
           "googleId": {
             "type": "string"
           },
@@ -217,94 +220,6 @@
     "description": "API for MangaBookmark client"
   },
   "paths": {
-    "/api/auth/logout": {
-      "post": {
-        "description": "Log out of the application",
-        "responses": {
-          "302": {
-            "description": "logged out"
-          }
-        }
-      }
-    },
-    "/api/auth/login": {
-      "post": {
-        "description": "Log in to the application",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "username": {
-                    "type": "string"
-                  },
-                  "password": {
-                    "type": "string",
-                    "format": "password"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "logged in",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "incorrect username/password"
-          }
-        }
-      }
-    },
-    "/api/auth/google": {
-      "get": {
-        "description": "Log in using Google. See [this](https://developers.google.com/identity/protocols/oauth2)",
-        "responses": {
-          "302": {
-            "description": "Redirect to Google login page"
-          }
-        }
-      }
-    },
-    "/api/auth/google/callback": {
-      "get": {
-        "description": "Google login callback. See [this](https://developers.google.com/identity/protocols/oauth2)",
-        "responses": {
-          "302": {
-            "description": "Logged in successfully. Redirect home."
-          }
-        }
-      }
-    },
-    "/api/auth/facebook": {
-      "get": {
-        "description": "Log in using Facebook. See [this](https://developers.facebook.com/docs/facebook-login/)",
-        "responses": {
-          "302": {
-            "description": "Redirect to Facebook login page"
-          }
-        }
-      }
-    },
-    "/api/auth/facebook/callback": {
-      "get": {
-        "description": "Facebook login callback. See [this](https://developers.facebook.com/docs/facebook-login/)",
-        "responses": {
-          "302": {
-            "description": "Logged in successfully. Redirect home."
-          }
-        }
-      }
-    },
     "/api/mangas": {
       "get": {
         "description": "Search & filter mangas",
@@ -1153,6 +1068,54 @@
         }
       }
     },
+    "/api/auth/login": {
+      "post": {
+        "description": "Log in to the application",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "logged in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "incorrect username/password"
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "description": "Log out of the application",
+        "responses": {
+          "302": {
+            "description": "logged out"
+          }
+        }
+      }
+    },
     "/api/user/change-password": {
       "patch": {
         "description": "Change current user password",
@@ -1182,27 +1145,60 @@
         }
       }
     },
-    "/api/user/unlink": {
-      "patch": {
-        "description": "Remove Google/Facebook from current account",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "provider": {
-                    "type": "string",
-                    "enum": [
-                      "google",
-                      "facebook"
-                    ]
-                  }
-                }
-              }
+    "/api/user/{authProvider}/auth": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "authProvider",
+            "description": "specifies which third party to use",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "google",
+                "facebook"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "action",
+            "description": "specifies which action to take",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "register",
+                "login",
+                "link"
+              ]
             }
           }
-        },
+        ],
+        "description": "Authentication using Google/Facebook OAuth2",
+        "responses": {
+          "302": {
+            "description": "Redirect to Google/Facebook authentication page"
+          }
+        }
+      }
+    },
+    "/api/user/{authProvider}/unlink": {
+      "patch": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "authProvider",
+            "description": "specifies which third party to use",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "google",
+                "facebook"
+              ]
+            }
+          }
+        ],
+        "description": "Remove Google/Facebook from current account",
         "responses": {
           "200": {
             "description": "Account unlinked successfully",
@@ -1213,6 +1209,30 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/user/{authProvider}/callback": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "authProvider",
+            "description": "specifies which third party to use",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "google",
+                "facebook"
+              ]
+            }
+          }
+        ],
+        "description": "Google/Facebook login/register/link callback.",
+        "responses": {
+          "302": {
+            "description": "Success - Redirect to quick access page. Failure - Redirect to login page"
           }
         }
       }

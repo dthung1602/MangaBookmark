@@ -120,7 +120,7 @@ const MANGA_FILTER = [
     true,
   ],
   [
-    { page: 1, perPage: 0, sort: "-unreadChapCount" },
+    { page: 1, perPage: 0, sort: "-unreadChapCount id" },
     3,
     1,
     1,

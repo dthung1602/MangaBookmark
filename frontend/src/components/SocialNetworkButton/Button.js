@@ -21,6 +21,8 @@ const useAuthBtnLogic = (type, ssNetwork) => {
     text = `Login with ${ssNetworkName}`;
   } else if (type === "unlink") {
     text = `Unlink ${ssNetworkName} account`;
+  } else if (type === "link") {
+    text = `Link to ${ssNetworkName} account`;
   }
 
   // disable unlink button when:

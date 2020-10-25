@@ -15,6 +15,7 @@
     "lint": "yarn lint-fe && echo '\n------\n' && yarn lint-be",
     "dev-fe": "cd frontend; yarn dev",
     "dev-be": "cd backend; yarn dev",
-    "test-be": "cd backend; node_modules/.bin/jest --runInBand"
+    "test-be": "cd backend; NODE_ENV=test node_modules/.bin/jest --runInBand",
+    "coverage-be": "cd backend; NODE_ENV=test node_modules/.bin/jest --runInBand --coverage=true"
   }
 }

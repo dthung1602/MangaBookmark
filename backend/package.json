@@ -10,14 +10,14 @@
     "dev": "nodemon ./bin/www",
     "lint": "eslint --fix .",
     "test": "NODE_ENV=test jest --runInBand",
-    "coverage": "jest --runInBand --coverage=true",
+    "coverage": "NODE_ENV=test jest --runInBand --coverage=true",
     "gendoc": "swagger-jsdoc -d swaggerDef.js"
   },
   "jest": {
     "testEnvironment": "node",
+    "testTimeout": 10000,
     "coveragePathIgnorePatterns": [
       "/node_modules/",
-      "/react-mb-client/",
       "/tests/",
       "/services/manga-service/parsers"
     ]

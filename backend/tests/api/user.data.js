@@ -45,12 +45,12 @@ const INVALID_PASSWORD = [
 ];
 
 const INVALID_UNLINK = [
-  ["111aaaaaaaaaaaaaaaaaa111", { provider: "github" }, { provider: "Invalid value" }],
-  ["222aaaaaaaaaaaaaaaaaa222", { provider: "facebook" }, { provider: "There's no linked Facebook account" }],
+  ["222aaaaaaaaaaaaaaaaaa222", "facebook", 400, { authProvider: "There's no linked Facebook account" }],
   [
     "333aaaaaaaaaaaaaaaaaa333",
-    { provider: "facebook" },
-    { provider: "Cannot unlink Facebook account. This is the only way to login." },
+    "facebook",
+    400,
+    { authProvider: "Cannot unlink Facebook account. This is the only way to login." },
   ],
 ];
 

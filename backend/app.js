@@ -36,7 +36,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-const AuthRouter = require("./api/auth");
 const MangaRouter = require("./api/manga");
 const UserRouter = require("./api/user");
 const SubscriptionRouter = require("./api/subscription");
@@ -47,7 +46,6 @@ const { ErrorHandlerMiddleware } = require("./errors");
 // API
 const apiRouter = Router();
 apiRouter.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-apiRouter.use("/auth", AuthRouter);
 apiRouter.use("/mangas", MangaRouter);
 apiRouter.use("/user", UserRouter);
 apiRouter.use("/subscriptions", SubscriptionRouter);

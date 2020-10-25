@@ -1,14 +1,15 @@
 const { Router } = require("@awaitjs/express");
+const passport = require("passport");
 const router = Router();
 
-const { User } = require("../models");
+const ThirdPartyAuthRouter = require("./third-party-auth");
+const { User: User } = require("../models");
 const { removePassword } = require("./utils");
 const UserService = require("../services/user-service");
 const {
   UserPassValidator,
   UserPatchValidator,
-  LocalUserRegistrationValidator,
-  UnlinkAccountValidator,
+  UserLocalRegistrationValidator,
 } = require("../services/validation-service");
 
 //-----------------------------------
@@ -42,7 +43,7 @@ const {
  *              schema:
  *                $ref: '#/components/schemas/User'
  */
-router.postAsync("/", LocalUserRegistrationValidator, async (req, res, next) => {
+router.postAsync("/", UserLocalRegistrationValidator, async (req, res, next) => {
   const user = await UserService.createLocal(req.body);
   req.login(user, (err) => {
     if (err) {
@@ -113,6 +114,91 @@ router.patchAsync("/", UserPatchValidator, async (req, res) => {
 });
 
 //-----------------------------------
+//  Delete user
+//-----------------------------------
+/**
+ * @swagger
+ *
+ * /api/user:
+ *   delete:
+ *     description: Delete current user
+ *     responses:
+ *       204:
+ *         description: User deleted successfully
+ */
+router.deleteAsync("/", async (req, res) => {
+  await UserService.delete(req.user);
+  req.logout();
+  res.sendStatus(204);
+});
+
+//-----------------------------------
+//  Login with username & password
+//-----------------------------------
+/**
+ * @swagger
+ *
+ * /api/auth/login:
+ *   post:
+ *     description: Log in to the application
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *                 format: password
+ *     responses:
+ *       200:
+ *         description: logged in
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/User'
+ *       401:
+ *         description: incorrect username/password
+ */
+router.post("/login", (req, res, next) => {
+  passport.authenticate("local", function (err, user, info) {
+    if (err) {
+      return res.status(500).json({ errors: { "": "" + err } });
+    }
+    if (!user) {
+      return res.status(401).json({ errors: info });
+    }
+    req.login(user, (err) => {
+      if (err) {
+        return res.status(500).json({ errors: { "": "" + err } });
+      } else {
+        res.status(200).json(removePassword(user));
+      }
+    });
+  })(req, res, next);
+});
+
+//-----------------------------------
+//  Logout
+//-----------------------------------
+/**
+ * @swagger
+ *
+ * /api/auth/logout:
+ *   post:
+ *     description: Log out of the application
+ *     responses:
+ *       302:
+ *         description: logged out
+ */
+router.postAsync("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/");
+});
+
+//-----------------------------------
 //  Change password
 //-----------------------------------
 /**
@@ -142,57 +228,9 @@ router.patchAsync("/change-password", UserPassValidator, async (req, res) => {
   res.sendStatus(204);
 });
 
-//-----------------------------------
-//  Unlink account
-//-----------------------------------
-/**
- * @swagger
- *
- * /api/user/unlink:
- *   patch:
- *     description: Remove Google/Facebook from current account
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               provider:
- *                 type: string
- *                 enum: [google, facebook]
- *     responses:
- *       200:
- *         description: Account unlinked successfully
- *         content:
- *           application/json:
- *              schema:
- *                $ref: '#/components/schemas/User'
- */
-router.patchAsync("/unlink", UnlinkAccountValidator, async (req, res) => {
-  const { provider } = req.body;
-
-  const user = await UserService.unlink(req.user, provider);
-
-  res.json(removePassword(user));
-});
-
-//-----------------------------------
-//  Delete user
-//-----------------------------------
-/**
- * @swagger
- *
- * /api/user:
- *   delete:
- *     description: Delete current user
- *     responses:
- *       204:
- *         description: User deleted successfully
- */
-router.deleteAsync("/", async (req, res) => {
-  await UserService.delete(req.user);
-  req.logout();
-  res.sendStatus(204);
-});
+//-------------------------------------------------
+//  Authentication by third-party
+//-------------------------------------------------
+router.use("/:authProvider(google|facebook)", ThirdPartyAuthRouter);
 
 module.exports = router;

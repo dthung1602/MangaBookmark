@@ -1,6 +1,6 @@
 module.exports = {
-  openapi: "3.1.0",
-  apis: ["api/*.js", "models/*.js"],
+  openapi: "3.0.0",
+  apis: ["api/**/*.js", "models/**/*.js"],
   components: {
     schemas: {
       Id: {

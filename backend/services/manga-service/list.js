@@ -35,6 +35,7 @@ module.exports = async function (filters = {}, search = undefined, sort = undefi
     if (Array.isArray(sort)) {
       sort = sort.join(" ");
     }
+    sort = sort.replace(/(^id)|(id$)/, "_id").replace(" id ", " _id ");
     mangas = mangas.sort(sort);
   }
 
