@@ -33,8 +33,14 @@ const { UserUnlinkAccountValidator, UserThirdPartyAuthValidator } = require("../
  *         description: Redirect to Google/Facebook authentication page
  */
 router.get("/auth", UserThirdPartyAuthValidator, (req, res, next) => {
-  return passport.authenticate(req.params.authProvider, {
-    scope: ["profile", "email"],
+  const { authProvider } = req.params;
+  const scope = {
+    google: ["email", "profile"],
+    facebook: ["email"],
+  }[authProvider];
+
+  return passport.authenticate(authProvider, {
+    scope,
     state: req.query.action,
   })(req, res, next);
 });
@@ -72,7 +78,7 @@ router.get("/callback", (req, res, next) => {
 /**
  * @swagger
  *
- * /api/user/{authProvider}/unlink:
+ * /api/user/{authProvider}:
  *   delete:
  *     parameters:
  *       - in: path

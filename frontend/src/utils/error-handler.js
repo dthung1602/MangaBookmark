@@ -7,8 +7,7 @@ const statusMapping = new Map([
   [404, "Not found."],
 ]);
 
-export const checkResponse = (response, ignoreStatuses = []) => {
-  // Throw exception when response is not ok
+export const throwOnCriticalErrors = (response, ignoreStatuses = []) => {
   if (ignoreStatuses.indexOf(response.status) === -1) {
     const msg = statusMapping.get(response.status);
     if (msg) {

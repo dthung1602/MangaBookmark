@@ -222,9 +222,9 @@ router.postAsync("/", MangaCreateValidator, async (req, res) => {
 /**
  * @swagger
  *
- * /api/mangas/{:mangaId}:
+ * /api/mangas/{mangaId}:
  *   patch:
- *     description: Create new manga
+ *     description: Edit manga
  *     parameters:
  *       - in: path
  *         name: mangaId
@@ -507,33 +507,25 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
  *           minimum: 0
  *           description: If set to 0, all pages are retrieved.
  *           required: false
- *       - in: query
- *         name: sort
- *         schema:
- *           type: array
- *           items:
- *             type: string
- *           description: The field name to sort. Add - to sort desc. This field can be a string of one filed
- *                        a string of multiple fields separated by space, or an array of string.
- *           required: false
  *     responses:
  *       200:
- *         description: Retrieved successfully
+ *         description: Update completed
  *         content:
  *           application/json:
  *              schema:
  *                type: object
  *                properties:
- *                  data:
+ *                  total:
+ *                    type: integer
+ *                    description: number of updated mangas
+ *                  success:
  *                    type: array
  *                    items:
- *                      $ref: '#/components/schemas/Manga'
- *                  page:
- *                    type: integer
- *                  totalItem:
- *                    type: integer
- *                  totalPage:
- *                    type: integer
+ *                      $ref: '#/components/schemas/MangaUpdateReport'
+ *                  fail:
+ *                    type: array
+ *                    items:
+ *                      $ref: '#/components/schemas/MangaUpdateReport'
  */
 router.postAsync("/update-multiple", MangaFilterValidator, async (req, res) => {
   const filters = removeUndefinedAttrs({

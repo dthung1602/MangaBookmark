@@ -213,7 +213,7 @@ router.postAsync("/logout", (req, res) => {
  *           schema:
  *             type: object
  *             properties:
- *               oldPassword:
+ *               currentPassword:
  *                 type: string
  *                 format: password
  *               password:

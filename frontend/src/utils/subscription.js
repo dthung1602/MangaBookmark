@@ -3,7 +3,7 @@ import { detect } from "detect-browser";
 
 import { SubscriptionAPI } from "../api";
 import { SERVER_VAPID_KEY, BROWSERS, OS, UNKNOWN_BROWSER, UNKNOWN_OS } from "./constants";
-import { checkResponse } from "./error-handler";
+import { throwOnCriticalErrors } from "./error-handler";
 import { getCookie } from "./index";
 
 function urlBase64ToUint8Array(base64String) {
@@ -91,7 +91,7 @@ async function subscribeUser() {
   };
 
   const response = await SubscriptionAPI.post(params).result;
-  checkResponse(response);
+  throwOnCriticalErrors(response);
   return response.json();
 }
 

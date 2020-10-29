@@ -4,42 +4,42 @@ import { upperFirst } from "lodash";
 import { FacebookOutlined, GoogleOutlined } from "@ant-design/icons";
 import { Button, message } from "antd";
 
-import { UserAPI, AuthAPI } from "../../api";
+import { UserAPI } from "../../api";
 import { GlobalContext } from "../GlobalContext";
-import { checkResponse, notifyError } from "../../utils/error-handler";
+import { throwOnCriticalErrors, notifyError } from "../../utils/error-handler";
 import { ROUTE_LOGIN_FACEBOOK, ROUTE_LOGIN_GOOGLE } from "../../utils/constants";
 import "./Button.less";
 
-const useAuthBtnLogic = (type, ssNetwork) => {
+const useAuthBtnLogic = (action, ssNetwork) => {
   const [isLoading, setIsLoading] = useState(false);
   const [{ user }, updateGlobalContext] = useContext(GlobalContext);
   const ssNetworkName = upperFirst(ssNetwork);
 
   // determine display text
   let text = `Register with ${ssNetworkName}`;
-  if (type === "login") {
+  if (action === "login") {
     text = `Login with ${ssNetworkName}`;
-  } else if (type === "unlink") {
+  } else if (action === "unlink") {
     text = `Unlink ${ssNetworkName} account`;
-  } else if (type === "link") {
+  } else if (action === "link") {
     text = `Link to ${ssNetworkName} account`;
   }
 
-  // disable unlink button when:
+  // disable unlink button when either:
   // 1. there's no linked account
   // 2. the linked account is the user only way to login
-  const otherSSNetwork = type === "google" ? "facebook" : "google";
+  const otherSSNetwork = ssNetwork === "google" ? "facebook" : "google";
   let disabled = false;
-  if (type === "unlink") {
+  if (action === "unlink") {
     disabled = !user[`${ssNetwork}Id`] || (!user[`${otherSSNetwork}Id`] && !user.password);
   }
 
   const onClick = () => {
-    if (type === "unlink") {
+    if (action === "unlink") {
       setIsLoading(true);
       UserAPI.unlink(ssNetwork)
         .result.then(async (response) => {
-          checkResponse(response);
+          throwOnCriticalErrors(response);
           const newUser = await response.json();
           updateGlobalContext({ user: newUser });
           message.success(`${ssNetworkName} account unlinked`);
@@ -47,19 +47,16 @@ const useAuthBtnLogic = (type, ssNetwork) => {
         .catch(notifyError)
         .finally(() => setIsLoading(false));
     } else {
-      AuthAPI.logout()
-        .result.then(() => {
-          window.location = ssNetwork === "google" ? ROUTE_LOGIN_GOOGLE : ROUTE_LOGIN_FACEBOOK;
-        })
-        .catch(notifyError);
+      const path = ssNetwork === "google" ? ROUTE_LOGIN_GOOGLE : ROUTE_LOGIN_FACEBOOK;
+      window.location = `${path}?action=${action}`;
     }
   };
 
   return [isLoading, text, disabled, onClick];
 };
 
-export const GoogleButton = ({ type }) => {
-  const [isLoading, text, disabled, onClick] = useAuthBtnLogic(type, "google");
+export const GoogleButton = ({ action }) => {
+  const [isLoading, text, disabled, onClick] = useAuthBtnLogic(action, "google");
 
   return (
     <Button className="auth-gg-btn" block={true} onClick={onClick} disabled={disabled} loading={isLoading}>
@@ -69,8 +66,8 @@ export const GoogleButton = ({ type }) => {
   );
 };
 
-export const FacebookButton = ({ type }) => {
-  const [isLoading, text, disabled, onClick] = useAuthBtnLogic(type, "facebook");
+export const FacebookButton = ({ action }) => {
+  const [isLoading, text, disabled, onClick] = useAuthBtnLogic(action, "facebook");
 
   return (
     <Button className="auth-fb-btn" block={true} onClick={onClick} disabled={disabled} loading={isLoading}>
@@ -81,5 +78,5 @@ export const FacebookButton = ({ type }) => {
 };
 
 GoogleButton.propTypes = FacebookButton.propTypes = {
-  type: PropTypes.oneOf(["register", "login", "unlink"]).isRequired,
+  action: PropTypes.oneOf(["register", "login", "unlink", "link"]).isRequired,
 };

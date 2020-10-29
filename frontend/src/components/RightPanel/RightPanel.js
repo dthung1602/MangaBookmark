@@ -8,7 +8,7 @@ import { BasicFields, ChapterList, Note } from "../EditManga";
 import { MangaAPI } from "../../api";
 import { useMarkChapterAPI } from "../../hooks";
 import { formatDate } from "../../utils";
-import { checkResponse, notifyError } from "../../utils/error-handler";
+import { throwOnCriticalErrors, notifyError } from "../../utils/error-handler";
 import "./RightPanel.less";
 
 const { Title } = Typography;
@@ -20,7 +20,7 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
     setIsLoading(true);
     MangaAPI.update(manga._id)
       .result.then(async (response) => {
-        checkResponse(response);
+        throwOnCriticalErrors(response);
         const newManga = await response.json();
         message.success("Manga updated");
         updateMangaDone(newManga);
@@ -33,7 +33,7 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
     setIsLoading(true);
     MangaAPI.delete(manga._id)
       .result.then(async (response) => {
-        checkResponse(response);
+        throwOnCriticalErrors(response);
         message.success("Manga deleted");
         deleteMangaDone(manga._id);
       })
@@ -45,7 +45,7 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
     setIsLoading(true);
     return MangaAPI.patch({ [field]: value }, manga._id)
       .result.then(async (response) => {
-        checkResponse(response);
+        throwOnCriticalErrors(response);
         const newManga = await response.json();
         // message.success();
         updateMangaDone(newManga);

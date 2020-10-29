@@ -1,7 +1,7 @@
 module.exports = {
   noLoginPaths: [
     [/^\/api\/docs.*/, /.*/],
-    [/^\/api\/auth.*/, /.*/],
+    [/^\/api\/user\/(google|facebook|login|logout).*/, /.*/],
     [/^\/api\/user(\/)?$/, /(GET|POST)/],
     [/^\/api\/mangas\/supported-sites.*/, /.*/],
   ],

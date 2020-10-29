@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { AuthAPI } from "../api";
+import { UserAPI } from "../api";
 import { useHistory } from "react-router-dom";
 import { GlobalContext } from "../components/GlobalContext";
 import { notifyError } from "../utils/error-handler";
@@ -10,7 +10,7 @@ const useLogoutAPI = () => {
   const { user } = globalContext;
 
   const logout = () => {
-    AuthAPI.logout()
+    UserAPI.logout()
       .result.then(() => {
         setGlobalContext({
           ...globalContext,

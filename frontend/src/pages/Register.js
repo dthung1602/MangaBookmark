@@ -12,8 +12,8 @@ const Register = () => {
     <AuthLayout showFooter={false} title="register">
       <RegisterForm />
       <Divider>or</Divider>
-      <GoogleButton type="register" />
-      <FacebookButton type="register" />
+      <GoogleButton action="register" />
+      <FacebookButton action="register" />
       <div className="auth-other-actions-footer">
         <Link to={ROUTE_LOGIN}>Already have an account? Login</Link>
       </div>

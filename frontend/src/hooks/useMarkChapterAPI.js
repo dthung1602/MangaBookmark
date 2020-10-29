@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { MangaAPI } from "../api";
-import { checkResponse, notifyError } from "../utils/error-handler";
+import { throwOnCriticalErrors, notifyError } from "../utils/error-handler";
 
 const useMarkChapterAPI = (updateMangaDone) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,7 +13,7 @@ const useMarkChapterAPI = (updateMangaDone) => {
     setIsLoading(true);
     MangaAPI.markChapters(mangaId, isRead, chapLinks)
       .result.then(async (response) => {
-        checkResponse(response);
+        throwOnCriticalErrors(response);
         const newManga = await response.json();
         updateMangaDone(newManga);
       })

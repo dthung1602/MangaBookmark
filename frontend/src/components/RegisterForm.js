@@ -5,7 +5,7 @@ import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 
 import { GlobalContext } from "./GlobalContext";
 import { ROUTE_ALL_MANGAS } from "../utils/constants";
-import { checkResponse, formatErrors, notifyError } from "../utils/error-handler";
+import { throwOnCriticalErrors, formatErrors, notifyError } from "../utils/error-handler";
 import { UserAPI } from "../api";
 
 const RegisterForm = () => {
@@ -18,7 +18,7 @@ const RegisterForm = () => {
     try {
       delete values.confirmPassword;
       const response = await UserAPI.create(values).result;
-      checkResponse(response);
+      throwOnCriticalErrors(response);
       const data = await response.json();
 
       if (response.ok) {

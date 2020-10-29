@@ -22,7 +22,7 @@ import {
 import { MangaAPI } from "../api";
 import { useUpdateMultipleAPI } from "../hooks";
 import { disableBackgroundScrolling } from "../utils";
-import { checkResponse, notifyError } from "../utils/error-handler";
+import { throwOnCriticalErrors, notifyError } from "../utils/error-handler";
 import "./Mangas.less";
 
 const { TabPane } = Tabs;
@@ -86,7 +86,7 @@ const QuickAccess = () => {
     const { abort, result } = MangaAPI.find(filters);
     result
       .then(async (response) => {
-        checkResponse(response);
+        throwOnCriticalErrors(response);
         const { data, totalItem } = await response.json();
         setMangaCount(totalItem);
         setMangas(data);

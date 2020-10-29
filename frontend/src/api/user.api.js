@@ -10,11 +10,19 @@ class UserAPI extends BaseAPI {
   }
 
   changePassword(params) {
-    return this.patch(params, "/change-password");
+    return this.patch(params, "change-password");
+  }
+
+  login(params) {
+    return this.post(params, "login");
+  }
+
+  logout() {
+    return this.post(undefined, "logout");
   }
 
   unlink(provider) {
-    return this.patch({ provider }, "/unlink");
+    return this.delete(provider);
   }
 }
 

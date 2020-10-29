@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { notification } from "antd";
 
 import { MangaAPI } from "../api";
-import { checkResponse, notifyError } from "../utils/error-handler";
+import { throwOnCriticalErrors, notifyError } from "../utils/error-handler";
 
 const UpdateResult = ({ success, fail }) => {
   const mangasWithNewChaps = success.filter((mg) => mg.newChapCount > 0);
@@ -55,7 +55,7 @@ const useUpdateMultipleAPI = (filters) => {
     setIsLoading(true);
     MangaAPI.updateMultiple(filters)
       .result.then(async (response) => {
-        checkResponse(response);
+        throwOnCriticalErrors(response);
         const { total, success, fail } = await response.json();
         notification.open({
           message: <b>Update {total} mangas in total</b>,

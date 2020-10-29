@@ -5,8 +5,8 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 
 import { GlobalContext } from "./GlobalContext";
 import { ROUTE_QUICK_ACCESS, ROUTE_REGISTER } from "../utils/constants";
-import { checkResponse, formatErrors, notifyError } from "../utils/error-handler";
-import { AuthAPI } from "../api";
+import { throwOnCriticalErrors, formatErrors, notifyError } from "../utils/error-handler";
+import { UserAPI } from "../api";
 
 const LoginForm = () => {
   const history = useHistory();
@@ -17,8 +17,8 @@ const LoginForm = () => {
 
   const onFinish = async (values) => {
     try {
-      const response = await AuthAPI.login(values).result;
-      checkResponse(response, [401]);
+      const response = await UserAPI.login(values).result;
+      throwOnCriticalErrors(response, [401]);
       const data = await response.json();
 
       if (response.ok) {

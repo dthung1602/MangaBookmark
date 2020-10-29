@@ -7,7 +7,7 @@ import PageLayout from "./PageLayout";
 import { Desktop, Mobile } from "../components/ScreenSize";
 import { BasicInfo, ChangePassword, LinkedAccount, Notification } from "../components/Account";
 import { useLogoutAPI } from "../hooks";
-import { checkResponse, notifyError } from "../utils/error-handler";
+import { throwOnCriticalErrors, notifyError } from "../utils/error-handler";
 import backgroundImages from "../assets/background";
 import { UserAPI } from "../api";
 
@@ -51,7 +51,7 @@ const Account = () => {
     setDeletingAccount(true);
     UserAPI.delete()
       .result.then((response) => {
-        checkResponse(response);
+        throwOnCriticalErrors(response);
         logout();
         message.success("Account deleted");
       })

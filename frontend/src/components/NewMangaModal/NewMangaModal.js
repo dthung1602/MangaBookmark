@@ -6,7 +6,7 @@ import ChapterDropdownButton from "../ChapterDropdownButton";
 import { MangaAPI } from "../../api";
 import { clonePlainObject } from "../../utils";
 import { READING, SHELVES } from "../../utils/constants";
-import { checkResponse, notifyError } from "../../utils/error-handler";
+import { throwOnCriticalErrors, notifyError } from "../../utils/error-handler";
 import "./NewMangaModel.less";
 
 const { Search } = Input;
@@ -39,7 +39,7 @@ const NewMangaModal = ({ open, onCancel, addMangaDone }) => {
     setErrors(undefined);
     MangaAPI.post(params)
       .result.then(async (response) => {
-        checkResponse(response);
+        throwOnCriticalErrors(response);
         const data = await response.json();
         if (response.ok) {
           message.success("Manga added");
@@ -64,7 +64,7 @@ const NewMangaModal = ({ open, onCancel, addMangaDone }) => {
     setErrors(undefined);
     MangaAPI.info(link)
       .result.then(async (response) => {
-        checkResponse(response);
+        throwOnCriticalErrors(response);
         const data = await response.json();
         if (response.ok) {
           setManga(data);

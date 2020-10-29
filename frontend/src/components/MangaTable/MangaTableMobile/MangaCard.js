@@ -17,7 +17,7 @@ import MangaBasicInfo from "../MangaBasicInfo";
 import { MangaAPI } from "../../../api";
 import { useMarkChapterAPI } from "../../../hooks";
 import { changeChapterReadStatusLogic, getNextChapToRead } from "../../../utils/chapters";
-import { checkResponse, notifyError } from "../../../utils/error-handler";
+import { throwOnCriticalErrors, notifyError } from "../../../utils/error-handler";
 import { statusToClassMapping } from "../utils";
 import { isEmptyObject, truncString } from "../../../utils";
 import "./MangaCard.less";
@@ -53,7 +53,7 @@ const MangaCard = ({ manga, updateMangaDone, deleteMangaDone }) => {
         setIsLoading(true);
         MangaAPI.delete(manga._id)
           .result.then(async (response) => {
-            checkResponse(response);
+            throwOnCriticalErrors(response);
             message.success("Manga deleted");
             deleteMangaDone(manga._id);
           })
@@ -67,7 +67,7 @@ const MangaCard = ({ manga, updateMangaDone, deleteMangaDone }) => {
     setIsLoading(true);
     MangaAPI.update(manga._id)
       .result.then(async (response) => {
-        checkResponse(response);
+        throwOnCriticalErrors(response);
         const newManga = await response.json();
         message.success("Manga updated");
         updateMangaDone(newManga);
@@ -80,7 +80,7 @@ const MangaCard = ({ manga, updateMangaDone, deleteMangaDone }) => {
     setIsLoading(true);
     return MangaAPI.patch({ [field]: value }, manga._id)
       .result.then(async (response) => {
-        checkResponse(response);
+        throwOnCriticalErrors(response);
         const newManga = await response.json();
         updateMangaDone(newManga);
       })

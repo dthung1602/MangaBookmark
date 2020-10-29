@@ -7,7 +7,7 @@ const User = () => {
   const [{ user }] = useContext(GlobalContext);
   let avatar;
   if (user) {
-    avatar = <Avatar src={user.avatar} />;
+    avatar = user.avatar ? <Avatar src={user.avatar} /> : <Avatar>{user.username[0].toUpperCase()}</Avatar>;
     return (
       <div className="navbar-user">
         {avatar} &nbsp; {user.username}

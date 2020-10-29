@@ -2,8 +2,7 @@ const passport = require("passport");
 
 const { AuthenticationError } = require("../../errors");
 const { noLoginPaths } = require("./authenticate.config");
-require("./Google");
-require("./Facebook");
+require("./ThirdParty");
 require("./Local");
 
 passport.serializeUser((user, done) => {

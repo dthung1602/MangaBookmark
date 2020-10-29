@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { UserAPI, MangaAPI } from "../api";
-import { checkResponse, notifyError } from "../utils/error-handler";
+import { throwOnCriticalErrors, notifyError } from "../utils/error-handler";
 
 const initContext = {
   user: null,
@@ -25,7 +25,7 @@ const GlobalContextProvider = (props) => {
   useEffect(() => {
     UserAPI.get()
       .result.then(async (response) => {
-        checkResponse(response);
+        throwOnCriticalErrors(response);
         const user = await response.json();
         setState((prevState) => {
           return {
@@ -39,7 +39,7 @@ const GlobalContextProvider = (props) => {
 
     MangaAPI.getSupportedSites()
       .result.then(async (response) => {
-        checkResponse(response);
+        throwOnCriticalErrors(response);
         const supportedSites = await response.json();
         setState((prevState) => {
           return {

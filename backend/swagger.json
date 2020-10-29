@@ -8,6 +8,27 @@
         "maxLength": 24,
         "pattern": "^\\d{24}$"
       },
+      "MangaUpdateReport": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "site": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string",
+            "format": "url"
+          },
+          "newChapCount": {
+            "type": "integer"
+          }
+        }
+      },
       "Chapter": {
         "type": "object",
         "properties": {
@@ -468,9 +489,9 @@
         }
       }
     },
-    "/api/mangas/{:mangaId}": {
+    "/api/mangas/{mangaId}": {
       "patch": {
-        "description": "Create new manga",
+        "description": "Edit manga",
         "parameters": [
           {
             "in": "path",
@@ -526,9 +547,7 @@
             }
           }
         }
-      }
-    },
-    "/api/mangas/{mangaId}": {
+      },
       "delete": {
         "description": "Delete manga",
         "parameters": [
@@ -814,42 +833,31 @@
               "description": "If set to 0, all pages are retrieved.",
               "required": false
             }
-          },
-          {
-            "in": "query",
-            "name": "sort",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "description": "The field name to sort. Add - to sort desc. This field can be a string of one filed a string of multiple fields separated by space, or an array of string.",
-              "required": false
-            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Retrieved successfully",
+            "description": "Update completed",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "data": {
+                    "total": {
+                      "type": "integer",
+                      "description": "number of updated mangas"
+                    },
+                    "success": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/Manga"
+                        "$ref": "#/components/schemas/MangaUpdateReport"
                       }
                     },
-                    "page": {
-                      "type": "integer"
-                    },
-                    "totalItem": {
-                      "type": "integer"
-                    },
-                    "totalPage": {
-                      "type": "integer"
+                    "fail": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/MangaUpdateReport"
+                      }
                     }
                   }
                 }
@@ -969,6 +977,98 @@
         "responses": {
           "204": {
             "description": "Deleted successfully"
+          }
+        }
+      }
+    },
+    "/api/user/{authProvider}/auth": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "authProvider",
+            "description": "specifies which third party to use",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "google",
+                "facebook"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "action",
+            "description": "specifies which action to take",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "register",
+                "login",
+                "link"
+              ]
+            }
+          }
+        ],
+        "description": "Authentication using Google/Facebook OAuth2",
+        "responses": {
+          "302": {
+            "description": "Redirect to Google/Facebook authentication page"
+          }
+        }
+      }
+    },
+    "/api/user/{authProvider}/callback": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "authProvider",
+            "description": "specifies which third party to use",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "google",
+                "facebook"
+              ]
+            }
+          }
+        ],
+        "description": "Google/Facebook login/register/link callback.",
+        "responses": {
+          "302": {
+            "description": "Success - Redirect to quick access page. Failure - Redirect to login page"
+          }
+        }
+      }
+    },
+    "/api/user/{authProvider}": {
+      "delete": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "authProvider",
+            "description": "specifies which third party to use",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "google",
+                "facebook"
+              ]
+            }
+          }
+        ],
+        "description": "Remove Google/Facebook from current account",
+        "responses": {
+          "200": {
+            "description": "Account unlinked successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
           }
         }
       }
@@ -1125,7 +1225,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "oldPassword": {
+                  "currentPassword": {
                     "type": "string",
                     "format": "password"
                   },
@@ -1141,98 +1241,6 @@
         "responses": {
           "204": {
             "description": "Password changed successfully"
-          }
-        }
-      }
-    },
-    "/api/user/{authProvider}/auth": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "authProvider",
-            "description": "specifies which third party to use",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "google",
-                "facebook"
-              ]
-            }
-          },
-          {
-            "in": "query",
-            "name": "action",
-            "description": "specifies which action to take",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "register",
-                "login",
-                "link"
-              ]
-            }
-          }
-        ],
-        "description": "Authentication using Google/Facebook OAuth2",
-        "responses": {
-          "302": {
-            "description": "Redirect to Google/Facebook authentication page"
-          }
-        }
-      }
-    },
-    "/api/user/{authProvider}/unlink": {
-      "patch": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "authProvider",
-            "description": "specifies which third party to use",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "google",
-                "facebook"
-              ]
-            }
-          }
-        ],
-        "description": "Remove Google/Facebook from current account",
-        "responses": {
-          "200": {
-            "description": "Account unlinked successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/user/{authProvider}/callback": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "authProvider",
-            "description": "specifies which third party to use",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "google",
-                "facebook"
-              ]
-            }
-          }
-        ],
-        "description": "Google/Facebook login/register/link callback.",
-        "responses": {
-          "302": {
-            "description": "Success - Redirect to quick access page. Failure - Redirect to login page"
           }
         }
       }

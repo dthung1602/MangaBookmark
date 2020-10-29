@@ -3,7 +3,7 @@ import { Button, Form, Input, message } from "antd";
 import { LockOutlined, SafetyCertificateOutlined } from "@ant-design/icons";
 
 import { UserAPI } from "../../api";
-import { checkResponse, notifyError } from "../../utils/error-handler";
+import { throwOnCriticalErrors, notifyError, formatErrors } from "../../utils/error-handler";
 
 const { useForm } = Form;
 
@@ -14,11 +14,17 @@ const ChangePassword = () => {
   const onFinish = (values) => {
     setIsLoading(true);
     delete values.confirmPassword;
+
     UserAPI.changePassword(values)
       .result.then(async (response) => {
-        checkResponse(response);
-        form.resetFields();
-        message.success("Password changed");
+        throwOnCriticalErrors(response);
+        if (response.ok) {
+          form.resetFields();
+          message.success("Password changed");
+        } else {
+          const data = await response.json();
+          form.setFields(formatErrors(data.errors));
+        }
       })
       .catch(notifyError)
       .finally(() => setIsLoading(false));
@@ -27,8 +33,8 @@ const ChangePassword = () => {
   return (
     <Form layout="vertical" onFinish={onFinish} form={form}>
       <Form.Item
-        name="old-password"
-        label="Old password"
+        name="currentPassword"
+        label="Current password"
         rules={[
           {
             required: true,
@@ -41,7 +47,7 @@ const ChangePassword = () => {
 
       <Form.Item
         name="password"
-        label="Password"
+        label="New password"
         rules={[
           {
             required: true,
@@ -58,7 +64,7 @@ const ChangePassword = () => {
 
       <Form.Item
         name="confirmPassword"
-        label="Confirm password"
+        label="Confirm new password"
         rules={[
           {
             required: true,

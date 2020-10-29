@@ -96,8 +96,8 @@ export const ROUTE_ALL_MANGAS = "/mangas";
 export const ROUTE_QUICK_ACCESS = "/quick-access";
 export const ROUTE_ACCOUNT = "/account";
 export const ROUTE_LOGIN = "/login";
-export const ROUTE_LOGIN_GOOGLE = `${apiServer}/api/auth/google`;
-export const ROUTE_LOGIN_FACEBOOK = `${apiServer}/api/auth/facebook`;
+export const ROUTE_LOGIN_GOOGLE = `${apiServer}/api/user/google/auth`;
+export const ROUTE_LOGIN_FACEBOOK = `${apiServer}/api/user/facebook/auth`;
 export const ROUTE_REGISTER = "/register";
 export const ROUTE_API_DOC = `${apiServer}/api/docs`;
 

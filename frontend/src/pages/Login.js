@@ -10,8 +10,8 @@ const Login = () => {
     <AuthLayout showFooter={false} title="login">
       <LoginForm />
       <Divider>or</Divider>
-      <GoogleButton type="login" />
-      <FacebookButton type="login" />
+      <GoogleButton action="login" />
+      <FacebookButton action="login" />
     </AuthLayout>
   );
 };

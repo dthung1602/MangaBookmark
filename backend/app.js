@@ -13,15 +13,14 @@ const enforceSSL = require("express-enforces-ssl");
 const { addAsync } = require("@awaitjs/express");
 
 const swaggerDocument = require("./swagger.json");
-require("./services/auth-service");
 const config = require("./config");
 const app = addAsync(express());
 
 app.enable("trust proxy"); // let Google & Facebook use https
 if (config.NODE_ENV === "production") {
   app.use(enforceSSL());
+  app.use(helmet());
 }
-app.use(helmet());
 app.use(logger("dev"));
 app.use(express.json({ limit: "64mb" }));
 app.use(express.urlencoded({ extended: false }));
@@ -30,7 +29,7 @@ app.use(
   cookieSession({
     maxAge: config.COOKIE_MAX_AGE,
     keys: [config.SECRET_KEY],
-    sameSite: "strict",
+    sameSite: "lax", // must be lax for google/facebook authentication to work
   }),
 );
 app.use(passport.initialize());

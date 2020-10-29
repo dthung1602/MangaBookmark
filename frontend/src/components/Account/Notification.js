@@ -11,7 +11,7 @@ import {
 } from "@ant-design/icons";
 
 import { SubscriptionAPI } from "../../api";
-import { checkResponse, notifyError } from "../../utils/error-handler";
+import { throwOnCriticalErrors, notifyError } from "../../utils/error-handler";
 import { ADR, IOS, LNX, MAC, UNKNOWN_OS, WIN } from "../../utils/constants";
 import { askPermissionThenSubscribe } from "../../utils/subscription";
 import { truncString } from "../../utils";
@@ -35,7 +35,7 @@ const Notification = () => {
     setIsLoading(true);
     SubscriptionAPI.get()
       .result.then(async (response) => {
-        checkResponse(response);
+        throwOnCriticalErrors(response);
         setSubscriptions(await response.json());
       })
       .catch(notifyError)
@@ -62,7 +62,7 @@ const Notification = () => {
   const unsubscribe = (sub) => () => {
     setIsLoading(true);
     SubscriptionAPI.delete(sub._id)
-      .result.then(checkResponse)
+      .result.then(throwOnCriticalErrors)
       .then(async () => {
         // unsubscribe if the user unsubscribed this browser
         const registration = await navigator.serviceWorker.ready;

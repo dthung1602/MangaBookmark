@@ -12,12 +12,12 @@ const LinkedAccount = () => {
       {user.googleId ? (
         <>
           You are linked to Google account &nbsp; <Avatar src={user.googlePic} />
-          <GoogleButton type="unlink" />
+          <GoogleButton action="unlink" />
         </>
       ) : (
         <>
           You have not linked to any Google account
-          <GoogleButton type="link" />
+          <GoogleButton action="link" />
         </>
       )}
 
@@ -27,12 +27,12 @@ const LinkedAccount = () => {
       {user.facebookId ? (
         <>
           You are linked to Facebook account &nbsp; <Avatar src={user.facebookPic} />
-          <FacebookButton type="unlink" />
+          <FacebookButton action="unlink" />
         </>
       ) : (
         <>
           You have not linked to any Facebook account
-          <FacebookButton type="link" />
+          <FacebookButton action="link" />
         </>
       )}
     </div>

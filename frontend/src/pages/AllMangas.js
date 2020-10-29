@@ -16,7 +16,7 @@ import { ANY, MANGA_PER_PAGE, SORT_DEC_STATUS } from "../utils/constants";
 import { MangaAPI } from "../api";
 import { useUpdateMultipleAPI } from "../hooks";
 import { removeUndefinedAttrs, removeEmptyStringAttrs, disableBackgroundScrolling, scrollToTop } from "../utils";
-import { checkResponse, notifyError } from "../utils/error-handler";
+import { throwOnCriticalErrors, notifyError } from "../utils/error-handler";
 import "./Mangas.less";
 
 const AllMangas = () => {
@@ -76,7 +76,7 @@ const AllMangas = () => {
     const { abort, result } = MangaAPI.find({ ...filters, page, perPage: MANGA_PER_PAGE });
     result
       .then(async (response) => {
-        checkResponse(response);
+        throwOnCriticalErrors(response);
         const { data, totalItem, isLastPage } = await response.json();
 
         setMangaCount(totalItem);

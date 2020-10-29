@@ -4,7 +4,7 @@ import { MailOutlined, UserOutlined } from "@ant-design/icons";
 
 import { UserAPI } from "../../api";
 import { GlobalContext } from "../GlobalContext";
-import { checkResponse, notifyError } from "../../utils/error-handler";
+import { throwOnCriticalErrors, notifyError } from "../../utils/error-handler";
 
 const BasicInfo = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,7 +14,7 @@ const BasicInfo = () => {
     setIsLoading(true);
     UserAPI.patch(values)
       .result.then(async (response) => {
-        checkResponse(response);
+        throwOnCriticalErrors(response);
         const newUser = await response.json();
         updateGlobalContext({ user: newUser });
         message.success("Account saved");
