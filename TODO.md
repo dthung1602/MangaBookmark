@@ -95,7 +95,7 @@
 
 # POLISH 
 
-- [ ] **Fix GG & FB auth**
+- [x] **Fix GG & FB auth**
 - [x] Improve background loading:
     - [ ] ~~Host images on another server~~
     - [ ] ~~Reduce image size~~
