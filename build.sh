@@ -15,8 +15,7 @@ yarn --cwd "${DIR}/frontend" run build
 echo "Compressing static files ..."
 
 cd "${DIR}/frontend/build"
-shopt -s extglob
-gzip -9 -k !(static|sites-logo|*.png|*.jpg|*.jpeg|*.txt)
+gzip -9 -k ./*.json ./*.js ./*.html ./*.ico
 gzip -9 -r -k "${DIR}/frontend/build/static/css"
 gzip -9 -r -k "${DIR}/frontend/build/static/js"
 
