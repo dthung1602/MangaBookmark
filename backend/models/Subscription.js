@@ -6,6 +6,7 @@ const Browsers = Object.freeze({
   SA: "Safari",
   FF: "Firefox",
   ED: "Edge",
+  SS: "Samsung",
   UK: "Unknown Browser",
 });
 
@@ -32,10 +33,10 @@ const OSs = Object.freeze({
  *            $ref: '#/components/schemas/Id'
  *          browser:
  *            type: string
- *            enum: [Opera, Internet Explorer, Chrome, Firefox, Safari, Unknown]
+ *            enum: [Opera, Chrome, Safari, Firefox, Edge, Samsung, Unknown Browser]
  *          os:
  *            type: string
- *            enum: [Windows, MacOS, Linux, Android, iOS, Unknown]
+ *            enum: [Windows, MacOS, Linux, Android, iOS, Unknown OS]
  *          endpoint:
  *            type: string
  *            format: uri

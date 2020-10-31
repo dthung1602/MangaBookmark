@@ -71,8 +71,9 @@ export const CH = "Chrome";
 export const SA = "Safari";
 export const FF = "Firefox";
 export const ED = "Edge";
+export const SS = "Samsung";
 export const UNKNOWN_BROWSER = "Unknown Browser";
-export const BROWSERS = [OP, CH, SA, FF, ED, UNKNOWN_BROWSER];
+export const BROWSERS = [OP, CH, SA, FF, ED, SS, UNKNOWN_BROWSER];
 
 // ------------------------------------------
 //       Operating systems

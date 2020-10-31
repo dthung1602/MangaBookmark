@@ -19,12 +19,18 @@ function urlBase64ToUint8Array(base64String) {
   return outputArray;
 }
 
+const browserObject = detect();
+
 function detectOS() {
-  const browser = detect();
-  console.log(browser);
-  if (browser) {
+  if (browserObject) {
     for (let os of OS) {
-      if (browser.os.toLowerCase().includes(os.toLowerCase())) {
+      if (
+        browserObject.os
+          .toLocaleLowerCase()
+          .replace(/[^a-zA-Z]/g, "")
+          .toLowerCase()
+          .includes(os.toLowerCase())
+      ) {
         return os;
       }
     }
@@ -34,11 +40,9 @@ function detectOS() {
 }
 
 function detectBrowser() {
-  const browser = detect();
-  console.log(browser);
-  if (browser) {
+  if (browserObject) {
     for (let br of BROWSERS) {
-      if (browser.name.toLowerCase().includes(br.toLowerCase())) {
+      if (browserObject.name.toLowerCase().includes(br.toLowerCase())) {
         return br;
       }
     }

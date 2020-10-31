@@ -21,7 +21,7 @@ const { SubscriptionCreateValidator, SubscriptionDeleteValidator } = require("..
  *              schema:
  *                type: array
  *                items:
- *                  $ref: '#/components/schemas/User'
+ *                  $ref: '#/components/schemas/Subscription'
  */
 router.getAsync("/", async (req, res) => {
   const subs = await SubscriptionService.list(req.user);
@@ -45,10 +45,10 @@ router.getAsync("/", async (req, res) => {
  *             properties:
  *               browser:
  *                 type: string
- *                 enum: [Opera, Internet Explorer, Chrome, Firefox, Safari, Unknown]
+ *                 enum: [Opera, Chrome, Safari, Firefox, Edge, Samsung, Unknown Browser]
  *               os:
  *                 type: string
- *                 enum: [Windows, MacOS, Linux, Android, iOS, Unknown]
+ *                 enum: [Windows, MacOS, Linux, Android, iOS, Unknown OS]
  *               endpoint:
  *                 type: string
  *                 format: uri
