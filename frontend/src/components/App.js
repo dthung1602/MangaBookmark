@@ -17,8 +17,8 @@ import PrivateRoute from "./PrivateRoute";
 import FullScreenLoading from "./FullScreenLoading";
 import Subscription from "./Subscription";
 
+import Home from "../pages/Home"; // load home page eagerly for better UX
 const Account = lazy(() => import("../pages/Account"));
-const Home = lazy(() => import("../pages/Home"));
 const Login = lazy(() => import("../pages/Login"));
 const AllMangas = lazy(() => import("../pages/AllMangas"));
 const QuickAccess = lazy(() => import("../pages/QuickAccess"));

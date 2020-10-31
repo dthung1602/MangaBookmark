@@ -34,7 +34,7 @@ module.exports = {
   },
   info: {
     title: "MangaBookmark API",
-    version: "3.0.0",
+    version: "3.1.0",
     description: "API for MangaBookmark client",
   },
 };

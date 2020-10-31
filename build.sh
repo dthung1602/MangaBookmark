@@ -13,7 +13,13 @@ yarn --cwd "${DIR}/frontend" run build
 
 # pre-compress static files
 echo "Compressing static files ..."
-gzip -9 -r -k "${DIR}/frontend/build"
+
+cd "${DIR}/frontend/build"
+shopt -s extglob
+gzip -9 -k !(static|sites-logo|*.png|*.jpg|*.jpeg|*.txt)
+gzip -9 -r -k "${DIR}/frontend/build/static/css"
+gzip -9 -r -k "${DIR}/frontend/build/static/js"
+
 echo "Done compressing"
 
 if [ "${NODE_ENV}" = "production" ]
