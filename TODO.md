@@ -121,7 +121,40 @@
     - [x] https://mangafast.net
     - [x] http://mangahasu.se
 
-- [ ] Scale crawling
+- [ ] Shutdown gracefully [link](https://help.heroku.com/D5GK0FHU/how-can-my-node-app-gracefully-shutdown-when-receiving-sigterm)
+
+- [ ] Refactor crawling:
+    - Reading, Waiting shelf: twice a day
+    - ToRead: once a day
+    - Dropped: once a week
+    - Finished: once a month
+    - Tasks:
+        - [ ] Setup producer
+            - [ ] Setup rabbitmq
+            - [ ] Implement Consumer
+            - [ ] Implement Strategies
+        - [ ] Setup consumer
+            - [ ] Refactor parsers
+            - [ ] Message format & Pipeline (abstract)
+            - [ ] Setup redis
+        - [ ] Build pipeline
+            - [ ] Schedule update
+                - [ ] pipeline
+                - [ ] Re-setup schedule infra
+            - [ ] Multiple adhoc update
+                - [ ] pipeline
+                - [ ] integrate with API
+                - [ ] FE
+            - [ ] Single adhoc update
+                - [ ] pipeline
+                - [ ] integrate with API
+                - [ ] FE
+            - [ ] Info adhoc
+                - [ ] pipeline
+                - [ ] integrate with API
+                - [ ] FE
+
+- [ ] Enhance scheduled job report
 
 - [ ] Toggle right panel
 
@@ -144,7 +177,7 @@
     - [ ] description
     - [ ] author
 
-- [ ] Reread shelf?
+- [ ] Reread shelf? Switch to shelf?
 
 - [ ] Change loading icon
 
