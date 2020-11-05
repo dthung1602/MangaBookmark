@@ -41,8 +41,14 @@ async function parseChapters($, url) {
     url = match[1];
   }
 
-  const lastPageURLParts = $(".pagination li:last-child a")[0].attribs.href.split("/");
-  const totalChapterPage = parseInt(lastPageURLParts[lastPageURLParts.length - 2]);
+  let totalChapterPage;
+  const paginationNode = $(".pagination li:last-child a")[0];
+  if (paginationNode) {
+    const lastPageURLParts = paginationNode.attribs.href.split("/");
+    totalChapterPage = parseInt(lastPageURLParts[lastPageURLParts.length - 2]);
+  } else {
+    totalChapterPage = 1;
+  }
 
   const chunks = chunk([...Array(totalChapterPage).keys()], 3);
   let chapters = [];
@@ -72,7 +78,7 @@ async function parseManga(url) {
     name: $("#content .card-header .mx-1").text().trim(),
     link: url,
     image: $("#content img")[0].attribs.src,
-    isCompleted: $("#content .m-0:nth-child(9)").text().includes("Completed"),
+    isCompleted: false,
     chapters: await parseChapters($, url),
   };
 }
