@@ -123,6 +123,8 @@
 
 - [ ] Shutdown gracefully [link](https://help.heroku.com/D5GK0FHU/how-can-my-node-app-gracefully-shutdown-when-receiving-sigterm)
 
+- [ ] Auto migration on new release
+
 - [ ] Refactor crawling:
     - Reading, Waiting shelf: twice a day
     - ToRead: once a day
@@ -131,7 +133,7 @@
     - Tasks:
         - [ ] Setup producer
             - [ ] Setup rabbitmq
-            - [ ] Implement Consumer
+            - [ ] Implement Producer
             - [ ] Implement Strategies
         - [ ] Setup consumer
             - [ ] Refactor parsers
