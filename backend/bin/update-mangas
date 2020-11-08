@@ -1,0 +1,39 @@
+#!/usr/bin/env node
+
+const argparse = require("argparse");
+
+const { Manga } = require("../models");
+const { TO_READ, READING, WAITING, DROPPED, FINISHED } = Manga.Shelf;
+const producer = require("../scraper/producer");
+const db = require("../services/db-service");
+const redis = require("../services/redis-service");
+
+async function main() {
+  console.log("Connecting to mongodb");
+  await db.ensureDBConnection();
+
+  console.log("Connecting to redis");
+  redis.open();
+
+  await producer({ shelf });
+
+  db.closeDBConnection();
+  redis.quit();
+}
+
+const argumentParser = new argparse.ArgumentParser();
+argumentParser.add_argument("-s", "--shelf", {
+  type: "str",
+  required: true,
+  nargs: "+",
+  choices: [TO_READ, READING, WAITING, DROPPED, FINISHED],
+});
+
+const { shelf } = argumentParser.parse_args();
+
+main().catch((err) => {
+  console.error(err);
+  db.closeDBConnection();
+  redis.quit();
+  process.exit(1);
+});
