@@ -16,7 +16,8 @@ module.exports = {
   PORT: getEnv("PORT", 3000, parseInt),
   DB_URL: getEnv("DB_URL", fallbackDatabaseURL),
   REDIS_URL: getEnv("REDIS_URL", "redis://localhost"),
-  CRAWL_CONCURRENCY: getEnv("CRAWL_CONCURRENCY", 5, parseInt),
+  CRAWL_CONCURRENCY: getEnv("CRAWL_CONCURRENCY", 2, parseInt),
+  CRAWL_WAIT_TIME: getEnv("CRAWL_WAIT_TIME", 100, parseInt),
 
   SECRET_KEY: getEnv("SECRET_KEY", "yIjaujJQOuen0MQPE2daXN8oBrPY1USc"),
   COOKIE_MAX_AGE: getEnv("COOKIE_MAX_AGE", 30 * 24 * 60 * 60 * 1000, parseInt),

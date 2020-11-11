@@ -65,6 +65,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "faker": "^4.1.0",
     "jest": "^26.1.0",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "redis-commander": "^0.7.0"
   }
 }

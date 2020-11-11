@@ -4,7 +4,7 @@ const argparse = require("argparse");
 
 const { Manga } = require("../models");
 const { TO_READ, READING, WAITING, DROPPED, FINISHED } = Manga.Shelf;
-const producer = require("../scraper/producer");
+const Producer = require("../scraper/producer");
 const db = require("../services/db-service");
 const redis = require("../services/redis-service");
 
@@ -15,7 +15,8 @@ async function main() {
   console.log("Connecting to redis");
   redis.open();
 
-  await producer({ shelf });
+  const producer = Producer(queueName, { shelf });
+  await producer.run();
 
   db.closeDBConnection();
   redis.quit();
@@ -24,12 +25,19 @@ async function main() {
 const argumentParser = new argparse.ArgumentParser();
 argumentParser.add_argument("-s", "--shelf", {
   type: "str",
-  required: true,
+  required: false,
   nargs: "+",
   choices: [TO_READ, READING, WAITING, DROPPED, FINISHED],
+  default: [TO_READ, READING, WAITING, DROPPED, FINISHED],
+});
+argumentParser.add_argument("-q", "--queue", {
+  type: "str",
+  required: false,
+  choices: ["adhoc", "scheduled"],
+  default: "scheduled",
 });
 
-const { shelf } = argumentParser.parse_args();
+const { shelf, queue: queueName } = argumentParser.parse_args();
 
 main().catch((err) => {
   console.error(err);

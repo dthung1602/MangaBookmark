@@ -1,8 +1,7 @@
 const { pick } = require("lodash");
 
 const { Manga } = require("../../models");
-const { getParser } = require("../../services/manga-service/parsers");
-
+const { getParser } = require("./parsers");
 const fields = ["link", "user", "isCompleted", "shelf", "readChapters", "note", "hidden"];
 
 module.exports = async function (data, parser = null) {

@@ -3,16 +3,28 @@ const redisService = require("async-redis");
 const { REDIS_URL } = require("../config");
 
 let client = null;
+let blockingClient = null;
 
 const open = () => {
   client = redisService.createClient(REDIS_URL);
+  blockingClient = redisService.createClient(REDIS_URL);
 
   client.on("error", function (err) {
     console.log("Redis Error: " + err);
   });
+  blockingClient.on("error", function (err) {
+    console.log("Redis Error: " + err);
+  });
 };
 
-const quit = () => (client ? client.quit() : null);
+const quit = () => {
+  if (client) {
+    client.quit();
+  }
+  if (blockingClient) {
+    blockingClient.quit();
+  }
+};
 
 const Queue = (name) => {
   const push = (value) => client.rpush(name, JSON.stringify(value));
@@ -25,13 +37,18 @@ const Queue = (name) => {
     }
     return result.then((value) => JSON.parse(value));
   };
-  const bpop = (timeout = 0) => client.blpop(name, timeout).then((value) => JSON.parse(value));
+  const bpop = (timeout = 0) => blockingClient.blpop(name, timeout).then((value) => JSON.parse(value[1]));
   return { name, push, pop, bpop };
 };
 
 const Result = (name) => {
-  const push = (key, value) => client.rpush(name + ":" + key, JSON.stringify(value));
-  const bpop = (key, timeout = 0) => client.blpop(name + ":" + key, timeout).then((value) => JSON.parse(value));
+  const push = (key, value) => {
+    key = name + ":" + key;
+    value = JSON.stringify(value);
+    return client.rpush(key, value);
+  };
+  const bpop = (key, timeout = 0) =>
+    blockingClient.blpop(name + ":" + key, timeout).then((value) => JSON.parse(value[1]));
   const popAll = async (key) => {
     key = name + ":" + key;
     const result = await client.lrange(key, 0, -1);

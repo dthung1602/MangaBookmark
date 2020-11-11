@@ -1,7 +1,7 @@
 const got = require("got");
 const cheerio = require("cheerio");
 
-const { getRandomUserAgent } = require("../../user-agent-service");
+const { getRandomUserAgent } = require("../../services/user-agent-service");
 
 function getDefaultHeaders() {
   return {
