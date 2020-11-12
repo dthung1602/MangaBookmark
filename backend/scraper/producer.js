@@ -1,7 +1,7 @@
 const { Manga } = require("../models");
 const { ScheduledQueue, AdhocQueue } = require("../services/redis-service");
 
-module.exports = (queueName, filters) => {
+const Producer = (queueName, filters = [], verbose = false) => {
   let queue;
   if (queueName === "adhoc") {
     queue = AdhocQueue;
@@ -13,7 +13,9 @@ module.exports = (queueName, filters) => {
 
   return {
     async run() {
-      console.log("Start queueing mangas with filters: " + JSON.stringify(filters));
+      if (verbose) {
+        console.log(`Start pushing mangas to ${queueName} queue with filters: ${JSON.stringify(filters)}`);
+      }
       const query = Manga.find(filters);
 
       let results = [];
@@ -21,11 +23,15 @@ module.exports = (queueName, filters) => {
         const promise = queue
           .push(manga)
           .then((m) => {
-            process.stdout.write(".");
+            if (verbose) {
+              process.stdout.write(".");
+            }
             return m;
           })
           .catch((e) => {
-            process.stdout.write("x");
+            if (verbose) {
+              process.stdout.write("x");
+            }
             throw e;
           });
         results.push(promise);
@@ -35,7 +41,11 @@ module.exports = (queueName, filters) => {
       const total = results.length;
       const success = results.filter((e) => !(e instanceof Error)).length;
 
-      console.log(`\nQueued ${success}/${total} mangas`);
+      if (verbose) {
+        console.log(`\nQueued ${success}/${total} mangas`);
+      }
     },
   };
 };
+
+module.exports = Producer;

@@ -1,0 +1,48 @@
+#!/usr/bin/env node
+
+/**
+ * Consumer worker script
+ *
+ * This script start a consumer to consume message from redis queue
+ * Usage:
+ *     node consume --queue {adhoc,scheduled}
+ * If the queue is adhoc, this script runs forever
+ * Otherwise the script exits when the redis queue is empty
+ */
+
+const argparse = require("argparse");
+
+const Consumer = require("../scraper/consumer");
+const db = require("../services/db-service");
+const redis = require("../services/redis-service");
+
+const argumentParser = new argparse.ArgumentParser();
+argumentParser.add_argument("-q", "--queue", {
+  type: "str",
+  required: false,
+  choices: ["adhoc", "scheduled"],
+  default: "scheduled",
+});
+
+const { queue: queueName } = argumentParser.parse_args();
+
+async function main() {
+  console.log("Connecting to mongodb");
+  await db.ensureDBConnection();
+
+  console.log("Connecting to redis");
+  redis.open();
+
+  const consumer = Consumer(queueName, queueName === "scheduled");
+  await consumer.run();
+
+  db.closeDBConnection();
+  redis.quit();
+}
+
+main().catch((err) => {
+  console.error(err);
+  db.closeDBConnection();
+  redis.quit();
+  process.exit(1);
+});

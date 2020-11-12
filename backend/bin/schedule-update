@@ -1,0 +1,87 @@
+#!/usr/bin/env node
+
+/**
+ * Scheduled producer worker script
+ *
+ * This script start a producer to push messages matching the filters to the redis queue
+ * Usage:
+ *     node schedule-update --queue {adhoc,scheduled}
+ *                          --shelf {"to read",reading,waiting,dropped,finished}
+ *                          [--weekly {sun, mon, tue, wed, thu, fri, sat}]
+ *                          [--monthly {1..31}]
+ * The script exits on finish
+ */
+
+const { range } = require("lodash");
+const argparse = require("argparse");
+
+const { Manga } = require("../models");
+const { TO_READ, READING, WAITING, DROPPED, FINISHED } = Manga.Shelf;
+const Producer = require("../scraper/producer");
+const db = require("../services/db-service");
+const redis = require("../services/redis-service");
+
+const daysInWeek = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+const daysInMonth = range(1, 32).map(String);
+
+const argumentParser = new argparse.ArgumentParser();
+argumentParser.add_argument("-s", "--shelf", {
+  type: "str",
+  required: false,
+  nargs: "+",
+  choices: [TO_READ, READING, WAITING, DROPPED, FINISHED],
+  default: [TO_READ, READING, WAITING, DROPPED, FINISHED],
+});
+argumentParser.add_argument("-q", "--queue", {
+  type: "str",
+  required: false,
+  choices: ["adhoc", "scheduled"],
+  default: "scheduled",
+});
+argumentParser.add_argument("-w", "--weekly", {
+  type: "str",
+  required: false,
+  choices: daysInWeek,
+});
+argumentParser.add_argument("-m", "--monthly", {
+  type: "str",
+  required: false,
+  choices: daysInMonth,
+});
+
+const { monthly, weekly, shelf, queue: queueName } = argumentParser.parse_args();
+
+if (weekly) {
+  const day = daysInWeek[new Date().getDay()];
+  if (day !== weekly) {
+    process.exit(0);
+  }
+}
+
+if (monthly) {
+  const month = new Date().getDate();
+  if (month != monthly) {
+    process.exit(0);
+  }
+}
+
+async function main() {
+  console.log("Connecting to mongodb");
+  await db.ensureDBConnection();
+
+  console.log("Connecting to redis");
+  redis.open();
+
+  const producer = Producer(queueName, { shelf }, true);
+  await producer.run();
+
+  db.closeDBConnection();
+  redis.quit();
+}
+
+main().catch((err) => {
+  console.error(err);
+  db.closeDBConnection();
+  redis.quit();
+  process.exit(1);
+});

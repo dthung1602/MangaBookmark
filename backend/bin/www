@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 
+/**
+ *  Starting point of the web server
+ */
+
 const debug = require("debug")("mangabookmark:server");
 const http = require("http");
 
