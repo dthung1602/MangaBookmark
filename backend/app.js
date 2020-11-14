@@ -35,6 +35,11 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+const redis = require("./services/redis-service");
+const db = require("./services/db-service");
+redis.open();
+db.ensureDBConnection();
+
 const MangaRouter = require("./api/manga");
 const UserRouter = require("./api/user");
 const SubscriptionRouter = require("./api/subscription");
@@ -58,5 +63,11 @@ const frontendBuildIndex = path.join(__dirname, "frontend-build", "index.html");
 app.get("*", (req, res) => {
   res.sendFile(frontendBuildIndex);
 });
+
+// Gracefully shutdown
+app.shutdown = () => {
+  redis.quit();
+  db.closeDBConnection();
+};
 
 module.exports = app;

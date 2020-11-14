@@ -27,13 +27,13 @@ argumentParser.add_argument("-q", "--queue", {
 const { queue: queueName } = argumentParser.parse_args();
 
 async function main() {
-  console.log("Connecting to mongodb");
+  console.log("Consumer connecting to mongodb");
   await db.ensureDBConnection();
 
-  console.log("Connecting to redis");
+  console.log("Consumer connecting to redis");
   redis.open();
 
-  const consumer = Consumer(queueName, queueName === "scheduled");
+  const consumer = Consumer(queueName, true);
   await consumer.run();
 
   db.closeDBConnection();
@@ -46,3 +46,19 @@ main().catch((err) => {
   redis.quit();
   process.exit(1);
 });
+
+process.on("SIGTERM", shutdown("SIGTERM")).on("SIGINT", shutdown("SIGINT"));
+
+function shutdown(signal) {
+  return () => {
+    console.log(`Consumer received ${signal} signal`);
+
+    db.closeDBConnection();
+    redis.quit();
+
+    setTimeout(() => {
+      console.log("Consumer waited 2s, exiting");
+      process.exit(0);
+    }, 2000).unref();
+  };
+}

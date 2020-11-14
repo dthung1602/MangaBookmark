@@ -4,7 +4,7 @@ const router = Router();
 
 const { removeUndefinedAttrs } = require("./utils");
 const MangaService = require("../services/manga-service");
-const { supportedSites } = require("../services/manga-service/parsers");
+const { supportedSites } = require("../scraper/parsers");
 const {
   MANGA_FILTER_FIELDS,
   MangaFilterValidator,

@@ -61,16 +61,12 @@ const Consumer = (queueName, verbose = false) => {
 
   return {
     async run() {
-      if (verbose) {
-        console.log(`Start consuming messages from ${queueName} queue`);
-      }
+      console.log(`Start consuming messages from ${queueName} queue`);
 
       const promises = range(CRAWL_CONCURRENCY).map(consumeManga);
       await Promise.all(promises);
 
-      if (verbose) {
-        console.log(`Done consuming messages`);
-      }
+      console.log(`Done consuming messages`);
     },
   };
 };

@@ -1,7 +1,7 @@
 const { pick } = require("lodash");
 
 const { Manga } = require("../../models");
-const { getParser } = require("./parsers");
+const { getParser } = require("../../scraper/parsers");
 const fields = ["link", "user", "isCompleted", "shelf", "readChapters", "note", "hidden"];
 
 module.exports = async function (data, parser = null) {

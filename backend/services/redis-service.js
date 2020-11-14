@@ -67,8 +67,6 @@ const Cache = (name) => {
   return { set, get, incr, decr };
 };
 
-// TODO open redis middleware
-
 module.exports = {
   open,
   quit,

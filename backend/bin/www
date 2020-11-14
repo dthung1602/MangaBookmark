@@ -32,6 +32,23 @@ server.on("error", onError);
 server.on("listening", onListening);
 
 /**
+ * Spawn worker process
+ */
+const { spawn } = require("child_process");
+spawn("node backend/bin/consume --queue adhoc", {
+  stdio: "inherit",
+  shell: true,
+});
+
+/**
+ * Shutdown gracefully
+ */
+process
+  .on("SIGTERM", shutdown("SIGTERM"))
+  .on("SIGINT", shutdown("SIGINT"))
+  .on("uncaughtException", shutdown("uncaughtException"));
+
+/**
  * Event listener for HTTP server "error" event.
  */
 
@@ -65,4 +82,20 @@ function onListening() {
   const addr = server.address();
   const bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
   debug("Listening on " + bind);
+}
+
+/**
+ * Event listener for termination signals
+ */
+function shutdown(signal) {
+  return (err) => {
+    console.log(`Web server received ${signal} signal`);
+
+    app.shutdown();
+
+    setTimeout(() => {
+      console.log("Web server waited 4s, exiting");
+      process.exit(err ? 1 : 0);
+    }, 4000).unref();
+  };
 }

@@ -66,10 +66,10 @@ if (monthly) {
 }
 
 async function main() {
-  console.log("Connecting to mongodb");
+  console.log("Scheduler connecting to mongodb");
   await db.ensureDBConnection();
 
-  console.log("Connecting to redis");
+  console.log("Scheduler connecting to redis");
   redis.open();
 
   const producer = Producer(queueName, { shelf }, true);
@@ -85,3 +85,19 @@ main().catch((err) => {
   redis.quit();
   process.exit(1);
 });
+
+process.on("SIGTERM", shutdown("SIGTERM")).on("SIGINT", shutdown("SIGINT"));
+
+function shutdown(signal) {
+  return () => {
+    console.log(`Scheduler received ${signal} signal`);
+
+    db.closeDBConnection();
+    redis.quit();
+
+    setTimeout(() => {
+      console.log("Scheduler waited 2s, exiting");
+      process.exit(0);
+    }, 2000).unref();
+  };
+}

@@ -6,5 +6,5 @@ module.exports = {
   delete: require("./delete"),
   updateMultiple: require("./update-multiple"),
   markChapters: require("./mark-chapters"),
-  parsers: require("./parsers"),
+  parsers: require("../../scraper/parsers"),
 };
