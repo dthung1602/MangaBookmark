@@ -1,5 +1,6 @@
 const { Manga } = require("../models");
 const { ScheduledQueue, AdhocQueue } = require("../services/redis-service");
+const { PRODUCER_CONCURRENCY } = require("../config");
 
 const Producer = (queueName, filters = [], verbose = false) => {
   let queue;
@@ -16,33 +17,47 @@ const Producer = (queueName, filters = [], verbose = false) => {
       if (verbose) {
         console.log(`Start pushing mangas to ${queueName} queue with filters: ${JSON.stringify(filters)}`);
       }
-      const query = Manga.find(filters);
+      const cursor = Manga.find(filters).batchSize(PRODUCER_CONCURRENCY).cursor();
 
-      let results = [];
-      for await (let manga of query) {
-        const promise = queue
-          .push(manga)
-          .then((m) => {
-            if (verbose) {
-              process.stdout.write(".");
-            }
-            return m;
-          })
-          .catch((e) => {
-            if (verbose) {
-              process.stdout.write("x");
-            }
-            throw e;
-          });
-        results.push(promise);
+      let end = false;
+      let success = 0;
+      let failure = 0;
+      let promises = [];
+
+      while (!end) {
+        const batch = [];
+
+        // get a batch
+        for (let i = 0; i < PRODUCER_CONCURRENCY; i++) {
+          const manga = await cursor.next();
+          if (!manga) {
+            end = true;
+            break;
+          }
+          batch.push(manga);
+        }
+
+        // push batch to queue
+        if (batch.length > 0) {
+          const promise = queue
+            .push(batch)
+            .then((m) => {
+              success += batch.length;
+              return m;
+            })
+            .catch((e) => {
+              failure += batch.length;
+              throw e;
+            });
+          promises.push(promise);
+        }
       }
 
-      results = await Promise.all(results);
-      const total = results.length;
-      const success = results.filter((e) => !(e instanceof Error)).length;
+      // wait for all messages to be pushed
+      await Promise.all(promises);
 
       if (verbose) {
-        console.log(`\nQueued ${success}/${total} mangas`);
+        console.log(`\nQueued ${success}/${success + failure} mangas`);
       }
     },
   };

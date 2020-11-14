@@ -26,8 +26,15 @@ const quit = () => {
   }
 };
 
+const normalizeInput = (value) => {
+  if (Array.isArray(value)) {
+    return value.map(JSON.stringify);
+  }
+  return JSON.stringify(value);
+};
+
 const Queue = (name) => {
-  const push = (value) => client.rpush(name, JSON.stringify(value));
+  const push = (value) => client.rpush(name, normalizeInput(value));
   const pop = (n = 1) => {
     let result;
     if (n === 1) {
@@ -44,7 +51,7 @@ const Queue = (name) => {
 const Result = (name) => {
   const push = (key, value) => {
     key = name + ":" + key;
-    value = JSON.stringify(value);
+    value = normalizeInput(value);
     return client.rpush(key, value);
   };
   const bpop = (key, timeout = 0) =>

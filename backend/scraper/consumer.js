@@ -3,19 +3,21 @@ const { range } = require("lodash");
 const MangaService = require("../services/manga-service");
 const { getParser } = require("./parsers");
 const { Manga } = require("../models");
-const { CRAWL_CONCURRENCY, CRAWL_WAIT_TIME } = require("../config");
+const { CRAWL_SCHEDULED_QUEUE_CONCURRENCY, CRAWL_ADHOC_QUEUE_CONCURRENCY, CRAWL_WAIT_TIME } = require("../config");
 const { ScheduledQueue, AdhocQueue, ScheduledScrapeResult, AdhocScrapeResult } = require("../services/redis-service");
 
 const wait = async () => new Promise((r) => setTimeout(r, CRAWL_WAIT_TIME));
 
 const Consumer = (queueName, verbose = false) => {
-  let queue, scrapeResult, getManga;
+  let queue, concurrency, scrapeResult, getManga;
   if (queueName === "scheduled") {
     queue = ScheduledQueue;
+    concurrency = CRAWL_SCHEDULED_QUEUE_CONCURRENCY;
     scrapeResult = ScheduledScrapeResult;
     getManga = queue.pop;
   } else if (queueName === "adhoc") {
     queue = AdhocQueue;
+    concurrency = CRAWL_ADHOC_QUEUE_CONCURRENCY;
     scrapeResult = AdhocScrapeResult;
     getManga = queue.bpop;
   } else {
@@ -61,9 +63,9 @@ const Consumer = (queueName, verbose = false) => {
 
   return {
     async run() {
-      console.log(`Start consuming messages from ${queueName} queue`);
+      console.log(`Start consuming messages from ${queueName} queue, concurrency: ${concurrency}`);
 
-      const promises = range(CRAWL_CONCURRENCY).map(consumeManga);
+      const promises = range(concurrency).map(consumeManga);
       await Promise.all(promises);
 
       console.log(`Done consuming messages`);

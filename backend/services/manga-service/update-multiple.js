@@ -1,15 +1,15 @@
 const { chunk } = require("lodash");
 
-const { CRAWL_CONCURRENCY } = require("../../config");
+const { CRAWL_SCHEDULED_QUEUE_CONCURRENCY } = require("../../config");
 const update = require("./update");
 
 module.exports = async function (mangas, verbose = false) {
   if (verbose) {
     console.log(`Start updating ${mangas.length} mangas`);
-    console.log(`Using up to ${CRAWL_CONCURRENCY} threads`);
+    console.log(`Using up to ${CRAWL_SCHEDULED_QUEUE_CONCURRENCY} threads`);
   }
 
-  const chunks = chunk(mangas, CRAWL_CONCURRENCY);
+  const chunks = chunk(mangas, CRAWL_SCHEDULED_QUEUE_CONCURRENCY);
   const successMangas = [];
   const failMangas = [];
 
