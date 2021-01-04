@@ -22,7 +22,7 @@ async function parseManga(url) {
   return {
     name: $("h1").text().trim(),
     link: url,
-    image: $(".block01 .left img")[0].attribs.src.trim(),
+    image: JSON.parse($('script[type="application/ld+json"]')[0].children[0].data).image.url.trim(),
     isCompleted: $(".block01 .txt").text().includes("Hoàn Thành"),
     chapters: await parseChapters($),
   };
