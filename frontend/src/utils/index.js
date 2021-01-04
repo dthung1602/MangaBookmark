@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import moment from "moment";
 
 export const randomFrom = (array) => {

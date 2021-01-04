@@ -6,7 +6,10 @@
   "author": "dthung1602 <dthung1602@gmail.com>",
   "license": "MIT",
   "private": true,
-  "workspaces": ["backend", "frontend"],
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
   "scripts": {
     "start": "node backend/bin/www",
     "build": "chmod +x ./build.sh && ./build.sh",
