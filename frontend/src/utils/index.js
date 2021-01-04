@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import moment from "moment";
 
 export const randomFrom = (array) => {
@@ -39,10 +40,6 @@ export const isEmptyObject = (obj) => {
 
 export const clonePlainObject = (obj) => {
   return JSON.parse(JSON.stringify(obj));
-};
-
-export const disableBackgroundScrolling = (disable) => {
-  document.body.style.overflowY = disable ? "hidden" : "scroll";
 };
 
 export const formatDate = (dateString, relative = false) => {

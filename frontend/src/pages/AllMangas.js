@@ -15,7 +15,7 @@ import EndOfList from "../components/EndOfList";
 import { ANY, MANGA_PER_PAGE, SORT_DEC_STATUS } from "../utils/constants";
 import { MangaAPI } from "../api";
 import { useUpdateMultipleAPI } from "../hooks";
-import { removeUndefinedAttrs, removeEmptyStringAttrs, disableBackgroundScrolling, scrollToTop } from "../utils";
+import { removeUndefinedAttrs, removeEmptyStringAttrs, scrollToTop } from "../utils";
 import { throwOnCriticalErrors, notifyError } from "../utils/error-handler";
 import "./Mangas.less";
 
@@ -42,8 +42,6 @@ const AllMangas = () => {
     lastReleasedGTE: StringParam,
     lastReleasedLTE: StringParam,
   });
-
-  disableBackgroundScrolling(openImg || newMangaModalOpen);
 
   const updateFilters = (values) => {
     const newFilters = { ...filters, ...values };

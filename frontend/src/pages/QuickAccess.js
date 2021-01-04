@@ -21,7 +21,6 @@ import {
 } from "../utils/constants";
 import { MangaAPI } from "../api";
 import { useUpdateMultipleAPI } from "../hooks";
-import { disableBackgroundScrolling } from "../utils";
 import { throwOnCriticalErrors, notifyError } from "../utils/error-handler";
 import "./Mangas.less";
 
@@ -77,8 +76,6 @@ const QuickAccess = () => {
   const [newMangaModalOpen, setNewMangaModalOpen] = useState(false);
 
   const [tab, setTab] = useQueryParam("tab", withDefault(StringParam, "reading"));
-
-  disableBackgroundScrolling(openImg || newMangaModalOpen);
 
   useEffect(() => {
     setIsLoading("reload");
