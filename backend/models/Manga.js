@@ -8,6 +8,11 @@ const Shelf = Object.freeze({
   FINISHED: "finished",
 });
 
+const Language = Object.freeze({
+  EN: "en",
+  VI: "vi",
+});
+
 function getMangaStatusCode(manga) {
   const allRead = manga.chapters.every((ch) => ch.isRead);
 
@@ -89,6 +94,23 @@ const ChapterSchema = new mongoose.Schema(
  *            type: string
  *          image:
  *            type: string
+ *          description:
+ *            type: string
+ *          lang:
+ *            type: string
+ *            enum: [en, vi]
+ *          alternativeNames:
+ *            type: array
+ *            items:
+ *              type: string
+ *          authors:
+ *            type: array
+ *            items:
+ *              type: string
+ *          tags:
+ *            type: array
+ *            items:
+ *              type: string
  *          chapters:
  *            type: array
  *            items:
@@ -134,6 +156,19 @@ const MangaSchema = new mongoose.Schema(
     link: String,
     site: String,
     image: String,
+
+    description: {
+      type: String,
+      default: "",
+    },
+    lang: {
+      type: String,
+      enum: Object.values(Language),
+      default: Language.EN,
+    },
+    alternativeNames: [String],
+    authors: [String],
+    tags: [String],
 
     chapters: [ChapterSchema],
     lastReleased: Date,

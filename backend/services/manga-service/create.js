@@ -2,6 +2,7 @@ const { pick } = require("lodash");
 
 const { Manga } = require("../../models");
 const { getParser } = require("../../services/manga-service/parsers");
+const { pickCopy } = require("../utils");
 
 const fields = ["link", "user", "isCompleted", "shelf", "readChapters", "note", "hidden"];
 
@@ -23,12 +24,9 @@ module.exports = async function (data, parser = null) {
   manga.chapters.forEach((chap) => (chap.isRead = data.readChapters.indexOf(chap.link) > -1));
 
   manga.newChapCount = manga.chapters.filter((chap) => !chap.isRead).length;
-  manga.site = parser.site;
-  manga.user = data.user;
-  manga.shelf = data.shelf;
-  manga.note = data.note;
-  manga.hidden = data.hidden;
-  manga.isCompleted = data.isCompleted;
+
+  pickCopy(manga, parser, ["site", "language"]);
+  pickCopy(manga, data, ["user", "shelf", "note", "hidden", "isCompleted"]);
 
   manga = await new Manga(manga).save();
   return manga;

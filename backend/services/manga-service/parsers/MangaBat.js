@@ -29,6 +29,7 @@ async function parseManga(url) {
 }
 
 module.exports = {
+  language: "en",
   site: "MangaBat",
   homepage: "https://m.mangabat.com/hp",
   URLRegex,

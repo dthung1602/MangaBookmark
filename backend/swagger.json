@@ -77,6 +77,34 @@
           "image": {
             "type": "string"
           },
+          "description": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "en",
+              "vi"
+            ]
+          },
+          "alternativeNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "authors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "chapters": {
             "type": "array",
             "items": {
@@ -238,7 +266,7 @@
   },
   "info": {
     "title": "MangaBookmark API",
-    "version": "3.1.0",
+    "version": "3.1.1",
     "description": "API for MangaBookmark client"
   },
   "paths": {
