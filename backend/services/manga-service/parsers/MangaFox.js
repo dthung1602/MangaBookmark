@@ -29,7 +29,7 @@ async function parseManga(url) {
 }
 
 module.exports = {
-  language: "en",
+  lang: "en",
   site: "MangaFox",
   homepage: "https://ww3.mangafox.online/",
   URLRegex,

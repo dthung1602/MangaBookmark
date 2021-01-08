@@ -29,7 +29,7 @@ async function parseManga(url) {
 }
 
 module.exports = {
-  language: "vi",
+  lang: "vi",
   site: "Otakusan",
   homepage: "https://otakusan.net/",
   URLRegex,

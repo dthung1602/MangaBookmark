@@ -18,11 +18,11 @@ async function main() {
   await db.ensureDBConnection();
 
   if (action === "create") {
-    await MangaService.create({ url });
+    await MangaService.create({ link: url });
   } else {
     let manga = await Manga.findOne({ link: url });
     await MangaService.update(manga);
-    manga.save();
+    await manga.save();
   }
 
   db.closeDBConnection();

@@ -1,12 +1,10 @@
-const { pick } = require("lodash");
-
 const { Manga } = require("../../models");
 const { getParser } = require("../../services/manga-service/parsers");
 const { pickCopy } = require("../utils");
 
 const fields = ["link", "user", "isCompleted", "shelf", "readChapters", "note", "hidden"];
 
-module.exports = async function (data, parser = null) {
+module.exports = async function (userInput, parser = null) {
   const defaultData = {
     isCompleted: false,
     shelf: "reading",
@@ -14,19 +12,19 @@ module.exports = async function (data, parser = null) {
     note: "",
     hidden: false,
   };
-  data = Object.assign(defaultData, pick(data, fields));
+  userInput = pickCopy(defaultData, userInput, fields);
 
   if (!parser) {
-    parser = getParser(data.link);
+    parser = getParser(userInput.link);
   }
-  let manga = await parser.parseManga(data.link);
+  let manga = await parser.parseManga(userInput.link);
 
-  manga.chapters.forEach((chap) => (chap.isRead = data.readChapters.indexOf(chap.link) > -1));
+  manga.chapters.forEach((chap) => (chap.isRead = userInput.readChapters.indexOf(chap.link) > -1));
 
   manga.newChapCount = manga.chapters.filter((chap) => !chap.isRead).length;
 
-  pickCopy(manga, parser, ["site", "language"]);
-  pickCopy(manga, data, ["user", "shelf", "note", "hidden", "isCompleted"]);
+  pickCopy(manga, parser, ["site", "lang"]);
+  pickCopy(manga, userInput, ["user", "shelf", "note", "hidden", "isCompleted"]);
 
   manga = await new Manga(manga).save();
   return manga;
