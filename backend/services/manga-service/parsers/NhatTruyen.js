@@ -1,6 +1,6 @@
 const URLRegex = /^https?:\/\/nhattruyen\.com\/truyen-tranh\/.+$/;
 
-const { parseManga, parseChapters } = require("./NetTruyen");
+const { parseManga, parseChapters, parseAdditionalInfo } = require("./NetTruyen");
 
 module.exports = {
   lang: "vi",
@@ -9,4 +9,5 @@ module.exports = {
   URLRegex,
   parseManga,
   parseChapters,
+  parseAdditionalInfo,
 };
