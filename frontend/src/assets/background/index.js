@@ -1,4 +1,3 @@
-import image0 from "./somali-and-the-forest-spirit.jpg";
 import image1 from "./witch-hat-atelier.jpeg";
 import image2 from "./attack-on-titan-4.png";
 import image3 from "./attack-on-titan-3.jpg";
@@ -19,7 +18,6 @@ import image18 from "./violet-evergarden-1.jpg";
 import image19 from "./violet-evergarden-2.jpg";
 
 export default [
-  image0,
   image1,
   image2,
   image3,

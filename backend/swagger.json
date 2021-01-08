@@ -80,7 +80,7 @@
           "description": {
             "type": "string"
           },
-          "language": {
+          "lang": {
             "type": "string",
             "enum": [
               "en",

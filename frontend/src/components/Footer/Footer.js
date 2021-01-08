@@ -5,12 +5,12 @@ import { Link } from "react-router-dom";
 import "./Footer.less";
 
 // TODO reduce image sizes
-import LOGO_INVERT from "../../assets/logo-invert.png";
-import ANT_DESIGN_LOGO from "../../assets/ant-design-logo.png";
-import EXPRESS_JS_LOGO from "../../assets/express-js-logo.png";
-import LOOKA_LOGO from "../../assets/looka-logo.png";
-import MONGO_DB_LOGO from "../../assets/mongodb-logo.png";
-import HEROKU_LOGO from "../../assets/heroku-logo.png";
+import LOGO_INVERT from "../../assets/logo/logo-invert.png";
+import ANT_DESIGN_LOGO from "../../assets/logo/ant-design-logo.png";
+import EXPRESS_JS_LOGO from "../../assets/logo/express-js-logo.png";
+import LOOKA_LOGO from "../../assets/logo/looka-logo.png";
+import MONGO_DB_LOGO from "../../assets/logo/mongodb-logo.png";
+import HEROKU_LOGO from "../../assets/logo/heroku-logo.png";
 import {
   ROUTE_ACCOUNT,
   ROUTE_HOME,

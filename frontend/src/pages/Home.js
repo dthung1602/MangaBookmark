@@ -29,12 +29,12 @@ import {
   EMBED_QUICK_TOUR_VIDEO_LINK,
   FRONTEND_VERSION,
 } from "../utils/constants";
-import LOGO from "../assets/logo-invert.png";
-import ANT_DESIGN_LOGO from "../assets/ant-design-logo-light.png";
-import EXPRESS_JS_LOGO from "../assets/express-js-logo-light.png";
-import MONGO_DB_LOGO from "../assets/mongodb-logo.png";
-import LOOKA_LOGO from "../assets/looka-logo.png";
-import HEROKU_LOGO from "../assets/heroku-logo.png";
+import LOGO from "../assets/logo/logo-invert.png";
+import ANT_DESIGN_LOGO from "../assets/logo/ant-design-logo-light.png";
+import EXPRESS_JS_LOGO from "../assets/logo/express-js-logo-light.png";
+import MONGO_DB_LOGO from "../assets/logo/mongodb-logo.png";
+import LOOKA_LOGO from "../assets/logo/looka-logo.png";
+import HEROKU_LOGO from "../assets/logo/heroku-logo.png";
 import "./Home.less";
 
 const { Title } = Typography;

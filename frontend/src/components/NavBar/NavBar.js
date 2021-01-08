@@ -28,7 +28,7 @@ import User from "./User";
 import { Desktop, Mobile } from "../ScreenSize";
 import { useLogoutAPI, useOnScreenScrollVertically } from "../../hooks";
 import { scrollToTop } from "../../utils";
-import LOGO from "../../assets/logo-invert.png";
+import LOGO from "../../assets/logo/logo-invert.png";
 import "./NavBar.less";
 
 const { Header } = Layout;
