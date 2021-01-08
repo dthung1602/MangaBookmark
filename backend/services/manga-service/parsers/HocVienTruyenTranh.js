@@ -16,12 +16,17 @@ async function parseChapters($) {
   return chapters;
 }
 
-function parseAdditionalInfo($) {
-  const info = $(".__info p");
+function extractDescription($) {
   let description = $(".__description").text().trim();
   if (description.endsWith("...")) {
     description = description.replace("...", "").trim();
   }
+  return description;
+}
+
+function parseAdditionalInfo($) {
+  const info = $(".__info p");
+  let description = extractDescription($);
   const alternativeNames = extractNamesFromText($(info[0]).text(), ";", "Tên khác:");
   const tags = extractTagsFromText($(info[1]).text(), ",", "Thể loại:");
   const authors = extractAuthorsFromText($(info[2]).text(), ",", "Tác giả:");

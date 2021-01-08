@@ -20,8 +20,8 @@ function parseAdditionalInfo($) {
   const mangaInfoText = $(".manga-info-text li");
   const description = $("#noidungm")[0].children[2].data.trim();
   const alternativeNames = extractNamesFromText($(".story-alternative").text(), ";", "Alternative :");
-  const authors = extractAuthorsFromNode(mangaInfoText[1]);
-  const tags = extractTagsFromNode(mangaInfoText[6]);
+  const authors = extractAuthorsFromNode($, $(mangaInfoText[1]).find("a"));
+  const tags = extractTagsFromNode($, $(mangaInfoText[6]).find("a"));
   return { description, alternativeNames, authors, tags };
 }
 

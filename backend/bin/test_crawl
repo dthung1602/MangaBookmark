@@ -1,16 +1,23 @@
 #!/usr/bin/env node
 
+const readline = require("readline");
+
 const { Manga } = require("../models");
 const db = require("../services/db-service");
 const MangaService = require("../services/manga-service");
 
-async function main() {
-  if (process.argv.length < 4) {
-    throw "Missing args";
-  }
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 
-  const action = process.argv[2];
-  const url = process.argv[3];
+function readLine(questionText) {
+  return new Promise((resolve) => {
+    rl.question(questionText, (input) => resolve(input.trim()));
+  });
+}
+
+async function main() {
+  const action = process.argv[2] || (await readLine("Action: "));
+  const url = process.argv[3] || (await readLine("URL: "));
+
   if (action !== "create" && action !== "update") {
     throw "Invalid action";
   }
@@ -26,10 +33,12 @@ async function main() {
   }
 
   db.closeDBConnection();
+  rl.close();
 }
 
 main().catch((err) => {
   console.error(err);
   db.closeDBConnection();
+  rl.close();
   process.exit(1);
 });

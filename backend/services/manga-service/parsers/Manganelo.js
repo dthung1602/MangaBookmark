@@ -21,8 +21,8 @@ function parseAdditionalInfo($) {
   const mangaInfoText = $(".variations-tableInfo .table-value");
   const description = cleanText($("#panel-story-info-description").text(), "Description :");
   const alternativeNames = extractNamesFromText($(mangaInfoText[0]).text());
-  const authors = extractAuthorsFromNode(mangaInfoText[1]);
-  const tags = extractTagsFromNode(mangaInfoText[3]);
+  const authors = extractAuthorsFromNode($, $(mangaInfoText[1]).find("a"));
+  const tags = extractTagsFromNode($, $(mangaInfoText[3]).find("a"));
   return { description, alternativeNames, authors, tags };
 }
 

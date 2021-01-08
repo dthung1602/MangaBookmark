@@ -1,4 +1,4 @@
-const { fetchAndLoad } = require("./utils");
+const { fetchAndLoad, extractNamesFromText, extractTagsFromNode, extractAuthorsFromText } = require("./utils");
 
 const URLRegex = /^https?:\/\/truyenqq\.com\/truyen-tranh\/.+$/;
 
@@ -16,6 +16,14 @@ async function parseChapters($) {
   return chapters;
 }
 
+function parseAdditionalInfo($) {
+  let description = $('div[itemprop="description"]').text().trim();
+  const alternativeNames = extractNamesFromText($(".txt .info-item:contains('Tên Khác')").text(), ";", "Tên Khác:");
+  const tags = extractTagsFromNode($, $(".list01 a"));
+  const authors = extractAuthorsFromText($(".txt .info-item:contains('Tác giả')").text(), ",", "Tác giả:");
+  return { description, alternativeNames, authors, tags };
+}
+
 async function parseManga(url) {
   const $ = await fetchAndLoad(url);
 
@@ -25,6 +33,7 @@ async function parseManga(url) {
     image: JSON.parse($('script[type="application/ld+json"]')[0].children[0].data).image.url.trim(),
     isCompleted: $(".block01 .txt").text().includes("Hoàn Thành"),
     chapters: await parseChapters($),
+    ...parseAdditionalInfo($),
   };
 }
 
@@ -35,4 +44,5 @@ module.exports = {
   URLRegex,
   parseManga,
   parseChapters,
+  parseAdditionalInfo,
 };

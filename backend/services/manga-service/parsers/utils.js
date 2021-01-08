@@ -37,17 +37,17 @@ async function wait(ms) {
   });
 }
 
-function extractTagsFromNode(tagContainerNode) {
-  return tagContainerNode.children
-    .filter((node) => node.name === "a")
-    .map((node) => node.children[0].data.trim().toLowerCase())
+function extractTagsFromNode($, tagNodes) {
+  return $(tagNodes)
+    .toArray()
+    .map((node) => $(node).text().trim().toLowerCase())
     .filter(Boolean);
 }
 
-function extractAuthorsFromNode(authorContainerNode) {
-  return authorContainerNode.children
-    .filter((node) => node.name === "a")
-    .map((node) => startCase(node.children[0].data))
+function extractAuthorsFromNode($, authorNodes) {
+  return $(authorNodes)
+    .toArray()
+    .map((node) => startCase($(node).text()))
     .filter(Boolean);
 }
 
