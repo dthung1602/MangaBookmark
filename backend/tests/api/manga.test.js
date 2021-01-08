@@ -66,33 +66,30 @@ describe("Manga API", () => {
     await unloadFixture();
   });
 
-  it.each(MANGA_FILTER)(
-    "should search & filter mangas",
-    async function (
-      filters,
-      expectedTotalItem,
-      expectedTotalPage,
-      expectPage,
-      expectMangaIds,
-      expectedIsLastPage = undefined,
-    ) {
-      const response = await request(app).get("/api/mangas").query(filters);
-      expect(response.status).toEqual(200);
-      expect(response.body.page).toEqual(expectPage);
-      expect(response.body.totalItem).toEqual(expectedTotalItem);
-      expect(response.body.totalPage).toEqual(expectedTotalPage);
+  it.each(MANGA_FILTER)("should search & filter mangas", async function (
+    filters,
+    expectedTotalItem,
+    expectedTotalPage,
+    expectPage,
+    expectMangaIds,
+    expectedIsLastPage = undefined,
+  ) {
+    const response = await request(app).get("/api/mangas").query(filters);
+    expect(response.status).toEqual(200);
+    expect(response.body.page).toEqual(expectPage);
+    expect(response.body.totalItem).toEqual(expectedTotalItem);
+    expect(response.body.totalPage).toEqual(expectedTotalPage);
 
-      let mangaIds = map(response.body.data, "_id");
-      if (!filters.sort) {
-        mangaIds = mangaIds.sort();
-      }
-      expect(mangaIds).toEqual(expectMangaIds);
+    let mangaIds = map(response.body.data, "_id");
+    if (!filters.sort) {
+      mangaIds = mangaIds.sort();
+    }
+    expect(mangaIds).toEqual(expectMangaIds);
 
-      if (expectedIsLastPage in [true, false]) {
-        expect(response.body.isLastPage).toEqual(expectedIsLastPage);
-      }
-    },
-  );
+    if (expectedIsLastPage in [true, false]) {
+      expect(response.body.isLastPage).toEqual(expectedIsLastPage);
+    }
+  });
 
   it("should create manga", async function () {
     const mockParsedManga = getMockParsedManga();
@@ -164,14 +161,16 @@ describe("Manga API", () => {
     expect(manga).toEqual(expect.objectContaining(editContent));
   });
 
-  it.each(INVALID_MANGA_PATCH)(
-    "should validate params when editing mangas",
-    async function (mangaId, payload, expectedErrs, expectedStt) {
-      const response = await request(app).patch(`/api/mangas/${mangaId}`).send(payload);
-      expect(response.status).toEqual(expectedStt);
-      expectErrors(expectedErrs, response.body.errors);
-    },
-  );
+  it.each(INVALID_MANGA_PATCH)("should validate params when editing mangas", async function (
+    mangaId,
+    payload,
+    expectedErrs,
+    expectedStt,
+  ) {
+    const response = await request(app).patch(`/api/mangas/${mangaId}`).send(payload);
+    expect(response.status).toEqual(expectedStt);
+    expectErrors(expectedErrs, response.body.errors);
+  });
 
   it("should delete manga", async function () {
     const mangaId = "111eeeeeeeeeeeeeeeeee111";
@@ -234,14 +233,16 @@ describe("Manga API", () => {
     expect(map(manga.chapters, "isRead")).toEqual(expectedIsReads);
   });
 
-  it.each(INVALID_READ_CHAPTERS)(
-    "should validate params when marking chapters",
-    async function (mangaId, payload, expectedErrs, expectedStt) {
-      const response = await request(app).post(`/api/mangas/${mangaId}/mark-chapters`).send(payload);
-      expect(response.status).toEqual(expectedStt);
-      expectErrors(expectedErrs, response.body.errors);
-    },
-  );
+  it.each(INVALID_READ_CHAPTERS)("should validate params when marking chapters", async function (
+    mangaId,
+    payload,
+    expectedErrs,
+    expectedStt,
+  ) {
+    const response = await request(app).post(`/api/mangas/${mangaId}/mark-chapters`).send(payload);
+    expect(response.status).toEqual(expectedStt);
+    expectErrors(expectedErrs, response.body.errors);
+  });
 
   it("should update one manga", async function () {
     const mangaId = "444eeeeeeeeeeeeeeeeee444";

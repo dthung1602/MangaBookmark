@@ -1,6 +1,4 @@
-const { startCase } = require("lodash");
-
-const { fetchAndLoad } = require("./utils");
+const { fetchAndLoad, extractNamesFromText, extractTagsFromText, extractAuthorsFromText } = require("./utils");
 
 const URLRegex = /^https?:\/\/hocvientruyentranh\.(com|net)\/(index.php\/)?truyen\/[0-9]+\/.+$/;
 
@@ -24,17 +22,9 @@ function parseAdditionalInfo($) {
   if (description.endsWith("...")) {
     description = description.replace("...", "").trim();
   }
-  const alternativeNames = $(info[0])
-    .text()
-    .replace("Tên khác:", "")
-    .split(";")
-    .map((name) => name.trim());
-  const tags = $(info[1])
-    .text()
-    .replace("Thể loại:", "")
-    .split(",")
-    .map((tag) => tag.trim().toLowerCase());
-  const authors = $(info[2]).text().replace("Tác giả:", "").split(",").map(startCase);
+  const alternativeNames = extractNamesFromText($(info[0]).text(), ";", "Tên khác:");
+  const tags = extractTagsFromText($(info[1]).text(), ",", "Thể loại:");
+  const authors = extractAuthorsFromText($(info[2]).text(), ",", "Tác giả:");
   return { description, alternativeNames, authors, tags };
 }
 
@@ -58,4 +48,5 @@ module.exports = {
   URLRegex,
   parseManga,
   parseChapters,
+  parseAdditionalInfo,
 };

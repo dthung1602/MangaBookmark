@@ -1,6 +1,4 @@
-const { startCase } = require("lodash");
-
-const { fetchAndLoad } = require("./utils");
+const { fetchAndLoad, extractNamesFromText, extractAuthorsFromNode, extractTagsFromNode } = require("./utils");
 
 const URLRegex = /^https?:\/\/mangakakalot\.com\/(read-|manga\/).+$/;
 
@@ -21,17 +19,9 @@ async function parseChapters($) {
 function parseAdditionalInfo($) {
   const mangaInfoText = $(".manga-info-text li");
   const description = $("#noidungm")[0].children[2].data.trim();
-  const alternativeNames = $(".story-alternative")
-    .text()
-    .slice(13)
-    .split(";")
-    .map((x) => x.trim());
-  const authors = mangaInfoText[1].children
-    .filter((node) => node.name === "a")
-    .map((node) => startCase(node.children[0].data));
-  const tags = mangaInfoText[6].children
-    .filter((node) => node.name === "a")
-    .map((node) => node.children[0].data.trim().toLowerCase());
+  const alternativeNames = extractNamesFromText($(".story-alternative").text(), ";", "Alternative :");
+  const authors = extractAuthorsFromNode(mangaInfoText[1]);
+  const tags = extractTagsFromNode(mangaInfoText[6]);
   return { description, alternativeNames, authors, tags };
 }
 
@@ -55,4 +45,5 @@ module.exports = {
   URLRegex,
   parseManga,
   parseChapters,
+  parseAdditionalInfo,
 };
