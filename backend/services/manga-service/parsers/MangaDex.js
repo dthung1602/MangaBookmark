@@ -1,6 +1,6 @@
 const got = require("got");
 const cheerio = require("cheerio");
-const { chunk } = require("lodash");
+const { chunk, uniq, startCase } = require("lodash");
 
 const { fetchAndLoad, getDefaultHeaders, wait } = require("./utils");
 const URLRegex = /^https?:\/\/mangadex\.org\/title\/[0-9]+\/.+$/;
@@ -71,6 +71,48 @@ async function parseChapters($, url) {
   return chapters.flat().flat();
 }
 
+function extractDescription($) {
+  let text = $("#content .strong:contains('Description:')").next().text();
+  let lines = text.split("\n");
+  const languages = ["Portuguese / Português", "Polish / Polski"];
+  let descriptionEng = [];
+  let isEng = true;
+  for (let line of lines) {
+    for (let lang of languages) {
+      if (line.includes(lang)) {
+        isEng = false;
+      }
+    }
+    line = line.trim();
+    if (isEng && line && line !== "English") {
+      descriptionEng.push(line);
+    }
+  }
+  return descriptionEng.join("\n");
+}
+
+function getInfo($, infoName, subNodeSelector, normalizer) {
+  return $(`#content .strong:contains('${infoName}')`)
+    .next()
+    .find(subNodeSelector)
+    .map(function () {
+      return normalizer($(this).text());
+    })
+    .toArray();
+}
+
+function normalizeTag(text) {
+  return text.trim().toLowerCase();
+}
+
+function parseAdditionalInfo($) {
+  const description = extractDescription($);
+  const alternativeNames = getInfo($, "Alt name", ".list-inline-item", (t) => t.trim());
+  const tags = uniq([...getInfo($, "Genre", "a", normalizeTag), ...getInfo($, "Theme", "a", normalizeTag)]);
+  const authors = uniq([...getInfo($, "Author", "a", startCase), ...getInfo($, "Artist", "a", startCase)]);
+  return { description, alternativeNames, authors, tags };
+}
+
 async function parseManga(url) {
   const $ = await fetchAndLoad(url);
 
@@ -80,6 +122,7 @@ async function parseManga(url) {
     image: $("#content img")[0].attribs.src,
     isCompleted: false,
     chapters: await parseChapters($, url),
+    ...parseAdditionalInfo($),
   };
 }
 
@@ -90,4 +133,5 @@ module.exports = {
   URLRegex,
   parseManga,
   parseChapters,
+  parseAdditionalInfo,
 };
