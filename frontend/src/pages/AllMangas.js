@@ -155,6 +155,7 @@ const AllMangas = () => {
                 {endOfList}
               </div>
               <RightPanel
+                key={selectedManga?._id}
                 manga={selectedManga}
                 showImage={setOpenImg}
                 deleteMangaDone={deleteMangaDone}

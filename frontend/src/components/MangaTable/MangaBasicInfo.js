@@ -25,7 +25,9 @@ function MangaBasicInfo({ manga, showTitle = true, headerExtra }) {
       size="small"
       column={1}
     >
-      <Descriptions.Item label="Site">{manga.site}</Descriptions.Item>
+      <Descriptions.Item label="Site">
+        {manga.site} {manga.lang === "vi" ? "🇻🇳" : "🇬🇧"}
+      </Descriptions.Item>
       <Descriptions.Item label="Shelf">{SHELVES[manga.shelf]}</Descriptions.Item>
       <Descriptions.Item label="Status">
         <MangaStatus status={manga.status} />

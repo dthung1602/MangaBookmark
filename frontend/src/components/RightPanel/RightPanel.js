@@ -11,7 +11,7 @@ import { formatDate } from "../../utils";
 import { throwOnCriticalErrors, notifyError } from "../../utils/error-handler";
 import "./RightPanel.less";
 
-const { Title } = Typography;
+const { Title, Paragraph } = Typography;
 
 const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -92,9 +92,24 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
           </a>
         </Title>
         <Descriptions column={2} className="non-editable-info">
-          <Descriptions.Item label="Site" span={2}>
-            {manga.site}
+          <Descriptions.Item label="Site">
+            {manga.site} {manga.lang === "vi" ? "🇻🇳" : "🇬🇧"}
           </Descriptions.Item>
+          {manga.authors ? <Descriptions.Item label="Author">{manga.authors.join(" - ")}</Descriptions.Item> : null}
+          {manga.tags ? (
+            <Descriptions.Item label="Tags" span={2}>
+              <div className="manga-tags">
+                {manga.tags.map((tagName) => (
+                  <div key={tagName}>{tagName}</div>
+                ))}
+              </div>
+            </Descriptions.Item>
+          ) : null}
+          {manga.description ? (
+            <Descriptions.Item label="Description" span={2}>
+              <Paragraph ellipsis={{ rows: 3, expandable: true, symbol: "more" }}>{manga.description}</Paragraph>
+            </Descriptions.Item>
+          ) : null}
           <Descriptions.Item label="Status">
             <MangaStatus status={manga.status} />
           </Descriptions.Item>
