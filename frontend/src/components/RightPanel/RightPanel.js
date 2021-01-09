@@ -9,6 +9,7 @@ import { MangaAPI } from "../../api";
 import { useMarkChapterAPI } from "../../hooks";
 import { formatDate } from "../../utils";
 import { throwOnCriticalErrors, notifyError } from "../../utils/error-handler";
+import placeHolderImage from "../../assets/megumin-placeholder.png";
 import "./RightPanel.less";
 
 const { Title, Paragraph } = Typography;
@@ -127,6 +128,7 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
         </Descriptions>
         <BasicFields manga={manga} editManga={editManga} layout="row" />
         <ChapterList type="page" manga={manga} isLoading={isChapterListLoading} onChangeChapterStatus={markChapters} />
+        <img src={placeHolderImage} className="placeholder" alt="" />
       </Spin>
     </div>
   );
