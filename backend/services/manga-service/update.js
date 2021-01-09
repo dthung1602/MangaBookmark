@@ -1,6 +1,9 @@
 const { getParser } = require("./parsers");
+const { pickCopy } = require("../utils");
 
-module.exports = async function (manga) {
+const additionalFields = ["authors", "description", "alternativeNames", "tags"];
+
+module.exports = async function (manga, additionalUpdate = false) {
   const parser = getParser(manga.link);
   if (parser === null) {
     throw new Error("Unsupported manga site");
@@ -27,6 +30,11 @@ module.exports = async function (manga) {
     manga.chapters = crawledChapters;
     manga.lastReleased = new Date();
     manga.markModified("chapters");
+  }
+
+  if (additionalUpdate) {
+    pickCopy(manga, crawledManga, additionalFields);
+    additionalFields.forEach((field) => manga.markModified(field));
   }
 
   return await manga.save();

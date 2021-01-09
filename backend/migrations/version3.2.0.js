@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 
 const { Manga } = require("../models");
 const { DB_URL } = require("../config");
+const MangaService = require("../services/manga-service");
 
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useFindAndModify", false);
@@ -17,9 +18,8 @@ async function main() {
   console.log("Connecting to database");
   await mongoose.connect(DB_URL);
 
-  for await (const manga of Manga.find()) {
-    manga.save();
-  }
+  const allMangas = await Manga.find();
+  await MangaService.updateMultiple(allMangas, true, true);
 
   await mongoose.connection.close();
 }

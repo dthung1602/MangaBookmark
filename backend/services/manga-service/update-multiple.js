@@ -3,10 +3,10 @@ const { chunk } = require("lodash");
 const { CRAWL_CONCURRENCY } = require("../../config");
 const update = require("./update");
 
-module.exports = async function (mangas, verbose = false) {
+module.exports = async function (mangas, additionalUpdate = false, verbose = false) {
   if (verbose) {
     console.log(`Start updating ${mangas.length} mangas`);
-    console.log(`Using up to ${CRAWL_CONCURRENCY} threads`);
+    console.log(`Concurrency: ${CRAWL_CONCURRENCY}`);
   }
 
   const chunks = chunk(mangas, CRAWL_CONCURRENCY);
@@ -17,7 +17,7 @@ module.exports = async function (mangas, verbose = false) {
     await Promise.all(
       chunks[i].map(async (manga) => {
         try {
-          await update(manga);
+          await update(manga, additionalUpdate);
           successMangas.push(manga);
           if (verbose) {
             console.log(`    Update: '${manga.name}'`);

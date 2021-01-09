@@ -155,21 +155,19 @@ describe("User API", () => {
     );
   });
 
-  it.each(INVALID_UNLINK)("should validate input when unlinking social network accounts", async function (
-    userId,
-    authProvider,
-    expectedStatusCode,
-    expectedErrs,
-  ) {
-    try {
-      loginAs(userId);
-      const response = await request(app).delete("/api/user/" + authProvider);
-      expect(response.status).toEqual(expectedStatusCode);
-      if (expectedStatusCode === 400) {
-        expectErrors(expectedErrs, response.body.errors);
+  it.each(INVALID_UNLINK)(
+    "should validate input when unlinking social network accounts",
+    async function (userId, authProvider, expectedStatusCode, expectedErrs) {
+      try {
+        loginAs(userId);
+        const response = await request(app).delete("/api/user/" + authProvider);
+        expect(response.status).toEqual(expectedStatusCode);
+        if (expectedStatusCode === 400) {
+          expectErrors(expectedErrs, response.body.errors);
+        }
+      } finally {
+        resetLogin();
       }
-    } finally {
-      resetLogin();
-    }
-  });
+    },
+  );
 });

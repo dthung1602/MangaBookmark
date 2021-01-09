@@ -307,28 +307,7 @@ router.deleteAsync("/:manga", MangaPermissionValidator, async (req, res) => {
  *         content:
  *           application/json:
  *              schema:
- *                type: object
- *                properties:
- *                  name:
- *                    type: string
- *                  link:
- *                    type: string
- *                    format: uri
- *                  image:
- *                    type: string
- *                    format: uri
- *                  isCompleted:
- *                    type: boolean
- *                  chapters:
- *                    type: array
- *                    items:
- *                      type: object
- *                      properties:
- *                        name:
- *                          type: string
- *                        link:
- *                          type: string
- *                          format: uri
+ *                $ref: '#/components/schemas/MangaInfo'
  */
 router.getAsync("/info", MangaInfoValidator, async (req, res) => {
   try {

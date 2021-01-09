@@ -21,7 +21,7 @@ const FullScreenLoading = () => (
       background: "#fcfdfb",
     }}
   >
-    <img src={randomFrom(loadingGIFs)} alt="" style={{minHeight: 350}} />
+    <img src={randomFrom(loadingGIFs)} alt="" />
     <h3>Loading ...</h3>
   </div>
 );
