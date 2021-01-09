@@ -9,15 +9,15 @@ cd "${DIR}"
 yarn --cwd "${DIR}/backend" run gendoc
 
 # build FE
-yarn --cwd "${DIR}/frontend" run build
+GENERATE_SOURCEMAP=false yarn --cwd "${DIR}/frontend" run build
 
 # pre-compress static files
 echo "Compressing static files ..."
 
 cd "${DIR}/frontend/build"
-gzip -9 -k ./*.json ./*.js ./*.html ./*.ico
-gzip -9 -r -k "${DIR}/frontend/build/static/css"
-gzip -9 -r -k "${DIR}/frontend/build/static/js"
+gzip -9 ./*.json ./*.js ./*.html ./*.ico
+gzip -9 -r "${DIR}/frontend/build/static/css"
+gzip -9 -r "${DIR}/frontend/build/static/js"
 
 echo "Done compressing"
 
@@ -25,6 +25,8 @@ if [ "${NODE_ENV}" = "production" ]
 then
   # move build to backend
   mv "${DIR}/frontend/build" "${DIR}/backend/frontend-build"
+  # remove the frontend dir to make the build lighter
+  rm -rf "${DIR}/frontend/"
 else
   # create soft link if it does not exist yet
   if [ ! -L "${DIR}/backend/frontend-build" ]
