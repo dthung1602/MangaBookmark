@@ -12,6 +12,7 @@ import {
   StarOutlined,
   UserOutlined,
   AuditOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
 
 import {
@@ -25,6 +26,7 @@ import {
   ROUTE_REGISTER,
 } from "../../utils/constants";
 import User from "./User";
+import NavBarSearch from "./NavBarSearch";
 import { Desktop, Mobile } from "../ScreenSize";
 import { useLogoutAPI, useOnScreenScrollVertically } from "../../hooks";
 import { scrollToTop } from "../../utils";
@@ -65,8 +67,11 @@ const NavBar = ({ hideLogo = false }) => {
     setMobileMenuVisible(true);
   };
 
-  const closeMenu = () => {
-    setMobileMenuVisible(false);
+  const closeMenu = (event) => {
+    // when search box is clicked, do not close to allow for user input
+    if (event.key !== "search") {
+      setMobileMenuVisible(false);
+    }
   };
 
   let userDependentMenu;
@@ -96,6 +101,9 @@ const NavBar = ({ hideLogo = false }) => {
   ]);
 
   const userIndependentMenu = [
+    <Item key="search" icon={<SearchOutlined />}>
+      <NavBarSearch onSearch={() => setMobileMenuVisible(false)} />
+    </Item>,
     <Item key="quick" icon={<StarOutlined />}>
       <Link to={ROUTE_QUICK_ACCESS}>Quick access</Link>
     </Item>,
