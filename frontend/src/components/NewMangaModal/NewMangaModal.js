@@ -1,26 +1,30 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Col, Form, Input, Modal, Row, Select, Skeleton, Switch, Typography, message } from "antd";
+import { FullscreenOutlined, FullscreenExitOutlined } from "@ant-design/icons";
 
 import ChapterDropdownButton from "../ChapterDropdownButton";
 import { MangaAPI } from "../../api";
-import { clonePlainObject } from "../../utils";
+import { clonePlainObject, isNonEmptyArray } from "../../utils";
 import { READING, SHELVES } from "../../utils/constants";
 import { throwOnCriticalErrors, notifyError } from "../../utils/error-handler";
 import "./NewMangaModel.less";
 
 const { Search } = Input;
-const { Title, Text } = Typography;
+const { Title, Text, Paragraph } = Typography;
 const { Option } = Select;
 const { TextArea } = Input;
 
 const NewMangaModal = ({ open, onCancel, addMangaDone }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
+  const [expand, setExpand] = useState(false);
   const [errors, setErrors] = useState();
   const [link, setLink] = useState("");
   const [manga, setManga] = useState();
   const [form] = Form.useForm();
+
+  const toggleExpand = () => setExpand(!expand);
 
   const changeChapterReadStatus = (mangaId, isRead, chapLinks) => {
     const cloneManga = clonePlainObject(manga);
@@ -62,6 +66,7 @@ const NewMangaModal = ({ open, onCancel, addMangaDone }) => {
     }
     setIsLoading(true);
     setErrors(undefined);
+    setExpand(false);
     MangaAPI.info(link)
       .result.then(async (response) => {
         throwOnCriticalErrors(response);
@@ -80,10 +85,63 @@ const NewMangaModal = ({ open, onCancel, addMangaDone }) => {
   let footer = null;
   if (manga) {
     footer = (
-      <Button type="primary" loading={isAdding} onClick={addManga}>
-        Add
-      </Button>
+      <>
+        {!isAdding ? (
+          <Button loading={isAdding} onClick={onCancel}>
+            Cancel
+          </Button>
+        ) : null}
+        <Button type="primary" loading={isAdding} onClick={addManga}>
+          Add
+        </Button>
+      </>
     );
+  }
+
+  let additionalInfo = null;
+  if (expand) {
+    additionalInfo = [];
+    if (isNonEmptyArray(manga.authors)) {
+      additionalInfo.push(
+        <div>
+          <Text strong>Author</Text>
+          <Text>{manga.authors.join(" - ")}</Text>
+        </div>,
+      );
+    }
+    if (isNonEmptyArray(manga.alternativeNames)) {
+      additionalInfo.push(
+        <div className="info-row">
+          <Text strong>Other names</Text>
+          <Paragraph ellipsis={{ rows: 2, expandable: true, symbol: "more" }}>
+            {manga.alternativeNames.length > 1 ? "•" : ""} {manga.alternativeNames[0]}
+            {manga.alternativeNames.slice(1).map((name) => (
+              <>
+                <br />• {name}
+              </>
+            ))}
+          </Paragraph>
+        </div>,
+      );
+    }
+    if (isNonEmptyArray(manga.tags)) {
+      additionalInfo.push(
+        <div className="manga-tags">
+          <Text strong>Tags</Text>
+          {manga.tags.map((tagName) => (
+            <div key={tagName}>{tagName}</div>
+          ))}
+        </div>,
+      );
+    }
+    if (manga.description) {
+      additionalInfo.push(
+        <div className="description">
+          <Text strong>Description</Text>
+          <Paragraph ellipsis={{ rows: 1, expandable: true, symbol: "more" }}>{manga.description}</Paragraph>
+        </div>,
+      );
+    }
   }
 
   let content;
@@ -108,9 +166,17 @@ const NewMangaModal = ({ open, onCancel, addMangaDone }) => {
       readChapters: [],
     };
     content = (
-      <Row gutter={16}>
+      <Row gutter={24}>
         <Col xs={24} sm={8}>
           <img src={manga.image} alt={manga.name} />
+          <Button
+            block
+            type="dashed"
+            icon={expand ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
+            onClick={toggleExpand}
+          >
+            {expand ? "Hide" : "Show"} details
+          </Button>
         </Col>
         <Col xs={24} sm={16}>
           <Title level={4}>
@@ -119,6 +185,7 @@ const NewMangaModal = ({ open, onCancel, addMangaDone }) => {
             </a>
           </Title>
           <Form form={form} initialValues={initialValues}>
+            {additionalInfo}
             <div className="info-row">
               <Text strong>Shelf</Text>
               <Form.Item noStyle name="shelf">
@@ -169,7 +236,7 @@ const NewMangaModal = ({ open, onCancel, addMangaDone }) => {
   }
 
   return (
-    <Modal visible={open} onCancel={onCancel} title="Add new manga" footer={footer}>
+    <Modal visible={open} onCancel={onCancel} width={650} title="Add new manga" footer={footer}>
       <Search
         placeholder="Enter manga link"
         enterButton

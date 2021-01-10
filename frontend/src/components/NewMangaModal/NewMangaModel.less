@@ -2,11 +2,13 @@
   margin-top: 24px;
   img {
     width: 100%;
+    + * {
+      margin: 6px 0 18px;
+    }
   }
   .info-row {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     margin: 8px 0;
     &:first-child {
       margin-top: 0;
@@ -14,6 +16,15 @@
   }
   .info-col {
     margin: 8px 0;
+  }
+  strong {
+    margin-right: 16px;
+  }
+  .description {
+    margin-bottom: 12px;
+    div {
+      display: inline;
+    }
   }
 }
 

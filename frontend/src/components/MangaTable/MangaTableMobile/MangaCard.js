@@ -10,6 +10,8 @@ import {
   MoreOutlined,
   PlusSquareOutlined,
   RetweetOutlined,
+  FullscreenOutlined,
+  FullscreenExitOutlined,
 } from "@ant-design/icons";
 
 import { BasicFields, ChapterList, Note } from "../../EditManga";
@@ -27,6 +29,7 @@ const { confirm } = Modal;
 const MangaCard = ({ manga, updateMangaDone, deleteMangaDone }) => {
   const [enableEdit, setEnableEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [expand, setExpand] = useState(false);
   const [isChapterListLoading, onChangeChapterStatus] = useMarkChapterAPI(updateMangaDone);
 
   const statusClass = statusToClassMapping[manga.status];
@@ -88,6 +91,8 @@ const MangaCard = ({ manga, updateMangaDone, deleteMangaDone }) => {
       .finally(() => setIsLoading(false));
   };
 
+  const toggleExpand = () => setExpand(!expand);
+
   if (isEmptyObject(manga)) {
     return (
       <Card
@@ -120,6 +125,9 @@ const MangaCard = ({ manga, updateMangaDone, deleteMangaDone }) => {
             <Menu.Item icon={<EditOutlined />} onClick={() => setEnableEdit(true)}>
               Edit
             </Menu.Item>
+            <Menu.Item icon={expand ? <FullscreenExitOutlined /> : <FullscreenOutlined />} onClick={toggleExpand}>
+              {expand ? "Hide" : "Show"} details
+            </Menu.Item>
             <Menu.Item icon={<RetweetOutlined />} onClick={updateManga}>
               Update
             </Menu.Item>
@@ -146,7 +154,7 @@ const MangaCard = ({ manga, updateMangaDone, deleteMangaDone }) => {
         }
       >
         <div className={`collapsable ${enableEdit ? "collapsed" : ""}`}>
-          <MangaBasicInfo manga={manga} headerExtra={headerExtra} />
+          <MangaBasicInfo manga={manga} headerExtra={headerExtra} showAdditionalInfo={expand} />
           <a
             className={`next-chap-btn ${nextChapToRead.empty ? "empty" : ""}`}
             href={nextChapToRead.link}

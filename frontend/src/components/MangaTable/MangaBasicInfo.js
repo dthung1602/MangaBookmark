@@ -5,11 +5,53 @@ import { Descriptions, Typography } from "antd";
 import MangaStatus from "../MangaStatus";
 import MangaSiteLink from "../MangaSiteLink";
 import { SHELVES } from "../../utils/constants";
+import { isNonEmptyArray } from "../../utils";
 import "./MangaBasicInfo.less";
 
-const { Title } = Typography;
+const { Title, Paragraph } = Typography;
 
-function MangaBasicInfo({ manga, showTitle = true, headerExtra }) {
+function MangaBasicInfo({ manga, showTitle = true, showAdditionalInfo = false, headerExtra }) {
+  let additionalInfo = null;
+
+  if (showAdditionalInfo) {
+    additionalInfo = [];
+    if (isNonEmptyArray(manga.authors)) {
+      additionalInfo.push(<Descriptions.Item label="Author">{manga.authors.join(" - ")}</Descriptions.Item>);
+    }
+    if (isNonEmptyArray(manga.alternativeNames)) {
+      additionalInfo.push(
+        <Descriptions.Item label="Other names">
+          <Paragraph ellipsis={{ rows: 2, expandable: true, symbol: "more" }}>
+            {manga.alternativeNames.length > 1 ? "•" : ""} {manga.alternativeNames[0]}
+            {manga.alternativeNames.slice(1).map((name) => (
+              <>
+                <br />• {name}
+              </>
+            ))}
+          </Paragraph>
+        </Descriptions.Item>,
+      );
+    }
+    if (isNonEmptyArray(manga.tags)) {
+      additionalInfo.push(
+        <Descriptions.Item label="Tags">
+          <div className="manga-tags">
+            {manga.tags.map((tagName) => (
+              <div key={tagName}>{tagName}</div>
+            ))}
+          </div>
+        </Descriptions.Item>,
+      );
+    }
+    if (manga.description) {
+      additionalInfo.push(
+        <Descriptions.Item label="Description">
+          <Paragraph ellipsis={{ rows: 3, expandable: true, symbol: "more" }}>{manga.description}</Paragraph>
+        </Descriptions.Item>,
+      );
+    }
+  }
+
   return (
     <Descriptions
       title={
@@ -29,6 +71,7 @@ function MangaBasicInfo({ manga, showTitle = true, headerExtra }) {
       <Descriptions.Item label="Site">
         <MangaSiteLink mangaSite={manga.mangaSite} />
       </Descriptions.Item>
+      {additionalInfo}
       <Descriptions.Item label="Shelf">{SHELVES[manga.shelf]}</Descriptions.Item>
       <Descriptions.Item label="Status">
         <MangaStatus status={manga.status} />
@@ -42,6 +85,7 @@ function MangaBasicInfo({ manga, showTitle = true, headerExtra }) {
 MangaBasicInfo.propTypes = {
   manga: PropTypes.object.isRequired,
   showTitle: PropTypes.bool,
+  showAdditionalInfo: PropTypes.bool,
   headerExtra: PropTypes.node,
 };
 
