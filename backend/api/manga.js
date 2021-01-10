@@ -540,7 +540,7 @@ router.postAsync("/update-multiple", MangaFilterValidator, async (req, res) => {
  *              schema:
  *                type: array
  *                items:
- *                  type: string
+ *                  $ref: '#/components/schemas/MangaSite'
  */
 router.getAsync("/supported-sites", async (req, res) => {
   res.json(supportedSites);

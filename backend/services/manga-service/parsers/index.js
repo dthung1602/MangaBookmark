@@ -1,24 +1,20 @@
 const fs = require("fs");
 
-const supportedSites = [];
 const parsers = [];
 const parserRegexMapping = {};
+const supportedSites = [];
 
-fs.readdir(__dirname, (err, files) => {
-  if (err) {
-    throw err;
-  }
-  const otherFiles = ["utils", "index"];
-  files
-    .map((file) => file.slice(0, file.length - 3))
-    .filter((file) => otherFiles.indexOf(file) === -1)
-    .forEach((file) => {
-      const parserModule = require("./" + file);
-      supportedSites.push({ name: file, homepage: parserModule.homepage });
-      parsers.push(parserModule);
-      parserRegexMapping[file] = parserModule.URLRegex;
-    });
-});
+const excludedFiles = new Set(["utils", "index"]);
+
+fs.readdirSync(__dirname)
+  .map((file) => file.replace(".js", ""))
+  .filter((file) => !excludedFiles.has(file))
+  .forEach((file) => {
+    const parserModule = require("./" + file);
+    supportedSites.push({ name: file, homepage: parserModule.homepage, lang: parserModule.lang });
+    parsers.push(parserModule);
+    parserRegexMapping[file] = parserModule.URLRegex;
+  });
 
 function getParser(url) {
   if (!url) {

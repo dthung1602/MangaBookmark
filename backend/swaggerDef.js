@@ -89,6 +89,22 @@ module.exports = {
           },
         },
       },
+      MangaSite: {
+        type: "object",
+        properties: {
+          name: {
+            type: "string",
+          },
+          homepage: {
+            type: "string",
+            format: "url",
+          },
+          lang: {
+            type: "string",
+            enum: ["en", "vi"],
+          },
+        },
+      },
     },
   },
   info: {
