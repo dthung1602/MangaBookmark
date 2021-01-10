@@ -4,10 +4,11 @@ import { Descriptions, Empty, message, Popconfirm, Spin, Typography } from "antd
 import { DeleteOutlined, SyncOutlined } from "@ant-design/icons";
 
 import MangaStatus from "../MangaStatus";
+import MangaSiteLink from "../MangaSiteLink";
 import { BasicFields, ChapterList, Note } from "../EditManga";
 import { MangaAPI } from "../../api";
 import { useMarkChapterAPI } from "../../hooks";
-import { formatDate } from "../../utils";
+import { formatDate, isNonEmptyArray } from "../../utils";
 import { throwOnCriticalErrors, notifyError } from "../../utils/error-handler";
 import placeHolderImage from "../../assets/megumin-placeholder.png";
 import "./RightPanel.less";
@@ -94,10 +95,24 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
         </Title>
         <Descriptions column={2} className="non-editable-info">
           <Descriptions.Item label="Site">
-            {manga.site} {manga.lang === "vi" ? "🇻🇳" : "🇬🇧"}
+            <MangaSiteLink mangaSite={manga.mangaSite} />
           </Descriptions.Item>
-          {manga.authors ? <Descriptions.Item label="Author">{manga.authors.join(" - ")}</Descriptions.Item> : null}
-          {manga.tags ? (
+          {isNonEmptyArray(manga.authors) ? (
+            <Descriptions.Item label="Author">{manga.authors.join(" - ")}</Descriptions.Item>
+          ) : null}
+          {isNonEmptyArray(manga.alternativeNames) ? (
+            <Descriptions.Item label="Other names" span={2}>
+              <Paragraph ellipsis={{ rows: 2, expandable: true, symbol: "more" }}>
+                {manga.alternativeNames.length > 1 ? "•" : ""} {manga.alternativeNames[0]}
+                {manga.alternativeNames.slice(1).map((name) => (
+                  <>
+                    <br />• {name}
+                  </>
+                ))}
+              </Paragraph>
+            </Descriptions.Item>
+          ) : null}
+          {isNonEmptyArray(manga.tags) ? (
             <Descriptions.Item label="Tags" span={2}>
               <div className="manga-tags">
                 {manga.tags.map((tagName) => (

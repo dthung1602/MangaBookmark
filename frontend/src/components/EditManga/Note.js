@@ -12,7 +12,7 @@ const Note = ({ note, editNote }) => {
   useEffect(() => setEditing(false), [note]);
 
   const edit = () => {
-    editNote(textAreaRef.current.state.value).then(() => setEditing(false));
+    editNote(textAreaRef.current.resizableTextArea.props.value).then(() => setEditing(false));
   };
 
   if (editing) {

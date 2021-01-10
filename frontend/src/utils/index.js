@@ -57,3 +57,5 @@ export const getCookie = (name) => {
     return parts.pop().split(";").shift();
   }
 };
+
+export const isNonEmptyArray = (array) => Array.isArray(array) && array.length;

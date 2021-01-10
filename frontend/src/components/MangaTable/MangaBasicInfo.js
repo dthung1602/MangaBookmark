@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Descriptions, Typography } from "antd";
 
 import MangaStatus from "../MangaStatus";
+import MangaSiteLink from "../MangaSiteLink";
 import { SHELVES } from "../../utils/constants";
 import "./MangaBasicInfo.less";
 
@@ -26,7 +27,7 @@ function MangaBasicInfo({ manga, showTitle = true, headerExtra }) {
       column={1}
     >
       <Descriptions.Item label="Site">
-        {manga.site} {manga.lang === "vi" ? "🇻🇳" : "🇬🇧"}
+        <MangaSiteLink mangaSite={manga.mangaSite} />
       </Descriptions.Item>
       <Descriptions.Item label="Shelf">{SHELVES[manga.shelf]}</Descriptions.Item>
       <Descriptions.Item label="Status">

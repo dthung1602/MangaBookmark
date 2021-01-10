@@ -81,7 +81,7 @@ function ChapterList({ manga, isLoading, onChangeChapterStatus, type, showDate =
             dataIndex="name"
             key="name"
             render={(text, chapter) => (
-              <a href={chapter.link} target="_blank" rel="noopener noreferrer">
+              <a href={chapter.link} target="_blank" rel="noopener noreferrer" title={chapter.name}>
                 {truncString(chapter.name, maxChapNameLen, true)}
               </a>
             )}

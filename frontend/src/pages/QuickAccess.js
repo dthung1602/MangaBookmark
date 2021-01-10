@@ -20,7 +20,7 @@ import {
   WAITING_MG_UNREAD_CHAP_THRESHOLD,
 } from "../utils/constants";
 import { MangaAPI } from "../api";
-import { useUpdateMultipleAPI } from "../hooks";
+import { useUpdateMultipleAPI, useEnrichMangas, useEnrichManga } from "../hooks";
 import { throwOnCriticalErrors, notifyError } from "../utils/error-handler";
 import "./Mangas.less";
 
@@ -67,9 +67,9 @@ const DAILY_UPDATE_FILTERS = {
 };
 
 const QuickAccess = () => {
-  const [mangas, setMangas] = useState([]);
+  const [mangas, setMangas] = useEnrichMangas();
   const [showHidden, setShowHidden] = useState(false);
-  const [selectedManga, setSelectedManga] = useState(null);
+  const [selectedManga, setSelectedManga] = useEnrichManga();
   const [isLoading, setIsLoading] = useState(true);
   const [mangaCount, setMangaCount] = useState(NaN);
   const [openImg, setOpenImg] = useState(false);

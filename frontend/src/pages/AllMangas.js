@@ -14,14 +14,14 @@ import NewMangaModal from "../components/NewMangaModal";
 import EndOfList from "../components/EndOfList";
 import { ANY, MANGA_PER_PAGE, SORT_DEC_STATUS } from "../utils/constants";
 import { MangaAPI } from "../api";
-import { useUpdateMultipleAPI } from "../hooks";
+import { useUpdateMultipleAPI, useEnrichMangas, useEnrichManga } from "../hooks";
 import { removeUndefinedAttrs, removeEmptyStringAttrs, scrollToTop } from "../utils";
 import { throwOnCriticalErrors, notifyError } from "../utils/error-handler";
 import "./Mangas.less";
 
 const AllMangas = () => {
-  const [mangas, setMangas] = useState([]);
-  const [selectedManga, setSelectedManga] = useState(null);
+  const [mangas, setMangas] = useEnrichMangas();
+  const [selectedManga, setSelectedManga] = useEnrichManga();
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [mangaCount, setMangaCount] = useState(NaN);
