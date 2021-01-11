@@ -28,6 +28,16 @@ export const SHELVES = {
 };
 
 // ------------------------------------------
+//       Manga language
+// ------------------------------------------
+export const EN = "en";
+export const VI = "vi";
+export const LANGUAGES = {
+  [EN]: "en",
+  [VI]: "vi",
+};
+
+// ------------------------------------------
 //       Manga statuses
 // ------------------------------------------
 export const MG_FINISHED = 0;

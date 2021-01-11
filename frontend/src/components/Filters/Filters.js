@@ -7,7 +7,7 @@ import FilterDropdown from "./FilterDropdown";
 import LoopButton from "./LoopButton";
 import DateFilter from "./DateFilter";
 import { GlobalContext } from "../GlobalContext";
-import { MG_STATUSES, SHELVES, SORTABLE_FIELDS } from "../../utils/constants";
+import { MG_STATUSES, SHELVES, SORTABLE_FIELDS, LANGUAGES } from "../../utils/constants";
 import "./Filters.less";
 
 const { Panel } = Collapse;
@@ -109,6 +109,15 @@ const Filters = ({ filters, updateFilters, resetFilters }) => {
       value={[filters.lastReleasedGTE, filters.lastReleasedLTE]}
     />
   );
+  const languageFilter = (
+    <FilterDropdown
+      key="lang"
+      displayName={"Language"}
+      options={LANGUAGES}
+      selected={filters.lang}
+      onSelect={select("lang")}
+    />
+  );
 
   const breakpoints = useBreakpoint();
   let basicFilters, advanceFilters;
@@ -117,7 +126,7 @@ const Filters = ({ filters, updateFilters, resetFilters }) => {
     basicFilters = [shelfFilter, statusFilter, sort, search];
     advanceFilters = [
       <div key={1} className="flex">
-        {[isCompletedFilter, hiddenFilter, siteFilter]}
+        {[isCompletedFilter, hiddenFilter, siteFilter, languageFilter]}
       </div>,
       <div key={2} className="flex">
         {[createdAtFilter, lastReleasedFilter]}
@@ -125,7 +134,15 @@ const Filters = ({ filters, updateFilters, resetFilters }) => {
     ];
   } else if (breakpoints.sm) {
     basicFilters = [shelfFilter, statusFilter, search];
-    advanceFilters = [sort, isCompletedFilter, hiddenFilter, siteFilter, createdAtFilter, lastReleasedFilter];
+    advanceFilters = [
+      sort,
+      isCompletedFilter,
+      hiddenFilter,
+      siteFilter,
+      languageFilter,
+      createdAtFilter,
+      lastReleasedFilter,
+    ];
   } else {
     basicFilters = [shelfFilter];
     advanceFilters = [
@@ -134,6 +151,7 @@ const Filters = ({ filters, updateFilters, resetFilters }) => {
       isCompletedFilter,
       hiddenFilter,
       siteFilter,
+      languageFilter,
       createdAtFilter,
       lastReleasedFilter,
       search,

@@ -75,6 +75,14 @@ function handleMangaParsingError(res, e) {
  *             type: string
  *           required: false
  *       - in: query
+ *         name: lang
+ *         schema:
+ *           type: array
+ *           items:
+ *             type: string
+ *             enum: [en, vi]
+ *           required: false
+ *       - in: query
  *         name: createdAtGTE
  *         schema:
  *           type: string
@@ -436,6 +444,14 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
  *           type: array
  *           items:
  *             type: string
+ *           required: false
+ *       - in: query
+ *         name: lang
+ *         schema:
+ *           type: array
+ *           items:
+ *             type: string
+ *             enum: [en, vi]
  *           required: false
  *       - in: query
  *         name: createdAtGTE

@@ -221,6 +221,7 @@ MangaSchema.virtual("statusString").get(function () {
 
 Object.assign(MangaSchema.statics, {
   Shelf: Shelf,
+  Language: Language,
 });
 
 let Manga = mongoose.model("Manga", MangaSchema);

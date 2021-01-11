@@ -37,6 +37,7 @@ const AllMangas = () => {
     isCompleted: withDefault(StringParam, ANY),
     hidden: withDefault(StringParam, "false"),
     site: withDefault(StringParam, ANY),
+    lang: withDefault(StringParam, ANY),
     createdAtGTE: StringParam,
     createdAtLTE: StringParam,
     lastReleasedGTE: StringParam,
