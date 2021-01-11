@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Col, Form, Input, Modal, Row, Select, Skeleton, Switch, Typography, message } from "antd";
 import { FullscreenOutlined, FullscreenExitOutlined } from "@ant-design/icons";
@@ -60,7 +60,7 @@ const NewMangaModal = ({ open, onCancel, addMangaDone }) => {
       .finally(() => setIsAdding(false));
   };
 
-  useEffect(() => {
+  const onSearch = () => {
     if (link.trim() === "") {
       return;
     }
@@ -80,7 +80,7 @@ const NewMangaModal = ({ open, onCancel, addMangaDone }) => {
       })
       .catch(notifyError)
       .finally(() => setIsLoading(false));
-  }, [link]);
+  };
 
   let footer = null;
   if (manga) {
@@ -241,8 +241,10 @@ const NewMangaModal = ({ open, onCancel, addMangaDone }) => {
         placeholder="Enter manga link"
         enterButton
         autoFocus={true}
+        value={link}
+        onChange={(event) => setLink(event.target.value)}
         loading={isLoading}
-        onSearch={(value) => setLink(value)}
+        onSearch={onSearch}
       />
       {!errors ? null : (
         <div className="manga-preview-errors">
