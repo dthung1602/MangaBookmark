@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const mongoose_fuzzy_searching = require("mongoose-fuzzy-searching");
 
 const Shelf = Object.freeze({
   TO_READ: "to read",
@@ -205,9 +206,35 @@ const MangaSchema = new mongoose.Schema(
   },
 );
 
-MangaSchema.index({ name: "text" });
-MangaSchema.index({ user: 1, shelf: 1, status: 1, hidden: 1 });
+MangaSchema.plugin(mongoose_fuzzy_searching, {
+  fields: [
+    {
+      name: "name",
+      minSize: 3,
+      weight: 4,
+    },
+    {
+      name: "alternativeNames",
+      minSize: 3,
+      weight: 2,
+      prefixOnly: true,
+    },
+    {
+      name: "authors",
+      minSize: 3,
+      weight: 2,
+      prefixOnly: true,
+    },
+  ],
+});
+
+MangaSchema.index({ user: 1, shelf: 1, unreadChapCount: 1 });
 MangaSchema.index({ user: 1, link: 1 }, { unique: true });
+MangaSchema.index({ user: 1, tags: 1 });
+MangaSchema.index(
+  { user: 1, name_fuzzy: "text", alternativeNames_fuzzy: "text", authors_fuzzy: "text" },
+  { unique: true },
+);
 
 MangaSchema.pre("save", function (next) {
   this.status = getMangaStatusCode(this);

@@ -41,6 +41,7 @@
     "http-errors": "^1.8.0",
     "lodash": "^4.17.20",
     "mongoose": "^5.10.11",
+    "mongoose-fuzzy-searching": "^2.0.2",
     "morgan": "~1.10.0",
     "node-mongodb-fixtures": "^3.2.7",
     "nodemon": "^2.0.6",
