@@ -15,7 +15,8 @@ GENERATE_SOURCEMAP=false yarn --cwd "${DIR}/frontend" run build
 echo "Compressing static files ..."
 
 cd "${DIR}/frontend/build"
-gzip -9 ./*.json ./*.js ./*.html ./*.ico
+gzip -9 -k ./*.html
+gzip -9 ./*.json ./*.js ./*.ico
 gzip -9 -r "${DIR}/frontend/build/static/css"
 gzip -9 -r "${DIR}/frontend/build/static/js"
 

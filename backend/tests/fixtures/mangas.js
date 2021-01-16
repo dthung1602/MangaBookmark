@@ -1,4 +1,5 @@
 const { ObjectId } = require("mongoose").Types;
+const { createNGrams } = require("mongoose-fuzzy-searching/helpers");
 
 const [user1, user2, user3] = require("./users").map((u) => u["_id"]);
 const { Shelf } = require("../../models/Manga");
@@ -43,7 +44,7 @@ function mangaName() {
 
 function generateManga(override) {
   const chapters = generateChapters();
-  return {
+  const data = {
     _id: new ObjectId(),
     isCompleted: false,
     shelf: Shelf.READING,
@@ -67,6 +68,8 @@ function generateManga(override) {
     ...getTimeStamp(),
     ...override,
   };
+  createNGrams(data, ["name", "alternativeNames", "authors"]);
+  return data;
 }
 
 module.exports = [
