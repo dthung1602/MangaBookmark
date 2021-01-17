@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
-const mongoose_fuzzy_searching = require("mongoose-fuzzy-searching");
+const FuzzySearching = require("mongoose-fuzzy-searching");
+
+const { AdvanceQuery } = require("./plugins");
 
 const Shelf = Object.freeze({
   TO_READ: "to read",
@@ -206,7 +208,7 @@ const MangaSchema = new mongoose.Schema(
   },
 );
 
-MangaSchema.plugin(mongoose_fuzzy_searching, {
+MangaSchema.plugin(FuzzySearching, {
   fields: [
     {
       name: "name",
@@ -226,6 +228,16 @@ MangaSchema.plugin(mongoose_fuzzy_searching, {
       prefixOnly: true,
     },
   ],
+});
+
+MangaSchema.plugin(AdvanceQuery, {
+  rangeFields: [
+    { field: "createdAt", isDate: true },
+    { field: "lastReleased", isDate: true },
+    { field: "unreadChapCount", isDate: false },
+  ],
+  multiValuedFields: ["shelf", "status", "site", "lang"],
+  objectIdFields: ["user"],
 });
 
 MangaSchema.index({ user: 1, shelf: 1, unreadChapCount: 1 });
