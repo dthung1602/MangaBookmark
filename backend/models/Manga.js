@@ -236,7 +236,8 @@ MangaSchema.plugin(AdvanceQuery, {
     { field: "lastReleased", isDate: true },
     { field: "unreadChapCount", isDate: false },
   ],
-  multiValuedFields: ["shelf", "status", "site", "lang"],
+  matchAnyFields: ["shelf", "status", "site", "lang"],
+  matchAllFields: ["tags"],
   objectIdFields: ["user"],
 });
 

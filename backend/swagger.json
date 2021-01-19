@@ -309,6 +309,12 @@
           "avatar": {
             "type": "string"
           },
+          "mangaTags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "googleId": {
             "type": "string"
           },
@@ -487,6 +493,14 @@
             "schema": {
               "type": "string",
               "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "tags",
+            "schema": {
+              "type": "string",
               "required": false
             }
           },
@@ -921,6 +935,14 @@
             "schema": {
               "type": "string",
               "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "tags",
+            "schema": {
+              "type": "string",
               "required": false
             }
           },

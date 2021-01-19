@@ -119,6 +119,11 @@ function handleMangaParsingError(res, e) {
  *           format: date
  *           required: false
  *       - in: query
+ *         name: tags
+ *         schema:
+ *           type: string
+ *           required: false
+ *       - in: query
  *         name: page
  *         schema:
  *           type: integer
@@ -488,6 +493,11 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
  *         schema:
  *           type: string
  *           format: date
+ *           required: false
+ *       - in: query
+ *         name: tags
+ *         schema:
+ *           type: string
  *           required: false
  *       - in: query
  *         name: page

@@ -82,13 +82,14 @@ function convertSort(sort) {
  * @param Schema
  * @param options: an object with the following fields:
  *    - rangeFields: Array of objects with type { field: String, isDate: Boolean}
- *    - multiValuedFields: Array of multivalued fields names
+ *    - matchAnyFields: Array of multivalued fields names
  *    - objectIdFields: Array of names of fields that are ObjectId
  *    - defaultPageSize
  */
 module.exports = function (Schema, options = {}) {
   const rangeFields = options.rangeFields || [];
-  const multiValuedFields = options.multiValuedFields || [];
+  const matchAnyFields = options.matchAnyFields || [];
+  const matchAllFields = options.matchAllFields || [];
   const objectIdFields = options.objectIdFields || [];
   const defaultPageSize = options.defaultPageSize || -1;
 
@@ -105,10 +106,17 @@ module.exports = function (Schema, options = {}) {
       convertRange(filters, field, isDate);
     }
 
-    // build query for multivalued fields
-    for (let field of multiValuedFields) {
+    // build query for "match any" fields
+    for (let field of matchAnyFields) {
       if (Array.isArray(filters[field])) {
         filters[field] = { $in: filters[field] };
+      }
+    }
+
+    // build query for "match all" fields
+    for (let field of matchAllFields) {
+      if (Array.isArray(filters[field])) {
+        filters[field] = { $all: filters[field] };
       }
     }
 
