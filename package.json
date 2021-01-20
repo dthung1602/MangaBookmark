@@ -10,6 +10,9 @@
     "backend",
     "frontend"
   ],
+  "engines": {
+    "node": "^14.15.4"
+  },
   "scripts": {
     "start": "node backend/bin/www",
     "build": "chmod +x ./build.sh && ./build.sh",
