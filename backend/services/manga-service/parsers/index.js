@@ -19,7 +19,7 @@ fs.readdirSync(__dirname)
   });
 
 supportedSites = supportedSites.sort();
-availableTags = Array.from(new Set(availableTags)).filter(Boolean).sort();
+availableTags = ["comedy", "action", "another tag"]; // Array.from(new Set(availableTags)).filter(Boolean).sort();
 
 function getParser(url) {
   if (!url) {

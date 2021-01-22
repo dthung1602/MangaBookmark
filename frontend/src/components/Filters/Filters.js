@@ -15,7 +15,7 @@ const { useBreakpoint } = Grid;
 
 const Filters = ({ filters, updateFilters, resetFilters }) => {
   const [open, setOpen] = useState(false);
-  const [{ supportedSites }] = useContext(GlobalContext);
+  const [{ supportedSites, availableTags }] = useContext(GlobalContext);
 
   const select = (field) => (value) => {
     updateFilters({ [field]: value });
@@ -118,6 +118,15 @@ const Filters = ({ filters, updateFilters, resetFilters }) => {
       onSelect={select("lang")}
     />
   );
+  const tagsFilter = (
+    <FilterDropdown
+      key="tag"
+      displayName={"Tags"}
+      options={availableTags}
+      selected={filters.tag}
+      onSelect={select("tag")}
+    />
+  );
 
   const breakpoints = useBreakpoint();
   let basicFilters, advanceFilters;
@@ -126,7 +135,7 @@ const Filters = ({ filters, updateFilters, resetFilters }) => {
     basicFilters = [shelfFilter, statusFilter, sort, search];
     advanceFilters = [
       <div key={1} className="flex">
-        {[isCompletedFilter, hiddenFilter, siteFilter, languageFilter]}
+        {[isCompletedFilter, hiddenFilter, siteFilter, languageFilter, tagsFilter]}
       </div>,
       <div key={2} className="flex">
         {[createdAtFilter, lastReleasedFilter]}
@@ -140,6 +149,7 @@ const Filters = ({ filters, updateFilters, resetFilters }) => {
       hiddenFilter,
       siteFilter,
       languageFilter,
+      tagsFilter,
       createdAtFilter,
       lastReleasedFilter,
     ];
@@ -152,6 +162,7 @@ const Filters = ({ filters, updateFilters, resetFilters }) => {
       hiddenFilter,
       siteFilter,
       languageFilter,
+      tagsFilter,
       createdAtFilter,
       lastReleasedFilter,
       search,
