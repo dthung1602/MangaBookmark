@@ -2,7 +2,8 @@ const fs = require("fs");
 
 const parsers = [];
 const parserRegexMapping = {};
-const supportedSites = [];
+let supportedSites = [];
+let availableTags = [];
 
 const excludedFiles = new Set(["utils", "index"]);
 
@@ -12,9 +13,13 @@ fs.readdirSync(__dirname)
   .forEach((file) => {
     const parserModule = require("./" + file);
     supportedSites.push({ name: file, homepage: parserModule.homepage, lang: parserModule.lang });
+    availableTags = availableTags.concat(parserModule.availableTags);
     parsers.push(parserModule);
     parserRegexMapping[file] = parserModule.URLRegex;
   });
+
+supportedSites = supportedSites.sort();
+availableTags = Array.from(new Set(availableTags)).filter(Boolean).sort();
 
 function getParser(url) {
   if (!url) {
@@ -31,6 +36,7 @@ function getParser(url) {
 module.exports = {
   parsers,
   supportedSites,
+  availableTags,
   parserRegexMapping,
   getParser,
 };

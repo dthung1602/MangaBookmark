@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { UserAPI, MangaAPI } from "../api";
+import { UserAPI, MetaAPI } from "../api";
 import { throwOnCriticalErrors, notifyError } from "../utils/error-handler";
 
 const initContext = {
@@ -37,14 +37,14 @@ const GlobalContextProvider = (props) => {
       })
       .catch(notifyError);
 
-    MangaAPI.getSupportedSites()
+    MetaAPI.get()
       .result.then(async (response) => {
         throwOnCriticalErrors(response);
-        const supportedSites = await response.json();
+        const meta = await response.json();
         setState((prevState) => {
           return {
             ...prevState,
-            supportedSites,
+            ...meta,
           };
         });
       })

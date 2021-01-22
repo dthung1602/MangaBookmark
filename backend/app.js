@@ -38,6 +38,7 @@ app.use(passport.session());
 const MangaRouter = require("./api/manga");
 const UserRouter = require("./api/user");
 const SubscriptionRouter = require("./api/subscription");
+const MetaRouter = require("./api/meta");
 const { AuthenticateMiddleware } = require("./services/auth-service");
 const { DBConnectionMiddleware } = require("./services/db-service");
 const { ErrorHandlerMiddleware } = require("./errors");
@@ -48,6 +49,7 @@ apiRouter.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 apiRouter.use("/mangas", MangaRouter);
 apiRouter.use("/user", UserRouter);
 apiRouter.use("/subscriptions", SubscriptionRouter);
+apiRouter.use("/meta", MetaRouter);
 app.use("/api", dynamicGZIP(), DBConnectionMiddleware, AuthenticateMiddleware, apiRouter, ErrorHandlerMiddleware);
 
 // Serve static files

@@ -1,5 +1,10 @@
 {
   "openapi": "3.0.0",
+  "info": {
+    "title": "MangaBookmark API",
+    "version": "3.3.0",
+    "description": "API for MangaBookmark client"
+  },
   "components": {
     "schemas": {
       "Id": {
@@ -309,12 +314,6 @@
           "avatar": {
             "type": "string"
           },
-          "mangaTags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
           "googleId": {
             "type": "string"
           },
@@ -350,11 +349,6 @@
         }
       }
     }
-  },
-  "info": {
-    "title": "MangaBookmark API",
-    "version": "3.2.1",
-    "description": "API for MangaBookmark client"
   },
   "paths": {
     "/api/mangas": {
@@ -998,18 +992,29 @@
         }
       }
     },
-    "/api/mangas/supported-sites": {
+    "/api/meta": {
       "get": {
-        "description": "Get all supported manga sites",
+        "description": "Get global meta data of this site",
         "responses": {
           "200": {
             "description": "Retrieved successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MangaSite"
+                  "type": "object",
+                  "properties": {
+                    "supportedSites": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/MangaSite"
+                      }
+                    },
+                    "availableTags": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
                   }
                 }
               }

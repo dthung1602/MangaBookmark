@@ -1,5 +1,10 @@
 module.exports = {
   openapi: "3.0.0",
+  info: {
+    title: "MangaBookmark API",
+    version: "3.3.0",
+    description: "API for MangaBookmark client",
+  },
   apis: ["api/**/*.js", "models/**/*.js"],
   components: {
     schemas: {
@@ -106,10 +111,5 @@ module.exports = {
         },
       },
     },
-  },
-  info: {
-    title: "MangaBookmark API",
-    version: "3.2.1",
-    description: "API for MangaBookmark client",
   },
 };
