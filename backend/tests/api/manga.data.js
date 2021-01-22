@@ -65,6 +65,12 @@ const MANGA_FILTER = [
     ["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444", "555eeeeeeeeeeeeeeeeee555"],
   ],
   // --------------------
+  //  CREATED AT
+  // --------------------
+  [{ tags: ["tag1"] }, 2, 1, 1, ["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444"]],
+  [{ tags: ["tag2", "tag3"] }, 1, 1, 1, ["111eeeeeeeeeeeeeeeeee111"]],
+  [{ tags: ["non-exist-tag"] }, 0, 0, 1, []],
+  // --------------------
   //  PAGINATION & SORT
   // --------------------
   [
