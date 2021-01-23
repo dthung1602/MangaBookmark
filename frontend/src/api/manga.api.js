@@ -1,7 +1,7 @@
 import BaseAPI from "./base.api";
 import { ANY } from "../utils/constants";
 
-const ignoreIfAny = ["shelf", "status", "site", "lang", "tag", "isCompleted", "hidden"];
+const ignoreIfAny = ["shelf", "status", "site", "lang", "isCompleted", "hidden"];
 
 class MangaAPI extends BaseAPI {
   constructor() {

@@ -121,11 +121,11 @@ const Filters = ({ filters, updateFilters, resetFilters }) => {
   );
   const tagsFilter = (
     <MultipleSelectFilter
-      key="tag"
+      key="tags"
       displayName={"Tags"}
       options={availableTags}
-      selected={filters.tag}
-      onSelect={select("tag")}
+      selected={filters.tags}
+      onSelect={select("tags")}
     />
   );
 

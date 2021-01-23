@@ -27,10 +27,27 @@ export default class BaseAPI {
     return {};
   }
 
+  createSearchParamString(params) {
+    if (!params) {
+      return "";
+    }
+    const urlSearchParams = new URLSearchParams();
+    for (let [paramName, value] of Object.entries(params)) {
+      if (Array.isArray(value)) {
+        for (let v of value) {
+          urlSearchParams.append(paramName, v);
+        }
+      } else {
+        urlSearchParams.append(paramName, value);
+      }
+    }
+    return urlSearchParams.toString();
+  }
+
   get(params, slug = "") {
     removeUndefinedAttrs(params);
-    params = new URLSearchParams(params).toString();
-    const path = params ? `${this.basePath}/${slug}?${params}` : `${this.basePath}/${slug}`;
+    const searchStr = this.createSearchParamString(params);
+    const path = searchStr ? `${this.basePath}/${slug}?${searchStr}` : `${this.basePath}/${slug}`;
     return this.abortableFetch(path, {
       method: "GET",
       credentials: "same-origin",

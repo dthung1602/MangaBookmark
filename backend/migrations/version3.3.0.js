@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- Migrate from version 3.1.1 to version 3.2.0
+ Migrate from version 3.1.1 to version 3.3.0
  */
 
 const mongoose = require("mongoose");
