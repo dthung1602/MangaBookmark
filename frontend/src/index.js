@@ -4,7 +4,7 @@ import { ReloadOutlined } from "@ant-design/icons";
 import { Modal } from "antd";
 
 import "./index.less";
-import App from "./components/App";
+import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(

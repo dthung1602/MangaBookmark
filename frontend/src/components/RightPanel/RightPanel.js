@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Proptypes from "prop-types";
 import { Descriptions, Empty, message, Popconfirm, Spin, Typography } from "antd";
-import { DeleteOutlined, SyncOutlined } from "@ant-design/icons";
+import { DeleteOutlined, SyncOutlined, CheckOutlined } from "@ant-design/icons";
 
 import MangaStatus from "../MangaStatus";
 import MangaSiteLink from "../MangaSiteLink";
@@ -12,6 +12,7 @@ import { formatDate, isNonEmptyArray } from "../../utils";
 import { throwOnCriticalErrors, notifyError } from "../../utils/error-handler";
 import placeHolderImage from "../../assets/megumin-placeholder.png";
 import "./RightPanel.less";
+import { changeChapterReadStatusLogic } from "../../utils/chapters";
 
 const { Title, Paragraph } = Typography;
 
@@ -67,6 +68,8 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
     );
   }
 
+  const markAllChapterAsRead = changeChapterReadStatusLogic(manga, markChapters)[2];
+
   return (
     <div id="right-panel">
       <Spin spinning={isLoading}>
@@ -78,14 +81,20 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
             onClick={() => showImage(manga.image)}
           />
           <div className="quick-actions">
-            <div className="update" onClick={updateManga}>
-              <SyncOutlined />
-            </div>
             <Popconfirm title="Delete this manga?" placement="left" onConfirm={deleteManga}>
               <div className="delete">
                 <DeleteOutlined />
+                <span>Delete</span>
               </div>
             </Popconfirm>
+            <div className="update" onClick={updateManga}>
+              <SyncOutlined />
+              <span>Update</span>
+            </div>
+            <div className="mark-all" onClick={markAllChapterAsRead}>
+              <CheckOutlined />
+              <span>Mark</span>
+            </div>
           </div>
         </div>
         <Title level={3}>

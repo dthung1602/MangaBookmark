@@ -126,27 +126,27 @@
 - [ ] Toggle right panel
 
 - [ ] Improve search & filter:
-    - [ ] Create optimize index
+    - [x] Create optimize index
     - [ ] Filter by
-        - [ ] tag
+        - [x] tag
         - [ ] author
-    - [ ] Search by name, author, alternative name, description, note
-    - [ ] Search by partial keywords. See [this](https://stackoverflow.com/a/54318581/7342188)
-    - [ ] Search language ?
+    - [x] Search by name, author, alternative name, ~~description, note~~
+    - [x] Search by partial keywords. See [this](https://stackoverflow.com/a/54318581/7342188)
+    - [ ] ~~Search language ?~~
 
 - [ ] Manga expected next release
 
 - [ ] Crawl new info:
-    - [ ] language
+    - [x] language
     - [ ] last released
-    - [ ] alternative name
-    - [ ] tag
-    - [ ] description
-    - [ ] author
+    - [x] alternative name
+    - [x] tag
+    - [x] description
+    - [x] author
 
 - [ ] Reread shelf?
 
-- [ ] Change loading icon
+- [x] Change loading icon
 
 - [ ] One master note for user -> take note everything
 

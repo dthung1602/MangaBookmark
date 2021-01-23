@@ -6,7 +6,8 @@
   height: calc(100% - @navbar-height);
 
   scroll-behavior: smooth;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   position: fixed;
   right: 0;
   background: white;
@@ -39,7 +40,7 @@
 
   .quick-actions {
     position: absolute;
-    right: 0;
+    right: -12px;
     top: 0;
     height: 100%;
     display: flex;
@@ -51,24 +52,35 @@
     &>* {
       width: 36px;
       height: 36px;
-      //background: rgba(0, 0, 0, 0.2);
       display: flex;
-      justify-content: center;
       align-items: center;
       color: white;
       transition: all 0.3s;
-      //transform: translateX(0);
+      span {
+        margin-left: 12px;
+        white-space: nowrap;
+        &:last-child {
+          visibility: hidden;
+        }
+      }
       &:hover {
-        width: 48px;
+        width: 102px;
+        span:last-child {
+          visibility: visible;
+        }
       }
     }
 
     .update {
-      background: #faad14;
+      background: lighten(#faad14, 20%);
     }
 
     .delete {
-      background: #f5222d;
+      background: lighten(#f5222d, 20%);
+    }
+
+    .mark-all {
+      background: #85bfb8;
     }
   }
 
