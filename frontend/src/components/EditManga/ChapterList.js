@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
-import { Button, Checkbox, Spin, Table, Popconfirm } from "antd";
+import { Button, Checkbox, Spin, Table, Popconfirm, Typography } from "antd";
 import { DoubleLeftOutlined, CheckOutlined, ClockCircleOutlined } from "@ant-design/icons";
 
 import { changeChapterReadStatusLogic, getNextChapToRead, getNextChapPage } from "../../utils/chapters";
@@ -10,6 +10,7 @@ import { truncString } from "../../utils";
 import "./ChapterList.less";
 
 const { Column } = Table;
+const { Text } = Typography;
 
 function ChapterList({ manga, isLoading, onChangeChapterStatus, type, showDate = true, maxChapNameLen = 35 }) {
   const { chapters } = manga;
@@ -50,7 +51,7 @@ function ChapterList({ manga, isLoading, onChangeChapterStatus, type, showDate =
           dataSource={displayChapters}
           title={() => (
             <div className="table-header">
-              <h4>Chapter list</h4>
+              <Text strong>Chapter list</Text>
               <div>
                 <Button
                   size="small"

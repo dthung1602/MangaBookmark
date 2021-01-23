@@ -9,6 +9,7 @@ import { clonePlainObject, isNonEmptyArray } from "../../utils";
 import { READING, SHELVES } from "../../utils/constants";
 import { throwOnCriticalErrors, notifyError } from "../../utils/error-handler";
 import "./NewMangaModel.less";
+import { ChapterList } from "../EditManga";
 
 const { Search } = Input;
 const { Title, Text, Paragraph } = Typography;
@@ -211,14 +212,14 @@ const NewMangaModal = ({ open, onCancel, addMangaDone }) => {
               </Form.Item>
             </div>
             <div className="info-row">
-              <Text strong>Chapter list</Text>
-              <ChapterDropdownButton
-                onChangeChapterStatus={changeChapterReadStatus}
-                isLoading={false}
+              <ChapterList
+                key="chapter"
+                type="scroll"
+                showDate={false}
                 manga={manga}
-                defaultShowReadChaps={true}
-                defaultShowCheckBoxes={true}
-                size="small"
+                isLoading={false}
+                onChangeChapterStatus={changeChapterReadStatus}
+                maxChapNameLen={35}
               />
             </div>
             <div className="info-col">
