@@ -6,6 +6,7 @@ import { CaretDownOutlined, CaretUpOutlined, SearchOutlined, ClearOutlined } fro
 import FilterDropdown from "./FilterDropdown";
 import LoopButton from "./LoopButton";
 import DateFilter from "./DateFilter";
+import MultipleSelectFilter from "./MultipleSelectFilter";
 import { GlobalContext } from "../GlobalContext";
 import { MG_STATUSES, SHELVES, SORTABLE_FIELDS, LANGUAGES } from "../../utils/constants";
 import "./Filters.less";
@@ -119,7 +120,7 @@ const Filters = ({ filters, updateFilters, resetFilters }) => {
     />
   );
   const tagsFilter = (
-    <FilterDropdown
+    <MultipleSelectFilter
       key="tag"
       displayName={"Tags"}
       options={availableTags}

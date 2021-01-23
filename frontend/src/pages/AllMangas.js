@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StringParam, useQueryParams, withDefault } from "use-query-params";
+import { StringParam, ArrayParam, useQueryParams, withDefault } from "use-query-params";
 import { Layout, Modal } from "antd";
 
 import { Desktop, Mobile } from "../components/ScreenSize";
@@ -38,7 +38,7 @@ const AllMangas = () => {
     hidden: withDefault(StringParam, "false"),
     site: withDefault(StringParam, ANY),
     lang: withDefault(StringParam, ANY),
-    tag: withDefault(StringParam, ANY),
+    tag: withDefault(ArrayParam, []),
     createdAtGTE: StringParam,
     createdAtLTE: StringParam,
     lastReleasedGTE: StringParam,
