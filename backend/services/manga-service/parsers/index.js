@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { isString } = require("lodash");
 
 const parsers = [];
 const parserRegexMapping = {};
@@ -18,8 +19,10 @@ fs.readdirSync(__dirname)
     parserRegexMapping[file] = parserModule.URLRegex;
   });
 
-supportedSites = supportedSites.sort();
-availableTags = ["comedy", "action", "another tag"]; // Array.from(new Set(availableTags)).filter(Boolean).sort();
+supportedSites = supportedSites.sort((a, b) => a.name.localeCompare(b.name));
+availableTags = Array.from(new Set(availableTags.filter(isString).map((t) => t.trim().toLowerCase())))
+  .filter(Boolean)
+  .sort((a, b) => a.localeCompare(b));
 
 function getParser(url) {
   if (!url) {

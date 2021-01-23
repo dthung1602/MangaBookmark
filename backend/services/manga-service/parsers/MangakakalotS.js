@@ -2,7 +2,7 @@ const URLRegex = /^https?:\/\/(ww[12]\.)?mangakakalots\.com\/manga\/.+$/;
 const baseURL = "https://ww2.mangakakalots.com";
 
 const { fetchAndLoad } = require("./utils");
-const { parseAdditionalInfo } = require("./Mangakakalot");
+const { parseAdditionalInfo, availableTags } = require("./Mangakakalot");
 
 async function parseChapters($) {
   const rows = $(".chapter-list a");
@@ -39,4 +39,5 @@ module.exports = {
   parseManga,
   parseChapters,
   parseAdditionalInfo,
+  availableTags,
 };
