@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { Button, Col, Form, Input, Modal, Row, Select, Skeleton, Switch, Typography, message } from "antd";
 import { FullscreenOutlined, FullscreenExitOutlined } from "@ant-design/icons";
 
-import ChapterDropdownButton from "../ChapterDropdownButton";
 import { MangaAPI } from "../../api";
 import { clonePlainObject, isNonEmptyArray } from "../../utils";
 import { READING, SHELVES } from "../../utils/constants";

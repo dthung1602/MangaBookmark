@@ -1,13 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import NextChapButton from "../NextChapButton";
 import { useMarkChapterAPI } from "../../../hooks";
-import ChapterDropdownButton from "../../ChapterDropdownButton";
+import { changeChapterReadStatusLogic, getNextChapToRead } from "../../../utils/chapters";
+import "./MangaQuickActions.less";
 
 const MangaQuickActions = ({ manga, updateMangaDone }) => {
-  const [isLoading, markChapters] = useMarkChapterAPI(updateMangaDone);
+  const onChangeChapterStatus = useMarkChapterAPI(updateMangaDone)[1];
+  const nextChapToRead = getNextChapToRead(manga.chapters)[0];
+  const markOne = changeChapterReadStatusLogic(manga, onChangeChapterStatus)[0];
 
-  return <ChapterDropdownButton onChangeChapterStatus={markChapters} isLoading={isLoading} manga={manga} />;
+  return (
+    <div className="quick-actions">
+      <NextChapButton nextChapToRead={nextChapToRead} markOne={markOne} />
+    </div>
+  );
 };
 
 MangaQuickActions.propTypes = {

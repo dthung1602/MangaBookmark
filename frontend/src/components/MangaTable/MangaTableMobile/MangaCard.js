@@ -5,7 +5,6 @@ import {
   CloseOutlined,
   CheckSquareOutlined,
   DeleteOutlined,
-  DoubleRightOutlined,
   EditOutlined,
   MoreOutlined,
   PlusSquareOutlined,
@@ -21,8 +20,9 @@ import { useMarkChapterAPI } from "../../../hooks";
 import { changeChapterReadStatusLogic, getNextChapToRead } from "../../../utils/chapters";
 import { throwOnCriticalErrors, notifyError } from "../../../utils/error-handler";
 import { statusToClassMapping } from "../utils";
-import { isEmptyObject, truncString } from "../../../utils";
+import { isEmptyObject } from "../../../utils";
 import "./MangaCard.less";
+import NextChapButton from "../NextChapButton";
 
 const { confirm } = Modal;
 
@@ -155,14 +155,7 @@ const MangaCard = ({ manga, updateMangaDone, deleteMangaDone }) => {
       >
         <div className={`collapsable ${enableEdit ? "collapsed" : ""}`}>
           <MangaBasicInfo manga={manga} headerExtra={headerExtra} showAdditionalInfo={expand} />
-          <a
-            className={`next-chap-btn ${nextChapToRead.empty ? "empty" : ""}`}
-            href={nextChapToRead.link}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {truncString(nextChapToRead.name, 30)} &nbsp;&nbsp; <DoubleRightOutlined />
-          </a>
+          <NextChapButton nextChapToRead={nextChapToRead} markOne={markOne} />
         </div>
         {enableEdit
           ? [

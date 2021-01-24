@@ -1,0 +1,37 @@
+@import "../../variables";
+
+.next-chap-btn {
+  display: block;
+  margin-top: 8px;
+  padding: 8px;
+  text-align: center;
+  color: #808080;
+  background: #f3f3f3;
+
+  &:not(.empty) {
+    color: @primary-color;
+    background: @primary-color-light;
+
+    &:hover {
+      background: linear-gradient(90deg, #dbfff6, #baffe4);
+      background-size: 400% 400%;
+      animation: BacgroundAnimation 4s ease infinite;
+    }
+
+    &:visited {
+      color: #575757;
+    }
+  }
+}
+
+@keyframes BacgroundAnimation {
+  0% {
+    background-position: 0 50%
+  }
+  50% {
+    background-position: 100% 50%
+  }
+  100% {
+    background-position: 0 50%
+  }
+}
