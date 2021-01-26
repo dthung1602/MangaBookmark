@@ -19,6 +19,7 @@
 
     img {
       width: 450px;
+      height: 135px;
       max-width: 95%;
     }
 
@@ -31,6 +32,9 @@
     @media (max-width: @bp-md) {
       .subtitle {
         display: block;
+      }
+      img {
+        max-height: 30vw;
       }
     }
   }
@@ -93,12 +97,13 @@
     text-align: center;
   }
 
-  iframe {
+  .iframe {
+    cursor: pointer;
     width: 768px;
-    height: 432px;
+    height: 480px;
     @media (max-width: @bp-md) {
       width: 100vw;
-      height: 56.25vw;
+      height: 62.5vw;
     }
   }
 

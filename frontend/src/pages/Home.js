@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { Layout, Typography, Button, Row, Col, Divider } from "antd";
 import {
@@ -26,21 +26,22 @@ import {
   ROUTE_LEGAL_NOTICE,
   LINK_EMAIL,
   LINK_LINKEDIN,
-  EMBED_QUICK_TOUR_VIDEO_LINK,
+  EMBED_QUICK_TOUR_VIDEO_ID,
   FRONTEND_VERSION,
 } from "../utils/constants";
-import LOGO from "../assets/logo/logo-invert.png";
-import ANT_DESIGN_LOGO from "../assets/logo/ant-design-logo-light.png";
-import EXPRESS_JS_LOGO from "../assets/logo/express-js-logo-light.png";
-import MONGO_DB_LOGO from "../assets/logo/mongodb-logo.png";
-import LOOKA_LOGO from "../assets/logo/looka-logo.png";
-import HEROKU_LOGO from "../assets/logo/heroku-logo.png";
+import LOGO from "../assets/logo/logo-invert.webp";
+import ANT_DESIGN_LOGO from "../assets/logo/ant-design-logo-light.webp";
+import EXPRESS_JS_LOGO from "../assets/logo/express-js-logo-light.webp";
+import MONGO_DB_LOGO from "../assets/logo/mongodb-logo.webp";
+import LOOKA_LOGO from "../assets/logo/looka-logo.webp";
+import HEROKU_LOGO from "../assets/logo/heroku-logo.webp";
 import "./Home.less";
 
 const { Title } = Typography;
 
 const Home = () => {
   const [{ supportedSites }] = useContext(GlobalContext);
+  const [clickedYoutube, setClickedYoutube] = useState(false);
 
   return (
     <Layout>
@@ -107,13 +108,23 @@ const Home = () => {
 
           <div className="text-align-center" id="quick-tour">
             <Title level={2}>Quick tour</Title>
-            <iframe
-              title="quick-tour-video"
-              src={EMBED_QUICK_TOUR_VIDEO_LINK}
-              frameBorder="0"
-              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
+            {clickedYoutube ? (
+              <iframe
+                className="iframe"
+                title="quick-tour-video"
+                src={`https://www.youtube.com/embed/${EMBED_QUICK_TOUR_VIDEO_ID}?autoplay=1`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : (
+              <img
+                className="iframe"
+                onClick={() => setClickedYoutube(true)}
+                alt="video"
+                src={`https://i.ytimg.com/vi/${EMBED_QUICK_TOUR_VIDEO_ID}/sddefault.jpg`}
+              />
+            )}
           </div>
 
           <div className="text-align-center" id="supported-sites">
@@ -122,7 +133,7 @@ const Home = () => {
               {supportedSites.map((site) => (
                 <Col key={site.name} xs={12} sm={8} md={6} lg={4}>
                   <a href={site.homepage} target="_blank" rel="noreferrer noopener">
-                    <img src={`/sites-logo/${site.name}.png`} alt={site.name} />
+                    <img src={`/sites-logo/${site.name}.webp`} alt={site.name} />
                   </a>
                 </Col>
               ))}

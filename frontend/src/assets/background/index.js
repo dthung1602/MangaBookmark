@@ -1,16 +1,16 @@
 import image3 from "./attack-on-titan.jpg";
-import image5 from "./stein-gate.jpg";
+import image5 from "./stein-gate.webp";
 import image6 from "./bleach.jpg";
-import image7 from "./demon-slayer.png";
+import image7 from "./demon-slayer.webp";
 import image8 from "./fulmetal-alchemist.jpg";
-import image9 from "./mahou-tsukai-no-yome.jpg";
-import image11 from "./inuyasha.jpg";
-import image12 from "./bakemonogatari.jpg";
+import image9 from "./mahou-tsukai-no-yome.webp";
+import image11 from "./inuyasha.webp";
+import image12 from "./bakemonogatari.webp";
 import image13 from "./kaguyasama-love-is-war.png";
 import image14 from "./naruto.jpg";
 import image15 from "./noragami.jpg";
 import image17 from "./umaru.jpg";
-import image18 from "./violet-evergarden.jpg";
+import image18 from "./violet-evergarden.webp";
 
 export default [
   image3,

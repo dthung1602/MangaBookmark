@@ -10,7 +10,7 @@ export const TOP_TO_READ_MG_COUNT = 10;
 export const TOP_WAITING_MG_COUNT = 15;
 export const DOUBLE_CLICK_DELAY = 400;
 export const SERVER_VAPID_KEY = process.env.REACT_APP_VAPID_PUBLIC_KEY;
-export const EMBED_QUICK_TOUR_VIDEO_LINK = "https://www.youtube.com/embed/sftVRbPcmoo";
+export const EMBED_QUICK_TOUR_VIDEO_ID = "sftVRbPcmoo";
 
 // ------------------------------------------
 //       Manga shelves

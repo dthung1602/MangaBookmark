@@ -12,7 +12,7 @@ const MangaQuickActions = ({ manga, updateMangaDone }) => {
   const markOne = changeChapterReadStatusLogic(manga, onChangeChapterStatus)[0];
 
   return (
-    <div className="quick-actions">
+    <div className="manga-quick-actions">
       <NextChapButton nextChapToRead={nextChapToRead} markOne={markOne} />
     </div>
   );
