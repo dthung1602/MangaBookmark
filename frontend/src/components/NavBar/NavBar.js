@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Link, useHistory } from "react-router-dom";
-import { throttle } from "lodash";
 import { Badge, Drawer, Layout, Menu } from "antd";
 import {
   BookOutlined,
@@ -28,7 +27,7 @@ import {
 import User from "./User";
 import NavBarSearch from "./NavBarSearch";
 import { Desktop, Mobile } from "../ScreenSize";
-import { useLogoutAPI, useOnScreenScrollVertically } from "../../hooks";
+import { useLogoutAPI } from "../../hooks";
 import { scrollToTop } from "../../utils";
 import LOGO from "../../assets/logo/logo-invert.png";
 import "./NavBar.less";
@@ -36,26 +35,12 @@ import "./NavBar.less";
 const { Header } = Layout;
 const { Item, SubMenu } = Menu;
 
-const alterPushDownClass = throttle(
-  (action) => document.getElementById("root").classList[action]("navbar-hidden"),
-  250,
-);
-
-// FIXME
-const enablePushDown = false;
-
-const removePushDownClass = enablePushDown ? () => alterPushDownClass("remove") : () => {};
-const addPushDownClass = enablePushDown ? () => alterPushDownClass("add") : () => {};
-
 const NavBar = ({ hideLogo = false }) => {
   const history = useHistory();
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false);
   const [logout, user] = useLogoutAPI();
 
-  useOnScreenScrollVertically(removePushDownClass, addPushDownClass);
-
   useEffect(() => {
-    removePushDownClass();
     return history.listen((location) => {
       if (!location.hash) {
         setTimeout(scrollToTop, 300);

@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
-import { upperFirst } from "lodash";
 import { FacebookOutlined, GoogleOutlined } from "@ant-design/icons";
 import { Button, message } from "antd";
 
@@ -13,7 +12,7 @@ import "./Button.less";
 const useAuthBtnLogic = (action, ssNetwork) => {
   const [isLoading, setIsLoading] = useState(false);
   const [{ user }, updateGlobalContext] = useContext(GlobalContext);
-  const ssNetworkName = upperFirst(ssNetwork);
+  const ssNetworkName = ssNetwork[0].toUpperCase() + ssNetwork.slice(1);
 
   // determine display text
   let text = `Register with ${ssNetworkName}`;

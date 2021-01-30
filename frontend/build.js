@@ -24,3 +24,41 @@ text += "\n" + customServiceWorkerText;
 
 fs.writeFileSync(serviceWorkerFile, text);
 fs.unlinkSync(customServiceWorkerFile);
+
+/**
+ * Inline JS & CSS in the built index.html
+ */
+const cheerio = require("cheerio");
+const indexHtmlFile = `${__dirname}/build/index.html`;
+
+console.log("Inlining CSS & JS to index.html ...");
+const html = fs.readFileSync(indexHtmlFile).toString();
+const $ = cheerio.load(html);
+
+const getStaticFileContent = (href) => {
+  const content = fs.readFileSync(`${__dirname}/build${href}`).toString();
+  fs.unlinkSync(`${__dirname}/build${href}`);
+  return content;
+};
+
+$("head link[rel='stylesheet']").each((i, e) => {
+  const ele = $(e);
+  const href = ele.attr("href");
+  if (href.endsWith("chunk.css")) {
+    console.log(`Inlining ${href}`);
+    const style = getStaticFileContent(href);
+    ele.replaceWith(`<style>${style}</style>`);
+  }
+});
+
+$("body script[src]").each((i, e) => {
+  const ele = $(e);
+  const src = ele.attr("src");
+  if (src.endsWith("chunk.js")) {
+    console.log(`Inlining ${src}`);
+    const script = getStaticFileContent(src);
+    ele.replaceWith(`<script>${script}</script>`);
+  }
+});
+
+fs.writeFileSync(indexHtmlFile, $.html());

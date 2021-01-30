@@ -122,7 +122,7 @@ const Home = () => {
                 className="iframe"
                 onClick={() => setClickedYoutube(true)}
                 alt="video"
-                src={`https://i.ytimg.com/vi/${EMBED_QUICK_TOUR_VIDEO_ID}/sddefault.jpg`}
+                src={`https://i.ytimg.com/vi_webp/${EMBED_QUICK_TOUR_VIDEO_ID}/maxresdefault.webp`}
               />
             )}
           </div>
@@ -159,12 +159,12 @@ const Home = () => {
             <a href={LINK_EMAIL} rel="noopener noreferrer" target="_blank">
               <MailOutlined className="footer-icon" />
               Email
-            </a>{" "}
+            </a>
             &nbsp;&nbsp;&nbsp;&nbsp;
             <a href={LINK_GITHUB} rel="noopener noreferrer" target="_blank">
               <GithubOutlined className="footer-icon" />
               Github
-            </a>{" "}
+            </a>
             &nbsp;&nbsp;&nbsp;&nbsp;
             <a href={LINK_LINKEDIN} rel="noopener noreferrer" target="_blank">
               <LinkedinOutlined className="footer-icon" />
