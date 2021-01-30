@@ -97,13 +97,16 @@
     text-align: center;
   }
 
+  @iframe-width: 768;
+  @iframe-height: 432;
+
   .iframe {
     cursor: pointer;
-    width: 768px;
-    height: 480px;
+    width: unit(@iframe-width, px);
+    height: unit(@iframe-height, px);
     @media (max-width: @bp-md) {
       width: 100vw;
-      height: 62.5vw;
+      height: unit(100 * @iframe-height / @iframe-width, vw);
     }
   }
 
