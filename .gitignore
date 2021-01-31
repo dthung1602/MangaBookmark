@@ -1,6 +1,7 @@
 .idea
 node_modules
 frontend/build
+frontend/src/assets/sitelogo/sitelogo-*
 backend/frontend-build
 foo*
 .env

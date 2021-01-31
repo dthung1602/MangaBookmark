@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "PORT=3001 craco start",
-    "build": "craco build && node build.js",
+    "build": "node build-assets.js && craco build && node build.js",
     "test": "craco test",
-    "lint": "eslint . --fix"
+    "lint": "eslint . --fix",
+    "watch-assets": "watch 'node build-assets.js' --wait=8 --interval=8 src/assets/sitelogo",
+    "build-assets": "node build-assets.js"
   },
   "proxy": "http://localhost:3000",
   "dependencies": {
@@ -36,7 +38,9 @@
     "eslint-plugin-react-hooks": "^4.0.8",
     "jest": "^24.9.0",
     "prettier": "^2.0.5",
-    "cheerio": "^1.0.0-rc.3"
+    "cheerio": "^1.0.0-rc.3",
+    "spritesmith": "^3.4.0",
+    "watch": "^1.0.2"
   },
   "browserslist": {
     "production": [

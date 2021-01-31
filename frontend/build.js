@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * Add /api/* to service worker blacklist and inject custom service worker code from custom-service-worker.js
  *

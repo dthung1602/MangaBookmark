@@ -35,6 +35,7 @@ import EXPRESS_JS_LOGO from "../assets/logo/express-js-logo-light.webp";
 import MONGO_DB_LOGO from "../assets/logo/mongodb-logo.webp";
 import LOOKA_LOGO from "../assets/logo/looka-logo.webp";
 import HEROKU_LOGO from "../assets/logo/heroku-logo.webp";
+import SITELOGO_SPRITE from "../assets/sitelogo/sitelogo-sprite.png";
 import "./Home.less";
 
 const { Title } = Typography;
@@ -132,9 +133,13 @@ const Home = () => {
             <Row gutter={{ xs: 16, sm: 24, md: 32 }}>
               {supportedSites.map((site) => (
                 <Col key={site.name} xs={12} sm={8} md={6} lg={4}>
-                  <a href={site.homepage} target="_blank" rel="noreferrer noopener">
-                    <img src={`/sites-logo/${site.name}.webp`} alt={site.name} />
-                  </a>
+                  <a
+                    href={site.homepage}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className={site.name.toLowerCase() + "-logo"}
+                    style={{ backgroundImage: `url(${SITELOGO_SPRITE})` }}
+                  />
                 </Col>
               ))}
             </Row>

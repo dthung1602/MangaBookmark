@@ -107,6 +107,15 @@ Make sure you have the API key and secret.
 
 ### Start the development server
 
+Fist we need to build assets:
+
+```sh
+cd frontend && yarn run build-assets
+```
+
+If you make changes to images that are in a sprite, you need to re-run this command.
+`yarn run watch-assets` can be used instead for convenience.
+
 To start dev mode for both backend & front end:
 
 ```sh
