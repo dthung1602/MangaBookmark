@@ -130,19 +130,18 @@ const Home = () => {
 
           <div className="text-align-center" id="supported-sites">
             <Title level={2}>Supported sites</Title>
-            <Row gutter={{ xs: 16, sm: 24, md: 32 }}>
+            <div>
               {supportedSites.map((site) => (
-                <Col key={site.name} xs={12} sm={8} md={6} lg={4}>
-                  <a
-                    href={site.homepage}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className={site.name.toLowerCase() + "-logo"}
-                    style={{ backgroundImage: `url(${SITELOGO_SPRITE})` }}
-                  />
-                </Col>
+                <a
+                  key={site.name}
+                  href={site.homepage}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className={site.name.toLowerCase() + "-logo"}
+                  style={{ backgroundImage: `url(${SITELOGO_SPRITE})` }}
+                />
               ))}
-            </Row>
+            </div>
           </div>
 
           <Divider>

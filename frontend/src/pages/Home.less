@@ -118,10 +118,13 @@
     @media (max-width: @bp-sm) {
       padding: 0 8px;
     }
+    &>div {
+      display: flex;
+      flex-wrap: wrap;
+    }
     a {
-      margin: 16px 0;
-      display: block;
-      height: 64px;
+      margin: 12px;
+      display: inline-block;
       .scale-when-hover();
     }
   }

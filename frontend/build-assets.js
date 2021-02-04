@@ -21,9 +21,13 @@ const getSiteFromImageFilePath = (fullPath) => {
 
 const generateCSS = (coordinates) => {
   let css = "";
-  for (let [imagePath, { x, y }] of Object.entries(coordinates)) {
+  for (let [imagePath, { x, y, width, height }] of Object.entries(coordinates)) {
     const className = getSiteFromImageFilePath(imagePath);
-    css += `.${className}-logo { background-position: ${x}px ${y}px }\n`;
+    css += `.${className}-logo { 
+              background-position: ${-x}px ${-y}px;
+              width: ${width}px;
+              height: ${height}px; 
+           }\n`;
   }
   return css.replace(/ 0px/g, " 0");
 };
