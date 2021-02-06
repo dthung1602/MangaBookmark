@@ -33,7 +33,7 @@ const generateCSS = (coordinates) => {
 };
 
 console.log("Generating sprites...");
-Spritesmith.run({ src: imagePaths }, function (err, result) {
+Spritesmith.run({ src: imagePaths, padding: 1 }, function (err, result) {
   if (err) {
     console.error(err);
   } else {
