@@ -108,7 +108,9 @@ const Home = () => {
           </div>
 
           <div className="text-align-center" id="quick-tour">
-            <Title level={2}>Quick tour</Title>
+            <Divider>
+              <Title level={2}>Quick tour</Title>
+            </Divider>
             {clickedYoutube ? (
               <iframe
                 className="iframe"
@@ -129,7 +131,9 @@ const Home = () => {
           </div>
 
           <div className="text-align-center" id="supported-sites">
-            <Title level={2}>Supported sites</Title>
+            <Divider>
+              <Title level={2}>Supported sites</Title>
+            </Divider>
             <div>
               {supportedSites.map((site) => (
                 <a
@@ -177,7 +181,9 @@ const Home = () => {
           </div>
 
           <div className="for-dev">
-            <Title level={2}>For developers</Title>
+            <Divider>
+              <Title level={2}>For developers</Title>
+            </Divider>
             <div>
               <p>
                 This website is an opensource project. You can visit the &nbsp;&nbsp;
@@ -206,7 +212,9 @@ const Home = () => {
           </div>
 
           <div className="text-align-center power-by">
-            <Title level={2}>Powered by</Title>
+            <Divider>
+              <Title level={2}>Powered by</Title>
+            </Divider>
             <Row>
               <Col xs={24} md={8}>
                 <a href="https://ant.design" rel="noopener noreferrer" target="_blank">
