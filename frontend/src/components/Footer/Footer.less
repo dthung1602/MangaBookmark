@@ -61,9 +61,12 @@
 }
 
 .footer-power-by {
-  img {
-    height: 35px;
+  a {
+    display: inline-block;
     margin-top: 8px;
+    @media (max-width: @bp-lg) {
+      margin: 4px 16px;
+    }
   }
 }
 

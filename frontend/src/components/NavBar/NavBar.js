@@ -29,7 +29,7 @@ import NavBarSearch from "./NavBarSearch";
 import { Desktop, Mobile } from "../ScreenSize";
 import { useLogoutAPI } from "../../hooks";
 import { scrollToTop } from "../../utils";
-import LOGO from "../../assets/logo/logo-invert.png";
+import LOGO from "../../assets/tech-logo/logo-invert.png";
 import "./NavBar.less";
 
 const { Header } = Layout;

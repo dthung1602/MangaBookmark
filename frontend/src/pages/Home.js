@@ -29,13 +29,9 @@ import {
   EMBED_QUICK_TOUR_VIDEO_ID,
   FRONTEND_VERSION,
 } from "../utils/constants";
-import LOGO from "../assets/logo/logo-invert.webp";
-import ANT_DESIGN_LOGO from "../assets/logo/ant-design-logo-light.webp";
-import EXPRESS_JS_LOGO from "../assets/logo/express-js-logo-light.webp";
-import MONGO_DB_LOGO from "../assets/logo/mongodb-logo.webp";
-import LOOKA_LOGO from "../assets/logo/looka-logo.webp";
-import HEROKU_LOGO from "../assets/logo/heroku-logo.webp";
-import SITELOGO_SPRITE from "../assets/sitelogo/sitelogo-sprite.png";
+import LOGO from "../assets/tech-logo/logo-invert.webp";
+import TECH_LOGO_SPRITE from "../assets/tech-logo/tech-logo.png";
+import MANGA_SITE_LOGO_SPRITE from "../assets/manga-site-logo/manga-site-logo.webp";
 import "./Home.less";
 
 const { Title } = Typography;
@@ -141,8 +137,8 @@ const Home = () => {
                   href={site.homepage}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className={site.name.toLowerCase() + "-logo"}
-                  style={{ backgroundImage: `url(${SITELOGO_SPRITE})` }}
+                  className={"img-" + site.name.toLowerCase()}
+                  style={{ backgroundImage: `url(${MANGA_SITE_LOGO_SPRITE})` }}
                 />
               ))}
             </div>
@@ -217,30 +213,50 @@ const Home = () => {
             </Divider>
             <Row>
               <Col xs={24} md={8}>
-                <a href="https://ant.design" rel="noopener noreferrer" target="_blank">
-                  <img src={ANT_DESIGN_LOGO} alt="ant design" />
-                </a>
+                <a
+                  style={{ backgroundImage: `url("${TECH_LOGO_SPRITE}")` }}
+                  className="img-ant-design-logo-light"
+                  href="https://ant.design"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                />
               </Col>
               <Col xs={24} md={8}>
-                <a href="https://expressjs.com/" rel="noopener noreferrer" target="_blank">
-                  <img src={EXPRESS_JS_LOGO} alt="express js" />
-                </a>
+                <a
+                  style={{ backgroundImage: `url("${TECH_LOGO_SPRITE}")` }}
+                  className="img-express-js-logo-light"
+                  href="https://expressjs.com/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                />
               </Col>
               <Col xs={24} md={8}>
-                <a href="https://www.mongodb.com/" rel="noopener noreferrer" target="_blank">
-                  <img src={MONGO_DB_LOGO} alt="" />
-                </a>
+                <a
+                  style={{ backgroundImage: `url("${TECH_LOGO_SPRITE}")` }}
+                  className="img-mongodb-logo"
+                  href="https://www.mongodb.com/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                />
               </Col>
               <Col xs={0} md={4} />
               <Col xs={24} md={8}>
-                <a href="https://looka.com" rel="noopener noreferrer" target="_blank">
-                  <img src={LOOKA_LOGO} alt="looka" />
-                </a>
+                <a
+                  style={{ backgroundImage: `url("${TECH_LOGO_SPRITE}")` }}
+                  className="img-looka-logo"
+                  href="https://looka.com"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                />
               </Col>
               <Col xs={24} md={8}>
-                <a href="https://www.heroku.com/" rel="noopener noreferrer" target="_blank">
-                  <img src={HEROKU_LOGO} alt="heroku" />
-                </a>
+                <a
+                  style={{ backgroundImage: `url("${TECH_LOGO_SPRITE}")` }}
+                  className="img-heroku-logo"
+                  href="https://www.heroku.com/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                />
               </Col>
               <Col xs={0} md={4} />
             </Row>

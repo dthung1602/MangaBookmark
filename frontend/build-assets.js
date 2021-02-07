@@ -1,32 +1,30 @@
 #!/usr/bin/env node
 
 /**
- * Generating sprites for src/assets/logosite
- * Output: sitelogo-sprite.png and sitelogo-sprite.css in the same directory
+ * Generating sprites
  */
 const fs = require("fs");
 const Spritesmith = require("spritesmith");
 const { execSync } = require("child_process");
 
-const PNG_SPRITE_FILE_NAME = "sitelogo-sprite.png";
-const CSS_FILE_NAME = "sitelogo-sprite.css";
-const PNG_SPRITE_PATH = `${__dirname}/src/assets/sitelogo/${PNG_SPRITE_FILE_NAME}`;
-const CSS_PATH = `${__dirname}/src/assets/sitelogo/${CSS_FILE_NAME}`;
+const getImagesPathFromDir = (dirPath, exclude) => {
+  const dirName = dirPath.split("/").pop();
+  exclude = [...exclude, dirName + ".png", dirName + ".webp"];
+  return fs
+    .readdirSync(`${__dirname}/${dirPath}`)
+    .filter((f) => f.endsWith(".png") && !exclude.includes(f))
+    .map((f) => `${__dirname}/${dirPath}/${f}`);
+};
 
-const imagePaths = fs
-  .readdirSync(`${__dirname}/src/assets/sitelogo`)
-  .filter((f) => !f.includes(PNG_SPRITE_FILE_NAME) && !f.includes(CSS_FILE_NAME))
-  .map((f) => `${__dirname}/src/assets/sitelogo/${f}`);
-
-const getSiteFromImageFilePath = (fullPath) => {
-  return fullPath.split("/").pop().split(".").shift().toLowerCase();
+const getClassNameFromImageFilePath = (fullPath) => {
+  return "img-" + fullPath.split("/").pop().split(".").shift().toLowerCase();
 };
 
 const generateCSS = (coordinates) => {
   let css = "";
   for (let [imagePath, { x, y, width, height }] of Object.entries(coordinates)) {
-    const className = getSiteFromImageFilePath(imagePath);
-    css += `.${className}-logo { 
+    const className = getClassNameFromImageFilePath(imagePath);
+    css += `.${className} { 
               background-position: ${-x}px ${-y}px;
               width: ${width}px;
               height: ${height}px; 
@@ -35,29 +33,49 @@ const generateCSS = (coordinates) => {
   return css.replace(/ 0px/g, " 0");
 };
 
-const secret = process.env["CONVERT_API_SECRET"];
-const WEBP_SPRINT_PATH = PNG_SPRITE_PATH.replace(".png", ".webp");
-const convertToWebpCmd = `curl -s -F "File=@${PNG_SPRITE_PATH}" https://v2.convertapi.com/convert/png/to/webp?Secret=${secret} > ${WEBP_SPRINT_PATH}`;
-console.log(convertToWebpCmd);
-
-const convertToWebp = () => {
+const convertToWebp = (pngSpritePath) => {
+  const secret = process.env["CONVERT_API_SECRET"];
+  const webpSpritePath = pngSpritePath.replace(".png", ".webp");
+  const convertToWebpCmd = `curl -s -F "File=@${pngSpritePath}" https://v2.convertapi.com/convert/png/to/webp?Secret=${secret} > ${webpSpritePath}`;
   execSync(convertToWebpCmd);
-  const fileData = JSON.parse(fs.readFileSync(WEBP_SPRINT_PATH)).Files[0].FileData;
-  const buff = new Buffer(fileData, "base64");
-  fs.writeFileSync(WEBP_SPRINT_PATH, buff);
+  const data = JSON.parse(fs.readFileSync(webpSpritePath).toString());
+  if (data.hasOwnProperty("Message")) {
+    throw data.Message;
+  }
+  const buff = Buffer.from(data.Files[0].FileData, "base64");
+  fs.writeFileSync(webpSpritePath, buff);
 };
 
-console.log("Generating sprites...");
-Spritesmith.run({ src: imagePaths, padding: 1 }, function (err, result) {
-  if (err) {
-    console.error(err);
-  } else {
-    console.log("Writing sprite to file...");
-    fs.writeFileSync(PNG_SPRITE_PATH, result.image);
-    console.log("Converting to webp...");
-    convertToWebp();
-    console.log("Writing sprite css...");
-    fs.writeFileSync(CSS_PATH, generateCSS(result.coordinates));
-    console.log("Done generating sprites...");
-  }
-});
+const SPRITES = [
+  {
+    dir: "src/assets/manga-site-logo",
+    exclude: [],
+  },
+  {
+    dir: "src/assets/tech-logo",
+    exclude: ["logo.png", "logo-invert.png"],
+  },
+];
+
+for (let { dir, exclude } of SPRITES) {
+  console.log(`Generating sprites for ${dir}`);
+  const imagePaths = getImagesPathFromDir(dir, exclude);
+
+  Spritesmith.run({ src: imagePaths, padding: 1 }, function (err, result) {
+    if (err) {
+      console.error(err);
+    } else {
+      const pngSpritePath = dir + "/" + dir.split("/").pop() + ".png";
+      const cssPath = pngSpritePath.replace(".png", ".css");
+
+      console.log(`Writing PNG sprite to ${pngSpritePath}`);
+      fs.writeFileSync(pngSpritePath, result.image);
+
+      console.log(`Converting ${pngSpritePath} to WEBP`);
+      convertToWebp(pngSpritePath);
+
+      console.log(`Writing CSS to ${cssPath}`);
+      fs.writeFileSync(cssPath, generateCSS(result.coordinates));
+    }
+  });
+}

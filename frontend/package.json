@@ -7,7 +7,7 @@
     "build": "node build-assets.js && craco build && node build.js",
     "test": "craco test",
     "lint": "eslint . --fix",
-    "watch-assets": "watch 'node build-assets.js' --wait=8 --interval=8 src/assets/sitelogo",
+    "watch-assets": "watch 'node build-assets.js' --wait=8 --interval=8 src/assets/manga-site-logo",
     "build-assets": "node build-assets.js"
   },
   "proxy": "http://localhost:3000",

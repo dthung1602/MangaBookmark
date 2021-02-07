@@ -5,12 +5,8 @@ import { Link } from "react-router-dom";
 import "./Footer.less";
 
 // TODO reduce image sizes
-import LOGO_INVERT from "../../assets/logo/logo-invert.png";
-import ANT_DESIGN_LOGO from "../../assets/logo/ant-design-logo.png";
-import EXPRESS_JS_LOGO from "../../assets/logo/express-js-logo.png";
-import LOOKA_LOGO from "../../assets/logo/looka-logo.png";
-import MONGO_DB_LOGO from "../../assets/logo/mongodb-logo.png";
-import HEROKU_LOGO from "../../assets/logo/heroku-logo.png";
+import LOGO_INVERT from "../../assets/tech-logo/logo-invert.webp";
+import TECH_LOGO_SPRITE from "../../assets/tech-logo/tech-logo.png";
 import {
   ROUTE_ACCOUNT,
   ROUTE_HOME,
@@ -26,6 +22,7 @@ import {
   LINK_LINKEDIN,
 } from "../../utils/constants";
 import { FRONTEND_VERSION } from "../../utils/constants";
+
 const { Footer: AntFooter } = Layout;
 
 const Footer = () => {
@@ -68,21 +65,41 @@ const Footer = () => {
         </Col>
         <Col xs={24} sm={8} lg={4} className="footer-power-by">
           <div className="footer-row-head">Powered by</div>
-          <a href="https://ant.design" rel="noopener noreferrer" target="_blank">
-            <img src={ANT_DESIGN_LOGO} alt="ant design" />
-          </a>
-          <a href="https://expressjs.com/" rel="noopener noreferrer" target="_blank">
-            <img src={EXPRESS_JS_LOGO} alt="express js" />
-          </a>
-          <a href="https://www.mongodb.com/" rel="noopener noreferrer" target="_blank">
-            <img src={MONGO_DB_LOGO} alt="" />
-          </a>
-          <a href="https://looka.com" rel="noopener noreferrer" target="_blank">
-            <img src={LOOKA_LOGO} alt="looka" />
-          </a>
-          <a href="https://www.heroku.com/" rel="noopener noreferrer" target="_blank">
-            <img src={HEROKU_LOGO} alt="heroku" />
-          </a>
+          <a
+            style={{ backgroundImage: `url("${TECH_LOGO_SPRITE}")` }}
+            className="img-ant-design-logo"
+            href="https://ant.design"
+            rel="noopener noreferrer"
+            target="_blank"
+          />
+          <a
+            style={{ backgroundImage: `url("${TECH_LOGO_SPRITE}")` }}
+            className="img-express-js-logo"
+            href="https://expressjs.com/"
+            rel="noopener noreferrer"
+            target="_blank"
+          />
+          <a
+            style={{ backgroundImage: `url("${TECH_LOGO_SPRITE}")` }}
+            className="img-mongodb-logo"
+            href="https://www.mongodb.com/"
+            rel="noopener noreferrer"
+            target="_blank"
+          />
+          <a
+            style={{ backgroundImage: `url("${TECH_LOGO_SPRITE}")` }}
+            className="img-looka-logo"
+            href="https://looka.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          />
+          <a
+            style={{ backgroundImage: `url("${TECH_LOGO_SPRITE}")` }}
+            className="img-heroku-logo"
+            href="https://www.heroku.com/"
+            rel="noopener noreferrer"
+            target="_blank"
+          />
         </Col>
       </Row>
       <div className="footer-lower">
