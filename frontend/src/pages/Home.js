@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Layout, Typography, Button, Row, Col, Divider } from "antd";
 import {
@@ -19,6 +19,7 @@ import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { scrollToTop } from "../utils";
 import { GlobalContext } from "../components/GlobalContext";
+import { useOnIntersectViewPort } from "../hooks";
 import {
   ROUTE_REGISTER,
   LINK_GITHUB,
@@ -39,16 +40,20 @@ const { Title } = Typography;
 const Home = () => {
   const [{ supportedSites }] = useContext(GlobalContext);
   const [clickedYoutube, setClickedYoutube] = useState(false);
+  const [hideLogo, setHideLogo] = useState(true);
+  const logoRef = useRef(null);
+
+  useOnIntersectViewPort(logoRef, () => setHideLogo(!hideLogo), { rootMargin: "-64px" });
 
   return (
     <Layout>
-      <NavBar hideLogo={true} />
+      <NavBar hideLogo={hideLogo} />
 
       <Layout>
         <div className="home">
           <div className="logo-container">
             <div className="logo">
-              <img src={LOGO} alt="MangaBookmark" />
+              <img src={LOGO} alt="MangaBookmark" ref={logoRef} />
               <span className="version">Version {FRONTEND_VERSION}</span>
             </div>
             <span className="subtitle">Keep tracks of your mangas on scanlation sites</span> &nbsp;&nbsp;
