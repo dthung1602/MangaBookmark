@@ -37,13 +37,18 @@ import "./Home.less";
 
 const { Title } = Typography;
 
+const isLogoInViewPort = () => {
+  const rect = document.querySelector(".logo img")?.getBoundingClientRect();
+  return rect ? rect.bottom > 64 : false;
+};
+
 const Home = () => {
   const [{ supportedSites }] = useContext(GlobalContext);
   const [clickedYoutube, setClickedYoutube] = useState(false);
   const [hideLogo, setHideLogo] = useState(true);
   const logoRef = useRef(null);
 
-  useOnIntersectViewPort(logoRef, () => setHideLogo(!hideLogo), { rootMargin: "-64px" });
+  useOnIntersectViewPort(logoRef, () => setHideLogo(isLogoInViewPort()), { rootMargin: "-64px" });
 
   return (
     <Layout>

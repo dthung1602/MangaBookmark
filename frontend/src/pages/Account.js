@@ -33,7 +33,7 @@ const TAB_MAPPING = {
 };
 
 const Account = () => {
-  const [tab, setTab] = useQueryParam("tab", withDefault(StringParam, "info"));
+  const [tab, setTab] = useQueryParam("tab", withDefault(StringParam, "account-management"));
 
   const tabPosition = useBreakpoint().lg ? "left" : "top";
   const bgUrl = randomFrom(backgroundImages);
