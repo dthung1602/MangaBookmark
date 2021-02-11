@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { Avatar, Button, Modal, message } from "antd";
 
 import { GoogleButton, FacebookButton } from "../SocialNetworkButton";

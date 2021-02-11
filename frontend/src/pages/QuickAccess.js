@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { StringParam, useQueryParam, withDefault } from "use-query-params";
 import { Layout, Modal, Tabs, Affix, Switch } from "antd";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";

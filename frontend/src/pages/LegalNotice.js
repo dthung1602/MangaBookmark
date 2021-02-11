@@ -1,4 +1,3 @@
-import React from "react";
 import { Anchor, Grid, Layout, PageHeader, Typography, Divider, Button } from "antd";
 import { GithubOutlined, LinkedinOutlined, MailOutlined, ArrowUpOutlined } from "@ant-design/icons";
 

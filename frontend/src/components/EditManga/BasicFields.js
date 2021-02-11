@@ -1,4 +1,3 @@
-import React from "react";
 import Proptypes from "prop-types";
 
 import FilterDropdown from "../Filters/FilterDropdown";

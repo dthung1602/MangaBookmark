@@ -1,4 +1,3 @@
-import React from "react";
 import { Result, Button } from "antd";
 import { HomeOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";

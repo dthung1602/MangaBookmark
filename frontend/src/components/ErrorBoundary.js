@@ -1,10 +1,10 @@
-import React from "react";
+import { Component } from "react";
 import PropTypes from "prop-types";
 import { Button, Result } from "antd";
 import { ReloadOutlined, BugOutlined, FundOutlined } from "@ant-design/icons";
 import { LINK_ISSUE_TRACKER } from "../utils/constants";
 
-class ErrorBoundary extends React.Component {
+class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
     this.state = { error: null, errorInfo: null, openStackTrace: false };

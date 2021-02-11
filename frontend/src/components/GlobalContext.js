@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { UserAPI, MetaAPI } from "../api";
 import { throwOnCriticalErrors, notifyError } from "../utils/error-handler";
@@ -9,7 +9,7 @@ const initContext = {
   supportedSites: [],
 };
 
-const GlobalContext = React.createContext([initContext, (s) => s]);
+const GlobalContext = createContext([initContext, (s) => s]);
 
 const GlobalContextProvider = (props) => {
   const [state, setState] = useState(initContext);
