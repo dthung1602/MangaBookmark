@@ -1,4 +1,4 @@
-import React from "react";
+import { createElement } from "react";
 import { StringParam, useQueryParam, withDefault } from "use-query-params";
 import { Card, Grid, Layout, Tabs } from "antd";
 
@@ -44,7 +44,7 @@ const Account = () => {
         <div className="tab-container">
           <Tabs tabPosition={tabPosition} defaultActiveKey={tab} onChange={setTab}>
             {Object.entries(TAB_MAPPING).map(([key, { displayName, component }]) => {
-              const content = React.createElement(component);
+              const content = createElement(component);
               return (
                 <TabPane key={key} tab={displayName}>
                   <Card title={displayName} className="card-form">

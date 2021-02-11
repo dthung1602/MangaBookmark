@@ -1,4 +1,3 @@
-import React from "react";
 import { RIGHT_PANEL_TABLE_PAGE_SIZE } from "./constants";
 
 export const changeChapterReadStatusLogic = (manga, onChangeChapterStatus) => {

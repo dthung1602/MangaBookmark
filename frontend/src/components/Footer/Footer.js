@@ -1,4 +1,3 @@
-import React from "react";
 import { Layout, Row, Col } from "antd";
 import { GithubOutlined, LinkedinOutlined, MailOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";

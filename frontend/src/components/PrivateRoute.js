@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { createElement, useContext } from "react";
 import PropTypes from "prop-types";
 import { Redirect, Route } from "react-router-dom";
 
@@ -16,7 +16,7 @@ function PrivateRoute({ component, ...rest }) {
           return <FullScreenLoading />;
         }
         if (user) {
-          return React.createElement(component);
+          return createElement(component);
         }
         return (
           <Redirect

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { StringParam, ArrayParam, useQueryParams, withDefault } from "use-query-params";
 import { Layout, Modal } from "antd";
 

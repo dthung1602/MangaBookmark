@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Proptypes from "prop-types";
 import { Descriptions, Empty, message, Popconfirm, Spin, Typography } from "antd";
 import { DeleteOutlined, SyncOutlined, CheckOutlined } from "@ant-design/icons";

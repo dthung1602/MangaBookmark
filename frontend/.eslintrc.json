@@ -28,7 +28,9 @@
   ],
   "rules": {
     "no-prototype-builtins": "off",
-    "curly": ["warn", "all"]
+    "curly": ["warn", "all"],
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off"
   },
   "settings": {
     "react": {
