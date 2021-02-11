@@ -6,40 +6,31 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd "${DIR}"
 
 # generate Swagger doc
+echo "Generating swagger doc ..."
 yarn --cwd "${DIR}/backend" run gendoc
 
 # build FE
+echo "Building FE ..."
 GENERATE_SOURCEMAP=false yarn --cwd "${DIR}/frontend" run build
-
-# pre-compress static files
-echo "Compressing static files ..."
-
-cd "${DIR}/frontend/build"
-gzip -9 -k ./*.html
-gzip -9 ./*.json ./*.js ./*.ico
-gzip -9 -r "${DIR}/frontend/build/static/css"
-gzip -9 -r "${DIR}/frontend/build/static/js"
-
-echo "Done compressing"
 
 if [ "${NODE_ENV}" = "production" ]
 then
   # move build to backend
-  echo "Moving frontend build directory to backend"
+  echo "Moving frontend build directory to backend ..."
   mv "${DIR}/frontend/build" "${DIR}/backend/frontend-build"
 
   # remove the frontend dir to make the build lighter
-  echo "Removing frontend directory"
+  echo "Removing frontend directory ..."
   rm -rf "${DIR}/frontend/"
 
   # remove frontend packages in node_modules to make the build even lighter
-  echo "Removing frontend packages"
+  echo "Removing frontend packages ..."
   frontend_packages=$(node -e "console.log(Object.keys(require('./frontend/package.json').dependencies))" | tr -d "[],'\"\n")
   yarn --cwd "${DIR}/frontend" remove $frontend_packages
 
 else
   # create soft link if it does not exist yet
-  echo "Creating symlink to frontend build directory"
+  echo "Creating symlink to frontend build directory ..."
   if [ ! -L "${DIR}/backend/frontend-build" ]
   then
     ln -s "${DIR}/frontend/build" "${DIR}/backend/frontend-build"

@@ -53,7 +53,13 @@ apiRouter.use("/meta", MetaRouter);
 app.use("/api", dynamicGZIP(), DBConnectionMiddleware, AuthenticateMiddleware, apiRouter, ErrorHandlerMiddleware);
 
 // Serve static files
-app.use("/", staticGZIP(path.join(__dirname, "frontend-build"), {}));
+app.use(
+  "/",
+  staticGZIP(path.join(__dirname, "frontend-build"), {
+    enableBrotli: true,
+    orderPreference: ["br"],
+  }),
+);
 
 // Any request that doesn't match one above, send back React's index.html file
 const frontendBuildIndex = path.join(__dirname, "frontend-build", "index.html");

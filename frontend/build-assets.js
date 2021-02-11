@@ -45,37 +45,37 @@ const convertToWebp = (pngSpritePath) => {
   const buff = Buffer.from(data.Files[0].FileData, "base64");
   fs.writeFileSync(webpSpritePath, buff);
 };
-
-const SPRITES = [
-  {
-    dir: "src/assets/manga-site-logo",
-    exclude: [],
-  },
-  {
-    dir: "src/assets/tech-logo",
-    exclude: ["logo.png", "logo-invert.png"],
-  },
-];
-
-for (let { dir, exclude } of SPRITES) {
-  console.log(`Generating sprites for ${dir}`);
-  const imagePaths = getImagesPathFromDir(dir, exclude);
-
-  Spritesmith.run({ src: imagePaths, padding: 1 }, function (err, result) {
-    if (err) {
-      console.error(err);
-    } else {
-      const pngSpritePath = dir + "/" + dir.split("/").pop() + ".png";
-      const cssPath = pngSpritePath.replace(".png", ".css");
-
-      console.log(`Writing PNG sprite to ${pngSpritePath}`);
-      fs.writeFileSync(pngSpritePath, result.image);
-
-      console.log(`Converting ${pngSpritePath} to WEBP`);
-      convertToWebp(pngSpritePath);
-
-      console.log(`Writing CSS to ${cssPath}`);
-      fs.writeFileSync(cssPath, generateCSS(result.coordinates));
-    }
-  });
-}
+//
+// const SPRITES = [
+//   {
+//     dir: "src/assets/manga-site-logo",
+//     exclude: [],
+//   },
+//   {
+//     dir: "src/assets/tech-logo",
+//     exclude: ["logo.png", "logo-invert.png"],
+//   },
+// ];
+//
+// for (let { dir, exclude } of SPRITES) {
+//   console.log(`> Generating sprites for ${dir}`);
+//   const imagePaths = getImagesPathFromDir(dir, exclude);
+//
+//   Spritesmith.run({ src: imagePaths, padding: 1 }, function (err, result) {
+//     if (err) {
+//       console.error(err);
+//     } else {
+//       const pngSpritePath = dir + "/" + dir.split("/").pop() + ".png";
+//       const cssPath = pngSpritePath.replace(".png", ".css");
+//
+//       console.log(` - Writing PNG sprite to ${pngSpritePath}`);
+//       fs.writeFileSync(pngSpritePath, result.image);
+//
+//       console.log(` - Converting ${pngSpritePath} to WEBP`);
+//       convertToWebp(pngSpritePath);
+//
+//       console.log(` - Writing CSS to ${cssPath}`);
+//       fs.writeFileSync(cssPath, generateCSS(result.coordinates));
+//     }
+//   });
+// }
