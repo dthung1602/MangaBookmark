@@ -68,11 +68,13 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
     );
   }
 
+  const allChaptersRead = manga.chapters.every((chap) => chap.isRead);
+
   const markAllChapterAsRead = changeChapterReadStatusLogic(manga, markChapters)[2];
 
   return (
     <div id="right-panel">
-      <Spin spinning={isLoading}>
+      <Spin spinning={isLoading || isChapterListLoading}>
         <div className="manga-cover-image-wrapper">
           <img
             className="manga-cover-image"
@@ -91,10 +93,12 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
               <SyncOutlined />
               <span>Update</span>
             </div>
-            <div className="mark-all" onClick={markAllChapterAsRead}>
-              <CheckOutlined />
-              <span>Mark</span>
-            </div>
+            {allChaptersRead ? null : (
+              <div className="mark-all" onClick={markAllChapterAsRead}>
+                <CheckOutlined />
+                <span>Mark</span>
+              </div>
+            )}
           </div>
         </div>
         <Title level={3}>
