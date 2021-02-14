@@ -6,7 +6,7 @@ import image8 from "./fulmetal-alchemist.jpg";
 import image9 from "./mahou-tsukai-no-yome.webp";
 import image11 from "./inuyasha.webp";
 import image12 from "./bakemonogatari.webp";
-import image13 from "./kaguyasama-love-is-war.png";
+import image13 from "./kaguyasama-love-is-war.webp";
 import image14 from "./naruto.jpg";
 import image15 from "./noragami.jpg";
 import image17 from "./umaru.jpg";
