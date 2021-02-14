@@ -19,7 +19,11 @@ const app = addAsync(express());
 app.enable("trust proxy"); // let Google & Facebook use https
 if (config.NODE_ENV === "production") {
   app.use(enforceSSL());
-  app.use(helmet());
+  app.use(
+    helmet({
+      contentSecurityPolicy: false,
+    }),
+  );
 }
 app.use(logger("dev"));
 app.use(express.json({ limit: "64mb" }));

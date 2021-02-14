@@ -5,7 +5,7 @@ import "./Footer.less";
 
 // TODO reduce image sizes
 import LOGO_INVERT from "../../assets/tech-logo/logo-invert.webp";
-import TECH_LOGO_SPRITE from "../../assets/tech-logo/tech-logo.png";
+import TECH_LOGO_SPRITE from "../../assets/tech-logo/tech-logo.webp";
 import {
   ROUTE_ACCOUNT,
   ROUTE_HOME,

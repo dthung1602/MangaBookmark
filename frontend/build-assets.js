@@ -44,6 +44,7 @@ const convertToWebp = (pngSpritePath) => {
   }
   const buff = Buffer.from(data.Files[0].FileData, "base64");
   fs.writeFileSync(webpSpritePath, buff);
+  fs.unlinkSync(pngSpritePath);
 };
 
 const SPRITES = [

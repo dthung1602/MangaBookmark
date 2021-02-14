@@ -31,7 +31,7 @@ import {
   FRONTEND_VERSION,
 } from "../utils/constants";
 import LOGO from "../assets/tech-logo/logo-invert.webp";
-import TECH_LOGO_SPRITE from "../assets/tech-logo/tech-logo.png";
+import TECH_LOGO_SPRITE from "../assets/tech-logo/tech-logo.webp";
 import MANGA_SITE_LOGO_SPRITE from "../assets/manga-site-logo/manga-site-logo.webp";
 import "./Home.less";
 
