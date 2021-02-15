@@ -2,8 +2,13 @@ import { useState, useContext } from "react";
 import { GlobalContext } from "../components/GlobalContext";
 
 const enrichManga = (manga, supportedSites) => {
+  const unknownSite = {
+    name: "Unknown",
+    homepage: "",
+    lang: "en",
+  };
   if (manga) {
-    manga.mangaSite = supportedSites.find((site) => site.name === manga.site);
+    manga.mangaSite = supportedSites.find((site) => site.name === manga.site) || unknownSite;
   }
   return manga;
 };

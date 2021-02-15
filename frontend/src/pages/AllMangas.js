@@ -21,6 +21,7 @@ import "./Mangas.less";
 
 const AllMangas = () => {
   const [mangas, setMangas] = useEnrichMangas();
+  console.log(JSON.stringify(mangas));
   const [selectedManga, setSelectedManga] = useEnrichManga();
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);

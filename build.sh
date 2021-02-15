@@ -11,7 +11,7 @@ yarn --cwd "${DIR}/backend" run gendoc
 
 # build FE
 echo "Building FE ..."
-GENERATE_SOURCEMAP=false yarn --cwd "${DIR}/frontend" run build
+yarn --cwd "${DIR}/frontend" run build
 
 if [ "${NODE_ENV}" = "production" ]
 then
