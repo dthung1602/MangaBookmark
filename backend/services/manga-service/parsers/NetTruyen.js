@@ -95,6 +95,7 @@ const availableTags = [
 ];
 
 module.exports = {
+  active: true,
   lang: "vi",
   site: "NetTruyen",
   homepage: "http://www.nettruyen.com/",

@@ -194,6 +194,7 @@ const availableTags = [
 ];
 
 module.exports = {
+  active: true,
   lang: "en",
   site: "MangaDex",
   homepage: "https://mangadex.org/",

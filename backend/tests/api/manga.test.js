@@ -99,6 +99,7 @@ describe("Manga API", () => {
     const mockParsedChapters = mockParsedManga.chapters;
 
     getParser.mockImplementation(() => ({
+      active: true,
       site: "Sauce",
       URLRegex: /.*/,
       parseManga: () => mockParsedManga,
@@ -139,7 +140,19 @@ describe("Manga API", () => {
   });
 
   it.each(INVALID_NEW_MANGA)("should validate params when creating manga", async function (payload, expectedErrs) {
-    getParser.mockImplementation((url) => (url === "https://example.com" ? null : jest.fn()));
+    getParser.mockImplementation((url) => {
+      const mockParserMapping = {
+        "https://example.com": null,
+        "https://example.com/no-longer-active": { active: false },
+      };
+      if (mockParserMapping.hasOwnProperty(url)) {
+        return mockParserMapping[url];
+      }
+      const defaultMockParser = jest.fn();
+      defaultMockParser.active = true;
+      return defaultMockParser;
+    });
+
     const response = await request(app).post("/api/mangas").send(payload);
     expect(response.status).toEqual(400);
     expectErrors(expectedErrs, response.body.errors);
@@ -201,6 +214,7 @@ describe("Manga API", () => {
     const mockParsedManga = getMockParsedManga();
     const mockParsedChapters = mockParsedManga.chapters;
     getParser.mockImplementation(() => ({
+      active: true,
       site: "Sauce",
       URLRegex: /.*/,
       parseManga: () => mockParsedManga,
@@ -214,9 +228,14 @@ describe("Manga API", () => {
 
   it("should validate link when getting manga info from link", async function () {
     getParser.mockImplementation(() => null);
-    const response = await request(app).get("/api/mangas/info").query({ link: "https://example.com" });
+    let response = await request(app).get("/api/mangas/info").query({ link: "https://example.com" });
     expect(response.status).toEqual(400);
     expectErrors({ link: "Unsupported manga site" }, response.body.errors);
+
+    getParser.mockImplementation(() => ({ active: false }));
+    response = await request(app).get("/api/mangas/info").query({ link: "https://example.com" });
+    expect(response.status).toEqual(400);
+    expectErrors({ link: "Site no longer active" }, response.body.errors);
   });
 
   it.each(READ_CHAPTERS)("should change chapters' read statuses", async function (isRead, chapters, expectedIsReads) {
@@ -248,6 +267,7 @@ describe("Manga API", () => {
     const mockParsedManga = getMockParsedManga({ isCompleted: true });
     const mockParsedChapters = mockParsedManga.chapters;
     getParser.mockImplementation(() => ({
+      active: true,
       site: "Sauce",
       URLRegex: /.*/,
       parseManga: () => mockParsedManga,
@@ -290,6 +310,7 @@ describe("Manga API", () => {
       }
       const mockParsedManga = getMockParsedManga({ image: "https://image.com" }, 6);
       return {
+        active: true,
         site: "Sauce",
         URLRegex: /.*/,
         parseManga: () => mockParsedManga,

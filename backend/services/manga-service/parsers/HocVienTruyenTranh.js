@@ -100,6 +100,7 @@ const availableTags = [
 ];
 
 module.exports = {
+  active: true,
   lang: "vi",
   site: "HocVienTruyenTranh",
   homepage: "https://hocvientruyentranh.net/",

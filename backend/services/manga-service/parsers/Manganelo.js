@@ -83,6 +83,7 @@ const availableTags = [
 ];
 
 module.exports = {
+  active: true,
   lang: "en",
   site: "Manganelo",
   homepage: "https://manganelo.com/",

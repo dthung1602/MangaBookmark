@@ -89,6 +89,7 @@ const availableTags = [
 ];
 
 module.exports = {
+  active: true,
   lang: "vi",
   site: "Otakusan",
   homepage: "https://otakusan.net/",

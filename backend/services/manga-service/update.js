@@ -8,6 +8,9 @@ module.exports = async function (manga, additionalUpdate = false) {
   if (parser === null) {
     throw new Error("Unsupported manga site");
   }
+  if (!parser.active) {
+    throw new Error("Site no longer active");
+  }
 
   const crawledManga = await parser.parseManga(manga.link);
   const crawledChapters = crawledManga.chapters;

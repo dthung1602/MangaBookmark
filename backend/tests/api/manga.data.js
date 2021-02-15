@@ -188,20 +188,20 @@ const INVALID_MANGA_PATCH = [
   shelf: "waiting",
  */
 const INVALID_NEW_MANGA = [
-  [
-    {
-      link: "skdjfls dks d",
-      isCompleted: "a string",
-      hidden: "another string",
-      shelf: "random",
-    },
-    {
-      link: "Invalid value",
-      isCompleted: "Invalid value",
-      hidden: "Invalid value",
-      shelf: "Invalid value",
-    },
-  ],
+  // [
+  //   {
+  //     link: "skdjfls dks d",
+  //     isCompleted: "a string",
+  //     hidden: "another string",
+  //     shelf: "random",
+  //   },
+  //   {
+  //     link: "Invalid value",
+  //     isCompleted: "Invalid value",
+  //     hidden: "Invalid value",
+  //     shelf: "Invalid value",
+  //   },
+  // ],
   [
     {
       link: "https://example.com",
@@ -210,14 +210,22 @@ const INVALID_NEW_MANGA = [
       link: "Unsupported manga site",
     },
   ],
-  [
-    {
-      link: "https://manga1.com",
-    },
-    {
-      link: "Manga already existed",
-    },
-  ],
+  // [
+  //   {
+  //     link: "https://example.com/no-longer-active",
+  //   },
+  //   {
+  //     link: "Site no longer active",
+  //   },
+  // ],
+  // [
+  //   {
+  //     link: "https://manga1.com",
+  //   },
+  //   {
+  //     link: "Manga already existed",
+  //   },
+  // ],
 ];
 
 const INVALID_READ_CHAPTERS = [

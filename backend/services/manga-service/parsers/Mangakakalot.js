@@ -82,6 +82,7 @@ const availableTags = [
 ];
 
 module.exports = {
+  active: true,
   lang: "en",
   site: "Mangakakalot",
   homepage: "https://mangakakalot.com/",

@@ -32,6 +32,7 @@ async function parseManga(url) {
 }
 
 module.exports = {
+  active: true,
   lang: "en",
   site: "MangakakalotS",
   homepage: "https://ww2.mangakakalots.com/",

@@ -29,6 +29,7 @@ async function parseManga(url) {
 }
 
 module.exports = {
+  active: true,
   lang: "en",
   site: "MangaOwl",
   homepage: "https://mangaowl.net/",

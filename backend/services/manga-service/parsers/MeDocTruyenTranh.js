@@ -29,6 +29,7 @@ async function parseManga(url) {
 }
 
 module.exports = {
+  active: true,
   lang: "vi",
   site: "MeDocTruyenTranh",
   homepage: "https://www.medoctruyentranh.net/",

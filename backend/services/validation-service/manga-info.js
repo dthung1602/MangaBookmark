@@ -11,6 +11,9 @@ module.exports = [
       if (!parser) {
         throw new Error("Unsupported manga site");
       }
+      if (!parser.active) {
+        throw new Error("Site no longer active");
+      }
       req.parser = parser;
     }),
   ErrorFormatter,

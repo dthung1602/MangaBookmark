@@ -15,6 +15,9 @@ module.exports = [
       if (!req.parser) {
         throw new Error("Unsupported manga site");
       }
+      if (!req.parser.active) {
+        throw new Error("Site no longer active");
+      }
       const manga = await Manga.findOne({ user: req.user.id, link: link });
       if (manga) {
         throw new Error("Manga already existed");
