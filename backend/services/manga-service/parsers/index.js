@@ -36,10 +36,15 @@ function getParser(url) {
   return null;
 }
 
+function getSiteByName(name) {
+  return supportedSites.find((site) => site.name === name);
+}
+
 module.exports = {
   parsers,
   supportedSites,
   availableTags,
   parserRegexMapping,
   getParser,
+  getSiteByName,
 };

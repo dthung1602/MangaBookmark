@@ -1,6 +1,7 @@
 .idea
 node_modules
 backend/frontend-build
+backend/cache
 frontend/build
 frontend/src/assets/manga-site-logo/manga-site-logo*
 frontend/src/assets/tech-logo/tech-logo*

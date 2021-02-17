@@ -17,4 +17,6 @@ module.exports = {
 
   SubscriptionCreateValidator: require("./subsription-create"),
   SubscriptionDeleteValidator: require("./subsription-delete"),
+
+  ImageProxyValidator: require("./image-proxy"),
 };

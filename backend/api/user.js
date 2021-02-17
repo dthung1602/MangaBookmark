@@ -3,7 +3,7 @@ const passport = require("passport");
 const router = Router();
 
 const ThirdPartyAuthRouter = require("./third-party-auth");
-const { User: User } = require("../models");
+const { User } = require("../models");
 const { removePassword } = require("./utils");
 const UserService = require("../services/user-service");
 const {

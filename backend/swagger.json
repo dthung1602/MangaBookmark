@@ -351,6 +351,17 @@
     }
   },
   "paths": {
+    "/api/image-proxy": {
+      "get": {
+        "description": "Get image with spoofed referer to bypass security measures",
+        "responses": {
+          "200": {
+            "description": "Retrieved successfully",
+            "content": "image/jpeg image/png image/webp image/gif"
+          }
+        }
+      }
+    },
     "/api/mangas": {
       "get": {
         "description": "Search & filter mangas",

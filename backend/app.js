@@ -43,6 +43,7 @@ const MangaRouter = require("./api/manga");
 const UserRouter = require("./api/user");
 const SubscriptionRouter = require("./api/subscription");
 const MetaRouter = require("./api/meta");
+const ImageProxyRouter = require("./api/image-proxy");
 const { AuthenticateMiddleware } = require("./services/auth-service");
 const { DBConnectionMiddleware } = require("./services/db-service");
 const { ErrorHandlerMiddleware } = require("./errors");
@@ -54,6 +55,7 @@ apiRouter.use("/mangas", MangaRouter);
 apiRouter.use("/user", UserRouter);
 apiRouter.use("/subscriptions", SubscriptionRouter);
 apiRouter.use("/meta", MetaRouter);
+apiRouter.use("/image-proxy", ImageProxyRouter);
 app.use("/api", dynamicGZIP(), DBConnectionMiddleware, AuthenticateMiddleware, apiRouter, ErrorHandlerMiddleware);
 
 // Serve static files
