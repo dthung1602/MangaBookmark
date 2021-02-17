@@ -17,7 +17,8 @@
       "/node_modules/",
       "/tests/",
       "/services/manga-service/parsers"
-    ]
+    ],
+    "coverageReporters": ["text", "html"]
   },
   "dependencies": {
     "@awaitjs/express": "^0.7.1",

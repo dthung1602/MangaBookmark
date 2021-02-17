@@ -1,5 +1,6 @@
 jest.mock("../../services/manga-service/parsers", () => ({
   getParser: jest.fn(),
+  supportedSites: [],
 }));
 
 const request = require("supertest");

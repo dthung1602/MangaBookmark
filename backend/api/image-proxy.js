@@ -18,10 +18,22 @@ const { getImage, getEtag } = require("../services/image-proxy-service");
  *       200:
  *         description: Retrieved successfully
  *         content:
- *           image/jpeg
- *           image/png
- *           image/webp
- *           image/gif
+ *           image/jpeg:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *           image/png:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *           image/webp:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *           image/gif:
+ *             schema:
+ *               type: string
+ *               format: binary
  */
 router.getAsync("/", ImageProxyValidator, async (req, res) => {
   const requestEtag = req.headers["if-none-match"];
