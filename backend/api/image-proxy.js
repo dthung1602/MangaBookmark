@@ -3,6 +3,7 @@ const { Router } = require("@awaitjs/express");
 const router = Router();
 
 const { ImageProxyValidator } = require("../services/validation-service");
+const { ImageProxyErrorHandlerMiddleware } = require("../errors");
 const { getImage, getEtag } = require("../services/image-proxy-service");
 
 //----------------------------------------
@@ -37,16 +38,24 @@ const { getImage, getEtag } = require("../services/image-proxy-service");
  */
 router.getAsync("/", ImageProxyValidator, async (req, res) => {
   const requestEtag = req.headers["if-none-match"];
-  const formattedEtag = `"${getEtag(req.url)}"`;
+  const etag = getEtag(req.query.url);
 
-  if (requestEtag === formattedEtag) {
+  if (etag && etag === requestEtag) {
     res.sendStatus(304);
-  } else {
-    const image = await getImage(req.query.url, req.query.mangaSite);
-    res.set("ETag", formattedEtag);
-    res.set("Content-Type", image.contentType);
-    res.end(image.buffer);
+    return;
   }
+
+  const image = await getImage(req.query.url, req.query.mangaSite);
+  if (requestEtag === image.etag) {
+    res.sendStatus(304);
+    return;
+  }
+
+  res.set("ETag", etag);
+  res.set("Content-Type", image.contentType);
+  res.end(image.buffer);
 });
+
+router.use("/", ImageProxyErrorHandlerMiddleware);
 
 module.exports = router;

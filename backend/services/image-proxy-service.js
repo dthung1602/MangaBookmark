@@ -55,7 +55,7 @@ async function cacheImage(response) {
   const buffer = await response.buffer();
   await fs.writeFile(`${CACHE_DIR}/${key}`, buffer);
 
-  const etag = hashImage(buffer);
+  const etag = `"${hashImage(buffer)}"`;
   contentTypeMapping.set(key, contentType);
   eTagMapping.set(key, etag);
 

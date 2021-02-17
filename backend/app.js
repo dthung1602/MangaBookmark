@@ -46,7 +46,7 @@ const MetaRouter = require("./api/meta");
 const ImageProxyRouter = require("./api/image-proxy");
 const { AuthenticateMiddleware } = require("./services/auth-service");
 const { DBConnectionMiddleware } = require("./services/db-service");
-const { ErrorHandlerMiddleware } = require("./errors");
+const { ErrorHandlerMiddleware, NotFoundError } = require("./errors");
 
 // API
 const apiRouter = Router();
@@ -56,6 +56,9 @@ apiRouter.use("/user", UserRouter);
 apiRouter.use("/subscriptions", SubscriptionRouter);
 apiRouter.use("/meta", MetaRouter);
 apiRouter.use("/image-proxy", ImageProxyRouter);
+apiRouter.use("*", () => {
+  throw new NotFoundError();
+});
 app.use("/api", dynamicGZIP(), DBConnectionMiddleware, AuthenticateMiddleware, apiRouter, ErrorHandlerMiddleware);
 
 // Serve static files
@@ -70,6 +73,7 @@ app.use(
 // Any request that doesn't match one above, send back React's index.html file
 const frontendBuildIndex = path.join(__dirname, "frontend-build", "index.html");
 app.get("*", (req, res) => {
+  console.log(req.url);
   res.sendFile(frontendBuildIndex);
 });
 
