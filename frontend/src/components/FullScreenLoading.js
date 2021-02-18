@@ -1,13 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { randomFrom } from "../utils";
-
-import aqua from "../assets/loading/aqua.gif";
-import darkness from "../assets/loading/darkness.gif";
-import kazuma from "../assets/loading/kazuma.gif";
-import megumin from "../assets/loading/megumin.gif";
-
-const loadingGIFs = [aqua, darkness, kazuma, megumin];
+import loadingGIFs from "../assets/loading";
 
 const FullScreenLoading = () => {
   const [img, setImg] = useState(randomFrom(loadingGIFs));

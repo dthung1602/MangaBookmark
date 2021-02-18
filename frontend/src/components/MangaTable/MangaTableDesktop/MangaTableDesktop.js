@@ -3,6 +3,7 @@ import { Table, Skeleton, Typography } from "antd";
 
 import MangaBasicInfo from "../MangaBasicInfo";
 import MangaQuickActions from "./MangaQuickActions";
+import MangaCover from "../../MangaCover";
 import { statusToClassMapping } from "../utils";
 import { isEmptyObject } from "../../../utils";
 import { MANGA_PER_PAGE } from "../../../utils/constants";
@@ -44,7 +45,7 @@ const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked,
             return <Skeleton.Image active />;
           }
           return (
-            <img
+            <MangaCover
               className="manga-cover-image"
               src={manga.image}
               alt={manga.name}

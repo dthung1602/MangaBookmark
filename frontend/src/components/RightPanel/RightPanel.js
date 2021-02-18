@@ -5,13 +5,14 @@ import { DeleteOutlined, SyncOutlined, CheckOutlined } from "@ant-design/icons";
 
 import MangaStatus from "../MangaStatus";
 import MangaSiteLink from "../MangaSiteLink";
+import MangaCover from "../MangaCover";
 import { BasicFields, ChapterList, Note } from "../EditManga";
 import { MangaAPI } from "../../api";
 import { useMarkChapterAPI } from "../../hooks";
 import { formatDate, isNonEmptyArray } from "../../utils";
 import { throwOnCriticalErrors, notifyError } from "../../utils/error-handler";
 import { changeChapterReadStatusLogic } from "../../utils/chapters";
-import PLACE_HOLDER_IMG from "../../assets/umaru.webp";
+import PLACE_HOLDER_IMG from "../../assets/right-panel-footer.webp";
 import "./RightPanel.less";
 
 const { Title, Paragraph } = Typography;
@@ -76,7 +77,7 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
     <div id="right-panel">
       <Spin spinning={isLoading || isChapterListLoading}>
         <div className="manga-cover-image-wrapper">
-          <img
+          <MangaCover
             className="manga-cover-image"
             src={manga.image}
             alt={manga.name}

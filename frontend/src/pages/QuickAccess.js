@@ -11,6 +11,7 @@ import RightPanel from "../components/RightPanel";
 import MangaTableDesktop from "../components/MangaTable/MangaTableDesktop";
 import MangaTableMobile from "../components/MangaTable/MangaTableMobile";
 import NewMangaModal from "../components/NewMangaModal";
+import MangaCover from "../components/MangaCover";
 import {
   READING,
   TO_READ,
@@ -215,7 +216,7 @@ const QuickAccess = () => {
       <NewMangaModal open={newMangaModalOpen} onCancel={closeNewMangaModal} addMangaDone={addMangaDone} />
 
       <Modal visible={openImg} footer={null} onCancel={() => setOpenImg(false)}>
-        <img className="right-panel-cover-large" src={openImg} alt={openImg} />
+        <MangaCover className="right-panel-cover-large" src={openImg} alt={openImg} />
       </Modal>
     </PageLayout>
   );

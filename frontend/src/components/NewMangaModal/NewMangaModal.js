@@ -3,12 +3,13 @@ import PropTypes from "prop-types";
 import { Button, Col, Form, Input, Modal, Row, Select, Skeleton, Switch, Typography, message } from "antd";
 import { FullscreenOutlined, FullscreenExitOutlined } from "@ant-design/icons";
 
+import MangaCover from "../MangaCover";
+import { ChapterList } from "../EditManga";
 import { MangaAPI } from "../../api";
 import { clonePlainObject, isNonEmptyArray } from "../../utils";
 import { READING, SHELVES } from "../../utils/constants";
 import { throwOnCriticalErrors, notifyError } from "../../utils/error-handler";
 import "./NewMangaModel.less";
-import { ChapterList } from "../EditManga";
 
 const { Search } = Input;
 const { Title, Text, Paragraph } = Typography;
@@ -168,7 +169,7 @@ const NewMangaModal = ({ open, onCancel, addMangaDone }) => {
     content = (
       <Row gutter={24}>
         <Col xs={24} sm={8}>
-          <img src={manga.image} alt={manga.name} />
+          <MangaCover src={manga.image} alt={manga.name} />
           <Button
             block
             type="dashed"

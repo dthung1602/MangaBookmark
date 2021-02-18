@@ -12,6 +12,7 @@ import MangaTableDesktop from "../components/MangaTable/MangaTableDesktop";
 import MangaTableMobile from "../components/MangaTable/MangaTableMobile";
 import NewMangaModal from "../components/NewMangaModal";
 import EndOfList from "../components/EndOfList";
+import MangaCover from "../components/MangaCover";
 import { ANY, MANGA_PER_PAGE, SORT_DEC_STATUS } from "../utils/constants";
 import { MangaAPI } from "../api";
 import { useUpdateMultipleAPI, useEnrichMangas, useEnrichManga } from "../hooks";
@@ -192,7 +193,7 @@ const AllMangas = () => {
       <NewMangaModal open={newMangaModalOpen} onCancel={closeNewMangaModal} addMangaDone={addMangaDone} />
 
       <Modal visible={openImg} footer={null} onCancel={() => setOpenImg(false)}>
-        <img className="right-panel-cover-large" src={openImg} alt={openImg} />
+        <MangaCover className="right-panel-cover-large" src={openImg} alt={openImg} />
       </Modal>
     </PageLayout>
   );
