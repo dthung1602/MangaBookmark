@@ -80,8 +80,9 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
           <MangaCover
             className="manga-cover-image"
             src={manga.image}
+            mangaSite={manga.site}
             alt={manga.name}
-            onClick={() => showImage(manga.image)}
+            onClick={() => showImage({ src: manga.image, mangaSite: manga.site })}
           />
           <div className="quick-actions">
             <Popconfirm title="Delete this manga?" placement="left" onConfirm={deleteManga}>

@@ -48,8 +48,9 @@ const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked,
             <MangaCover
               className="manga-cover-image"
               src={manga.image}
+              mangaSite={manga.site}
               alt={manga.name}
-              onClick={() => showImage(manga.image)}
+              onClick={() => showImage({ src: manga.image, mangaSite: manga.site })}
             />
           );
         }}

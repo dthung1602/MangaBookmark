@@ -11,6 +11,7 @@ const MangaCover = ({ src: originalSrc, mangaSite, ...props }) => {
     src === FALLBACK_IMG
       ? null
       : async () => {
+          console.log(src);
           try {
             const srcHost = new URL(src).host;
             if (srcHost !== window.location.host) {

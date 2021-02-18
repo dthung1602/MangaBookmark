@@ -15,6 +15,7 @@ import {
 
 import { BasicFields, ChapterList, Note } from "../../EditManga";
 import MangaBasicInfo from "../MangaBasicInfo";
+import MangaCover from "../../MangaCover";
 import { MangaAPI } from "../../../api";
 import { useMarkChapterAPI } from "../../../hooks";
 import { changeChapterReadStatusLogic, getNextChapToRead } from "../../../utils/chapters";
@@ -149,7 +150,7 @@ const MangaCard = ({ manga, updateMangaDone, deleteMangaDone }) => {
         className={`manga-card triangle bottom-right ${statusClass}`}
         cover={
           <div className="cover">
-            <img alt={manga.name} src={manga.image} />
+            <MangaCover alt={manga.name} src={manga.image} mangaSite={manga.site} />
           </div>
         }
       >

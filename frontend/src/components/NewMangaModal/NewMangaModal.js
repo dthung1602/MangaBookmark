@@ -169,7 +169,7 @@ const NewMangaModal = ({ open, onCancel, addMangaDone }) => {
     content = (
       <Row gutter={24}>
         <Col xs={24} sm={8}>
-          <MangaCover src={manga.image} alt={manga.name} />
+          <MangaCover src={manga.image} mangaSite={manga.site} alt={manga.name} />
           <Button
             block
             type="dashed"
