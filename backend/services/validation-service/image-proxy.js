@@ -7,7 +7,7 @@ const mangaSites = supportedSites.map((s) => s.name);
 
 const ImageProxyValidator = [
   check("url").exists().isURL(),
-  check("mangaSite").exists().isIn(mangaSites),
+  check("mangaSite").optional().isIn(mangaSites),
   ErrorFormatter,
 ];
 

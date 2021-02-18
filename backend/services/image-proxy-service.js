@@ -13,15 +13,17 @@ const ETAG_HASH_HEAD_TAIL_SIZE = 2048;
  * Fetch the image from the internet with spoofed referer
  */
 function fetchImage(url, mangaSite) {
-  return got(url, {
-    headers: {
-      "User-Agent": getRandomUserAgent(),
-      "Accept-Language": "en",
-      "Accept-Encoding": "gzip, deflate",
-      Accept: "image/webp,*/*",
-      Referer: getSiteByName(mangaSite)?.homepage,
-    },
-  });
+  const headers = {
+    "User-Agent": getRandomUserAgent(),
+    "Accept-Language": "en",
+    "Accept-Encoding": "gzip, deflate",
+    Accept: "image/webp,*/*",
+  };
+  const referer = getSiteByName(mangaSite)?.homepage;
+  if (referer) {
+    headers.Referer = referer;
+  }
+  return got(url, { headers });
 }
 
 function hash(string) {

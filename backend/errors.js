@@ -1,4 +1,4 @@
-const fs = require("fs");
+const { HTTPError } = require("got");
 
 class CustomError extends Error {
   constructor(errors, statusCode) {
@@ -51,17 +51,13 @@ const ErrorHandlerMiddleware = (err, req, res, next) => {
   }
 };
 
-const mediaDir = `${__dirname}/frontend-build/static/media/`;
-let fallbackMangaCoverImage = mediaDir + fs.readdirSync(mediaDir).find((f) => f.startsWith("fallback-manga-cover"));
-
 // eslint-disable-next-line no-unused-vars
 const ImageProxyErrorHandlerMiddleware = (err, req, res, next) => {
-  console.error("Error in image proxy " + err.stack);
-  res.sendFile(fallbackMangaCoverImage, (e) => {
-    if (e) {
-      res.end();
-    }
-  });
+  if (err instanceof HTTPError) {
+    res.sendStatus(err.response.statusCode);
+  } else {
+    next(err);
+  }
 };
 
 module.exports = {
