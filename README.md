@@ -11,7 +11,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/dthung1602/MangaBookmark">
-    <img src="logo.png" alt="MB" width="251" height="256">
+    <img src="https://raw.githubusercontent.com/dthung1602/MangaBookmark/master/logo.png" alt="MB" width="251" height="256">
   </a>
 
   <h3 align="center">Manga Bookmark</h3>
@@ -60,7 +60,11 @@ Take note in Excel? Write down to a paper? Or even remember them all?
 
 Demo video:
 
-[![MangaBookmark quick tour video](http://img.youtube.com/vi/sftVRbPcmoo/0.jpg)](http://www.youtube.com/watch?v=sftVRbPcmoo "MangaBookmark quicktour")
+<p align="center">
+  <a href="http://www.youtube.com/watch?v=sftVRbPcmoo">
+    <img src="http://img.youtube.com/vi/sftVRbPcmoo/0.jpg" alt="MangaBookmark quicktour" width="480" height="360">
+  </a>
+</p>
 
 With this web app, you can add a manga to your collection by 
 clicking the `+` button and paste the link of the manga detail page.
@@ -89,8 +93,9 @@ Make sure you have the following installed on your system:
 
 ### Installation
 
-1. Setup [Google Login](https://developers.google.com/identity/protocols/oauth2)
-and [Facebook Login](https://developers.facebook.com/docs/facebook-login/).
+1. Setup [Google Login](https://developers.google.com/identity/protocols/oauth2),
+   [Facebook Login](https://developers.facebook.com/docs/facebook-login/) 
+   and [Convert API account](https://www.convertapi.com).
 Make sure you have the API key and secret.
 2. Clone the repo
     ```sh
@@ -100,7 +105,7 @@ Make sure you have the API key and secret.
     ```sh
     yarn install
     ```
-4. Copy file `.env.example` to `.env` and add your Google & Facebook API key
+4. Copy file `.env.example` to `.env` and add your API keys
     ```sh
     cp .env.example .env
     ```
@@ -147,6 +152,17 @@ If you make changes to the Swagger js doc, run `yarn run gendoc` to update the A
 To lint BE `yarn lint-be`, to lint FE: `yarn lint-fe`, and to lint both just run `yarn lint`.
 
 There's no test for FE (yet). `yarn test-be` would obviously run test for BE.
+
+## Deployment
+
+1. Set up you hosting service
+2. Clone this git repo to your machine
+3. Prepare environment
+   - Copy `.env.development` to `.env`
+   - Replace mock keys by your real API keys
+   - Set `NOVE_ENV=production`
+   - Set `PORT` to the your app's desired working port
+4. Run `build.sh`
 
 
 <!-- ROADMAP -->
