@@ -64,6 +64,7 @@ function convertRange(filters, field, isDate = false) {
  *    "fieldA -fieldB" -> { fieldA: 1, fieldB: -1 }
  *    ["fieldA", "-fieldB"] -> { fieldA: 1, fieldB: -1 }
  * Note that "id" field is replaced by "_id"
+ * If _id is not specified, _id: 1 is added to ensure consistency
  * @param sort
  */
 function convertSort(sort) {
@@ -71,9 +72,12 @@ function convertSort(sort) {
     sort = sort.split(" ").filter(Boolean);
   }
   sort = Object.fromEntries(sort.map((f) => (f.startsWith("-") ? [f.slice(1), -1] : [f, 1])));
-  if ("id" in sort) {
+  if (sort.hasOwnProperty("id")) {
     sort._id = sort.id;
     delete sort.id;
+  }
+  if (!sort.hasOwnProperty("_id")) {
+    sort._id = 1;
   }
   return sort;
 }
