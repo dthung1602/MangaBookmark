@@ -16,18 +16,17 @@ import {
 import { BasicFields, ChapterList, Note } from "../../EditManga";
 import MangaBasicInfo from "../MangaBasicInfo";
 import MangaCover from "../../MangaCover";
+import NextChapButton from "../NextChapButton";
 import { MangaAPI } from "../../../api";
 import { useMarkChapterAPI } from "../../../hooks";
 import { changeChapterReadStatusLogic, getNextChapToRead } from "../../../utils/chapters";
 import { throwOnCriticalErrors, notifyError } from "../../../utils/error-handler";
 import { statusToClassMapping } from "../utils";
-import { isEmptyObject } from "../../../utils";
 import "./MangaCard.less";
-import NextChapButton from "../NextChapButton";
 
 const { confirm } = Modal;
 
-const MangaCard = ({ manga, updateMangaDone, deleteMangaDone }) => {
+const MangaCard = ({ manga, isSkeleton, updateMangaDone, deleteMangaDone }) => {
   const [enableEdit, setEnableEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [expand, setExpand] = useState(false);
@@ -94,7 +93,7 @@ const MangaCard = ({ manga, updateMangaDone, deleteMangaDone }) => {
 
   const toggleExpand = () => setExpand(!expand);
 
-  if (isEmptyObject(manga)) {
+  if (isSkeleton) {
     return (
       <Card
         className="manga-card"
@@ -183,6 +182,7 @@ const MangaCard = ({ manga, updateMangaDone, deleteMangaDone }) => {
 
 MangaCard.propTypes = {
   manga: PropTypes.object.isRequired,
+  isSkeleton: PropTypes.bool,
   updateMangaDone: PropTypes.func.isRequired,
   deleteMangaDone: PropTypes.func.isRequired,
 };

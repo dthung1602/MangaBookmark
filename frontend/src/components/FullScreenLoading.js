@@ -10,7 +10,8 @@ const FullScreenLoading = () => {
     const replaceImg = () => {
       setImg(randomFrom(loadingGIFs));
     };
-    setTimeout(replaceImg, 3000);
+    const job = setTimeout(replaceImg, 3000);
+    return () => clearTimeout(job);
   });
 
   return (

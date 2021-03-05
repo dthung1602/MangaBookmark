@@ -110,7 +110,7 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
         </Title>
         <Descriptions column={2} className="non-editable-info">
           <Descriptions.Item label="Site">
-            <MangaSiteLink mangaSite={manga.mangaSite} />
+            <MangaSiteLink mangaSiteName={manga.site} />
           </Descriptions.Item>
           {isNonEmptyArray(manga.authors) ? (
             <Descriptions.Item label="Author">{manga.authors.join(" - ")}</Descriptions.Item>
@@ -167,7 +167,7 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
 };
 
 RightPanel.propTypes = {
-  manga: Proptypes.object.isRequired,
+  manga: Proptypes.object,
   showImage: Proptypes.func.isRequired,
   deleteMangaDone: Proptypes.func.isRequired,
   updateMangaDone: Proptypes.func.isRequired,

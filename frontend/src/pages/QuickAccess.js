@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { StringParam, useQueryParam, withDefault } from "use-query-params";
-import { Layout, Modal, Tabs, Affix, Switch } from "antd";
-import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
+import { Affix, Layout, Modal, Switch, Tabs } from "antd";
+import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 
 import { Desktop, Mobile } from "../components/ScreenSize";
 import PageLayout from "./PageLayout";
@@ -21,8 +21,8 @@ import {
   WAITING_MG_UNREAD_CHAP_THRESHOLD,
 } from "../utils/constants";
 import { MangaAPI } from "../api";
-import { useUpdateMultipleAPI, useEnrichMangas, useEnrichManga } from "../hooks";
-import { throwOnCriticalErrors, notifyError } from "../utils/error-handler";
+import { useUpdateMultipleAPI } from "../hooks";
+import { notifyError, throwOnCriticalErrors } from "../utils/error-handler";
 import "./Mangas.less";
 
 const { TabPane } = Tabs;
@@ -68,9 +68,9 @@ const DAILY_UPDATE_FILTERS = {
 };
 
 const QuickAccess = () => {
-  const [mangas, setMangas] = useEnrichMangas();
+  const [mangas, setMangas] = useState([]);
+  const [selectedManga, setSelectedManga] = useState(null);
   const [showHidden, setShowHidden] = useState(false);
-  const [selectedManga, setSelectedManga] = useEnrichManga();
   const [isLoading, setIsLoading] = useState(true);
   const [mangaCount, setMangaCount] = useState(NaN);
   const [openImg, setOpenImg] = useState(false);

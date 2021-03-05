@@ -11,7 +11,6 @@ const MangaCover = ({ src: originalSrc, mangaSite, ...props }) => {
     src === FALLBACK_IMG
       ? null
       : async () => {
-          console.log(src);
           try {
             const srcHost = new URL(src).host;
             if (srcHost !== window.location.host) {
@@ -29,7 +28,7 @@ const MangaCover = ({ src: originalSrc, mangaSite, ...props }) => {
 
 MangaCover.propTypes = {
   src: PropTypes.string.isRequired,
-  mangaSite: PropTypes.mangaSite,
+  mangaSite: PropTypes.string.isRequired,
 };
 
 export default MangaCover;

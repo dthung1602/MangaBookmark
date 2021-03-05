@@ -35,7 +35,7 @@ const MultipleSelectFilter = ({ options, selected, displayName, onSelect, size =
 
 MultipleSelectFilter.propTypes = {
   options: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
-  selected: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  selected: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.string), PropTypes.arrayOf(PropTypes.number)]).isRequired,
   displayName: PropTypes.string.isRequired,
   onSelect: PropTypes.func.isRequired,
   size: PropTypes.oneOf(["small", "default", "large"]),

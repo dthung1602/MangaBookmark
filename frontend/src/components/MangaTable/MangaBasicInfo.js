@@ -68,7 +68,7 @@ function MangaBasicInfo({ manga, showTitle = true, showAdditionalInfo = false, h
       column={1}
     >
       <Descriptions.Item label="Site">
-        <MangaSiteLink mangaSite={manga.mangaSite} />
+        <MangaSiteLink mangaSiteName={manga.site} />
       </Descriptions.Item>
       {additionalInfo}
       <Descriptions.Item label="Shelf">{SHELVES[manga.shelf]}</Descriptions.Item>

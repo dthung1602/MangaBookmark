@@ -15,15 +15,14 @@ import EndOfList from "../components/EndOfList";
 import MangaCover from "../components/MangaCover";
 import { ANY, MANGA_PER_PAGE, SORT_DEC_STATUS } from "../utils/constants";
 import { MangaAPI } from "../api";
-import { useUpdateMultipleAPI, useEnrichMangas, useEnrichManga } from "../hooks";
+import { useUpdateMultipleAPI } from "../hooks";
 import { removeUndefinedAttrs, removeEmptyStringAttrs, scrollToTop } from "../utils";
 import { throwOnCriticalErrors, notifyError } from "../utils/error-handler";
 import "./Mangas.less";
 
 const AllMangas = () => {
-  const [mangas, setMangas] = useEnrichMangas();
-  console.log(JSON.stringify(mangas));
-  const [selectedManga, setSelectedManga] = useEnrichManga();
+  const [mangas, setMangas] = useState([]);
+  const [selectedManga, setSelectedManga] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [mangaCount, setMangaCount] = useState(NaN);
@@ -133,7 +132,7 @@ const AllMangas = () => {
     <PageHeader
       title="All mangas"
       updateBtnText="Update matched mangas"
-      mangaCount={isLoading ? "?" : mangaCount}
+      mangaCount={isLoading ? NaN : mangaCount}
       openNewMangaModal={openNewMangaModal}
       isUpdatingMangas={isUpdatingMangas}
       updateMangas={updateMangas}

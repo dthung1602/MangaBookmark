@@ -4,12 +4,14 @@ import { Empty } from "antd";
 import MangaCard from "./MangaCard";
 import "./MangaTableMobile.less";
 
+const skeleton = { isSkeleton: true };
+
 const MangaTableMobile = ({ mangas, isLoading, updateMangaDone, deleteMangaDone }) => {
   let dataSource;
   if (isLoading === "reload") {
-    dataSource = [{}, {}];
+    dataSource = [skeleton, skeleton];
   } else if (isLoading) {
-    dataSource = [...mangas, {}];
+    dataSource = [...mangas, skeleton];
   } else {
     dataSource = mangas;
   }
@@ -21,6 +23,7 @@ const MangaTableMobile = ({ mangas, isLoading, updateMangaDone, deleteMangaDone 
         return (
           <MangaCard
             key={manga._id}
+            isSkeleton={manga.isSkeleton}
             manga={manga}
             updateMangaDone={updateMangaDone}
             deleteMangaDone={deleteMangaDone}

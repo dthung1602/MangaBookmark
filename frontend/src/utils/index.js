@@ -33,10 +33,6 @@ export const removeEmptyStringAttrs = (obj) => {
   return obj;
 };
 
-export const isEmptyObject = (obj) => {
-  return Object.keys(obj).length === 0;
-};
-
 export const clonePlainObject = (obj) => {
   return JSON.parse(JSON.stringify(obj));
 };

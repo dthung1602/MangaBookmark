@@ -5,14 +5,13 @@ import MangaBasicInfo from "../MangaBasicInfo";
 import MangaQuickActions from "./MangaQuickActions";
 import MangaCover from "../../MangaCover";
 import { statusToClassMapping } from "../utils";
-import { isEmptyObject } from "../../../utils";
 import { MANGA_PER_PAGE } from "../../../utils/constants";
 import "./MangaTableDesktop.less";
 
 const { Column } = Table;
 const { Title } = Typography;
 
-const skeletonData = Array(MANGA_PER_PAGE).fill({});
+const skeletonData = Array(MANGA_PER_PAGE).fill({ isSkeleton: true });
 
 const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked, showImage }) => {
   let dataSource;
@@ -32,7 +31,7 @@ const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked,
       pagination={false}
       onRow={(manga) => {
         return {
-          onClick: () => (isEmptyObject(manga) ? null : onMangaClicked(manga)),
+          onClick: () => (manga.isSkeleton ? null : onMangaClicked(manga)),
         };
       }}
     >
@@ -41,7 +40,7 @@ const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked,
         key="image"
         width={120}
         render={(text, manga) => {
-          if (isEmptyObject(manga)) {
+          if (manga.isSkeleton) {
             return <Skeleton.Image active />;
           }
           return (
@@ -56,10 +55,10 @@ const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked,
         }}
       />
       <Column
-        dataIndex="basicInfo"
-        key="basicInfo"
+        dataIndex="_id"
+        key="_id"
         render={(text, manga) => {
-          if (isEmptyObject(manga)) {
+          if (manga.isSkeleton) {
             return <Skeleton active />;
           }
           return (
