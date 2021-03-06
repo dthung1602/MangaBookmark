@@ -26,6 +26,7 @@ const { Footer: AntFooter } = Layout;
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const logos = ["img-ant-design-logo", "img-express-js-logo", "img-mongodb-logo", "img-looka-logo", "img-heroku-logo"];
   return (
     <AntFooter className="footer">
       <Row className="footer-upper">
@@ -64,41 +65,17 @@ const Footer = () => {
         </Col>
         <Col xs={24} sm={8} lg={4} className="footer-power-by">
           <div className="footer-row-head">Powered by</div>
-          <a
-            style={{ backgroundImage: `url("${TECH_LOGO_SPRITE}")` }}
-            className="img-ant-design-logo"
-            href="https://ant.design"
-            rel="noopener noreferrer"
-            target="_blank"
-          />
-          <a
-            style={{ backgroundImage: `url("${TECH_LOGO_SPRITE}")` }}
-            className="img-express-js-logo"
-            href="https://expressjs.com/"
-            rel="noopener noreferrer"
-            target="_blank"
-          />
-          <a
-            style={{ backgroundImage: `url("${TECH_LOGO_SPRITE}")` }}
-            className="img-mongodb-logo"
-            href="https://www.mongodb.com/"
-            rel="noopener noreferrer"
-            target="_blank"
-          />
-          <a
-            style={{ backgroundImage: `url("${TECH_LOGO_SPRITE}")` }}
-            className="img-looka-logo"
-            href="https://looka.com"
-            rel="noopener noreferrer"
-            target="_blank"
-          />
-          <a
-            style={{ backgroundImage: `url("${TECH_LOGO_SPRITE}")` }}
-            className="img-heroku-logo"
-            href="https://www.heroku.com/"
-            rel="noopener noreferrer"
-            target="_blank"
-          />
+          {logos.map((logo) => (
+            <div key={logo}>
+              <a
+                style={{ backgroundImage: `url("${TECH_LOGO_SPRITE}")` }}
+                className={logo}
+                href="https://ant.design"
+                rel="noopener noreferrer"
+                target="_blank"
+              />
+            </div>
+          ))}
         </Col>
       </Row>
       <div className="footer-lower">

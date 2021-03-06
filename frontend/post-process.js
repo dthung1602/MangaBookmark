@@ -22,7 +22,8 @@ $("head link[rel='stylesheet']").each((i, e) => {
   const href = ele.attr("href");
   if (href.endsWith("chunk.css")) {
     console.log(` - Inlining ${href}`);
-    const style = getStaticFileContent(href);
+    let style = getStaticFileContent(href);
+    style = style.replace("sourceMappingURL=", "sourceMappingURL=/static/style/");
     ele.replaceWith(`<style>${style}</style>`);
   }
 });
@@ -32,7 +33,8 @@ $("body script[src]").each((i, e) => {
   const src = ele.attr("src");
   if (src.endsWith("chunk.js")) {
     console.log(` - Inlining ${src}`);
-    const script = getStaticFileContent(src);
+    let script = getStaticFileContent(src);
+    script = script.replace("sourceMappingURL=", "sourceMappingURL=/static/js/");
     ele.replaceWith(`<script>${script}</script>`);
   }
 });

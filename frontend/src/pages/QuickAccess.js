@@ -136,7 +136,7 @@ const QuickAccess = () => {
     <PageHeader
       title="Quick access"
       updateBtnText="Daily update"
-      mangaCount={isLoading ? "?" : mangaCount}
+      mangaCount={isLoading ? NaN : mangaCount}
       openNewMangaModal={openNewMangaModal}
       isUpdatingMangas={isUpdatingMangas}
       updateMangas={updateMangas}
