@@ -27,12 +27,13 @@ import {
   ROUTE_LEGAL_NOTICE,
   LINK_EMAIL,
   LINK_LINKEDIN,
-  EMBED_QUICK_TOUR_VIDEO_ID,
+  EMBED_DEMO_VIDEO_ID,
   FRONTEND_VERSION,
 } from "../utils/constants";
 import LOGO from "../assets/tech-logo/logo-invert.webp";
 import TECH_LOGO_SPRITE from "../assets/tech-logo/tech-logo.webp";
 import MANGA_SITE_LOGO_SPRITE from "../assets/manga-site-logo/manga-site-logo.webp";
+import DEMO_VIDEO_PLACEHOLDER from "../assets/demo-video-placeholder.webp";
 import "./Home.less";
 
 const { Title } = Typography;
@@ -81,18 +82,18 @@ const Home = () => {
                 This site will help you keep track, organize and have quick access to the mangas in your collection. No
                 more forgetting or browser bookmarks or Excel files!
               </p>
-              <Button block type="text" href="#quick-tour">
-                Take a quick tour &nbsp;&nbsp; <DoubleRightOutlined />
+              <Button block type="text" href="#demo-video">
+                Demo video &nbsp;&nbsp; <DoubleRightOutlined />
               </Button>
             </div>
             <div className="card">
               <div className="cover">
                 <GlobalOutlined />
               </div>
-              <h2>{supportedSites.length} sites supported</h2>
+              <h2>{supportedSites.length || ""} sites supported</h2>
               <p>
                 One site is never enough! Some mangas appear exclusively on particular sites and it can takes months for
-                another site to leach the mangas.
+                another site to leach.
               </p>
               <p>
                 We are currently supporting {supportedSites.length} scanlation sites and planning to add even more in
@@ -113,15 +114,15 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="text-align-center" id="quick-tour">
+          <div className="text-align-center" id="demo-video">
             <Divider>
-              <Title level={2}>Quick tour</Title>
+              <Title level={2}>Demo video</Title>
             </Divider>
             {clickedYoutube ? (
               <iframe
                 className="iframe"
-                title="quick-tour-video"
-                src={`https://www.youtube.com/embed/${EMBED_QUICK_TOUR_VIDEO_ID}?autoplay=1`}
+                title="demo-video"
+                src={`https://www.youtube.com/embed/${EMBED_DEMO_VIDEO_ID}?autoplay=1`}
                 frameBorder="0"
                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
@@ -131,7 +132,7 @@ const Home = () => {
                 className="iframe"
                 onClick={() => setClickedYoutube(true)}
                 alt="video"
-                src={`https://i.ytimg.com/vi_webp/${EMBED_QUICK_TOUR_VIDEO_ID}/maxresdefault.webp`}
+                src={DEMO_VIDEO_PLACEHOLDER}
               />
             )}
           </div>

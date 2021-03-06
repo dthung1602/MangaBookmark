@@ -61,6 +61,7 @@
     padding: 24px;
     margin: 4px 12px;
     border-radius: 8px;
+    text-align: center;
 
     .title {
       text-align: center;
@@ -102,6 +103,7 @@
   @iframe-height: 432;
 
   .iframe {
+    transition: all 0.3s;
     cursor: pointer;
     width: unit(@iframe-width, px);
     height: unit(@iframe-height, px);
@@ -109,6 +111,10 @@
       width: 100vw;
       height: unit(100 * @iframe-height / @iframe-width, vw);
     }
+  }
+
+  img.iframe:hover {
+    filter: brightness(1.3);
   }
 
   #supported-sites {

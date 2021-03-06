@@ -6,7 +6,9 @@
   outline: none;
   text-transform: none !important;
   &::placeholder {
-    text-transform: uppercase;
+    @media(min-width: @bp-lg) {
+      text-transform: uppercase;
+    }
   }
 
   width: 75px;
