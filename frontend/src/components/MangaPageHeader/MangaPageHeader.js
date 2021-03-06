@@ -2,11 +2,11 @@ import PropTypes from "prop-types";
 import { Button, PageHeader as AntPageHeader, Grid } from "antd";
 import { PlusOutlined, ReloadOutlined } from "@ant-design/icons";
 
-import "./PageHeader.less";
+import "./MangaPageHeader.less";
 
 const { useBreakpoint } = Grid;
 
-const PageHeader = ({ title, mangaCount, openNewMangaModal, updateMangas, isUpdatingMangas, updateBtnText }) => {
+const MangaPageHeader = ({ title, mangaCount, openNewMangaModal, updateMangas, isUpdatingMangas, updateBtnText }) => {
   const mangaCountString = `${mangaCount} manga${mangaCount > 1 ? "s" : ""}`;
 
   const desktop = useBreakpoint().lg;
@@ -25,14 +25,14 @@ const PageHeader = ({ title, mangaCount, openNewMangaModal, updateMangas, isUpda
           </Button>
         </>
       }
-      className="page-header"
+      className="manga-page-header"
       backIcon={false}
       ghost={false}
     />
   );
 };
 
-PageHeader.propTypes = {
+MangaPageHeader.propTypes = {
   title: PropTypes.string.isRequired,
   mangaCount: PropTypes.number.isRequired,
   openNewMangaModal: PropTypes.func.isRequired,
@@ -41,4 +41,4 @@ PageHeader.propTypes = {
   updateBtnText: PropTypes.string.isRequired,
 };
 
-export default PageHeader;
+export default MangaPageHeader;

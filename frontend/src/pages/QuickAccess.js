@@ -6,7 +6,7 @@ import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import { Desktop, Mobile } from "../components/ScreenSize";
 import PageLayout from "./PageLayout";
 import FAB from "../components/FAB";
-import PageHeader from "../components/PageHeader";
+import MangaPageHeader from "../components/MangaPageHeader";
 import RightPanel from "../components/RightPanel";
 import MangaTableDesktop from "../components/MangaTable/MangaTableDesktop";
 import MangaTableMobile from "../components/MangaTable/MangaTableMobile";
@@ -133,7 +133,7 @@ const QuickAccess = () => {
   const displayMangas = mangas.filter((mg) => showHidden || !mg.hidden);
 
   const pageHeader = (
-    <PageHeader
+    <MangaPageHeader
       title="Quick access"
       updateBtnText="Daily update"
       mangaCount={isLoading ? NaN : mangaCount}

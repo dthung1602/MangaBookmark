@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
  * - https://reactjs.org/docs/refs-and-the-dom.html#callback-refs
  * - https://stackoverflow.com/questions/56541342/react-hooks-why-is-current-null-for-useref-hook
  */
-function EndOfList({ onReached, disabled }) {
+function EndOfList({ onReached, disabled = false, yOffset = 300 }) {
   const prevY = useRef(0);
   const target = useRef(null);
 
@@ -25,12 +25,21 @@ function EndOfList({ onReached, disabled }) {
     return () => observer.disconnect();
   }, [onReached, disabled, prevY, target]);
 
-  return <div ref={target} />;
+  const style = {
+    position: "relative",
+    bottom: `${yOffset}px`,
+    width: "100px",
+    height: "5px",
+    background: "red",
+  };
+
+  return <div ref={target} style={style} />;
 }
 
 EndOfList.propTypes = {
-  onReached: PropTypes.func,
+  onReached: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
+  yOffset: PropTypes.number,
 };
 
 export default EndOfList;

@@ -5,7 +5,7 @@ import { Layout, Modal } from "antd";
 import { Desktop, Mobile } from "../components/ScreenSize";
 import PageLayout from "./PageLayout";
 import FAB from "../components/FAB";
-import PageHeader from "../components/PageHeader";
+import MangaPageHeader from "../components/MangaPageHeader";
 import RightPanel from "../components/RightPanel";
 import Filters from "../components/Filters";
 import MangaTableDesktop from "../components/MangaTable/MangaTableDesktop";
@@ -129,7 +129,7 @@ const AllMangas = () => {
   const closeNewMangaModal = () => setNewMangaModalOpen(false);
 
   const pageHeader = (
-    <PageHeader
+    <MangaPageHeader
       title="All mangas"
       updateBtnText="Update matched mangas"
       mangaCount={isLoading ? NaN : mangaCount}

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Button, Col, Form, Input, Modal, Row, Select, Skeleton, Switch, Typography, message } from "antd";
+import { Button, Col, Form, Input, Modal, Row, Select, Skeleton, Space, Switch, Typography, message } from "antd";
 import { FullscreenOutlined, FullscreenExitOutlined } from "@ant-design/icons";
 
 import MangaCover from "../MangaCover";
@@ -104,7 +104,7 @@ const NewMangaModal = ({ open, onCancel, addMangaDone }) => {
     additionalInfo = [];
     if (isNonEmptyArray(manga.authors)) {
       additionalInfo.push(
-        <div>
+        <div className="info-row">
           <Text strong>Author</Text>
           <Text>{manga.authors.join(" - ")}</Text>
         </div>,
@@ -127,12 +127,14 @@ const NewMangaModal = ({ open, onCancel, addMangaDone }) => {
     }
     if (isNonEmptyArray(manga.tags)) {
       additionalInfo.push(
-        <div className="manga-tags">
+        <Space wrap>
           <Text strong>Tags</Text>
           {manga.tags.map((tagName) => (
-            <div key={tagName}>{tagName}</div>
+            <div key={tagName} className="manga-tag">
+              {tagName}
+            </div>
           ))}
-        </div>,
+        </Space>,
       );
     }
     if (manga.description) {

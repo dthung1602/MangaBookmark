@@ -1,10 +1,5 @@
 @import "../../variables";
 
-.filter-btn {
-  margin-top: 4px;
-  margin-right: 4px;
-}
-
 .filter-basic {
   display: flex;
   align-items: baseline;
@@ -15,7 +10,6 @@
     border: none;
     background: lighten(@secondary-color, 12%);
     color: white;
-    margin: 0 0 0 4px;
     &:hover {
       background: @secondary-color;
     };
@@ -56,11 +50,5 @@
     @media (max-width: @bp-sm) {
       max-width: none;
     }
-  }
-  .ant-picker {
-    padding-right: 0;
-  }
-  .ant-picker-clear {
-    right: 0 !important;
   }
 }

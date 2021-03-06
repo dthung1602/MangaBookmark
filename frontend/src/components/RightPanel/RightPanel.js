@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Proptypes from "prop-types";
-import { Descriptions, Empty, message, Popconfirm, Spin, Typography } from "antd";
+import { Descriptions, Empty, message, Popconfirm, Spin, Typography, Space } from "antd";
 import { DeleteOutlined, SyncOutlined, CheckOutlined } from "@ant-design/icons";
 
 import MangaStatus from "../MangaStatus";
@@ -129,11 +129,13 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
           ) : null}
           {isNonEmptyArray(manga.tags) ? (
             <Descriptions.Item label="Tags" span={2}>
-              <div className="manga-tags">
+              <Space wrap>
                 {manga.tags.map((tagName) => (
-                  <div key={tagName}>{tagName}</div>
+                  <div key={tagName} className="manga-tag">
+                    {tagName}
+                  </div>
                 ))}
-              </div>
+              </Space>
             </Descriptions.Item>
           ) : null}
           {manga.description ? (

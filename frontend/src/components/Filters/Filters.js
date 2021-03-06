@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import PropTypes from "prop-types";
-import { Affix, Button, Collapse, Grid, Input } from "antd";
+import { Affix, Space, Button, Collapse, Grid, Input } from "antd";
 import { CaretDownOutlined, CaretUpOutlined, SearchOutlined, ClearOutlined } from "@ant-design/icons";
 
 import FilterDropdown from "./FilterDropdown";
@@ -135,12 +135,13 @@ const Filters = ({ filters, updateFilters, resetFilters }) => {
   if (breakpoints.md) {
     basicFilters = [shelfFilter, statusFilter, sort, search];
     advanceFilters = [
-      <div key={1} className="flex">
-        {[isCompletedFilter, hiddenFilter, siteFilter, languageFilter, tagsFilter]}
-      </div>,
-      <div key={2} className="flex">
-        {[createdAtFilter, lastReleasedFilter]}
-      </div>,
+      isCompletedFilter,
+      hiddenFilter,
+      siteFilter,
+      languageFilter,
+      tagsFilter,
+      createdAtFilter,
+      lastReleasedFilter,
     ];
   } else if (breakpoints.sm) {
     basicFilters = [shelfFilter, statusFilter, search];
@@ -173,23 +174,25 @@ const Filters = ({ filters, updateFilters, resetFilters }) => {
   return (
     <Affix className="affix-container">
       <div className="filter-basic">
-        {basicFilters}
+        <Space>{basicFilters}</Space>
         <div className="flex-1" />
-        <Button className="clear-btn" type="text" icon={<ClearOutlined />} onClick={resetFilters}>
-          Clear
-        </Button>
-        <Button
-          className="advance-btn"
-          icon={open ? <CaretUpOutlined /> : <CaretDownOutlined />}
-          onClick={() => setOpen(!open)}
-        >
-          {open ? "Simple" : "Advance"}
-        </Button>
+        <Space>
+          <Button className="clear-btn" type="text" icon={<ClearOutlined />} onClick={resetFilters}>
+            Clear
+          </Button>
+          <Button
+            className="advance-btn"
+            icon={open ? <CaretUpOutlined /> : <CaretDownOutlined />}
+            onClick={() => setOpen(!open)}
+          >
+            {open ? "Simple" : "Advance"}
+          </Button>
+        </Space>
       </div>
 
       <Collapse bordered={false} activeKey={open ? 1 : undefined}>
         <Panel header={""} key="1" showArrow={false} className="filter-advance">
-          {advanceFilters}
+          <Space wrap>{advanceFilters}</Space>
         </Panel>
       </Collapse>
     </Affix>

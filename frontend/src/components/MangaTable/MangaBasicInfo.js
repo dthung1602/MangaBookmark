@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Descriptions, Typography } from "antd";
+import { Descriptions, Space, Typography } from "antd";
 
 import MangaStatus from "../MangaStatus";
 import MangaSiteLink from "../MangaSiteLink";
@@ -34,11 +34,13 @@ function MangaBasicInfo({ manga, showTitle = true, showAdditionalInfo = false, h
     if (isNonEmptyArray(manga.tags)) {
       additionalInfo.push(
         <Descriptions.Item label="Tags">
-          <div className="manga-tags">
+          <Space wrap>
             {manga.tags.map((tagName) => (
-              <div key={tagName}>{tagName}</div>
+              <div key={tagName} className="manga-tag">
+                {tagName}
+              </div>
             ))}
-          </div>
+          </Space>
         </Descriptions.Item>,
       );
     }
