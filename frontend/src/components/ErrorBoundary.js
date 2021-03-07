@@ -1,8 +1,9 @@
 import { Component } from "react";
 import PropTypes from "prop-types";
-import { Button, Result } from "antd";
+import { Button } from "antd";
 import { ReloadOutlined, BugOutlined, FundOutlined } from "@ant-design/icons";
 import { LINK_ISSUE_TRACKER } from "../utils/constants";
+import ERROR_IMG from "../assets/error.webp";
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -29,33 +30,33 @@ class ErrorBoundary extends Component {
 
     if (error) {
       return (
-        <Result
-          status="error"
-          title="Opps! Something went wrong!"
-          subTitle="Please reload the page and try again."
-          extra={
-            <>
-              <Button icon={<FundOutlined />} onClick={this.toggleStackTrace}>
-                View stack trace
-              </Button>
-              <Button icon={<BugOutlined />} href={LINK_ISSUE_TRACKER} rel="noopener noreferrer" target="_blank">
-                Report issue
-              </Button>
-              <Button type="primary" icon={<ReloadOutlined />} onClick={this.reload}>
-                Reload page
-              </Button>
-              {openStackTrace ? (
-                <div style={{ textAlign: "left" }}>
-                  <br />
-                  <b>Error message</b> {String(error)}
-                  <br />
-                  <b>Stack trace</b>
-                  <pre>{errorInfo?.componentStack}</pre>
-                </div>
-              ) : undefined}
-            </>
-          }
-        />
+        <div className="ant-result">
+          <div className="ant-result-icon ant-result-image">
+            <img src={ERROR_IMG} alt="404" style={{ width: "100%" }} />
+          </div>
+          <div className="ant-result-title">Opps! Something went wrong!</div>
+          <div className="ant-result-subtitle">Please reload the page and try again.</div>
+          <div className="ant-result-extra">
+            <Button icon={<FundOutlined />} onClick={this.toggleStackTrace}>
+              View stack trace
+            </Button>
+            <Button icon={<BugOutlined />} href={LINK_ISSUE_TRACKER} rel="noopener noreferrer" target="_blank">
+              Report issue
+            </Button>
+            <Button type="primary" icon={<ReloadOutlined />} onClick={this.reload}>
+              Reload page
+            </Button>
+            {openStackTrace ? (
+              <div style={{ textAlign: "left" }}>
+                <br />
+                <b>Error message</b> {String(error)}
+                <br />
+                <b>Stack trace</b>
+                <pre>{errorInfo?.componentStack}</pre>
+              </div>
+            ) : undefined}
+          </div>
+        </div>
       );
     }
 

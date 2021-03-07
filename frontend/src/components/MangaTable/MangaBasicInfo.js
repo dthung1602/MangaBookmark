@@ -9,7 +9,7 @@ import "./MangaBasicInfo.less";
 
 const { Title, Paragraph } = Typography;
 
-function MangaBasicInfo({ manga, showTitle = true, showAdditionalInfo = false, headerExtra }) {
+function MangaBasicInfo({ manga, showTitle = true, showAdditionalInfo = false, column = 1, headerExtra }) {
   let additionalInfo = null;
 
   if (showAdditionalInfo) {
@@ -67,7 +67,7 @@ function MangaBasicInfo({ manga, showTitle = true, showAdditionalInfo = false, h
       extra={headerExtra}
       className="manga-basic-info"
       size="small"
-      column={1}
+      column={column}
     >
       <Descriptions.Item label="Site">
         <MangaSiteLink mangaSiteName={manga.site} />
@@ -87,6 +87,7 @@ MangaBasicInfo.propTypes = {
   manga: PropTypes.object.isRequired,
   showTitle: PropTypes.bool,
   showAdditionalInfo: PropTypes.bool,
+  column: PropTypes.number,
   headerExtra: PropTypes.node,
 };
 

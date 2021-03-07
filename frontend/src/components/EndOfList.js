@@ -28,9 +28,6 @@ function EndOfList({ onReached, disabled = false, yOffset = 300 }) {
   const style = {
     position: "relative",
     bottom: `${yOffset}px`,
-    width: "100px",
-    height: "5px",
-    background: "red",
   };
 
   return <div ref={target} style={style} />;

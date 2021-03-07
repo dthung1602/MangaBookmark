@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Table, Skeleton, Typography } from "antd";
+import { Table, Skeleton, Typography, Grid } from "antd";
 
 import MangaBasicInfo from "../MangaBasicInfo";
 import MangaQuickActions from "./MangaQuickActions";
@@ -10,10 +10,13 @@ import "./MangaTableDesktop.less";
 
 const { Column } = Table;
 const { Title } = Typography;
+const { useBreakpoint } = Grid;
 
 const skeletonData = Array(MANGA_PER_PAGE).fill({ isSkeleton: true });
 
 const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked, showImage }) => {
+  const mangaInfoColumn = useBreakpoint().xxl ? 2 : 1;
+
   let dataSource;
   if (isLoading === "reload") {
     dataSource = skeletonData;
@@ -69,7 +72,7 @@ const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked,
                 </a>
               </Title>
               <div className="manga-details">
-                <MangaBasicInfo manga={manga} showTitle={false} />
+                <MangaBasicInfo manga={manga} showTitle={false} column={mangaInfoColumn} />
                 <MangaQuickActions manga={manga} updateMangaDone={updateMangaDone} />
               </div>
             </div>
