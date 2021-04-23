@@ -1,7 +1,8 @@
 @import "../../variables";
 
 .next-chap-btn {
-  display: block;
+  display: inline-block;
+  flex: 1;
   margin-top: 8px;
   padding: 12px;
   text-align: center;
@@ -15,7 +16,7 @@
     &:hover {
       background: linear-gradient(90deg, #dbfff6, #baffe4);
       background-size: 400% 400%;
-      animation: BacgroundAnimation 4s ease infinite;
+      animation: BackgroundAnimation 2s ease infinite;
     }
 
     &:visited {
@@ -24,7 +25,7 @@
   }
 }
 
-@keyframes BacgroundAnimation {
+@keyframes BackgroundAnimation {
   0% {
     background-position: 0 50%
   }

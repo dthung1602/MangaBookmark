@@ -24,7 +24,7 @@ const NextChapToRead = ({ nextChapToRead, markOne }) => {
 
   return (
     <a className={`next-chap-btn ${nextChapToRead.empty ? "empty" : ""}`} href="" onClick={onClick}>
-      {truncString(nextChapToRead.name, 35)} &nbsp;&nbsp; <DoubleRightOutlined />
+      {truncString(nextChapToRead.name, 25)} &nbsp;&nbsp; <DoubleRightOutlined />
     </a>
   );
 };

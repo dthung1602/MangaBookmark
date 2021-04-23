@@ -175,6 +175,7 @@ const Filters = ({ filters, updateFilters, resetFilters }) => {
     <Affix className="affix-container">
       <div className="filter-basic">
         <Space>{basicFilters}</Space>
+        &nbsp;&nbsp;
         <div className="flex-1" />
         <Space>
           <Button className="clear-btn" type="text" icon={<ClearOutlined />} onClick={resetFilters}>

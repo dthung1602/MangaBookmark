@@ -193,7 +193,8 @@ const AllMangas = () => {
 
       <Modal visible={openImg} footer={null} onCancel={() => setOpenImg(false)}>
         <MangaCover
-          className="right-panel-cover-large"
+          key={openImg?.src}
+          className="modal-image"
           src={openImg?.src}
           mangaSite={openImg?.mangaSite}
           alt={openImg}

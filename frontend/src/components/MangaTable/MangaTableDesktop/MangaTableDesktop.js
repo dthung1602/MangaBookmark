@@ -25,6 +25,7 @@ const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked,
   } else {
     dataSource = mangas;
   }
+  dataSource = JSON.parse(JSON.stringify(dataSource));
 
   return (
     <Table
@@ -44,10 +45,11 @@ const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked,
         width={120}
         render={(text, manga) => {
           if (manga.isSkeleton) {
-            return <Skeleton.Image active />;
+            return <Skeleton.Image active key={manga._id} />;
           }
           return (
             <MangaCover
+              key={manga._id}
               className="manga-cover-image"
               src={manga.image}
               mangaSite={manga.site}
@@ -62,10 +64,10 @@ const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked,
         key="_id"
         render={(text, manga) => {
           if (manga.isSkeleton) {
-            return <Skeleton active />;
+            return <Skeleton active key={manga._id} />;
           }
           return (
-            <div className={"triangle top-right " + statusToClassMapping[manga.status]}>
+            <div key={manga._id} className={"triangle top-right " + statusToClassMapping[manga.status]}>
               <Title level={4}>
                 <a href={manga.link} target="_blank" rel="noopener noreferrer">
                   {manga.name}

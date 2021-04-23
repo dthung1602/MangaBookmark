@@ -16,7 +16,7 @@ import {
 import { BasicFields, ChapterList, Note } from "../../EditManga";
 import MangaBasicInfo from "../MangaBasicInfo";
 import MangaCover from "../../MangaCover";
-import NextChapButton from "../NextChapButton";
+import MangaQuickActions from "../MangaTableDesktop/MangaQuickActions.js";
 import { MangaAPI } from "../../../api";
 import { useMarkChapterAPI } from "../../../hooks";
 import { changeChapterReadStatusLogic, getNextChapToRead } from "../../../utils/chapters";
@@ -155,7 +155,7 @@ const MangaCard = ({ manga, isSkeleton, updateMangaDone, deleteMangaDone }) => {
       >
         <div className={`collapsable ${enableEdit ? "collapsed" : ""}`}>
           <MangaBasicInfo manga={manga} headerExtra={headerExtra} showAdditionalInfo={expand} />
-          <NextChapButton nextChapToRead={nextChapToRead} markOne={markOne} />
+          <MangaQuickActions manga={manga} updateMangaDone={updateMangaDone} />
         </div>
         {enableEdit
           ? [
