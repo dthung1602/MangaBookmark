@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { Table, Skeleton, Typography, Grid } from "antd";
 
 import MangaBasicInfo from "../MangaBasicInfo";
-import MangaQuickActions from "./MangaQuickActions";
+import MangaQuickActions from "../MangaQuickActions";
 import MangaCover from "../../MangaCover";
 import { statusToClassMapping } from "../utils";
 import { MANGA_PER_PAGE } from "../../../utils/constants";

@@ -11,7 +11,7 @@ console.log("> Inlining CSS & JS to index.html");
 const html = fs.readFileSync(indexHtmlFile).toString();
 const $ = cheerio.load(html);
 
-const getStaticFileContent = (href) => {
+const getFileContentThenRemove = (href) => {
   const content = fs.readFileSync(`${__dirname}/build${href}`).toString();
   fs.unlinkSync(`${__dirname}/build${href}`);
   return content;
@@ -22,8 +22,8 @@ $("head link[rel='stylesheet']").each((i, e) => {
   const href = ele.attr("href");
   if (href.endsWith("chunk.css")) {
     console.log(` - Inlining ${href}`);
-    let style = getStaticFileContent(href);
-    style = style.replace("sourceMappingURL=", "sourceMappingURL=/static/style/");
+    let style = getFileContentThenRemove(href);
+    style = style.replace("sourceMappingURL=", "sourceMappingURL=/static/css/");
     ele.replaceWith(`<style>${style}</style>`);
   }
 });
@@ -33,7 +33,7 @@ $("body script[src]").each((i, e) => {
   const src = ele.attr("src");
   if (src.endsWith("chunk.js")) {
     console.log(` - Inlining ${src}`);
-    let script = getStaticFileContent(src);
+    let script = getFileContentThenRemove(src);
     script = script.replace("sourceMappingURL=", "sourceMappingURL=/static/js/");
     ele.replaceWith(`<script>${script}</script>`);
   }

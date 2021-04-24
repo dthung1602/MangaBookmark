@@ -1,5 +1,5 @@
 import { Spin } from "antd";
-import { CheckOutlined } from "@ant-design/icons";
+import { CheckOutlined, LoadingOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
 
 import "./MarkAllButton.less";
@@ -7,7 +7,7 @@ import "./MarkAllButton.less";
 const MarkAllButton = ({ markAll, disabled, isLoading }) => {
   return (
     <div className={`mark-all-btn ${disabled ? "disabled" : ""}`} onClick={markAll}>
-      {isLoading ? <Spin size="small" /> : <CheckOutlined />}
+      {isLoading ? <Spin indicator={<LoadingOutlined />} /> : <CheckOutlined />}
     </div>
   );
 };

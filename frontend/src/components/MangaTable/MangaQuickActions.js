@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
 
-import NextChapButton from "../NextChapButton";
-import MarkAllButton from "../MarkAllButton";
-import { useMarkChapterAPI } from "../../../hooks";
-import { changeChapterReadStatusLogic, getNextChapToRead } from "../../../utils/chapters";
+import NextChapButton from "./NextChapButton";
+import MarkAllButton from "./MarkAllButton";
+import { useMarkChapterAPI } from "../../hooks";
+import { changeChapterReadStatusLogic, getNextChapToRead } from "../../utils/chapters";
 import "./MangaQuickActions.less";
 
 const MangaQuickActions = ({ manga, updateMangaDone }) => {

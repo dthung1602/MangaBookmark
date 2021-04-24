@@ -16,7 +16,7 @@ import {
 import { BasicFields, ChapterList, Note } from "../../EditManga";
 import MangaBasicInfo from "../MangaBasicInfo";
 import MangaCover from "../../MangaCover";
-import MangaQuickActions from "../MangaTableDesktop/MangaQuickActions.js";
+import MangaQuickActions from "../MangaQuickActions.js";
 import { MangaAPI } from "../../../api";
 import { useMarkChapterAPI } from "../../../hooks";
 import { changeChapterReadStatusLogic, getNextChapToRead } from "../../../utils/chapters";
