@@ -354,6 +354,27 @@
     "/api/image-proxy": {
       "get": {
         "description": "Get image with spoofed referer to bypass security measures",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "url",
+            "description": "image url",
+            "schema": {
+              "type": "string",
+              "format": "uri",
+              "required": true
+            }
+          },
+          {
+            "in": "query",
+            "name": "mangaSite",
+            "description": "the manga site that host the image",
+            "schema": {
+              "type": "string",
+              "required": false
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Retrieved successfully",

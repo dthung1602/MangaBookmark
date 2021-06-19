@@ -1,4 +1,4 @@
-const { fetchAndLoad } = require("./utils");
+const { fetchAndLoad, useImageProxy } = require("./utils");
 
 const URLRegex = /^https?:\/\/mangahasu\.se\/.+/;
 
@@ -18,11 +18,12 @@ async function parseChapters($) {
 
 async function parseManga(url) {
   const $ = await fetchAndLoad(url);
+  const image = $(".info-img img").attr("src");
 
   return {
     name: $("h1").text(),
     link: url,
-    image: $(".info-img img").attr("src"),
+    image: useImageProxy(image, "MangaHasu"),
     isCompleted: $(".detail_item a").text().includes("Completed"),
     chapters: await parseChapters($),
   };

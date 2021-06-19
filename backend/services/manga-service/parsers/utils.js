@@ -80,6 +80,10 @@ function extractNamesFromText(text, separator = ";", headerToRemove = null) {
     .filter(Boolean);
 }
 
+function useImageProxy(url, mangaSite) {
+  return "/api/image-proxy?" + new URLSearchParams({ url, mangaSite }).toString();
+}
+
 module.exports = {
   fetch,
   fetchAndLoad,
@@ -92,4 +96,5 @@ module.exports = {
   extractTagsFromText,
   extractNamesFromText,
   cleanText,
+  useImageProxy,
 };
