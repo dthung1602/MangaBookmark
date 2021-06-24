@@ -80,6 +80,15 @@
       background: @default-color-active;
     }
 
+    .ant-menu-item::after,
+    .ant-menu-submenu::after,
+    .ant-menu-item-active::after,
+    .ant-menu-item-selected::after,
+    .ant-menu-submenu-active::after,
+    .ant-menu-submenu-selected::after {
+      border-bottom: none !important;
+    }
+
     .ant-menu-item-active,
     .ant-menu-item-selected,
     .ant-menu-submenu-active,
@@ -96,11 +105,6 @@
         color: @primary-color;
       }
     }
-  }
-
-  .ant-menu-item, .ant-menu-submenu {
-    margin: 0 !important;
-    padding: 0 20px !important;
   }
 }
 
