@@ -3,7 +3,7 @@ const { fetchAndLoad } = require("./utils");
 const URLRegex = /^https?:\/\/mangafast\.net\/read\/.+/;
 
 async function parseChapters($) {
-  const rows = $(".lsch .jds a");
+  const rows = $(".chapter-link-w a");
 
   const chapters = [];
   for (let i = 0; i < rows.length; i++) {
@@ -22,8 +22,8 @@ async function parseManga(url) {
   return {
     name: $("h1").text(),
     link: url,
-    image: $("#Thumbnail").attr("data-src"),
-    isCompleted: $(".inftable").text().includes("StatusCompleted"),
+    image: $("#article-info .ims img").attr("src"),
+    isCompleted: $(".inftable").text().includes("completed"),
     chapters: await parseChapters($),
   };
 }

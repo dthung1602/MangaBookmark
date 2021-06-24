@@ -1,9 +1,9 @@
 const { fetchAndLoad } = require("./utils");
 
-const URLRegex = /^http:\/\/www\.hamtruyentranh\.net\/truyen\/.+$/;
+const URLRegex = /^https?:\/\/(www\.)?hamtruyentranh\.com\/truyen-tranh\/.+$/;
 
 async function parseChapters($) {
-  const rows = $(".total-chapter .content a");
+  const rows = $("#chaps td:first-child a");
 
   const chapters = [];
   for (let i = 0; i < rows.length; i++) {
@@ -20,10 +20,10 @@ async function parseManga(url) {
   const $ = await fetchAndLoad(url);
 
   return {
-    name: $(".title-manga").text(),
+    name: $("h1").text(),
     link: url,
-    image: "http://www.hamtruyentranh.net/" + $(".cover-detail img").attr("src"),
-    isCompleted: $(".description-update").text().includes("Kết thúc"),
+    image: "http://www.hamtruyentranh.com/" + $(".img-detail-cover img").attr("src"),
+    isCompleted: false,
     chapters: await parseChapters($),
   };
 }

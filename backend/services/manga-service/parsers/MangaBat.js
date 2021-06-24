@@ -84,7 +84,7 @@ module.exports = {
   active: true,
   lang: "en",
   site: "MangaBat",
-  homepage: "https://m.mangabat.com/h",
+  homepage: "https://m.mangabat.com/m",
   URLRegex,
   parseManga,
   parseChapters,

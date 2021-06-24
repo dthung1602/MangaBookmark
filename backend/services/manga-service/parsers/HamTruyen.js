@@ -1,6 +1,6 @@
 const { fetchAndLoad } = require("./utils");
 
-const URLRegex = /^https?:\/\/www.hamtruyen\.vn\/.+\.html$/;
+const URLRegex = /^https?:\/\/(www\.)?hamtruyen\.vn\/.+\.html$/;
 
 async function parseChapters($) {
   const rows = $(".tenChapter a");

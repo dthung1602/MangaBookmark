@@ -1,6 +1,6 @@
 const { fetchAndLoad } = require("./utils");
 
-const URLRegex = /^https?:\/\/ww3\.mangafox\.online\/.+$/;
+const URLRegex = /^https?:\/\/ww4\.mangafox\.online\/.+$/;
 
 async function parseChapters($) {
   const rows = $(".chapter_number a");
@@ -32,7 +32,7 @@ module.exports = {
   active: true,
   lang: "en",
   site: "MangaFox",
-  homepage: "https://ww3.mangafox.online/",
+  homepage: "https://ww4.mangafox.online/",
   URLRegex,
   parseManga,
   parseChapters,
