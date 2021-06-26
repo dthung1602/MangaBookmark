@@ -1,6 +1,6 @@
 const { fetchAndLoad, extractAuthorsFromNode, extractTagsFromNode, extractNamesFromText } = require("./utils");
 
-const URLRegex = /^https?:\/\/www\.nettruyen\.com\/truyen-tranh\/.+$/;
+const URLRegex = /^https?:\/\/www\.nettruyen(vip|top|app)\.com\/truyen-tranh\/.+$/;
 
 async function parseChapters($) {
   const rows = $("nav .chapter a");
@@ -98,7 +98,7 @@ module.exports = {
   active: true,
   lang: "vi",
   site: "NetTruyen",
-  homepage: "http://www.nettruyen.com/",
+  homepage: "http://www.nettruyentop.com/",
   URLRegex,
   parseManga,
   parseChapters,

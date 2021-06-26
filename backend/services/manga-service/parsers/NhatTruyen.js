@@ -1,4 +1,4 @@
-const URLRegex = /^https?:\/\/nhattruyen\.com\/truyen-tranh\/.+$/;
+const URLRegex = /^https?:\/\/nhattruyentranh\.com\/truyen-tranh\/.+$/;
 
 const { parseManga, parseChapters, parseAdditionalInfo, availableTags } = require("./NetTruyen");
 

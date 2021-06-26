@@ -1,6 +1,6 @@
 const { fetchAndLoad } = require("./utils");
 
-const URLRegex = /^https?:\/\/saytruyen\.com\/truyen-.+$/;
+const URLRegex = /^https?:\/\/saytruyen\.(net|com)\/truyen-.+$/;
 
 async function parseChapters($) {
   const rows = $(".chapter");
@@ -30,7 +30,7 @@ async function parseManga(url) {
 }
 
 module.exports = {
-  active: true,
+  active: false,
   lang: "vi",
   site: "SayTruyen",
   homepage: "https://saytruyen.com/",

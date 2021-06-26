@@ -4,13 +4,18 @@ const { fetchAndLoad, extractNamesFromText, extractAuthorsFromNode, extractTagsF
 
 const URLRegex = /^https?:\/\/otakusan\.net\/(MangaDetail|manga-detail)\/[0-9]+\/.+$/;
 
+function extractName($) {
+  return $(".manga-top-info .title").text().trim();
+}
+
 async function parseChapters($) {
   const rows = $("table.mdi-table .read-chapter a");
+  const prefix = extractName($) + " - ";
 
   const chapters = [];
   for (let i = 0; i < rows.length; i++) {
     chapters.push({
-      name: rows[i].attribs.title,
+      name: rows[i].attribs.title.replace(prefix, ""),
       link: "https://otakusan.net" + rows[i].attribs.href,
     });
   }
@@ -32,7 +37,7 @@ async function parseManga(url) {
   const $ = await fetchAndLoad(url);
 
   return {
-    name: $(".manga-top-info .title").text().trim(),
+    name: extractName($),
     link: url,
     image: $(".manga-top-img img").attr("src"),
     isCompleted: $(".manga-top .table-info").text().includes("Done"),

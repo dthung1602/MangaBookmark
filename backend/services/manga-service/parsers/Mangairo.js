@@ -1,6 +1,6 @@
 const { fetchAndLoad } = require("./utils");
 
-const URLRegex = /^https?:\/\/m\.mangairo\.com\/story-.+$/;
+const URLRegex = /^https?:\/\/h\.mangairo\.com\/story-.+$/;
 
 async function parseChapters($) {
   const rows = $("#chapter_list a");
@@ -32,7 +32,7 @@ module.exports = {
   active: true,
   lang: "en",
   site: "Mangairo",
-  homepage: "https://m.mangairo.com/page",
+  homepage: "https://h.mangairo.com/page",
   URLRegex,
   parseManga,
   parseChapters,

@@ -2,13 +2,22 @@ const { fetchAndLoad } = require("./utils");
 
 const URLRegex = /^https?:\/\/thichtruyentranh\.com\/.+\/[0-9]+\.html$/;
 
+function extractName($) {
+  return $("h1")[1].children[0].data;
+}
+
 async function parseChapters($) {
-  const rows = $("#listChapterBlock a");
+  const rows = $("#listChapterBlock .ul_listchap a");
+  const prefix = extractName($);
 
   const chapters = [];
   for (let i = 1; i < rows.length; i++) {
+    let name = rows[i].children[0].data.replace(prefix, "").trim();
+    if (name.startsWith("-")) {
+      name = name.slice(1);
+    }
     chapters.push({
-      name: rows[i].children[0].data,
+      name,
       link: "https://thichtruyentranh.com" + rows[i].attribs.href,
     });
   }
@@ -20,7 +29,7 @@ async function parseManga(url) {
   const $ = await fetchAndLoad(url);
 
   return {
-    name: $("h1")[1].children[0].data,
+    name: extractName($),
     link: url,
     image: $(".divthum2 img").attr("src"),
     isCompleted: $(".ullist_item").text().includes("FULL"),
