@@ -1,128 +1,70 @@
-const got = require("got");
-const cheerio = require("cheerio");
-const { chunk, uniq, startCase } = require("lodash");
+const { uniq, uniqBy } = require("lodash");
 
-const { fetchAndLoad, getDefaultHeaders, wait } = require("./utils");
-const URLRegex = /^https?:\/\/mangadex\.org\/title\/[0-9]+\/.+$/;
-const chapterRegex = /^(.*\/)chapters\/([0-9]+)\/$/;
-const baseURL = "https://mangadex.org";
+const { fetch } = require("./utils");
+const URLRegex = /^https?:\/\/mangadex\.org\/title\/(.+?)\/?$/;
 
-async function getChapters(responsePromise) {
-  const response = await responsePromise;
-  const $ = cheerio.load(response.body);
-  const rows = $(".chapter-container a.text-truncate");
-  const isEnglish = $(".chapter-container .flag").map((i, e) => {
-    return e.attribs.class.includes("flag-gb");
-  });
+async function parseChapters(id) {
+  const limit = 100;
+  let offset = 0;
+  let totalChapterCount = 9999999999999;
+  let counter = 25;
 
-  const chapters = [];
-  for (let i = 0; i < rows.length; i++) {
-    if (isEnglish[i]) {
-      chapters.push({
-        name: rows[i].children[0].data,
-        link: baseURL + rows[i].attribs.href,
-      });
-    }
-  }
+  const chapterAPIURL = `https://api.mangadex.org/chapter?manga=${id}&translatedLanguage[]=en&limit=${limit}&offset=`;
+  let result = [];
 
-  return chapters;
-}
+  do {
+    const response = await fetch(chapterAPIURL + offset);
+    const data = JSON.parse(response.body);
+    totalChapterCount = data.total;
+    result = result.concat(data.results);
+    offset += limit;
+  } while (result.length < totalChapterCount && counter-- > 0);
 
-async function parseChapters($, url) {
-  // ensure / at the end of url
-  url = url.trim();
-  if (url[url.length - 1] !== "/") {
-    url += "/";
-  }
-
-  // strip url to base url, i.e. without /chapters/x
-  const match = url.match(chapterRegex);
-  if (match) {
-    url = match[1];
-  }
-
-  let totalChapterPage;
-  const paginationNode = $(".pagination li:last-child a")[0];
-  if (paginationNode) {
-    const lastPageURLParts = paginationNode.attribs.href.split("/");
-    totalChapterPage = parseInt(lastPageURLParts[lastPageURLParts.length - 2]);
-  } else {
-    totalChapterPage = 1;
-  }
-
-  const chunks = chunk([...Array(totalChapterPage).keys()], 3);
-  let chapters = [];
-  for (let chunk of chunks) {
-    chapters.push(
-      await Promise.all(
-        chunk
-          .map((currentPage) =>
-            got({
-              url: url + `chapters/${currentPage + 1}/`,
-              headers: getDefaultHeaders(),
-            }),
-          )
-          .map(getChapters),
-      ),
-    );
-    await wait(500);
-  }
-
-  return chapters.flat().flat();
-}
-
-function extractDescription($) {
-  let text = $("#content .strong:contains('Description:')").next().text();
-  let lines = text.split("\n");
-  const languages = ["Portuguese / Português", "Polish / Polski"];
-  let descriptionEng = [];
-  let isEng = true;
-  for (let line of lines) {
-    for (let lang of languages) {
-      if (line.includes(lang)) {
-        isEng = false;
-      }
-    }
-    line = line.trim();
-    if (isEng && line && line !== "English") {
-      descriptionEng.push(line);
-    }
-  }
-  return descriptionEng.join("\n");
-}
-
-function getInfo($, infoName, subNodeSelector, normalizer) {
-  return $(`#content .strong:contains('${infoName}')`)
-    .next()
-    .find(subNodeSelector)
-    .map(function () {
-      return normalizer($(this).text());
+  return uniqBy(result, (x) => x.data.attributes.chapter)
+    .sort((a, b) => {
+      return parseFloat(b.data.attributes.chapter) - parseFloat(a.data.attributes.chapter);
     })
-    .toArray();
+    .map((chap) => ({
+      name: "Chap " + chap.data.attributes.chapter + " " + chap.data.attributes.title,
+      link: `https://mangadex.org/chapter/${chap.data.id}/1`,
+    }));
 }
 
-function normalizeTag(text) {
-  return text.trim().toLowerCase();
-}
-
-function parseAdditionalInfo($) {
-  const description = extractDescription($);
-  const alternativeNames = getInfo($, "Alt name", ".list-inline-item", (t) => t.trim());
-  const tags = uniq([...getInfo($, "Genre", "a", normalizeTag), ...getInfo($, "Theme", "a", normalizeTag)]);
-  const authors = uniq([...getInfo($, "Author", "a", startCase), ...getInfo($, "Artist", "a", startCase)]);
+async function parseAdditionalInfo(data) {
+  const description = data.data.attributes.description.en;
+  const alternativeNames = data.data.attributes.altTitles.map((x) => x.en);
+  const tags = data.data.attributes.tags.map((x) => x.attributes.name.en.trim().toLowerCase());
+  const authorsIds = data.relationships.filter((x) => x.type === "author" || x.type === "artist").map((x) => x.id);
+  const authors = (
+    await Promise.all(uniq(authorsIds).map((aid) => fetch(`https://api.mangadex.org/author/${aid}`)))
+  ).map((res) => JSON.parse(res.body).data.attributes.name);
   return { description, alternativeNames, authors, tags };
 }
 
+function buildAPIURL(id) {
+  return `https://api.mangadex.org/manga/${id}?includes[]=artist,author,cover_art`;
+}
+
+async function extractImage(data, id) {
+  const imgId = data.relationships.find((x) => x.type === "cover_art").id;
+  const imgAPIURL = `https://api.mangadex.org/cover/${imgId}`;
+  const response = await fetch(imgAPIURL);
+  const fileName = JSON.parse(response.body).data.attributes.fileName;
+  return `https://uploads.mangadex.org/covers/${id}/${fileName}`;
+}
+
 async function parseManga(url) {
-  const $ = await fetchAndLoad(url);
+  const id = url.match(URLRegex)[1];
+  const response = await fetch(buildAPIURL(id));
+  const data = JSON.parse(response.body);
 
   return {
-    name: $("#content .card-header .mx-1").text().trim(),
+    name: data.data.attributes.title.en,
     link: url,
-    image: $("#content img")[0].attribs.src,
-    isCompleted: false,
-    chapters: await parseChapters($, url),
-    ...parseAdditionalInfo($),
+    image: await extractImage(data, id),
+    isCompleted: data.data.attributes.status === "completed",
+    chapters: await parseChapters(id),
+    ...(await parseAdditionalInfo(data)),
   };
 }
 
