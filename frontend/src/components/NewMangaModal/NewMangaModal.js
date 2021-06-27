@@ -100,7 +100,7 @@ const NewMangaModal = ({ open, onCancel, addMangaDone }) => {
   }
 
   let additionalInfo = null;
-  if (expand) {
+  if (expand && manga) {
     additionalInfo = [];
     if (isNonEmptyArray(manga.authors)) {
       additionalInfo.push(
@@ -141,7 +141,9 @@ const NewMangaModal = ({ open, onCancel, addMangaDone }) => {
       additionalInfo.push(
         <div className="description">
           <Text strong>Description</Text>
-          <Paragraph ellipsis={{ rows: 1, expandable: true, symbol: "more" }}>{manga.description}</Paragraph>
+          <Paragraph className="wrap" ellipsis={{ rows: 1, expandable: true, symbol: "more" }}>
+            {manga.description}
+          </Paragraph>
         </div>,
       );
     }
