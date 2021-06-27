@@ -1,6 +1,6 @@
 {
   "name": "mangabookmark-frontend",
-  "version": "3.3.5",
+  "version": "3.4.0",
   "private": true,
   "scripts": {
     "dev": "PORT=3001 craco start",
