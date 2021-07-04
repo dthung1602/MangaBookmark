@@ -18,7 +18,10 @@
       "/tests/",
       "/services/manga-service/parsers"
     ],
-    "coverageReporters": ["text", "html"]
+    "coverageReporters": [
+      "text",
+      "html"
+    ]
   },
   "dependencies": {
     "@awaitjs/express": "^0.7.1",
@@ -54,9 +57,10 @@
     "eslint-plugin-jest": "^23.18.0",
     "eslint-plugin-prettier": "^3.1.4",
     "faker": "^4.1.0",
+    "googleapis": "39",
     "jest": "^26.1.0",
-    "nodemon": "^2.0.6",
     "node-mongodb-fixtures": "^3.2.7",
+    "nodemon": "^2.0.6",
     "prettier": "^2.0.5",
     "supertest": "^4.0.2",
     "swagger-jsdoc": "^4.0.0"
