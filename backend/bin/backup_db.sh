@@ -2,7 +2,14 @@
 
 # Exit on failure
 set -e
+
 TODAY=$(date +'%Y-%m-%d')
+WEEK_DAY=$(date +"%a")
+
+# Only update once a week
+if [ ! "$WEEK_DAY" = "Sun" ] ; then
+  exit 0
+fi
 
 # cd to backend directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
