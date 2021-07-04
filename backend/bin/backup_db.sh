@@ -17,14 +17,14 @@ cd "${DIR}"
 
 echo "Downloading mongodb tools"
 export MONGO_TOOL_VERSION="mongodb-database-tools-ubuntu2004-x86_64-100.3.1"
-wget "https://fastdl.mongodb.org/tools/db/${MONGO_TOOL_VERSION}.tgz"
+wget --quiet "https://fastdl.mongodb.org/tools/db/${MONGO_TOOL_VERSION}.tgz"
 
 echo "Extracting mongodb tools"
 tar -zxvf ${MONGO_TOOL_VERSION}.tgz
 export PATH="./${MONGO_TOOL_VERSION}/bin":${PATH}
 
 echo "Installing googleapis package"
-yarn add googleapis@39
+yarn --cwd "${DIR}/.." add googleapis@39
 
 echo "Start dumping data"
 mkdir dump
