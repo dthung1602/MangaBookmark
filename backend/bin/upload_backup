@@ -28,7 +28,7 @@ async function main() {
   }
 
   const oAuth2Client = new google.auth.OAuth2(GOOGLE_AUTH_ID, GOOGLE_AUTH_PASSWORD, redirectUrl);
-  oAuth2Client.on("tokens", updateAccessTokenToMongoDB);
+
   let token = await getAccessTokenFromMongoDB();
   if (!token) {
     console.log("Token not found");
@@ -93,14 +93,6 @@ async function getAccessTokenFromMongoDB() {
   if (meta) {
     return JSON.parse(meta.value);
   }
-}
-
-async function updateAccessTokenToMongoDB(tokens) {
-  console.log("Updating refreshed token to mongodb");
-  return ApplicationMeta.findOneAndUpdate(
-    { key: ApplicationMeta.Keys.GOOGLE_OAUTH2_TOKEN },
-    { value: JSON.stringify(tokens) }
-  );
 }
 
 async function createAccessTokenInMongoDB(tokens) {
