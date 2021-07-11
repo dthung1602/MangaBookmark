@@ -24,7 +24,7 @@ then
   export PATH="./${MONGO_TOOL_VERSION}/bin":${PATH}
 
   echo ">> Installing googleapis package"
-  yarn --cwd "${DIR}/.." add googleapis@39
+  yarn --cwd "${DIR}/.." add googleapis@81
 fi
 
 echo ">> Start dumping data"
