@@ -122,6 +122,12 @@
     - [x] http://mangahasu.se
 
 - [ ] Scale crawling
+    - [ ] filter mangas & push to queue
+    - [ ] fetch & crawl from queue
+    - [ ] add redis: queue, ...
+    - [ ] use queue in update multiple / update single API
+    - [ ] add query crawl result api
+    - [ ] change update multiple / update single frontend
 
 - [ ] Toggle right panel
 

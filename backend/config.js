@@ -15,6 +15,8 @@ module.exports = {
 
   PORT: getEnv("PORT", 3000, parseInt),
   DB_URL: getEnv("DB_URL", fallbackDatabaseURL),
+  AMQP_URL: getEnv("AMQP_URL", "amqp://localhost"),
+  REDIS_URL: getEnv("REDIS_URL", "redis://localhost:6379"),
   CRAWL_CONCURRENCY: getEnv("CRAWL_CONCURRENCY", 5, parseInt),
 
   SECRET_KEY: getEnv("SECRET_KEY", "yIjaujJQOuen0MQPE2daXN8oBrPY1USc"),

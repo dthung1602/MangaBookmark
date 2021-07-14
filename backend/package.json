@@ -26,6 +26,7 @@
   "dependencies": {
     "@awaitjs/express": "^0.7.1",
     "amqplib": "^0.8.0",
+    "async-redis": "^2.0.0",
     "bcrypt": "^5.0.0",
     "cheerio": "^1.0.0-rc.5",
     "compression": "^1.7.4",
