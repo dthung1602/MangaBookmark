@@ -7,28 +7,21 @@ const db = require("../services/db-service");
 const { pushMangaNotifications } = require("../services/push-service");
 
 async function main() {
-  let push = true;
-  if (process.argv.length === 3 && process.argv[2] === "--no-push") {
-    push = false;
-  }
-
   console.log("Connecting to database");
   await db.ensureDBConnection();
 
-  console.log("Fetching mangas to update");
-  const mangasToUpdate = await Manga.find({
-    shelf: { $in: [TO_READ, READING, WAITING] },
+  const filters = {
+    shelf: { $in: [TO_READ] },
     isCompleted: false,
-  });
+  };
 
-  const { successMangas } = await MangaService.updateMultiple(mangasToUpdate, false, true);
-  console.log("Update manga done!");
+  const result = await MangaService.updateMultiple(filters, true, true);
+  console.log("------------")
+  console.log(result)
+  console.log("------------")
 
-  if (push) {
-    await pushMangaNotifications(successMangas);
-  }
-
-  db.closeDBConnection();
+  await db.closeDBConnection();
+  console.log("DONE");
 }
 
 main().catch((err) => {

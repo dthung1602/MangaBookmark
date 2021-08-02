@@ -539,13 +539,11 @@ router.postAsync("/update-multiple", MangaFilterValidator, async (req, res) => {
     hidden: req.body.hidden,
     isCompleted: req.body.isCompleted,
   });
-  const { data: mangas } = await MangaService.list(filters, undefined, undefined, 0, 0);
-  const { successMangas, failMangas } = await MangaService.updateMultiple(mangas, false, true);
-  const reportFields = ["name", "_id", "site", "link", "newChapCount"];
+  MangaService.updateMultiple(filters, false, true);
   res.json({
-    total: mangas.length,
-    success: successMangas.map((manga) => pick(manga, reportFields)),
-    fail: failMangas.map((manga) => pick(manga, reportFields)),
+    total: 0,
+    success: [],
+    fail: [],
   });
 });
 
