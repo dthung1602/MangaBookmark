@@ -1,68 +1,64 @@
 const webpush = require("web-push");
 
-const { Subscription } = require("../models");
+const { Subscription, User } = require("../models");
+const { ResultCache } = require("../datasource");
 const { REACT_APP_VAPID_PUBLIC_KEY, REACT_APP_VAPID_PRIVATE_KEY, WEB_PUSH_CONTACT } = require("../config");
 
-async function pushMangaNotifications(mangas) {
-  console.log("Start sending notifications");
-  webpush.setVapidDetails(WEB_PUSH_CONTACT, REACT_APP_VAPID_PUBLIC_KEY, REACT_APP_VAPID_PRIVATE_KEY);
+webpush.setVapidDetails(WEB_PUSH_CONTACT, REACT_APP_VAPID_PUBLIC_KEY, REACT_APP_VAPID_PRIVATE_KEY);
 
-  const userToMangasMapping = {};
-  for (let manga of mangas) {
-    if (manga.newChapCount === 0) {
-      continue;
-    }
-
-    if (!userToMangasMapping[manga.user]) {
-      userToMangasMapping[manga.user] = [];
-    }
-    userToMangasMapping[manga.user].push(manga);
-  }
+async function pushAllMangaNotifications(verbose = false) {
+  const resultCache = new ResultCache("manga-update");
 
   const promises = [];
-  for (let userId in userToMangasMapping) {
-    if (!userToMangasMapping.hasOwnProperty(userId)) {
-      continue;
-    }
 
-    const mangas = userToMangasMapping[userId].map((manga) => ({
-      name: manga.name,
-      newChapCount: manga.newChapCount,
-      unreadChapCount: manga.unreadChapCount,
-    }));
-    if (mangas.length === 0) {
-      continue;
-    }
-    const data = JSON.stringify(mangas);
-    const subscriptions = await Subscription.find({ user: userId });
-
-    let successCount = 0;
-    let promise = Promise.all(
-      subscriptions.map((subscription) =>
-        webpush
-          .sendNotification(subscription.toStdFormat(), data)
-          .then(() => {
-            successCount += 1;
-          })
-          .catch((err) => {
-            if (err.statusCode === 404 || err.statusCode === 410) {
-              console.log(`Subscription ${subscription._id} has expired or is no longer valid`);
-              subscription.delete();
-            } else {
-              console.error(err);
-            }
-          }),
-      ),
-    ).then(() => {
-      console.log(`   Sent ${successCount}/${subscriptions.length} notifications to user "${userId}"`);
-    });
-    promises.push(promise);
+  for await (const user of User.find()) {
+    promises.push(
+      resultCache.retrieveAll(user.id).then((summaries) => {
+        // console.log(">>>", summaries);
+        pushNotificationsToUser(user, summaries, verbose);
+      }),
+    );
   }
 
-  await Promise.all(promises);
-  console.log("Done sending notifications");
+  await Promise.allSettled(promises);
+}
+
+async function pushNotificationsToUser(user, summaries, verbose = false) {
+  summaries = summaries.filter((summary) => summary.status === "success" && summary.data.newChapCount > 0);
+
+  if (summaries.length === 0) {
+    if (verbose) {
+      console.log(`   No updates for user "${user.id}"`);
+    }
+    return;
+  }
+
+  const data = JSON.stringify(summaries);
+  const subscriptions = await Subscription.find({ user: user.id });
+
+  let successCount = 0;
+  await Promise.all(
+    subscriptions.map((subscription) =>
+      webpush
+        .sendNotification(subscription.toStdFormat(), data)
+        .then(() => {
+          successCount += 1;
+        })
+        .catch((err) => {
+          if (err.statusCode === 404 || err.statusCode === 410) {
+            console.log(`Subscription ${subscription._id} has expired or is no longer valid`);
+            subscription.delete();
+          } else {
+            console.error(err);
+          }
+        }),
+    ),
+  );
+
+  console.log(`   Sent ${successCount}/${subscriptions.length} notifications to user "${user.id}"`);
 }
 
 module.exports = {
-  pushMangaNotifications,
+  pushNotificationsToUser,
+  pushAllMangaNotifications,
 };

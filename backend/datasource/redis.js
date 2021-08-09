@@ -22,18 +22,18 @@ class RedisBase {
 }
 
 class ResultCache extends RedisBase {
-  async addOne(message, encoder = JSON.stringify) {
+  async addOne(key, message, encoder = JSON.stringify) {
     this.connect();
     message = encoder(message);
-    return client.rpush("result:" + this.name, message);
+    return client.rpush("result:" + this.name + ":" + key, message);
   }
 
-  async retrieveAll(decoder = JSON.parse) {
+  async retrieveAll(key, decoder = JSON.parse) {
     this.connect();
-    const messages = await client.lrange("result:" + this.name, 0, -1);
-    const result = messages.map(decoder);
-    await client.del(this.name);
-    return result;
+    key = "result:" + this.name + ":" + key;
+    const messages = await client.lrange(key, 0, -1);
+    await client.del(key);
+    return messages.map(decoder);
   }
 }
 

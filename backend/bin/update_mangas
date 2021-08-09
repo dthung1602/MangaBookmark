@@ -4,7 +4,8 @@ const { Manga } = require("../models");
 const { TO_READ, READING, WAITING } = Manga.Shelf;
 const MangaService = require("../services/manga-service");
 const db = require("../services/db-service");
-const { pushMangaNotifications } = require("../services/push-service");
+const datasource = require("../datasource")
+const { pushAllMangaNotifications } = require("../services/push-service");
 
 async function main() {
   console.log("Connecting to database");
@@ -15,17 +16,17 @@ async function main() {
     isCompleted: false,
   };
 
-  const result = await MangaService.updateMultiple(filters, true, true);
-  console.log("------------")
-  console.log(result)
-  console.log("------------")
+  await MangaService.updateMultiple.pushToQueue(filters, true);
+  await MangaService.updateMultiple.consumeFromQueue(false, true);
+  await pushAllMangaNotifications(true);
 
+  await datasource.closeAllConnections();
   await db.closeDBConnection();
-  console.log("DONE");
 }
 
 main().catch((err) => {
   console.error(err);
+  datasource.closeAllConnections();
   db.closeDBConnection();
   process.exit(1);
 });
