@@ -13,27 +13,6 @@
         "maxLength": 24,
         "pattern": "^\\d{24}$"
       },
-      "MangaUpdateReport": {
-        "type": "object",
-        "properties": {
-          "_id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "site": {
-            "type": "string"
-          },
-          "link": {
-            "type": "string",
-            "format": "url"
-          },
-          "newChapCount": {
-            "type": "integer"
-          }
-        }
-      },
       "MangaInfo": {
         "type": "object",
         "properties": {
@@ -112,6 +91,32 @@
               "en",
               "vi"
             ]
+          }
+        }
+      },
+      "ApplicationMeta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "key": {
+            "type": "string",
+            "enum": [
+              "DB_VERSION",
+              "GOOGLE_OAUTH2_TOKEN"
+            ]
+          },
+          "value": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -247,6 +252,45 @@
           "updatedAt": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "MangaUpdateSummary": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "success",
+              "processing",
+              "failed"
+            ]
+          },
+          "error": {
+            "type": "string",
+            "required": false
+          },
+          "data": {
+            "type": "object",
+            "required": false,
+            "properties": {
+              "_id": {
+                "$ref": "#/components/schemas/Id"
+              },
+              "name": {
+                "type": "string"
+              },
+              "site": {
+                "type": "string"
+              },
+              "link": {
+                "type": "string",
+                "format": "uri"
+              },
+              "newChapCount": {
+                "type": "integer"
+              }
+            }
           }
         }
       },
@@ -785,7 +829,7 @@
       }
     },
     "/api/mangas/{mangaId}/mark-chapters": {
-      "patch": {
+      "post": {
         "description": "Update chapter isRead status",
         "requestBody": {
           "content": {
@@ -851,11 +895,11 @@
       }
     },
     "/api/mangas/update-multiple": {
-      "get": {
+      "post": {
         "description": "Update mangas found by search & filters",
         "parameters": [
           {
-            "in": "query",
+            "in": "body",
             "name": "search",
             "description": "Search mangas by name",
             "schema": {
@@ -864,7 +908,7 @@
             }
           },
           {
-            "in": "query",
+            "in": "body",
             "name": "shelf",
             "schema": {
               "type": "array",
@@ -881,7 +925,7 @@
             }
           },
           {
-            "in": "query",
+            "in": "body",
             "name": "isCompleted",
             "schema": {
               "type": "boolean",
@@ -889,7 +933,7 @@
             }
           },
           {
-            "in": "query",
+            "in": "body",
             "name": "status",
             "schema": {
               "type": "array",
@@ -902,7 +946,7 @@
             }
           },
           {
-            "in": "query",
+            "in": "body",
             "name": "hidden",
             "schema": {
               "type": "boolean",
@@ -910,7 +954,7 @@
             }
           },
           {
-            "in": "query",
+            "in": "body",
             "name": "site",
             "schema": {
               "type": "array",
@@ -921,7 +965,7 @@
             }
           },
           {
-            "in": "query",
+            "in": "body",
             "name": "lang",
             "schema": {
               "type": "array",
@@ -936,7 +980,7 @@
             }
           },
           {
-            "in": "query",
+            "in": "body",
             "name": "createdAtGTE",
             "schema": {
               "type": "string",
@@ -945,7 +989,7 @@
             }
           },
           {
-            "in": "query",
+            "in": "body",
             "name": "createdAtLTE",
             "schema": {
               "type": "string",
@@ -954,7 +998,7 @@
             }
           },
           {
-            "in": "query",
+            "in": "body",
             "name": "lastReleasedGTE",
             "schema": {
               "type": "string",
@@ -963,7 +1007,7 @@
             }
           },
           {
-            "in": "query",
+            "in": "body",
             "name": "lastReleasedLTE",
             "schema": {
               "type": "string",
@@ -972,7 +1016,7 @@
             }
           },
           {
-            "in": "query",
+            "in": "body",
             "name": "unreadChapCountGTE",
             "schema": {
               "type": "string",
@@ -981,7 +1025,7 @@
             }
           },
           {
-            "in": "query",
+            "in": "body",
             "name": "unreadChapCountLTE",
             "schema": {
               "type": "string",
@@ -990,58 +1034,43 @@
             }
           },
           {
-            "in": "query",
+            "in": "body",
             "name": "tags",
             "schema": {
               "type": "string",
-              "required": false
-            }
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "required": false
-            }
-          },
-          {
-            "in": "query",
-            "name": "perPage",
-            "schema": {
-              "type": "integer",
-              "minimum": 0,
-              "description": "If set to 0, all pages are retrieved.",
               "required": false
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Update completed",
+            "description": "Update starting",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "total": {
+                    "pushedToQueue": {
                       "type": "integer",
-                      "description": "number of updated mangas"
-                    },
-                    "success": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/MangaUpdateReport"
-                      }
-                    },
-                    "fail": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/MangaUpdateReport"
-                      }
+                      "description": "number of manga pushed to queue for updating"
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/mangas/update-multiple/status": {
+      "get": {
+        "description": "Get the status of the update manga job",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MangaUpdateSummary"
                 }
               }
             }

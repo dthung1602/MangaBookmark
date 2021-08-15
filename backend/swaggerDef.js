@@ -14,27 +14,6 @@ module.exports = {
         maxLength: 24,
         pattern: "^\\d{24}$",
       },
-      MangaUpdateReport: {
-        type: "object",
-        properties: {
-          _id: {
-            type: "string",
-          },
-          name: {
-            type: "string",
-          },
-          site: {
-            type: "string",
-          },
-          link: {
-            type: "string",
-            format: "url",
-          },
-          newChapCount: {
-            type: "integer",
-          },
-        },
-      },
       MangaInfo: {
         type: "object",
         properties: {

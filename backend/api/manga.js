@@ -1,5 +1,5 @@
 const { Router } = require("@awaitjs/express");
-const { pick } = require("lodash");
+const { pick, cloneDeep, omit } = require("lodash");
 const router = Router();
 
 const { removeUndefinedAttrs } = require("./utils");
@@ -338,7 +338,7 @@ router.getAsync("/info", MangaInfoValidator, async (req, res) => {
  * @swagger
  *
  * /api/mangas/{mangaId}/mark-chapters:
- *   patch:
+ *   post:
  *     description: Update chapter isRead status
  *     requestBody:
  *       content:
@@ -408,28 +408,28 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
  * @swagger
  *
  * /api/mangas/update-multiple:
- *   get:
+ *   post:
  *     description: Update mangas found by search & filters
  *     parameters:
- *       - in: query
+ *       - in: body
  *         name: search
  *         description: Search mangas by name
  *         schema:
  *           type: string
  *           required: false
- *       - in: query
+ *       - in: body
  *         name: shelf
  *         schema:
  *           type: array
  *           items:
  *             enum: [to read, reading, waiting, dropped, finished]
  *           required: false
- *       - in: query
+ *       - in: body
  *         name: isCompleted
  *         schema:
  *           type: boolean
  *           required: false
- *       - in: query
+ *       - in: body
  *         name: status
  *         schema:
  *           type: array
@@ -438,19 +438,19 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
  *             minimum: 0
  *             maximum: 3
  *           required: false
- *       - in: query
+ *       - in: body
  *         name: hidden
  *         schema:
  *           type: boolean
  *           required: false
- *       - in: query
+ *       - in: body
  *         name: site
  *         schema:
  *           type: array
  *           items:
  *             type: string
  *           required: false
- *       - in: query
+ *       - in: body
  *         name: lang
  *         schema:
  *           type: array
@@ -458,93 +458,89 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
  *             type: string
  *             enum: [en, vi]
  *           required: false
- *       - in: query
+ *       - in: body
  *         name: createdAtGTE
  *         schema:
  *           type: string
  *           format: date
  *           required: false
- *       - in: query
+ *       - in: body
  *         name: createdAtLTE
  *         schema:
  *           type: string
  *           format: date
  *           required: false
- *       - in: query
+ *       - in: body
  *         name: lastReleasedGTE
  *         schema:
  *           type: string
  *           format: date
  *           required: false
- *       - in: query
+ *       - in: body
  *         name: lastReleasedLTE
  *         schema:
  *           type: string
  *           format: date
  *           required: false
- *       - in: query
+ *       - in: body
  *         name: unreadChapCountGTE
  *         schema:
  *           type: string
  *           format: date
  *           required: false
- *       - in: query
+ *       - in: body
  *         name: unreadChapCountLTE
  *         schema:
  *           type: string
  *           format: date
  *           required: false
- *       - in: query
+ *       - in: body
  *         name: tags
  *         schema:
  *           type: string
  *           required: false
- *       - in: query
- *         name: page
- *         schema:
- *           type: integer
- *           minimum: 1
- *           required: false
- *       - in: query
- *         name: perPage
- *         schema:
- *           type: integer
- *           minimum: 0
- *           description: If set to 0, all pages are retrieved.
- *           required: false
  *     responses:
  *       200:
- *         description: Update completed
+ *         description: Update starting
  *         content:
  *           application/json:
  *              schema:
  *                type: object
  *                properties:
- *                  total:
+ *                  pushedToQueue:
  *                    type: integer
- *                    description: number of updated mangas
- *                  success:
- *                    type: array
- *                    items:
- *                      $ref: '#/components/schemas/MangaUpdateReport'
- *                  fail:
- *                    type: array
- *                    items:
- *                      $ref: '#/components/schemas/MangaUpdateReport'
+ *                    description: number of manga pushed to queue for updating
  */
+// TODO only allow 1 update at a time
 router.postAsync("/update-multiple", MangaFilterValidator, async (req, res) => {
   const filters = removeUndefinedAttrs({
     user: req.user.id,
-    shelf: req.body.shelf,
-    hidden: req.body.hidden,
-    isCompleted: req.body.isCompleted,
+    ...omit(cloneDeep(req.body), ["page", "perPage"]),
   });
-  MangaService.updateMultiple(filters, false, true);
-  res.json({
-    total: 0,
-    success: [],
-    fail: [],
-  });
+  const pushedToQueue = await MangaService.updateMultiple.pushToQueue(filters);
+  res.json({ pushedToQueue });
+  // MangaService.updateMultiple.consumeFromQueue(true, false).catch(console.error);
+});
+
+//------------------------------------------
+//  Get the status of the update manga job
+//------------------------------------------
+/**
+ * @swagger
+ *
+ * /api/mangas/update-multiple/status:
+ *   get:
+ *     description: Get the status of the update manga job
+ *     responses:
+ *       200:
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/MangaUpdateSummary'
+ */
+router.getAsync("/update-multiple/status", async (req, res) => {
+  // TODO
+  res.json("not implemented yet");
 });
 
 module.exports = router;

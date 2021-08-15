@@ -1,10 +1,9 @@
-const { pick } = require("lodash");
-
 const updateSingleManga = require("./update");
-const { Manga } = require("../../models");
+const { Manga, MangaUpdateSummary } = require("../../models");
 const { Queue, ResultCache } = require("../../datasource");
 const { CRAWL_CONCURRENCY } = require("../../config");
 
+// TODO use different queue for scheduled and adhoc updates
 function getQueue() {
   return new Queue("manga-update");
 }
@@ -44,7 +43,6 @@ function decodeManga(raw) {
 async function consumeFromQueue(additionalUpdate, verbose) {
   const queue = getQueue();
   const resultCache = getResultCache();
-  const reportFields = ["name", "_id", "site", "link", "newChapCount"];
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
@@ -63,14 +61,14 @@ async function consumeFromQueue(additionalUpdate, verbose) {
         updateSingleManga(manga, additionalUpdate)
           .then(() => {
             console.log(`Update successfully manga ${manga.name}`);
-            return resultCache.addOne(manga.user, { status: "success", data: pick(manga, reportFields) });
+            return resultCache.addOne(manga.user, new MangaUpdateSummary("success", manga));
           })
           .catch((e) => {
             if (verbose) {
               console.error(`Fail to update ${manga.name} - ${manga.site}`);
               console.error(e);
             }
-            return resultCache.addOne(manga.user, { status: "failed", error: e.toString() });
+            return resultCache.addOne(manga.user, new MangaUpdateSummary("failed", undefined, e.toString()));
           }),
       );
     }

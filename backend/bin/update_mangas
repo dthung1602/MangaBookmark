@@ -11,13 +11,14 @@ async function main() {
   console.log("Connecting to database");
   await db.ensureDBConnection();
 
+  // TODO add more shelf
   const filters = {
     shelf: { $in: [TO_READ] },
     isCompleted: false,
   };
 
   await MangaService.updateMultiple.pushToQueue(filters, true);
-  await MangaService.updateMultiple.consumeFromQueue(false, true);
+  await MangaService.updateMultiple.consumeFromQueue(true, true);
   await pushAllMangaNotifications(true);
 
   await datasource.closeAllConnections();
