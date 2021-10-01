@@ -37,6 +37,13 @@ async function wait(ms) {
   });
 }
 
+function findNodeWithText($, nodes, text) {
+  return $(nodes)
+    .toArray()
+    .map($)
+    .filter((node) => node.text().toLowerCase().includes(text.toLowerCase()))[0];
+}
+
 function extractTagsFromNode($, tagNodes) {
   return $(tagNodes)
     .toArray()
@@ -59,8 +66,26 @@ function cleanText(text, headerToRemove) {
   return text;
 }
 
+/**
+ * Guess the separator in string
+ * If both , ; present, prefer the one with fewer appearance
+ * Ex:  one, two three; ein, zwei drei -> separator is ;
+ */
+function guessSeparator(text) {
+  const commaCount = text.split(",").length;
+  const semiColonCount = text.split(";").length;
+  if (commaCount === 1) {
+    return ";";
+  }
+  if (semiColonCount === 1) {
+    return ",";
+  }
+  return commaCount < semiColonCount ? "," : ";";
+}
+
 function extractTagsFromText(text, separator = ";", headerToRemove = null) {
   text = cleanText(text, headerToRemove);
+  separator = separator === null ? guessSeparator(text) : separator;
   return text
     .split(separator)
     .map((tag) => tag.trim().toLowerCase())
@@ -69,11 +94,13 @@ function extractTagsFromText(text, separator = ";", headerToRemove = null) {
 
 function extractAuthorsFromText(text, separator = ";", headerToRemove = null) {
   text = cleanText(text, headerToRemove);
+  separator = separator === null ? guessSeparator(text) : separator;
   return text.split(separator).map(startCase).filter(Boolean);
 }
 
 function extractNamesFromText(text, separator = ";", headerToRemove = null) {
   text = cleanText(text, headerToRemove);
+  separator = separator === null ? guessSeparator(text) : separator;
   return text
     .split(separator)
     .map((tag) => tag.trim())
@@ -90,6 +117,7 @@ module.exports = {
   getDefaultHeaders,
   removeMangaNamePrefix,
   wait,
+  findNodeWithText,
   extractAuthorsFromNode,
   extractTagsFromNode,
   extractAuthorsFromText,
