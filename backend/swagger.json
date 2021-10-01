@@ -262,7 +262,6 @@
             "type": "string",
             "enum": [
               "success",
-              "processing",
               "failed"
             ]
           },
@@ -1070,7 +1069,24 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MangaUpdateSummary"
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "none",
+                        "processing",
+                        "error",
+                        "done"
+                      ]
+                    },
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/MangaUpdateSummary"
+                      }
+                    }
+                  }
                 }
               }
             }

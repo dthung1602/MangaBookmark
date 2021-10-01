@@ -13,6 +13,7 @@ module.exports = {
   MangaInfoValidator: require("./manga-info"),
   MangaCreateValidator: require("./manga-create"),
   MangaPatchValidator: require("./manga-patch"),
+  MangaUpdateMultipleValidator: require("./manga-update-multiple"),
   MangaPermissionValidator: require("./manga-permission"),
 
   SubscriptionCreateValidator: require("./subsription-create"),

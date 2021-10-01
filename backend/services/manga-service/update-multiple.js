@@ -1,29 +1,38 @@
 const updateSingleManga = require("./update");
 const { Manga, MangaUpdateSummary } = require("../../models");
-const { Queue, ResultCache } = require("../../datasource");
+const { getMangaUpdateQueue, getMangaUpdateResultCache, getMangaUpdateStatusMemo } = require("../../datasource");
 const { CRAWL_CONCURRENCY } = require("../../config");
 
-// TODO use different queue for scheduled and adhoc updates
-function getQueue() {
-  return new Queue("manga-update");
+const ProcessStatuses = Object.freeze({
+  NONE: "none",
+  PROCESSING: "processing",
+  DONE: "done",
+  ERROR: "error",
+});
+
+const QueueTypes = Object.freeze({
+  ADHOC: "adhoc",
+  SCHEDULED: "scheduled",
+});
+
+function checkQueueType(type) {
+  if (type !== QueueTypes.SCHEDULED && type !== QueueTypes.ADHOC) {
+    throw new Error(`Invalid queue type ${type}`);
+  }
 }
 
-function getResultCache() {
-  return new ResultCache("manga-update");
-}
+async function pushToQueue(queueType, filters, verbose) {
+  checkQueueType(queueType);
 
-async function pushToQueue(filters, verbose) {
-  const queue = getQueue();
+  const queue = getMangaUpdateQueue(queueType);
   const mangasToUpdate = Manga.find(filters);
 
   const queueResponse = [];
   let pushedToQueue = 0;
-  console.log("Start");
   for await (const manga of mangasToUpdate) {
     console.log(`found manga "${manga.name}"`);
     queueResponse.push(queue.enqueue(manga).then(() => (pushedToQueue += 1)));
   }
-  console.log("Waiting...");
   await Promise.allSettled(queueResponse);
 
   if (verbose) {
@@ -40,9 +49,11 @@ function decodeManga(raw) {
   return manga;
 }
 
-async function consumeFromQueue(additionalUpdate, verbose) {
-  const queue = getQueue();
-  const resultCache = getResultCache();
+async function consumeFromQueue(queueType, additionalUpdate, verbose) {
+  checkQueueType(queueType);
+
+  const queue = getMangaUpdateQueue(queueType);
+  const resultCache = getMangaUpdateResultCache(queueType);
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
@@ -50,8 +61,8 @@ async function consumeFromQueue(additionalUpdate, verbose) {
     for (let i = 0; i < CRAWL_CONCURRENCY; i++) {
       const manga = await queue.retrieve(decodeManga);
       if (!manga) {
-        console.log("all mangas fetched");
         await Promise.allSettled(promises);
+        // await new Promise((resolve) => setTimeout(resolve, 60000));
         return;
       }
       if (verbose) {
@@ -72,13 +83,34 @@ async function consumeFromQueue(additionalUpdate, verbose) {
           }),
       );
     }
-    console.log("waiting for manga batch");
     await Promise.allSettled(promises);
-    console.log("manga batch finished");
   }
+}
+
+async function setUpdateStatus(user, status) {
+  if (!Object.values(ProcessStatuses).includes(status)) {
+    throw new Error(`Invalid status ${status}`);
+  }
+  const memo = getMangaUpdateStatusMemo();
+  return await memo.set(user.id, status);
+}
+
+async function getUpdateStatus(user) {
+  const memo = getMangaUpdateStatusMemo();
+  return (await memo.get(user.id)) || ProcessStatuses.NONE;
+}
+
+async function popResult(user) {
+  const resultCache = getMangaUpdateResultCache(QueueTypes.ADHOC);
+  return await resultCache.retrieveAll(user.id);
 }
 
 module.exports = {
   pushToQueue,
   consumeFromQueue,
+  setUpdateStatus,
+  getUpdateStatus,
+  popResult,
+  ProcessStatuses,
+  QueueTypes,
 };

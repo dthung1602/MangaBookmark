@@ -1,20 +1,19 @@
 const webpush = require("web-push");
 
 const { Subscription, User } = require("../models");
-const { ResultCache } = require("../datasource");
+const { getMangaUpdateResultCache, MangaUpdateQueueType } = require("../datasource");
 const { REACT_APP_VAPID_PUBLIC_KEY, REACT_APP_VAPID_PRIVATE_KEY, WEB_PUSH_CONTACT } = require("../config");
 
 webpush.setVapidDetails(WEB_PUSH_CONTACT, REACT_APP_VAPID_PUBLIC_KEY, REACT_APP_VAPID_PRIVATE_KEY);
 
 async function pushAllMangaNotifications(verbose = false) {
-  const resultCache = new ResultCache("manga-update");
+  const resultCache = getMangaUpdateResultCache(MangaUpdateQueueType.SCHEDULED);
 
   const promises = [];
 
   for await (const user of User.find()) {
     promises.push(
       resultCache.retrieveAll(user.id).then((summaries) => {
-        // console.log(">>>", summaries);
         pushNotificationsToUser(user, summaries, verbose);
       }),
     );

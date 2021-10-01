@@ -2,6 +2,11 @@ const { pick } = require("lodash");
 
 const summaryFields = ["_id", "name", "site", "link", "newChapCount"];
 
+const Statuses = Object.freeze({
+  SUCCESS: "success",
+  FAILED: "failed",
+});
+
 /**
  * @swagger
  *
@@ -12,7 +17,7 @@ const summaryFields = ["_id", "name", "site", "link", "newChapCount"];
  *        properties:
  *          status:
  *            type: string
- *            enum: [success, processing, failed]
+ *            enum: [success, failed]
  *          error:
  *            type: string
  *            required: false
@@ -33,6 +38,8 @@ const summaryFields = ["_id", "name", "site", "link", "newChapCount"];
  *                type: integer
  */
 class MangaUpdateSummary {
+  static Statuses = Statuses;
+
   constructor(status, data = {}, error = undefined) {
     this.status = status;
     this.data = pick(data, summaryFields);

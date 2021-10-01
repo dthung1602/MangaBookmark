@@ -12,6 +12,7 @@ const {
   MangaInfoValidator,
   MangaCreateValidator,
   MangaPatchValidator,
+  MangaUpdateMultipleValidator,
   MangaPermissionValidator,
 } = require("../services/validation-service");
 
@@ -511,15 +512,21 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
  *                    type: integer
  *                    description: number of manga pushed to queue for updating
  */
-// TODO only allow 1 update at a time
-router.postAsync("/update-multiple", MangaFilterValidator, async (req, res) => {
+router.postAsync("/update-multiple", MangaUpdateMultipleValidator, async (req, res) => {
+  const { QueueTypes, ProcessStatuses, pushToQueue, consumeFromQueue, setUpdateStatus } = MangaService.updateMultiple;
   const filters = removeUndefinedAttrs({
     user: req.user.id,
     ...omit(cloneDeep(req.body), ["page", "perPage"]),
   });
-  const pushedToQueue = await MangaService.updateMultiple.pushToQueue(filters);
+
+  const pushedToQueue = await pushToQueue(QueueTypes.ADHOC, filters);
+  await setUpdateStatus(req.user, ProcessStatuses.PROCESSING);
+
   res.json({ pushedToQueue });
-  // MangaService.updateMultiple.consumeFromQueue(true, false).catch(console.error);
+
+  consumeFromQueue(QueueTypes.ADHOC, true, false)
+    .then(() => setUpdateStatus(req.user, ProcessStatuses.DONE))
+    .catch(() => setUpdateStatus(req.user, ProcessStatuses.ERROR));
 });
 
 //------------------------------------------
@@ -536,11 +543,26 @@ router.postAsync("/update-multiple", MangaFilterValidator, async (req, res) => {
  *         content:
  *           application/json:
  *              schema:
- *                $ref: '#/components/schemas/MangaUpdateSummary'
+ *                type: object
+ *                properties:
+ *                  status:
+ *                    type: string
+ *                    enum: [none, processing, error, done]
+ *                  result:
+ *                    type: array
+ *                    items:
+ *                      $ref: '#/components/schemas/MangaUpdateSummary'
  */
 router.getAsync("/update-multiple/status", async (req, res) => {
-  // TODO
-  res.json("not implemented yet");
+  const { getUpdateStatus, setUpdateStatus, popResult, ProcessStatuses } = MangaService.updateMultiple;
+  const status = await getUpdateStatus(req.user);
+  let result = [];
+  if (status === ProcessStatuses.DONE || status === ProcessStatuses.ERROR) {
+    // TODO make this atomic
+    await setUpdateStatus(req.user, ProcessStatuses.NONE);
+    result = await popResult(req.user);
+  }
+  res.json({ status, result });
 });
 
 module.exports = router;
