@@ -1,4 +1,10 @@
-const { fetchAndLoad, removeMangaNamePrefix } = require("./utils");
+const {
+  fetchAndLoad,
+  removeMangaNamePrefix,
+  findNodeWithHeaderAndExtractNameFromText,
+  findNodeWithHeaderAndExtractTagsFromText,
+  findNodeWithHeaderAndExtractAuthorFromText,
+} = require("./utils");
 
 const URLRegex = /^https?:\/\/kissmanga\.org\/manga\/.+$/;
 const BaseURL = "https://kissmanga.org";
@@ -17,6 +23,14 @@ async function parseChapters($) {
   return chapters;
 }
 
+function parseAdditionalInfo($) {
+  let description = $("#leftside .barContent .summary").text();
+  const alternativeNames = findNodeWithHeaderAndExtractNameFromText($, "#leftside .barContent p", "Other name:");
+  const tags = findNodeWithHeaderAndExtractTagsFromText($, "#leftside .barContent p", "Genres:");
+  const authors = findNodeWithHeaderAndExtractAuthorFromText($, "#leftside .barContent p", "Authors:");
+  return { description, alternativeNames, authors, tags };
+}
+
 async function parseManga(url) {
   const $ = await fetchAndLoad(url);
 
@@ -26,8 +40,50 @@ async function parseManga(url) {
     image: BaseURL + $(".cover_anime img").attr("src"),
     isCompleted: $(".item_static").text().includes("Completed"),
     chapters: await parseChapters($),
+    ...parseAdditionalInfo($),
   };
 }
+
+const availableTags = [
+  "Action manga",
+  "Adventure manga",
+  "Comedy manga",
+  "Cooking manga",
+  "Doujinshi manga",
+  "Drama manga",
+  "Fantasy manga",
+  "Gender bender manga",
+  "Harem manga",
+  "Historical manga",
+  "Horror manga",
+  "Isekai manga",
+  "Josei manga",
+  "Manhua manga",
+  "Manhwa manga",
+  "Martial arts manga",
+  "Mature manga",
+  "Mecha manga",
+  "Medical manga",
+  "Mystery manga",
+  "One shot manga",
+  "Psychological manga",
+  "Romance manga",
+  "School life manga",
+  "Sci fi manga",
+  "Seinen manga",
+  "Shoujo manga",
+  "Shoujo ai manga",
+  "Shounen manga",
+  "Shounen ai manga",
+  "Slice of life manga",
+  "Smut manga",
+  "Sports manga",
+  "Supernatural manga",
+  "Tragedy manga",
+  "Webtoons manga",
+  "Yaoi manga",
+  "Yuri manga",
+];
 
 module.exports = {
   active: true,
@@ -37,4 +93,6 @@ module.exports = {
   URLRegex,
   parseManga,
   parseChapters,
+  parseAdditionalInfo,
+  availableTags,
 };
