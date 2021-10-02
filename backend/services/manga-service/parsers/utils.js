@@ -12,18 +12,19 @@ function getDefaultHeaders() {
   };
 }
 
-async function fetch(url, headers = {}, cookie = "") {
+async function fetch(url, headers = {}, cookie = "", option = {}) {
   return got(url, {
     headers: {
       ...getDefaultHeaders(),
       ...headers,
       Cookie: cookie,
     },
+    ...option,
   });
 }
 
-async function fetchAndLoad(url, headers = {}, cookie = "") {
-  const response = await fetch(url, headers, cookie);
+async function fetchAndLoad(url, headers = {}, cookie = "", option = {}) {
+  const response = await fetch(url, headers, cookie, option);
   return cheerio.load(response.body);
 }
 
