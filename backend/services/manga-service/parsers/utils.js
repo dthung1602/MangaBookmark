@@ -141,6 +141,7 @@ module.exports = {
   getDefaultHeaders,
   removeMangaNamePrefix,
   wait,
+  findNodeWithHeader,
   findNodeWithHeaderAndExtractNameFromText,
   findNodeWithHeaderAndExtractAuthorFromText,
   findNodeWithHeaderAndExtractTagsFromText,
