@@ -13,7 +13,7 @@ async function parseChapters($) {
     });
   }
 
-  return chapters;
+  return chapters.reverse();
 }
 
 async function parseManga(url) {

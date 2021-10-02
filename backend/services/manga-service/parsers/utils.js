@@ -37,11 +37,35 @@ async function wait(ms) {
   });
 }
 
-function findNodeWithText($, nodes, text) {
+function findNodeWithHeader($, nodes, text) {
   return $(nodes)
     .toArray()
     .map($)
     .filter((node) => node.text().toLowerCase().includes(text.toLowerCase()))[0];
+}
+
+function findNodeWithHeaderAndExtractNameFromText($, nodes, header = null, separator = null) {
+  const node = findNodeWithHeader($, nodes, header);
+  if (node) {
+    return extractNamesFromText(node.text(), separator, header);
+  }
+  return [];
+}
+
+function findNodeWithHeaderAndExtractAuthorFromText($, nodes, header = null, separator = null) {
+  const node = findNodeWithHeader($, nodes, header);
+  if (node) {
+    return extractAuthorsFromText(node.text(), separator, header);
+  }
+  return [];
+}
+
+function findNodeWithHeaderAndExtractTagsFromText($, nodes, header = null, separator = null) {
+  const node = findNodeWithHeader($, nodes, header);
+  if (node) {
+    return extractTagsFromText(node.text(), separator, header);
+  }
+  return [];
 }
 
 function extractTagsFromNode($, tagNodes) {
@@ -117,7 +141,9 @@ module.exports = {
   getDefaultHeaders,
   removeMangaNamePrefix,
   wait,
-  findNodeWithText,
+  findNodeWithHeaderAndExtractNameFromText,
+  findNodeWithHeaderAndExtractAuthorFromText,
+  findNodeWithHeaderAndExtractTagsFromText,
   extractAuthorsFromNode,
   extractTagsFromNode,
   extractAuthorsFromText,

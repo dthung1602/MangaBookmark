@@ -1,7 +1,6 @@
 const {
   fetchAndLoad,
-  findNodeWithText,
-  extractNamesFromText,
+  findNodeWithHeaderAndExtractNameFromText,
   extractTagsFromNode,
   extractAuthorsFromNode,
 } = require("./utils");
@@ -24,11 +23,7 @@ async function parseChapters($) {
 
 function parseAdditionalInfo($) {
   const description = $(".manga-detail .detail .content").text().trim();
-  const alternativeNames = extractNamesFromText(
-    findNodeWithText($, ".manga-detail .description p", "Tên khác:").text(),
-    null,
-    "Tên khác:",
-  );
+  const alternativeNames = findNodeWithHeaderAndExtractNameFromText($, ".manga-detail .description p", "Tên khác:");
   const tags = extractTagsFromNode($, ".manga-detail .description .category");
   const authors = extractAuthorsFromNode($, ".manga-detail .description .color-green.label.label-info");
   return { description, alternativeNames, authors, tags };
