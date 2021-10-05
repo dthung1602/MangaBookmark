@@ -1,10 +1,9 @@
-const { fetchAndLoad } = require("./utils");
+const { fetchAndLoad, cleanText } = require("./utils");
 
 const URLRegex = /^https?:\/\/www\.mangaread\.org\/manga\/.+$/;
-const chaptersURL = "https://www.mangaread.org/wp-admin/admin-ajax.php";
 
-async function parseChapters($) {
-  const rows = $("a");
+function parseChapters($) {
+  const rows = $(".page-content-listing.single-page a");
 
   const chapters = [];
   for (let i = 0; i < rows.length; i++) {
@@ -18,21 +17,16 @@ async function parseChapters($) {
 }
 
 async function parseManga(url) {
-  const details = fetchAndLoad(url).then(($) => {
-    $("h1 span").remove();
-    return {
-      name: $("h1").text(),
-      link: url,
-      image: $(".summary_image img").attr("src"),
-      isCompleted: $(".post-status").text().includes("Completed"),
-    };
-  });
+  const $ = await fetchAndLoad(url);
 
-  const chapters = fetchAndLoad(chaptersURL, { referrer: url }).then(parseChapters);
+  $("h1 span").remove();
 
   return {
-    ...(await details),
-    chapters: await chapters,
+    name: cleanText($("h1").text()),
+    link: url,
+    image: $(".summary_image img").attr("src"),
+    isCompleted: $(".post-status").text().includes("Completed"),
+    chapters: parseChapters($),
   };
 }
 

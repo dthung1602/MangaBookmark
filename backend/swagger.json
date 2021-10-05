@@ -115,6 +115,32 @@
           }
         }
       },
+      "ApplicationMeta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "key": {
+            "type": "string",
+            "enum": [
+              "DB_VERSION",
+              "GOOGLE_OAUTH2_TOKEN"
+            ]
+          },
+          "value": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "Chapter": {
         "type": "object",
         "properties": {

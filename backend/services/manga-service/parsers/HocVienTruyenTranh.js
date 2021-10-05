@@ -1,4 +1,9 @@
-const { fetchAndLoad, extractNamesFromText, extractTagsFromText, extractAuthorsFromText } = require("./utils");
+const {
+  fetchAndLoad,
+  findNodeWithHeaderAndExtractNameFromText,
+  findNodeWithHeaderAndExtractAuthorFromText,
+  findNodeWithHeaderAndExtractTagsFromText,
+} = require("./utils");
 
 const URLRegex = /^https?:\/\/hocvientruyentranh\.(com|net)\/(index.php\/)?truyen\/[0-9]+\/.+$/;
 
@@ -25,11 +30,10 @@ function extractDescription($) {
 }
 
 function parseAdditionalInfo($) {
-  const info = $(".__info p");
   let description = extractDescription($);
-  const alternativeNames = extractNamesFromText($(info[0]).text(), ";", "Tên khác:");
-  const tags = extractTagsFromText($(info[1]).text(), ",", "Thể loại:");
-  const authors = extractAuthorsFromText($(info[2]).text(), ",", "Tác giả:");
+  const alternativeNames = findNodeWithHeaderAndExtractNameFromText($, ".__info p", "Tên khác:");
+  const tags = findNodeWithHeaderAndExtractTagsFromText($, ".__info p", "Thể loại:");
+  const authors = findNodeWithHeaderAndExtractAuthorFromText($, ".__info p", "Tác giả:");
   return { description, alternativeNames, authors, tags };
 }
 

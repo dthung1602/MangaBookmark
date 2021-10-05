@@ -1,6 +1,6 @@
 const { fetchAndLoad } = require("./utils");
 
-const URLRegex = /^https?:\/\/truyenvn\.com\/.+$/;
+const URLRegex = /^https?:\/\/truyenvn\.tv\/.+$/;
 
 async function parseChapters($) {
   const links = $("#chapterList a");
@@ -23,7 +23,7 @@ async function parseManga(url) {
   return {
     name: $(".info .name").text(),
     link: url,
-    image: $(".comic-info img.lazy-load").attr("data-src"),
+    image: $(".comic-info img.lazy").attr("src"),
     isCompleted: $(".meta-data").text().includes("Hoàn Thành"),
     chapters: await parseChapters($),
   };
@@ -33,7 +33,7 @@ module.exports = {
   active: true,
   lang: "vi",
   site: "TruyenVN",
-  homepage: "https://truyenvn.com/",
+  homepage: "https://truyenvn.tv/",
   URLRegex,
   parseManga,
   parseChapters,

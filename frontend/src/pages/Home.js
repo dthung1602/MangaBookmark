@@ -45,6 +45,7 @@ const isLogoInViewPort = () => {
 
 const Home = () => {
   const [{ supportedSites }] = useContext(GlobalContext);
+  const activeSites = supportedSites.filter((site) => site.active);
   const [clickedYoutube, setClickedYoutube] = useState(false);
   const [hideLogo, setHideLogo] = useState(true);
   const logoRef = useRef(null);
@@ -90,14 +91,14 @@ const Home = () => {
               <div className="cover">
                 <GlobalOutlined />
               </div>
-              <h2>{supportedSites.length || ""} sites supported</h2>
+              <h2>{activeSites.length || ""} sites supported</h2>
               <p>
                 One site is never enough! Some mangas appear exclusively on particular sites and it can takes months for
                 another site to leach.
               </p>
               <p>
-                We are currently supporting {supportedSites.length} scanlation sites and planning to add even more in
-                the future.
+                We are currently supporting {activeSites.length} scanlation sites and planning to add even more in the
+                future.
               </p>
               <Button block type="text" href="#supported-sites">
                 Full list of supported sites &nbsp;&nbsp; <DoubleRightOutlined />
@@ -142,7 +143,7 @@ const Home = () => {
               <Title level={2}>Supported sites</Title>
             </Divider>
             <div>
-              {supportedSites.map((site) => (
+              {activeSites.map((site) => (
                 <a
                   key={site.name}
                   href={site.homepage}

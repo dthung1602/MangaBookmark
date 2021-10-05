@@ -29,7 +29,7 @@ async function parseManga(url) {
 }
 
 module.exports = {
-  active: true,
+  active: false,
   lang: "en",
   site: "MangaRawr",
   homepage: "https://mangarawr.com",

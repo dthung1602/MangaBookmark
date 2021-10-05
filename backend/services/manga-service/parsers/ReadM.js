@@ -1,6 +1,12 @@
-const { fetchAndLoad } = require("./utils");
+const {
+  fetchAndLoad,
+  cleanText,
+  extractNamesFromText,
+  extractTagsFromNode,
+  extractAuthorsFromNode,
+} = require("./utils");
 
-const URLRegex = /^https?:\/\/(www\.)?readm\.org\/manga\/[0-9]+$/;
+const URLRegex = /^https?:\/\/(www\.)?readm\.org\/manga\/[0-9]+\/?$/;
 const BaseURL = "https://www.readm.org";
 
 async function parseChapters($) {
@@ -17,6 +23,14 @@ async function parseChapters($) {
   return chapters;
 }
 
+function parseAdditionalInfo($) {
+  let description = cleanText($("#tv-series-desc+p").text());
+  const alternativeNames = extractNamesFromText($(".sub-title.pt-sm").text(), null);
+  const tags = extractTagsFromNode($, ".series-summary-wrapper .list a");
+  const authors = extractAuthorsFromNode($, ".first_and_last a");
+  return { description, alternativeNames, authors, tags };
+}
+
 async function parseManga(url) {
   const $ = await fetchAndLoad(url);
 
@@ -26,8 +40,11 @@ async function parseManga(url) {
     image: BaseURL + $(".series-profile-thumb").attr("src"),
     isCompleted: $(".series-status").text().includes("Completed"),
     chapters: await parseChapters($),
+    ...parseAdditionalInfo($),
   };
 }
+
+const availableTags = [];
 
 module.exports = {
   active: true,
@@ -37,4 +54,6 @@ module.exports = {
   URLRegex,
   parseManga,
   parseChapters,
+  parseAdditionalInfo,
+  availableTags,
 };

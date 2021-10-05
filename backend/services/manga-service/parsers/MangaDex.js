@@ -1,7 +1,7 @@
 const { uniq, uniqBy } = require("lodash");
 
 const { fetch } = require("./utils");
-const URLRegex = /^https?:\/\/mangadex\.org\/title\/(.+?)\/?$/;
+const URLRegex = /^https?:\/\/mangadex\.org\/title\/(.+?)\/.*\/?$/;
 
 async function parseChapters(id) {
   const limit = 100;
@@ -16,17 +16,17 @@ async function parseChapters(id) {
     const response = await fetch(chapterAPIURL + offset);
     const data = JSON.parse(response.body);
     totalChapterCount = data.total;
-    result = result.concat(data.results);
+    result = result.concat(data.data);
     offset += limit;
   } while (result.length < totalChapterCount && counter-- > 0);
 
-  return uniqBy(result, (x) => x.data.attributes.chapter)
+  return uniqBy(result, (x) => x.attributes.chapter)
     .sort((a, b) => {
-      return parseFloat(b.data.attributes.chapter) - parseFloat(a.data.attributes.chapter);
+      return parseFloat(b.attributes.chapter) - parseFloat(a.attributes.chapter);
     })
     .map((chap) => ({
-      name: "Chap " + chap.data.attributes.chapter + " " + chap.data.attributes.title,
-      link: `https://mangadex.org/chapter/${chap.data.id}/1`,
+      name: "Chap " + chap.attributes.chapter + " " + chap.attributes.title,
+      link: `https://mangadex.org/chapter/${chap.id}/1`,
     }));
 }
 
@@ -34,7 +34,7 @@ async function parseAdditionalInfo(data) {
   const description = data.data.attributes.description.en;
   const alternativeNames = data.data.attributes.altTitles.map((x) => x.en);
   const tags = data.data.attributes.tags.map((x) => x.attributes.name.en.trim().toLowerCase());
-  const authorsIds = data.relationships.filter((x) => x.type === "author" || x.type === "artist").map((x) => x.id);
+  const authorsIds = data.data.relationships.filter((x) => x.type === "author" || x.type === "artist").map((x) => x.id);
   const authors = (
     await Promise.all(uniq(authorsIds).map((aid) => fetch(`https://api.mangadex.org/author/${aid}`)))
   ).map((res) => JSON.parse(res.body).data.attributes.name);
@@ -46,7 +46,7 @@ function buildAPIURL(id) {
 }
 
 async function extractImage(data, id) {
-  const imgId = data.relationships.find((x) => x.type === "cover_art").id;
+  const imgId = data.data.relationships.find((x) => x.type === "cover_art").id;
   const imgAPIURL = `https://api.mangadex.org/cover/${imgId}`;
   const response = await fetch(imgAPIURL);
   const fileName = JSON.parse(response.body).data.attributes.fileName;

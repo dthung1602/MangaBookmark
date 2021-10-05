@@ -1,9 +1,18 @@
-const { fetchAndLoad } = require("./utils");
+const {
+  fetchAndLoad,
+  findNodeWithHeader,
+  findNodeWithHeaderAndExtractNameFromText,
+  findNodeWithHeaderAndExtractTagsFromText,
+  findNodeWithHeaderAndExtractAuthorFromText,
+} = require("./utils");
 
 const URLRegex = /^https?:\/\/manga4life\.com\/manga\/.+$/;
 
 const chapterRegex = /vm.Chapters = (.*);/;
 
+/**
+ * Copied from manga4life FE
+ */
 const chapterURLEncode = function (e) {
   let Index = "";
   const t = e.substring(0, 1);
@@ -14,6 +23,9 @@ const chapterURLEncode = function (e) {
   return 0 != a && (m = "." + a), "-chapter-" + n + m + Index + ".html";
 };
 
+/**
+ * Copied from manga4life FE
+ */
 const chapterDisplay = function (e) {
   const t = parseInt(e.slice(1, -1)),
     n = e[e.length - 1];
@@ -48,6 +60,15 @@ async function parseChapters($) {
   return chapters;
 }
 
+function parseAdditionalInfo($) {
+  const selector = ".MainContainer .BoxBody > div.row .list-group .list-group-item";
+  const description = findNodeWithHeader($, selector, "Description:").text();
+  const alternativeNames = findNodeWithHeaderAndExtractNameFromText($, selector, "Alternate Name(s):");
+  const tags = findNodeWithHeaderAndExtractTagsFromText($, selector, "Genre(s):");
+  const authors = findNodeWithHeaderAndExtractAuthorFromText($, selector, "Author(s):");
+  return { description, alternativeNames, authors, tags };
+}
+
 async function parseManga(url) {
   const $ = await fetchAndLoad(url);
 
@@ -57,8 +78,49 @@ async function parseManga(url) {
     image: $("img.img-fluid.bottom-5").attr("src"),
     isCompleted: $(".list-group.list-group-flush").text().includes("Complete (Scan)"),
     chapters: await parseChapters($),
+    ...parseAdditionalInfo($),
   };
 }
+
+const availableTags = [
+  "action",
+  "adult",
+  "adventure",
+  "comedy",
+  "doujinshi",
+  "drama",
+  "ecchi",
+  "fantasy",
+  "gender bender",
+  "harem",
+  "hentai",
+  "historical",
+  "horror",
+  "isekai",
+  "josei",
+  "lolicon",
+  "martial arts",
+  "mature",
+  "mecha",
+  "mystery",
+  "psychological",
+  "romance",
+  "school life",
+  "sci-fi",
+  "seinen",
+  "shotacon",
+  "shoujo",
+  "shoujo ai",
+  "shounen",
+  "shounen ai",
+  "slice of life",
+  "smut",
+  "sports",
+  "supernatural",
+  "tragedy",
+  "yaoi",
+  "yuri",
+];
 
 module.exports = {
   active: true,
@@ -68,4 +130,6 @@ module.exports = {
   URLRegex,
   parseManga,
   parseChapters,
+  parseAdditionalInfo,
+  availableTags,
 };
