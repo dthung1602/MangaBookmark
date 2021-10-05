@@ -13,7 +13,12 @@ fs.readdirSync(__dirname)
   .filter((file) => !excludedFiles.has(file))
   .forEach((file) => {
     const parserModule = require("./" + file);
-    supportedSites.push({ name: file, homepage: parserModule.homepage, lang: parserModule.lang });
+    supportedSites.push({
+      name: file,
+      homepage: parserModule.homepage,
+      lang: parserModule.lang,
+      active: parserModule.active,
+    });
     availableTags = availableTags.concat(parserModule.availableTags);
     parsers.push(parserModule);
     parserRegexMapping[file] = parserModule.URLRegex;
