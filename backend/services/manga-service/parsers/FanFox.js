@@ -25,7 +25,9 @@ function parseAdditionalInfo($) {
 }
 
 async function parseManga(url) {
-  const $ = await fetchAndLoad(url, {}, "isAdult=1");
+  const $ = await fetchAndLoad(url, {
+    Cookie: "isAdult=1",
+  });
 
   return {
     name: $(".detail-info-right-title-font").text(),
