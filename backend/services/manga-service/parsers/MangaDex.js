@@ -1,7 +1,7 @@
 const { uniq, uniqBy } = require("lodash");
 
 const { fetch } = require("./utils");
-const URLRegex = /^https?:\/\/mangadex\.org\/title\/(.+?)\/.*\/?$/;
+const URLRegex = /^https?:\/\/mangadex\.org\/title\/(.+)/;
 
 async function parseChapters(id) {
   const limit = 100;
