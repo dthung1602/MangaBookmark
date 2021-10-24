@@ -1,6 +1,6 @@
 {
   "name": "mangabookmark-frontend",
-  "version": "3.4.0",
+  "version": "3.4.2",
   "private": true,
   "scripts": {
     "dev": "PORT=3001 craco start",
@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "cheerio": "^1.0.0-rc.5",
+    "convertapi": "^1.11.1",
     "eslint": "^7.19.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-jest": "^23.18.0",

@@ -109,7 +109,7 @@
     height: unit(@iframe-height, px);
     @media (max-width: @bp-md) {
       width: 100vw;
-      height: unit(100 * @iframe-height / @iframe-width, vw);
+      height: unit(((100 * @iframe-height) / @iframe-width), vw);
     }
   }
 

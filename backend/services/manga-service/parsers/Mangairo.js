@@ -32,7 +32,7 @@ module.exports = {
   active: true,
   lang: "en",
   site: "Mangairo",
-  homepage: "https://h.mangairo.com/page",
+  homepage: "https://h.mangairo.com",
   URLRegex,
   parseManga,
   parseChapters,

@@ -1,4 +1,4 @@
-const URLRegex = /^https?:\/\/nhattruyentranh\.com\/truyen-tranh\/.+$/;
+const URLRegex = /^https?:\/\/nhattruyenvip\.com\/truyen-tranh\/.+$/;
 
 const { parseManga, parseChapters, parseAdditionalInfo, availableTags } = require("./NetTruyen");
 
@@ -6,7 +6,7 @@ module.exports = {
   active: true,
   lang: "vi",
   site: "NhatTruyen",
-  homepage: "http://nhattruyen.com/",
+  homepage: "http://nhattruyenvip.com/",
   URLRegex,
   parseManga,
   parseChapters,
