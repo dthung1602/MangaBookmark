@@ -61,9 +61,7 @@ async function consumeFromQueue(queueType, additionalUpdate, verbose) {
     for (let i = 0; i < CRAWL_CONCURRENCY; i++) {
       const manga = await queue.retrieve(decodeManga);
       if (!manga) {
-        await Promise.allSettled(promises);
-        // await new Promise((resolve) => setTimeout(resolve, 60000));
-        return;
+        return Promise.allSettled(promises);
       }
       if (verbose) {
         console.log(`Updating "${manga.name}" - ${manga.site}`);

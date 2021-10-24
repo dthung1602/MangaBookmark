@@ -60,7 +60,12 @@ function expectErrors(expected, actual) {
   }
 }
 
+async function waitAsync(seconds) {
+  return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+}
+
 module.exports = {
+  defaultUserId,
   connectFixtureDB,
   disconnectFixtureDB,
   loadFixtures,
@@ -69,4 +74,5 @@ module.exports = {
   expectErrors,
   loginAs,
   resetLogin,
+  waitAsync,
 };

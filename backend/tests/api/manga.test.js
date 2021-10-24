@@ -3,6 +3,12 @@ jest.mock("../../services/manga-service/parsers", () => ({
   supportedSites: [],
 }));
 
+jest.mock("../../datasource", () => ({
+  getMangaUpdateQueue: jest.fn(),
+  getMangaUpdateResultCache: jest.fn(),
+  getMangaUpdateStatusMemo: jest.fn(),
+}));
+
 const request = require("supertest");
 const { pick, map, range } = require("lodash");
 
@@ -15,15 +21,18 @@ const {
 } = require("./manga.data");
 const { Manga } = require("../../models");
 const {
+  defaultUserId,
   expectErrors,
   mockMiddleware,
   loadFixtures,
   unloadFixture,
   connectFixtureDB,
   disconnectFixtureDB,
+  waitAsync,
 } = require("./utils");
 const { ensureDBConnection, closeDBConnection } = require("../../services/db-service");
 const { getParser } = require("../../services/manga-service/parsers");
+const { getMangaUpdateStatusMemo, getMangaUpdateQueue, getMangaUpdateResultCache } = require("../../datasource");
 
 function getMockParsedChapters(num, baseURL = "https://example.com/chap") {
   return range(1, num + 1).map((i) => ({
@@ -48,6 +57,9 @@ describe("Manga API", () => {
 
   beforeAll(async () => {
     getParser.mockReset();
+    getMangaUpdateStatusMemo.mockReset();
+    getMangaUpdateQueue.mockReset();
+    getMangaUpdateResultCache.mockReset();
     await connectFixtureDB();
   });
 
@@ -304,31 +316,79 @@ describe("Manga API", () => {
     expectErrors({ manga: "Permission denied" }, response.body.errors);
   });
 
-  it("should update multiple mangas", async function () {
+  it("should start update multiple mangas", async function () {
+    const mangaIds = ["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444", "555eeeeeeeeeeeeeeeeee555"];
     getParser.mockImplementation((link) => {
       if (link.includes("5")) {
         throw new Error("Cannot parse manga");
       }
-      const mockParsedManga = getMockParsedManga({ image: "https://image.com" }, 6);
+      const mockParsedManga = getMockParsedManga({ image: "https://image.com", _id: mangaIds.pop() }, 6);
       return {
         active: true,
         site: "Sauce",
         URLRegex: /.*/,
-        parseManga: () => mockParsedManga,
-        parseChapters: () => mockParsedManga.chapters,
+        parseManga: () => Promise.resolve(mockParsedManga),
+        parseChapters: () => Promise.resolve(mockParsedManga.chapters),
       };
     });
 
-    const spyConsoleError = jest.spyOn(console, "error").mockImplementation();
+    const mockSetStatus = jest.fn();
+    mockSetStatus.mockImplementation(() => Promise.resolve());
+
+    getMangaUpdateStatusMemo.mockImplementation(() => ({
+      get: () => Promise.resolve("none"),
+      set: mockSetStatus,
+    }));
+
+    const enqueuedMangaIds = new Set();
+
+    getMangaUpdateQueue.mockImplementation(() => {
+      const getDummyMangaFromQueue = (i) => {
+        const manga = new Manga({
+          name: "Manga name",
+          chapters: [],
+          _id: `${i}${i}${i}eeeeeeeeeeeeeeeeee${i}${i}${i}`,
+          link: `https://manga${i}.com`,
+          site: "MangaSite",
+        });
+        manga.isNew = false;
+        return manga;
+      };
+      const mockMangasInQueues = [getDummyMangaFromQueue(1), getDummyMangaFromQueue(4), getDummyMangaFromQueue(5)];
+      return {
+        enqueue: (manga) => {
+          enqueuedMangaIds.add(manga._id.toString());
+          return Promise.resolve();
+        },
+        retrieve: () => Promise.resolve(mockMangasInQueues.pop()),
+      };
+    });
+
+    const updateResults = [];
+
+    getMangaUpdateResultCache.mockImplementation(() => ({
+      addOne: (_, summary) => Promise.resolve(updateResults.push(summary)),
+    }));
 
     const response = await request(app).post("/api/mangas/update-multiple").send();
+    await waitAsync(1); // ensure that the update process in backend has finished
+
     expect(response.status).toEqual(200);
+    expect(response.body.pushedToQueue).toEqual(3);
 
-    expect(response.body.total).toEqual(3);
-    expect(map(response.body.success, "_id").sort()).toEqual(["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444"]);
-    expect(map(response.body.fail, "_id")).toEqual(["555eeeeeeeeeeeeeeeeee555"]);
-    expect(spyConsoleError).toHaveBeenCalledWith(`    Fail to update: 'get Married When You Grow Up!'`);
+    expect(enqueuedMangaIds).toEqual(
+      new Set(["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444", "555eeeeeeeeeeeeeeeeee555"]),
+    );
+    expect(mockSetStatus.mock.calls[0]).toEqual([defaultUserId, "processing", 20 * 60]);
+    expect(mockSetStatus.mock.calls[1]).toEqual([defaultUserId, "done", 20 * 60]);
 
-    spyConsoleError.mockRestore();
+    for (let result of updateResults) {
+      expect(["success", "failed"]).toContain(result.status);
+      if (result.status === "success") {
+        expect(["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444"]).toContain(result.data._id.toString());
+      } else {
+        expect(result.error).toEqual("Error: Cannot parse manga");
+      }
+    }
   });
 });

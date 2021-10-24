@@ -27,7 +27,7 @@ function generateChapter(override) {
 
 function generateChapters(num = null) {
   if (num === null) {
-    num = faker.random.number() % 10;
+    num = faker.datatype.number() % 10;
   }
   const result = [];
   for (let i = 0; i < num; i++) {
@@ -56,7 +56,7 @@ function generateManga(override) {
     user: user1,
     hidden: false,
     site: faker.lorem.word(),
-    status: faker.random.number() % 4,
+    status: faker.datatype.number() % 4,
     newChapCount: 0,
     unreadChapCount: chapters.length,
     description: "",
