@@ -58,14 +58,14 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-jest": "^23.18.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "faker": "^4.1.0",
-    "googleapis": "^81.0.0",
+    "faker": "^5.5.3",
+    "googleapis": "^89.0.0",
     "jest": "^26.1.0",
     "node-mongodb-fixtures": "^3.2.7",
     "nodemon": "^2.0.6",
     "prettier": "^2.0.5",
     "redis-commander": "^0.7.2",
-    "supertest": "^4.0.2",
-    "swagger-jsdoc": "^4.0.0"
+    "supertest": "^6.1.6",
+    "swagger-jsdoc": "^6.1.0"
   }
 }
