@@ -64,6 +64,7 @@
     "node-mongodb-fixtures": "^3.2.7",
     "nodemon": "^2.0.6",
     "prettier": "^2.0.5",
+    "redis-commander": "^0.7.2",
     "supertest": "^4.0.2",
     "swagger-jsdoc": "^4.0.0"
   }

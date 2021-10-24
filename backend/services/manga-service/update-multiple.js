@@ -30,7 +30,7 @@ async function pushToQueue(queueType, filters, verbose) {
   const queueResponse = [];
   let pushedToQueue = 0;
   for await (const manga of mangasToUpdate) {
-    console.log(`found manga "${manga.name}"`);
+    console.log(`Found manga "${manga.name}" - ${manga.site}`);
     queueResponse.push(queue.enqueue(manga).then(() => (pushedToQueue += 1)));
   }
   await Promise.allSettled(queueResponse);
@@ -66,12 +66,12 @@ async function consumeFromQueue(queueType, additionalUpdate, verbose) {
         return;
       }
       if (verbose) {
-        console.log(`Updating ${manga.name} - ${manga.site}`);
+        console.log(`Updating "${manga.name}" - ${manga.site}`);
       }
       promises.push(
         updateSingleManga(manga, additionalUpdate)
           .then(() => {
-            console.log(`Update successfully manga ${manga.name}`);
+            console.log(`Update successfully manga "${manga.name}" - ${manga.site}`);
             return resultCache.addOne(manga.user, new MangaUpdateSummary("success", manga));
           })
           .catch((e) => {
@@ -87,12 +87,12 @@ async function consumeFromQueue(queueType, additionalUpdate, verbose) {
   }
 }
 
-async function setUpdateStatus(user, status) {
+async function setUpdateStatus(user, status, expireInSeconds = 20 * 60) {
   if (!Object.values(ProcessStatuses).includes(status)) {
     throw new Error(`Invalid status ${status}`);
   }
   const memo = getMangaUpdateStatusMemo();
-  return await memo.set(user.id, status);
+  return await memo.set(user.id, status, expireInSeconds);
 }
 
 async function getUpdateStatus(user) {

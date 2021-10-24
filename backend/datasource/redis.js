@@ -60,9 +60,10 @@ class Counter extends RedisBase {
 }
 
 class Memo extends RedisBase {
-  async set(key, value) {
+  async set(key, value, expireInSeconds = null) {
     this.connect();
-    return client.set("memo:" + this.name + ":" + key, value);
+    const params = expireInSeconds === null ? [value] : [value, "EX", parseInt(expireInSeconds)];
+    return client.set("memo:" + this.name + ":" + key, ...params);
   }
 
   async get(key) {

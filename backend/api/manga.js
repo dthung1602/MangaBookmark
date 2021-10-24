@@ -530,14 +530,14 @@ router.postAsync("/update-multiple", MangaUpdateMultipleValidator, async (req, r
 });
 
 //------------------------------------------
-//  Get the status of the update manga job
+//  Pop the status of the update manga job
 //------------------------------------------
 /**
  * @swagger
  *
- * /api/mangas/update-multiple/status:
- *   get:
- *     description: Get the status of the update manga job
+ * /api/mangas/update-multiple/pop-result:
+ *   post:
+ *     description: Pop the status & result of the update manga job
  *     responses:
  *       200:
  *         content:
@@ -553,7 +553,7 @@ router.postAsync("/update-multiple", MangaUpdateMultipleValidator, async (req, r
  *                    items:
  *                      $ref: '#/components/schemas/MangaUpdateSummary'
  */
-router.getAsync("/update-multiple/status", async (req, res) => {
+router.postAsync("/update-multiple/pop-result", async (req, res) => {
   const { getUpdateStatus, setUpdateStatus, popResult, ProcessStatuses } = MangaService.updateMultiple;
   const status = await getUpdateStatus(req.user);
   let result = [];
