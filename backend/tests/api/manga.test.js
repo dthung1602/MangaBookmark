@@ -391,4 +391,46 @@ describe("Manga API", () => {
       }
     }
   });
+
+  it("should pop update result", async function () {
+    const mockStatusSet = jest.fn();
+    const statuses = ["done", "processing"];
+    getMangaUpdateStatusMemo.mockImplementation(() => {
+      return {
+        get: () => statuses.pop(),
+        set: mockStatusSet,
+      };
+    });
+
+    const resultFromCache = [
+      {
+        status: "success",
+        data: {
+          _id: "444eeeeeeeeeeeeeeeeee444",
+          name: "abc",
+          site: "site",
+          link: "http:example.com",
+          newChapCount: 2,
+        },
+      },
+    ];
+    getMangaUpdateResultCache.mockImplementation(() => ({
+      retrieveAll: () => Promise.resolve(resultFromCache),
+    }));
+
+    let response = await request(app).post(`/api/mangas/update-multiple/pop-result`);
+    expect(response.status).toEqual(200);
+    expect(response.body).toEqual({
+      status: "processing",
+      result: [],
+    });
+
+    response = await request(app).post(`/api/mangas/update-multiple/pop-result`);
+    expect(response.status).toEqual(200);
+    expect(response.body).toEqual({
+      status: "done",
+      result: resultFromCache,
+    });
+    expect(mockStatusSet.mock.calls[0]).toEqual(["111aaaaaaaaaaaaaaaaaa111", "none", 60 * 20]);
+  });
 });
