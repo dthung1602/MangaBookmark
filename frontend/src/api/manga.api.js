@@ -41,7 +41,7 @@ class MangaAPI extends BaseAPI {
   pollUpdateResult() {
     const callAPI = () => super.post({}, "update-multiple/pop-result");
     const finishCondition = async (response) => (await response.json()).status !== "processing";
-    return pollAPI(callAPI, finishCondition, 3000);
+    return pollAPI(callAPI, finishCondition);
   }
 }
 
