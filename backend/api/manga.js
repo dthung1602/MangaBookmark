@@ -522,7 +522,7 @@ router.postAsync("/update-multiple", MangaUpdateMultipleValidator, async (req, r
   const pushedToQueue = await pushToQueue(QueueTypes.ADHOC, filters);
   await setUpdateStatus(req.user, ProcessStatuses.PROCESSING);
 
-  res.json({ pushedToQueue });
+  res.status(202).json({ pushedToQueue });
 
   consumeFromQueue(QueueTypes.ADHOC, true, false)
     .then(() => setUpdateStatus(req.user, ProcessStatuses.DONE))

@@ -373,7 +373,7 @@ describe("Manga API", () => {
     const response = await request(app).post("/api/mangas/update-multiple").send();
     await waitAsync(1); // ensure that the update process in backend has finished
 
-    expect(response.status).toEqual(200);
+    expect(response.status).toEqual(202);
     expect(response.body.pushedToQueue).toEqual(3);
 
     expect(enqueuedMangaIds).toEqual(
