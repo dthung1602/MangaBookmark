@@ -77,3 +77,42 @@ export default class BaseAPI {
     });
   }
 }
+
+const pollAPI = (asyncAPICall, finishCondition, delay = 5000, maxAttempt = 60) => {
+  let intervalId;
+  let abortAPI = () => {};
+  const result = new Promise((resolve, reject) => {
+    intervalId = setInterval(async () => {
+      maxAttempt--;
+      if (maxAttempt === -1) {
+        clearInterval(intervalId);
+        return reject(new Error("Max attempt reached"));
+      }
+
+      try {
+        const { result, abort } = asyncAPICall();
+        abortAPI = abort;
+        const res = await result;
+
+        // have to clone because the condition may consume the body
+        if (await finishCondition(res.clone())) {
+          clearInterval(intervalId);
+          resolve(res);
+        }
+      } catch (e) {
+        clearInterval(intervalId);
+        reject(e);
+      }
+    }, delay);
+  });
+
+  return {
+    result,
+    abort: () => {
+      abortAPI();
+      clearInterval(intervalId);
+    },
+  };
+};
+
+export { pollAPI };

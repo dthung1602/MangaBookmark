@@ -1,4 +1,4 @@
-import BaseAPI from "./base.api";
+import BaseAPI, { pollAPI } from "./base.api";
 import { ANY } from "../utils/constants";
 
 const ignoreIfAny = ["shelf", "status", "site", "lang", "isCompleted", "hidden"];
@@ -36,6 +36,12 @@ class MangaAPI extends BaseAPI {
       }
     }
     return super.post(params, "update-multiple");
+  }
+
+  pollUpdateResult() {
+    const callAPI = () => super.post({}, "update-multiple/pop-result");
+    const finishCondition = async (response) => (await response.json()).status !== "processing";
+    return pollAPI(callAPI, finishCondition, 3000);
   }
 }
 

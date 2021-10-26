@@ -54,12 +54,15 @@ const useUpdateMultipleAPI = (filters) => {
   const updateMangas = () => {
     setIsLoading(true);
     MangaAPI.updateMultiple(filters)
-      .result.then(async (response) => {
-        throwOnCriticalErrors(response);
-        const { total, success, fail } = await response.json();
+      .result.then(throwOnCriticalErrors)
+      .then(async () => {
+        const response = await MangaAPI.pollUpdateResult().result;
+        const { result } = await response.json();
+        const success = result.filter((m) => m.status === "success");
+        const fail = result.filter((m) => m.status === "failed");
         notification.open({
-          message: <b>Update {total} mangas in total</b>,
-          description: <UpdateResult total={total} success={success} fail={fail} />,
+          message: <b>Update {result.length} mangas in total</b>,
+          description: <UpdateResult total={result.length} success={success} fail={fail} />,
         });
       })
       .catch(notifyError)
