@@ -1,7 +1,9 @@
 const got = require("got");
+const tunnel = require("tunnel");
 const cheerio = require("cheerio");
 const { startCase } = require("lodash");
 
+const { PROXY_HOST, PROXY_PORT, PROXY_ENABLED } = require("../../../config");
 const { getRandomUserAgent } = require("../../user-agent-service");
 
 function getDefaultHeaders() {
@@ -12,12 +14,22 @@ function getDefaultHeaders() {
   };
 }
 
+const proxyConfig = PROXY_ENABLED
+  ? {
+      agent: {
+        https: tunnel.httpsOverHttp({ proxy: { host: PROXY_HOST, port: PROXY_PORT } }),
+        http: tunnel.httpOverHttp({ proxy: { host: PROXY_HOST, port: PROXY_PORT } }),
+      },
+    }
+  : {};
+
 async function fetch(url, headers = {}, option = {}) {
   return got(url, {
     headers: {
       ...getDefaultHeaders(),
       ...headers,
     },
+    ...proxyConfig,
     ...option,
   });
 }

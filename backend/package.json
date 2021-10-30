@@ -47,6 +47,7 @@
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
     "swagger-ui-express": "^4.1.4",
+    "tunnel": "^0.0.6",
     "web-push": "^3.4.4"
   },
   "devDependencies": {
