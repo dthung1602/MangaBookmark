@@ -1,6 +1,8 @@
 const fs = require("fs");
 const { isString } = require("lodash");
 
+const { MangaSiteRedirectedException } = require("./utils");
+
 const parsers = [];
 const parserRegexMapping = {};
 let supportedSites = [];
@@ -30,19 +32,38 @@ availableTags = Array.from(new Set(availableTags.filter(isString).map((t) => t.t
   .sort((a, b) => a.localeCompare(b));
 
 function getParser(url) {
-  if (!url) {
-    return null;
-  }
   for (let i = 0; i < parsers.length; i++) {
     if (url.match(parsers[i].URLRegex)) {
+      if (!parsers[i].active) {
+        throw new Error("Site no longer active");
+      }
       return parsers[i];
     }
   }
-  return null;
+  throw new Error("Unsupported manga site");
 }
 
 function getSiteByName(name) {
   return supportedSites.find((site) => site.name === name);
+}
+
+async function parseManga(url, parser = null) {
+  parser = parser || getParser(url);
+  let manga;
+  try {
+    manga = await parser.parseManga(url);
+  } catch (e) {
+    if (e instanceof MangaSiteRedirectedException) {
+      parser = getParser(e.newUrl);
+      manga = await parser.parseManga(e.newUrl);
+    } else {
+      throw e;
+    }
+  }
+  return {
+    manga,
+    usedParser: parser,
+  };
 }
 
 module.exports = {
@@ -52,4 +73,5 @@ module.exports = {
   parserRegexMapping,
   getParser,
   getSiteByName,
+  parseManga,
 };

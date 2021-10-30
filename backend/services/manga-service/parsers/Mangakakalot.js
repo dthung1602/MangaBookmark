@@ -1,4 +1,10 @@
-const { fetchAndLoad, extractNamesFromText, extractAuthorsFromNode, extractTagsFromNode } = require("./utils");
+const {
+  fetchAndLoad,
+  extractNamesFromText,
+  extractAuthorsFromNode,
+  extractTagsFromNode,
+  MangaSiteRedirectedException,
+} = require("./utils");
 
 const URLRegex = /^https?:\/\/mangakakalot\.com\/(read-|manga\/).+$/;
 
@@ -25,8 +31,19 @@ function parseAdditionalInfo($) {
   return { description, alternativeNames, authors, tags };
 }
 
+function checkRedirect($) {
+  const match = $("body")
+    .text()
+    .trim()
+    .match(/REDIRECT : (http.*)/);
+  if (match) {
+    throw new MangaSiteRedirectedException(match[1]);
+  }
+}
+
 async function parseManga(url) {
   const $ = await fetchAndLoad(url);
+  checkRedirect($);
 
   return {
     name: $("h1").text().trim(),

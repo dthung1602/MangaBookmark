@@ -34,8 +34,22 @@ async function fetch(url, headers = {}, option = {}) {
   });
 }
 
-async function fetchAndLoad(url, headers = {}, option = {}) {
+function isSameHost(url1, url2) {
+  return new URL(url1).host === new URL(url2).host;
+}
+
+class MangaSiteRedirectedException extends Error {
+  constructor(newUrl) {
+    super();
+    this.newUrl = newUrl;
+  }
+}
+
+async function fetchAndLoad(url, headers = {}, option = {}, raiseOnHostChanged = false) {
   const response = await fetch(url, headers, option);
+  if (raiseOnHostChanged && !isSameHost(url, response.url)) {
+    throw new MangaSiteRedirectedException(response.url);
+  }
   return cheerio.load(response.body);
 }
 
@@ -164,4 +178,5 @@ module.exports = {
   extractNamesFromText,
   cleanText,
   useImageProxy,
+  MangaSiteRedirectedException,
 };

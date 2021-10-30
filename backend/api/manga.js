@@ -325,7 +325,7 @@ router.deleteAsync("/:manga", MangaPermissionValidator, async (req, res) => {
  */
 router.getAsync("/info", MangaInfoValidator, async (req, res) => {
   try {
-    const manga = await req.parser.parseManga(req.query.link);
+    const { manga } = await MangaService.parseManga(req.query.link, req.parser);
     res.json(manga);
   } catch (e) {
     handleMangaParsingError(res, e);

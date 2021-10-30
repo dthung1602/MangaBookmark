@@ -1,18 +1,11 @@
-const { getParser } = require("./parsers");
+const { parseManga } = require("./parsers");
 const { pickCopy } = require("../utils");
 
 const additionalFields = ["authors", "description", "alternativeNames", "tags"];
 
 module.exports = async function (manga, additionalUpdate = false) {
-  const parser = getParser(manga.link);
-  if (parser === null) {
-    throw new Error("Unsupported manga site");
-  }
-  if (!parser.active) {
-    throw new Error("Site no longer active");
-  }
-
-  const crawledManga = await parser.parseManga(manga.link);
+  const result = await parseManga(manga.link);
+  const crawledManga = result.manga;
   const crawledChapters = crawledManga.chapters;
 
   manga.image = crawledManga.image;

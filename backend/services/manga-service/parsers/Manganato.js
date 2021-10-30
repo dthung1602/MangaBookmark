@@ -86,7 +86,7 @@ module.exports = {
   active: true,
   lang: "en",
   site: "Manganato",
-  homepage: "https://manganelo.com/",
+  homepage: "https://manganato.com/",
   URLRegex,
   parseManga,
   parseChapters,
