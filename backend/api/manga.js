@@ -398,7 +398,7 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
     const manga = await MangaService.update(req.manga);
     res.json(manga);
   } catch (e) {
-    res.status(400).send("Fail to update manga.").end();
+    handleMangaParsingError(res, e);
   }
 });
 
