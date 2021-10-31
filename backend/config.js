@@ -12,7 +12,7 @@ function parseBoolean(value) {
     return true;
   }
   if (normalizedValue === "false") {
-    return true;
+    return false;
   }
   throw new Error("Invalid boolean option value");
 }
