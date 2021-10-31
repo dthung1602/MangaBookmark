@@ -4,12 +4,12 @@ import image6 from "./bleach.jpg";
 import image7 from "./demon-slayer.webp";
 import image8 from "./fulmetal-alchemist.jpg";
 import image9 from "./mahou-tsukai-no-yome.webp";
-import image11 from "./inuyasha.webp";
+import image11 from "./attack-on-titan-ss4.webp";
 import image12 from "./bakemonogatari.webp";
 import image13 from "./kaguyasama-love-is-war.webp";
-import image14 from "./naruto.jpg";
+import image14 from "./chainsaw-man.jpg";
 import image15 from "./noragami.jpg";
-import image17 from "./umaru.jpg";
+import image17 from "./made-in-abyss.jpg";
 import image18 from "./violet-evergarden.webp";
 
 export default [
