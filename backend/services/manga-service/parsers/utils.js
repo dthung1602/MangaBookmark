@@ -45,12 +45,16 @@ class MangaSiteRedirectedException extends Error {
   }
 }
 
-async function fetchAndLoad(url, headers = {}, option = {}, raiseOnHostChanged = false) {
-  const response = await fetch(url, headers, option);
+function load(url, response, raiseOnHostChanged = false) {
   if (raiseOnHostChanged && !isSameHost(url, response.url)) {
     throw new MangaSiteRedirectedException(response.url);
   }
   return cheerio.load(response.body);
+}
+
+async function fetchAndLoad(url, headers = {}, option = {}, raiseOnHostChanged = false) {
+  const response = await fetch(url, headers, option);
+  return load(url, response, raiseOnHostChanged);
 }
 
 function removeMangaNamePrefix(chapterName) {
@@ -163,6 +167,7 @@ function useImageProxy(url, mangaSite) {
 
 module.exports = {
   fetch,
+  load,
   fetchAndLoad,
   getDefaultHeaders,
   removeMangaNamePrefix,

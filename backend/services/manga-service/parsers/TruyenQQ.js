@@ -1,4 +1,11 @@
-const { fetch, fetchAndLoad, extractNamesFromText, extractTagsFromNode, extractAuthorsFromText } = require("./utils");
+const {
+  load,
+  fetch,
+  fetchAndLoad,
+  extractNamesFromText,
+  extractTagsFromNode,
+  extractAuthorsFromText,
+} = require("./utils");
 
 const URLRegex = /^https?:\/\/truyenqqtop\.com\/truyen-tranh\/.+$/;
 
@@ -39,6 +46,11 @@ const headers = {
 async function byPassCookieGuard(url) {
   const response = await fetch(url, headers);
   const match = response.body.match(cookieRegex);
+
+  if (!match) {
+    return load(url, response);
+  }
+
   const cookie = `VinaHost-Shield=${match[1]}`;
 
   return fetchAndLoad(url, {

@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { isString } = require("lodash");
+const { isString, uniqBy, uniq } = require("lodash");
 
 const { MangaSiteRedirectedException } = require("./utils");
 
@@ -52,6 +52,7 @@ async function parseManga(url, parser = null) {
   let manga;
   try {
     manga = await parser.parseManga(url);
+    postProcessManga(manga);
   } catch (e) {
     if (e instanceof MangaSiteRedirectedException) {
       parser = getParser(e.newUrl);
@@ -64,6 +65,29 @@ async function parseManga(url, parser = null) {
     manga,
     usedParser: parser,
   };
+}
+
+function postProcessManga(manga) {
+  for (let field of ["name", "link", "image"]) {
+    manga[field] = manga[field].trim();
+  }
+  manga.chapters.forEach((chapter) => {
+    chapter.name = chapter.name.trim();
+    chapter.link = chapter.link.trim();
+  });
+  manga.chapters = uniqBy(manga.chapters, (ch) => ch.link);
+  if (manga.description) {
+    manga.description = manga.description.trim();
+  }
+  if (manga.alternativeNames) {
+    manga.alternativeNames = uniq(manga.alternativeNames.map((n) => n.trim()));
+  }
+  if (manga.tags) {
+    manga.tags = uniq(manga.tags.map((t) => t.trim().toLowerCase()));
+  }
+  if (manga.authors) {
+    manga.authors = uniq(manga.authors.map((a) => a.trim()));
+  }
 }
 
 module.exports = {

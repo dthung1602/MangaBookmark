@@ -1,3 +1,4 @@
+const { uniqBy } = require("lodash");
 const { parseManga } = require("./parsers");
 const { pickCopy } = require("../utils");
 
@@ -12,6 +13,9 @@ module.exports = async function (manga, additionalUpdate = false) {
   if (!manga.isCompleted && crawledManga.isCompleted) {
     manga.isCompleted = true;
   }
+
+  manga.chapters.forEach((ch) => (ch.link = ch.link.trim()));
+  manga.chapters = uniqBy(manga.chapters, (ch) => ch.link);
 
   for (let i = 0; i < manga.chapters.length; i++) {
     let pos = crawledChapters.findIndex((ch) => ch.link === manga.chapters[i].link);
