@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
-import { Table, Skeleton, Typography, Grid } from "antd";
+import { Grid, Skeleton, Table, Typography } from "antd";
 
 import MangaBasicInfo from "../MangaBasicInfo";
 import MangaQuickActions from "../MangaQuickActions";
 import MangaCover from "../../MangaCover";
+import CopyLinkButton from "./CopyLinkButton";
 import { statusToClassMapping } from "../utils";
 import { MANGA_PER_PAGE } from "../../../utils/constants";
 import "./MangaTableDesktop.less";
@@ -66,12 +67,14 @@ const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked,
           if (manga.isSkeleton) {
             return <Skeleton active key={manga._id} />;
           }
+
           return (
             <div key={manga._id} className={"triangle top-right " + statusToClassMapping[manga.status]}>
-              <Title level={4}>
+              <Title level={4} className="manga-title">
                 <a href={manga.link} target="_blank" rel="noopener noreferrer">
                   {manga.name}
                 </a>
+                <CopyLinkButton link={manga.link} />
               </Title>
               <div className="manga-details">
                 <MangaBasicInfo manga={manga} showTitle={false} column={mangaInfoColumn} />
