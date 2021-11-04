@@ -8,4 +8,6 @@ frontend/src/assets/tech-logo/tech-logo*
 foo*
 .env
 .env.export
+.env.prod
+.env.qa
 coverage

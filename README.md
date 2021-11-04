@@ -87,9 +87,9 @@ clicking the `+` button and paste the link of the manga detail page.
 ### Prerequisites
 
 Make sure you have the following installed on your system:
-* `yarn` >= 1.22.5
-* `node` ^12.16.1
-* `mongo` >= 3.6.8
+* `yarn` ^1.22.5
+* `node` ^14.15.4
+* `mongo` ^4.4
 
 ### Installation
 
