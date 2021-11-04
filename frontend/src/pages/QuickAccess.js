@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { StringParam, useQueryParam, withDefault } from "use-query-params";
-import { Affix, Layout, Modal, Switch, Tabs } from "antd";
+import { Affix, Layout, Modal, Switch, Tabs, Tooltip } from "antd";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 
 import { Desktop, Mobile } from "../components/ScreenSize";
@@ -150,18 +150,26 @@ const QuickAccess = () => {
         onChange={setTab}
         className="tab"
         tabBarExtraContent={
-          <Switch
-            size="small"
-            title={showHidden ? "Hide hidden mangas" : "Show hidden mangas"}
-            checked={showHidden}
-            onChange={(v) => setShowHidden(v)}
-            checkedChildren={<EyeOutlined />}
-            unCheckedChildren={<EyeInvisibleOutlined />}
-          />
+          <Tooltip placement="bottomRight" title={showHidden ? "Hide hidden mangas" : "Show hidden mangas"}>
+            <Switch
+              size="small"
+              checked={showHidden}
+              onChange={(v) => setShowHidden(v)}
+              checkedChildren={<EyeOutlined />}
+              unCheckedChildren={<EyeInvisibleOutlined />}
+            />
+          </Tooltip>
         }
       >
         {Object.entries(TAB_MAPPING).map(([tab, { displayName, description }]) => (
-          <TabPane key={tab} tab={<span title={description}>{displayName}</span>} />
+          <TabPane
+            key={tab}
+            tab={
+              <Tooltip title={description} placement="bottomLeft">
+                {displayName}
+              </Tooltip>
+            }
+          />
         ))}
       </Tabs>
     </Affix>

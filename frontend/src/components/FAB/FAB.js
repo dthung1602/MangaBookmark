@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Tooltip } from "antd";
-import { FileAddOutlined, PlusOutlined, ReloadOutlined, UpOutlined } from "@ant-design/icons";
+import { PlusOutlined, ReloadOutlined, UpOutlined, AppstoreOutlined } from "@ant-design/icons";
 
 import { useOnClickOutside } from "../../hooks";
 import { scrollToTop } from "../../utils";
@@ -39,6 +39,7 @@ const FAB = ({ openNewMangaModal, isUpdatingMangas, updateMangas }) => {
       <Tooltip placement="left" visible={showExpandBtns} title="Back to top" overlayClassName="fab-tooltip-overlay">
         <Button
           shape="circle"
+          size="large"
           type="primary"
           className="fab-expand-btn"
           icon={<UpOutlined />}
@@ -48,6 +49,7 @@ const FAB = ({ openNewMangaModal, isUpdatingMangas, updateMangas }) => {
       <Tooltip placement="left" visible={showExpandBtns} title="Update mangas" overlayClassName="fab-tooltip-overlay">
         <Button
           shape="circle"
+          size="large"
           type="primary"
           className="fab-expand-btn"
           loading={isUpdatingMangas}
@@ -58,9 +60,10 @@ const FAB = ({ openNewMangaModal, isUpdatingMangas, updateMangas }) => {
       <Tooltip placement="left" visible={showExpandBtns} title="New manga" overlayClassName="fab-tooltip-overlay">
         <Button
           shape="circle"
+          size="large"
           type="primary"
           className="fab-expand-btn"
-          icon={<FileAddOutlined />}
+          icon={<PlusOutlined />}
           onClick={handleExpandBtnClickWrapper(openNewMangaModal)}
         />
       </Tooltip>
@@ -69,7 +72,7 @@ const FAB = ({ openNewMangaModal, isUpdatingMangas, updateMangas }) => {
         type="primary"
         size="large"
         className="fab-root-btn"
-        icon={<PlusOutlined />}
+        icon={<AppstoreOutlined />}
         onClick={toggleExpandBtns}
         onMouseEnter={show}
       />

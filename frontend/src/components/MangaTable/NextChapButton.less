@@ -1,10 +1,11 @@
-@import "../../variables";
+@import "../../utils";
 
 .next-chap-btn {
   display: inline-block;
   flex: 1;
   margin-top: 8px;
   padding: 12px;
+  border-radius: 4px;
   text-align: center;
   color: #808080;
   background: #f3f3f3;
@@ -14,9 +15,7 @@
     background: @primary-color-light;
 
     &:hover {
-      background: linear-gradient(90deg, #dbfff6, #baffe4);
-      background-size: 400% 400%;
-      animation: BackgroundAnimation 2s ease infinite;
+      .background-primary-color-animated()
     }
 
     &:visited {
@@ -25,14 +24,3 @@
   }
 }
 
-@keyframes BackgroundAnimation {
-  0% {
-    background-position: 0 50%
-  }
-  50% {
-    background-position: 100% 50%
-  }
-  100% {
-    background-position: 0 50%
-  }
-}

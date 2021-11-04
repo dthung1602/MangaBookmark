@@ -85,7 +85,7 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
             onClick={() => showImage({ src: manga.image, mangaSite: manga.site })}
           />
           <div className="quick-actions">
-            <Popconfirm title="Delete this manga?" placement="left" onConfirm={deleteManga}>
+            <Popconfirm title="Delete this manga?" placement="right" onConfirm={deleteManga}>
               <div className="delete">
                 <DeleteOutlined />
                 <span>Delete</span>
@@ -98,7 +98,7 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
             {allChaptersRead ? null : (
               <div className="mark-all" onClick={markAllChapterAsRead}>
                 <CheckOutlined />
-                <span>Mark</span>
+                <span>Mark all</span>
               </div>
             )}
           </div>

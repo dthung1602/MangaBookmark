@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+import { Tooltip } from "antd";
 import { DoubleRightOutlined } from "@ant-design/icons";
 
 import { DOUBLE_CLICK_DELAY } from "../../utils/constants";
@@ -22,10 +23,20 @@ const NextChapToRead = ({ nextChapToRead, markOne }) => {
     }
   };
 
+  const tooltipTitle = (
+    <>
+      Single click to read
+      <br />
+      Double click to mark & read
+    </>
+  );
+
   return (
-    <a className={`next-chap-btn ${nextChapToRead.empty ? "empty" : ""}`} href="" onClick={onClick}>
-      {truncString(nextChapToRead.name, 25)} &nbsp;&nbsp; <DoubleRightOutlined />
-    </a>
+    <Tooltip title={tooltipTitle} placement="bottom">
+      <a className={`next-chap-btn ${nextChapToRead.empty ? "empty" : ""}`} href="" onClick={onClick}>
+        {truncString(nextChapToRead.name, 25)} &nbsp;&nbsp; <DoubleRightOutlined />
+      </a>
+    </Tooltip>
   );
 };
 

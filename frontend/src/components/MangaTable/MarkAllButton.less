@@ -1,4 +1,4 @@
-@import "../../variables";
+@import "../../utils";
 
 .mark-all-btn {
   margin-top: 8px;
@@ -7,6 +7,7 @@
 
   width: 46px;
   height: 46px;
+  border-radius: 4px;
   text-align: center;
   cursor: pointer;
 
@@ -15,8 +16,7 @@
   transition: background-color 0.5s;
 
   &:not(.disabled):hover {
-    background: @primary-color;
-    color: white;
+    .background-primary-color-animated()
   }
 
   &.disabled {
