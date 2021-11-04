@@ -121,15 +121,23 @@
     - [x] https://mangafast.net
     - [x] http://mangahasu.se
 
-- [ ] Scale crawling
-    - [ ] filter mangas & push to queue
-    - [ ] fetch & crawl from queue
-    - [ ] add redis: queue, ...
-    - [ ] use queue in update multiple / update single API
-    - [ ] add query crawl result api
-    - [ ] change update multiple / update single frontend
+- [x] Scale crawling
+    - [x] filter mangas & push to queue
+    - [x] fetch & crawl from queue
+    - [x] add redis: queue, ...
+    - [x] use queue in update multiple / update single API
+    - [x] add query crawl result api
+    - [x] change update multiple / update single frontend
 
-- [ ] Toggle right panel
+- [x] Change loading icon
+
+- [ ] Crawl new info:
+    - [x] language
+    - [ ] last released
+    - [x] alternative name
+    - [x] tag
+    - [x] description
+    - [x] author
 
 - [ ] Improve search & filter:
     - [x] Create optimize index
@@ -140,38 +148,96 @@
     - [x] Search by partial keywords. See [this](https://stackoverflow.com/a/54318581/7342188)
     - [ ] ~~Search language ?~~
 
-- [ ] Manga expected next release
+- [ ] Deactivate hocvientruyentranh
 
-- [ ] Crawl new info:
-    - [x] language
-    - [ ] last released
-    - [x] alternative name
-    - [x] tag
-    - [x] description
-    - [x] author
+## Important
 
-- [ ] Reread shelf?
+- [ ] In case manga change 100% chapter link, detect using chapter name
 
-- [x] Change loading icon
+- [ ] Fix Facebook login
+
+- [ ] Improve auth:
+    - [ ] ~~confirm email~~
+    - [ ] restore password
+      - [ ] Forget password page
+        - [ ] Enter email to restore
+        - [ ] Cool down before resend
+      - [ ] Backend
+        - [ ] Spike: which email service to use?
+        - [ ] Implement send email API
+        - [ ] Implement send restore password API
+      - [ ] Set new password page
+
+- [ ] User avt
+  - [ ] Spike: where to host images
+  - [ ] Upload avt in setting page
+  - [ ] Show static welcome page after sign up, with
+    - demo video
+    - link to change avt
+    - link to quick access
+    - ...
+
+- [ ] Migrated shelf: basically drop, but because the site updates too infrequently
+    
+- [ ] Reread shelf
+    - Still save current progress
+    - Independent reread progress
+    - Should be in Reading tab
 
 - [ ] One master note for user -> take note everything
 
+- [ ] Improve daily crawling report
+    - [ ] Email?
+    - [ ] Admin notification?
+    - [ ] Admin page
+      - [ ] Set up basic FE + Admin account in BE
+      - [ ] Crawling report page
+        - Total number of pages crawl
+        - \#success, #fail
+        - View log
+      - [ ] Back up process status page
+      - [ ] Generic stats page
+    
+- [ ] Cross site search
+  - [ ] Search in supported site
+    - [ ] Setup FE
+      - Cross site search vs search saved magna
+      - Show results in dropdown (see github)
+      - Preview result
+      - Add manga from result
+    - [ ] Setup basic BE
+      - Crawl name, image, status?, latest chapter, last release?
+      - Manga site priority?
+    - [ ] Add custom search page parser
+      - [ ] Mangakakalot
+      - [ ] Manganelo
+      - [ ] Fanfox
+      - [ ] Mangadex
+      - [ ] manga4life
+      - [ ] Truyenqq
+      - [ ] BlogTruyen
+  - [ ] Search for manga in MAL
+  - [ ] Add option view more result in Google
+  
+## Random ideas
+
+- [ ] Monthly update dropped / completed / finished mangas ?
+
+- [ ] Manga expected next release ?
+
 - [ ] In-site reading mode (for some src only)
 
+- [ ] Toggle right panel
+
 - [ ] Notification:
-    - [ ] Facebook chat bot
+    - [ ] ~~Facebook chat bot~~
     - [ ] Email
     - [ ] Configurable notification options
-
-- [ ] Improve auth:
-    - [ ] confirm email
-    - [ ] restore password
-    - [ ] user avt
-
+    
 - [ ] csrf token
 
-- [ ] Manga src from other languages
+- [ ] ~~Manga src from other languages~~
 
-- [ ] multi-language UI
+- [ ] ~~multi-language UI~~
 
 - [ ] ?? saucenow image search
