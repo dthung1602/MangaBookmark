@@ -152,21 +152,9 @@
 
 ## Important
 
-- [ ] In case manga change 100% chapter link, detect using chapter name
+- [x] In case manga change 100% chapter link, detect using chapter name
 
-- [ ] Fix Facebook login
-
-- [ ] Improve auth:
-    - [ ] ~~confirm email~~
-    - [ ] restore password
-      - [ ] Forget password page
-        - [ ] Enter email to restore
-        - [ ] Cool down before resend
-      - [ ] Backend
-        - [ ] Spike: which email service to use?
-        - [ ] Implement send email API
-        - [ ] Implement send restore password API
-      - [ ] Set new password page
+- [x] Fix Facebook login
 
 - [ ] User avt
   - [ ] Spike: where to host images
@@ -184,8 +172,6 @@
     - Independent reread progress
     - Should be in Reading tab
 
-- [ ] One master note for user -> take note everything
-
 - [ ] Improve daily crawling report
     - [ ] Email?
     - [ ] Admin notification?
@@ -197,7 +183,9 @@
         - View log
       - [ ] Back up process status page
       - [ ] Generic stats page
-    
+      
+- [ ] One master note for user -> take note everything
+
 - [ ] Cross site search
   - [ ] Search in supported site
     - [ ] Setup FE
@@ -218,7 +206,19 @@
       - [ ] BlogTruyen
   - [ ] Search for manga in MAL
   - [ ] Add option view more result in Google
-  
+
+- [ ] Improve auth:
+    - [ ] ~~confirm email~~
+    - [ ] restore password
+        - [ ] Forget password page
+            - [ ] Enter email to restore
+            - [ ] Cool down before resend
+        - [ ] Backend
+            - [ ] Spike: which email service to use?
+            - [ ] Implement send email API
+            - [ ] Implement send restore password API
+        - [ ] Set new password page
+
 ## Random ideas
 
 - [ ] Monthly update dropped / completed / finished mangas ?
