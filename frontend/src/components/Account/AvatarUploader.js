@@ -42,7 +42,7 @@ const AvatarUploader = () => {
         <Upload
           fileList={fileList}
           onChange={onChange}
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          action="/api/user/avatar"
           maxCount={1}
           listType="picture-card"
           showUploadList={{

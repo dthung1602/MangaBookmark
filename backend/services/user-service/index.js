@@ -5,5 +5,6 @@ module.exports = {
   link: require("./link"),
   patch: require("./patch"),
   changePassword: require("./change-password"),
+  uploadAvatar: require("./upload-avatar"),
   delete: require("./delete"),
 };

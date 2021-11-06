@@ -94,7 +94,8 @@ Make sure you have the following installed on your system:
 ### Installation
 
 1. Setup [Google Login](https://developers.google.com/identity/protocols/oauth2),
-   [Facebook Login](https://developers.facebook.com/docs/facebook-login/) 
+   [Facebook Login](https://developers.facebook.com/docs/facebook-login/),
+   [Cloudinary account](https://cloudinary.com/),
    and [Convert API account](https://www.convertapi.com).
 Make sure you have the API key and secret.
 2. Clone the repo
