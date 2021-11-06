@@ -9,6 +9,8 @@ module.exports = async function (manga, additionalUpdate = false) {
   const crawledManga = result.manga;
   const crawledChapters = crawledManga.chapters;
 
+  manga.site = result.usedParser.site;
+
   manga.image = crawledManga.image;
   if (!manga.isCompleted && crawledManga.isCompleted) {
     manga.isCompleted = true;
@@ -17,10 +19,21 @@ module.exports = async function (manga, additionalUpdate = false) {
   manga.chapters.forEach((ch) => (ch.link = ch.link.trim()));
   manga.chapters = uniqBy(manga.chapters, (ch) => ch.link);
 
+  let allChapterReplaced = true;
   for (let i = 0; i < manga.chapters.length; i++) {
     let pos = crawledChapters.findIndex((ch) => ch.link === manga.chapters[i].link);
     if (pos !== -1) {
       crawledChapters[pos] = manga.chapters[i];
+      allChapterReplaced = false;
+    }
+  }
+
+  if (allChapterReplaced) {
+    for (let i = 0; i < manga.chapters.length; i++) {
+      let pos = crawledChapters.findIndex((ch) => ch.name === manga.chapters[i].name);
+      if (pos !== -1) {
+        crawledChapters[pos] = manga.chapters[i];
+      }
     }
   }
 
