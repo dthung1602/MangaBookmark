@@ -3,6 +3,7 @@ import { Button, Form, Input, message } from "antd";
 import { MailOutlined, UserOutlined } from "@ant-design/icons";
 
 import { UserAPI } from "../../api";
+import AvatarUploader from "./AvatarUploader";
 import { GlobalContext } from "../GlobalContext";
 import { throwOnCriticalErrors, notifyError } from "../../utils/error-handler";
 
@@ -24,32 +25,35 @@ const BasicInfo = () => {
   };
 
   return (
-    <Form layout="vertical" onFinish={onFinish} initialValues={user}>
-      <Form.Item name="username" label="Username" rules={[{ required: true, message: "Username is required" }]}>
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} />
-      </Form.Item>
+    <>
+      <Form layout="vertical" onFinish={onFinish} initialValues={user}>
+        <Form.Item name="username" label="Username" rules={[{ required: true, message: "Username is required" }]}>
+          <Input prefix={<UserOutlined className="site-form-item-icon" />} />
+        </Form.Item>
 
-      <Form.Item
-        name="email"
-        label="Email"
-        rules={[
-          {
-            required: true,
-            message: "Please enter your email",
-          },
-          {
-            type: "email",
-            message: "Please enter a valid email",
-          },
-        ]}
-      >
-        <Input prefix={<MailOutlined className="site-form-item-icon" />} />
-      </Form.Item>
+        <Form.Item
+          name="email"
+          label="Email"
+          rules={[
+            {
+              required: true,
+              message: "Please enter your email",
+            },
+            {
+              type: "email",
+              message: "Please enter a valid email",
+            },
+          ]}
+        >
+          <Input prefix={<MailOutlined className="site-form-item-icon" />} />
+        </Form.Item>
 
-      <Button type="primary" htmlType="submit" loading={isLoading} className="float-right">
-        Update
-      </Button>
-    </Form>
+        <Button type="primary" htmlType="submit" loading={isLoading} className="float-right">
+          Update
+        </Button>
+      </Form>
+      <AvatarUploader />
+    </>
   );
 };
 

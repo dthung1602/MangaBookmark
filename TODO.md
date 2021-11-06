@@ -157,7 +157,7 @@
 - [x] Fix Facebook login
 
 - [ ] User avt
-  - [ ] Spike: where to host images
+  - [X] Spike: where to host images Cloudimary
   - [ ] Upload avt in setting page
   - [ ] Show static welcome page after sign up, with
     - demo video
