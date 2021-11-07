@@ -1,4 +1,3 @@
-const multer = require("multer");
 const { Router } = require("@awaitjs/express");
 const passport = require("passport");
 const router = Router();
@@ -101,6 +100,9 @@ router.getAsync("/", async (req, res) => {
  *               email:
  *                 type: string
  *                 format: email
+ *               avatar:
+ *                 type: string
+ *                 format: url
  *     responses:
  *       201:
  *         description: User info updated successfully
@@ -112,66 +114,6 @@ router.getAsync("/", async (req, res) => {
 router.patchAsync("/", UserPatchValidator, async (req, res) => {
   const user = await UserService.patch(req.user, req.body);
   res.json(removePassword(user));
-});
-
-//-----------------------------------
-//  Upload user avatar
-//-----------------------------------
-/**
- * @swagger
- *
- * /api/user/avatar:
- *   post:
- *     description: Upload user avatar
- *     requestBody:
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             properties:
- *               filename:
- *                 type: array
- *                 items:
- *                   type: string
- *                   format: binary
- *     responses:
- *       200:
- *         description: Image uploaded successfully
- *         content:
- *           application/json:
- *              schema:
- *                type: object
- *                properties:
- *                  status:
- *                    type: string
- *                    enum: [success, fail]
- *                  url:
- *                    type: string
- *                    format: url
- *                  error:
- *                    type: string
- */
-
-const uploadStorage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "upload/avatar");
-  },
-  filename: function (req, file, cb) {
-    const extension = file.originalname.split(".").pop();
-    const filename = Date.now() + "-" + Math.round(Math.random() * 1e9) + "." + extension;
-    cb(null, filename);
-  },
-});
-const upload = multer({ storage: uploadStorage });
-
-router.post("/avatar", upload.single("file"), (req, res, next) => {
-  UserService.uploadAvatar(req.user.id, req.file.path)
-    .then((result) => {
-      res.json(result);
-    })
-    .catch((e) => {
-      next(e);
-    });
 });
 
 //-----------------------------------

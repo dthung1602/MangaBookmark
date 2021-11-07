@@ -2,8 +2,8 @@ const fs = require("fs/promises");
 const crypto = require("crypto");
 const got = require("got");
 
-const { getRandomUserAgent } = require("./user-agent-service");
-const { getSiteByName } = require("./manga-service/parsers");
+const { getRandomUserAgent } = require("../user-agent-service");
+const { getSiteByName } = require("../manga-service/parsers");
 
 const CACHE_DIR = `${__dirname}/../cache`;
 const SUPPORTED_FORMAT = ["image/jpeg", "image/png", "image/webp", "image/gif"];

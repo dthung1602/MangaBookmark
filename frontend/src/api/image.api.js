@@ -2,7 +2,7 @@ import BaseAPI from "./base.api";
 
 class MangaAPI extends BaseAPI {
   constructor() {
-    super("image-proxy");
+    super("image");
   }
 
   constructImageProxyURL(url, mangaSite) {

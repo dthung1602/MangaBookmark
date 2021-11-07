@@ -43,7 +43,7 @@ const MangaRouter = require("./api/manga");
 const UserRouter = require("./api/user");
 const SubscriptionRouter = require("./api/subscription");
 const MetaRouter = require("./api/meta");
-const ImageProxyRouter = require("./api/image-proxy");
+const ImageRouter = require("./api/image");
 const { AuthenticateMiddleware } = require("./services/auth-service");
 const { DBConnectionMiddleware } = require("./services/db-service");
 const { ErrorHandlerMiddleware, NotFoundError } = require("./errors");
@@ -55,7 +55,7 @@ apiRouter.use("/mangas", MangaRouter);
 apiRouter.use("/user", UserRouter);
 apiRouter.use("/subscriptions", SubscriptionRouter);
 apiRouter.use("/meta", MetaRouter);
-apiRouter.use("/image-proxy", ImageProxyRouter);
+apiRouter.use("/image", ImageRouter);
 apiRouter.use("*", () => {
   throw new NotFoundError();
 });

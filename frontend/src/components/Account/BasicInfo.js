@@ -85,7 +85,7 @@ const BasicInfo = () => {
               maxCount={1}
               listType="picture-card"
               showUploadList={false}
-              action="/api/user/avatar"
+              action="/api/image/avatar"
               onChange={handleUploadEvent}
             >
               <Spin spinning={isAvatarUploading}>

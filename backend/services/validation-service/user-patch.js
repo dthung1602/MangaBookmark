@@ -24,5 +24,6 @@ module.exports = [
         throw new Error("This email has already been registered for another account");
       }
     }),
+  check("avatar").optional().isURL(),
   ErrorFormatter,
 ];

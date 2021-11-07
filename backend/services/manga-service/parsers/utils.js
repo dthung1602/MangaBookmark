@@ -162,7 +162,7 @@ function extractNamesFromText(text, separator = ";", headerToRemove = null) {
 }
 
 function useImageProxy(url, mangaSite) {
-  return "/api/image-proxy?" + new URLSearchParams({ url, mangaSite }).toString();
+  return "/api/image/proxy?" + new URLSearchParams({ url, mangaSite }).toString();
 }
 
 module.exports = {

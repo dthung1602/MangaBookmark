@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-import { ImageProxyAPI } from "../api";
+import { ImageAPI } from "../api";
 import FALLBACK_IMG from "../assets/fallback-manga-cover.webp";
 
 const MangaCover = ({ src: originalSrc, mangaSite, ...props }) => {
@@ -14,7 +14,7 @@ const MangaCover = ({ src: originalSrc, mangaSite, ...props }) => {
           try {
             const srcHost = new URL(src).host;
             if (srcHost !== window.location.host) {
-              setSrc(ImageProxyAPI.constructImageProxyURL(src, mangaSite));
+              setSrc(ImageAPI.constructImageProxyURL(src, mangaSite));
             } else {
               setSrc(FALLBACK_IMG);
             }
