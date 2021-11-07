@@ -3,11 +3,22 @@ const FuzzySearching = require("mongoose-fuzzy-searching");
 
 const { AdvanceQuery } = require("./plugins");
 
+/**
+ * @swagger
+ *
+ * components:
+ *    schemas:
+ *      MangaShelf:
+ *        type: string
+ *        enum: [to read, reading, waiting, dropped, change site, reread, finished]
+ */
 const Shelf = Object.freeze({
   TO_READ: "to read",
   READING: "reading",
   WAITING: "waiting",
   DROPPED: "dropped",
+  CHANGE_SITE: "change site",
+  REREAD: "reread",
   FINISHED: "finished",
 });
 
@@ -132,8 +143,7 @@ const ChapterSchema = new mongoose.Schema(
  *            type: string
  *            enum: [finished, last chap reached, many to read, new chap]
  *          shelf:
- *            type: string
- *            enum: [to read, reading, waiting, dropped, finished]
+ *            $ref: '#/components/schemas/MangaShelf'
  *          note:
  *            type: string
  *          hidden:

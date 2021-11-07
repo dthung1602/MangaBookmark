@@ -47,7 +47,7 @@ function handleMangaParsingError(res, e) {
  *         schema:
  *           type: array
  *           items:
- *             enum: [to read, reading, waiting, dropped, finished]
+ *             $ref: '#/components/schemas/MangaShelf'
  *           required: false
  *       - in: query
  *         name: isCompleted
@@ -210,8 +210,7 @@ router.getAsync("/", MangaFilterValidator, async (req, res) => {
  *                 type: boolean
  *                 required: false
  *               shelf:
- *                 type: string
- *                 enum: [to read, reading, waiting, dropped, finished]
+ *                 $ref: '#/components/schemas/MangaShelf'
  *                 required: false
  *     responses:
  *       201:
@@ -260,8 +259,7 @@ router.postAsync("/", MangaCreateValidator, async (req, res) => {
  *                 type: boolean
  *                 required: false
  *               shelf:
- *                 type: string
- *                 enum: [to read, reading, waiting, dropped, finished]
+ *                 $ref: '#/components/schemas/MangaShelf'
  *                 required: false
  *     responses:
  *       200:
@@ -423,7 +421,7 @@ router.postAsync("/:manga/update", MangaPermissionValidator, async (req, res) =>
  *         schema:
  *           type: array
  *           items:
- *             enum: [to read, reading, waiting, dropped, finished]
+ *             $ref: '#/components/schemas/MangaShelf'
  *           required: false
  *       - in: body
  *         name: isCompleted
