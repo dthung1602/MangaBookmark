@@ -1,3 +1,4 @@
+const fs = require("fs").promises;
 const { Router } = require("@awaitjs/express");
 const multer = require("multer");
 
@@ -111,9 +112,22 @@ router.use("/proxy", ImageProxyErrorHandlerMiddleware);
  *                    type: string
  */
 
+const ensureDirectoryExist = async (path) => {
+  try {
+    await fs.stat(path);
+  } catch (e) {
+    if (e.code === "ENOENT") {
+      await fs.mkdir(path, { recursive: true });
+    }
+  }
+};
+
 const uploadStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "upload/avatar");
+    const path = "upload/avatar";
+    ensureDirectoryExist(path)
+      .then(() => cb(null, path))
+      .catch((e) => cb(e, null));
   },
   filename: function (req, file, cb) {
     const extension = file.originalname.split(".").pop();
@@ -121,6 +135,7 @@ const uploadStorage = multer.diskStorage({
     cb(null, filename);
   },
 });
+
 const upload = multer({ storage: uploadStorage });
 
 router.post("/avatar", upload.single("file"), (req, res, next) => {
