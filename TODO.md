@@ -156,14 +156,10 @@
 
 - [x] Fix Facebook login
 
-- [ ] User avt
+- [x] User avt
   - [X] Spike: where to host images Cloudimary
-  - [ ] Upload avt in setting page
-  - [ ] Show static welcome page after sign up, with
-    - demo video
-    - link to change avt
-    - link to quick access
-    - ...
+  - [x] Upload avt in setting page
+  - ~~[ ] Show static welcome page after sign up~~
 
 - [ ] Migrated shelf: basically drop, but because the site updates too infrequently
     
@@ -241,3 +237,8 @@
 - [ ] ~~multi-language UI~~
 
 - [ ] ?? saucenow image search
+
+# Other improvement
+
+- [ ] git hook pre-commit lint only changed files
+- [ ] replace convert api call by a local package 
