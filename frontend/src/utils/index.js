@@ -55,3 +55,10 @@ export const getCookie = (name) => {
 };
 
 export const isNonEmptyArray = (array) => Array.isArray(array) && array.length;
+
+export const equalOrIn = (element, target) => {
+  if (Array.isArray(target)) {
+    return target.includes(element);
+  }
+  return element === target;
+};

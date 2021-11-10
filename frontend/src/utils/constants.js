@@ -17,13 +17,17 @@ export const EMBED_DEMO_VIDEO_ID = "sftVRbPcmoo";
 // ------------------------------------------
 export const TO_READ = "to read";
 export const READING = "reading";
+export const REREAD = "reread";
 export const WAITING = "waiting";
+export const CHANGE_SITE = "change site";
 export const DROPPED = "dropped";
 export const FINISHED = "finished";
 export const SHELVES = {
   [TO_READ]: "To read",
   [READING]: "Reading",
+  [REREAD]: "Reread",
   [WAITING]: "Waiting",
+  [CHANGE_SITE]: "Change site",
   [DROPPED]: "Dropped",
   [FINISHED]: "Finished",
 };
@@ -43,11 +47,13 @@ export const LANGUAGES = {
 // ------------------------------------------
 export const MG_FINISHED = 0;
 export const MG_LAST_CHAP_READ = 1;
-export const MG_MANY_TO_READ = 2;
-export const MG_NEW_CHAP = 3;
+export const MG_REREAD = 2;
+export const MG_MANY_TO_READ = 3;
+export const MG_NEW_CHAP = 4;
 export const MG_STATUSES = {
   [MG_FINISHED]: "Finished",
   [MG_LAST_CHAP_READ]: "Last chap reached",
+  [MG_REREAD]: "Reread",
   [MG_MANY_TO_READ]: "Many to read",
   [MG_NEW_CHAP]: "New chap",
 };

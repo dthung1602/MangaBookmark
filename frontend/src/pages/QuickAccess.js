@@ -14,12 +14,14 @@ import NewMangaModal from "../components/NewMangaModal";
 import MangaCover from "../components/MangaCover";
 import {
   READING,
+  REREAD,
   TO_READ,
   TOP_TO_READ_MG_COUNT,
   TOP_WAITING_MG_COUNT,
   WAITING,
   WAITING_MG_UNREAD_CHAP_THRESHOLD,
 } from "../utils/constants";
+import { equalOrIn } from "../utils";
 import { MangaAPI } from "../api";
 import { useUpdateMultipleAPI } from "../hooks";
 import { notifyError, throwOnCriticalErrors } from "../utils/error-handler";
@@ -32,7 +34,7 @@ const TAB_MAPPING = {
     displayName: "Reading",
     description: "Mangas in Reading shelf that has unread chapters",
     filters: {
-      shelf: READING,
+      shelf: [READING, REREAD],
       unreadChapCountGTE: 1,
       sort: "-unreadChapCount",
       page: 1,
@@ -107,7 +109,7 @@ const QuickAccess = () => {
   const [isUpdatingMangas, updateMangas] = useUpdateMultipleAPI(DAILY_UPDATE_FILTERS);
 
   const addMangaDone = (newManga) => {
-    if (newManga.shelf === TAB_MAPPING[tab].filters.shelf) {
+    if (equalOrIn(newManga.shelf, TAB_MAPPING[tab].filters.shelf)) {
       setMangas([newManga, ...mangas]);
       setMangaCount(mangaCount + 1);
     }
