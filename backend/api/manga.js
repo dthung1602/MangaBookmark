@@ -261,6 +261,10 @@ router.postAsync("/", MangaCreateValidator, async (req, res) => {
  *               shelf:
  *                 $ref: '#/components/schemas/MangaShelf'
  *                 required: false
+ *               nextRereadChapter:
+ *                 type: string
+ *                 format: uri
+ *                 required: false
  *     responses:
  *       200:
  *         description: Manga edited successfully

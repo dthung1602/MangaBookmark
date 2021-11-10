@@ -10,6 +10,7 @@ module.exports = [
   check("note").optional().trim(),
   check("isCompleted").optional().isBoolean().toBoolean(),
   check("hidden").optional().isBoolean().toBoolean(),
+  check("nextRereadChapter").optional().trim().isURL(),
   MangaPermissionValidator,
   ErrorFormatter,
 ];

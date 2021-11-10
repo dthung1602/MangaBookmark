@@ -30,23 +30,36 @@ const Language = Object.freeze({
 function getMangaStatusCode(manga) {
   const allRead = manga.chapters.every((ch) => ch.isRead);
 
+  if (manga.shelf === Shelf.REREAD) {
+    return 2;
+  }
+
   if (manga.isCompleted) {
     if (allRead) {
       return 0;
     } else {
-      return 2;
+      return 3;
     }
   } else {
     if (allRead) {
       return 1;
     } else {
-      return 3;
+      return 4;
     }
   }
 }
 
+/**
+ * @swagger
+ *
+ * components:
+ *    schemas:
+ *      MangaStatusString:
+ *        type: string
+ *        enum: [finished, last chap reached, reread, many to read, new chap]
+ */
 function codeToStatus(code) {
-  return ["finished", "last chap reached", "many to read", "new chap"][code];
+  return ["finished", "last chap reached", "reread", "many to read", "new chap"][code];
 }
 
 /**
@@ -86,6 +99,27 @@ const ChapterSchema = new mongoose.Schema(
     timestamps: true,
   },
 );
+
+/**
+ * @swagger
+ *
+ * components:
+ *    schemas:
+ *      NextRereadChapter:
+ *        type: object
+ *        properties:
+ *          id:
+ *            $ref: '#/components/schemas/Id'
+ *          name:
+ *            type: string
+ *          link:
+ *            type: string
+ *            format: uri
+ */
+const NextRereadChapterSchema = new mongoose.Schema({
+  name: String,
+  link: String,
+});
 
 /**
  * @swagger
@@ -138,12 +172,13 @@ const ChapterSchema = new mongoose.Schema(
  *          status:
  *            type: integer
  *            minimum: 0
- *            maximum: 3
+ *            maximum: 4
  *          statusString:
- *            type: string
- *            enum: [finished, last chap reached, many to read, new chap]
+ *            $ref: '#/components/schemas/MangaStatusString'
  *          shelf:
  *            $ref: '#/components/schemas/MangaShelf'
+ *          nextRereadChapter:
+ *            $ref: '#/components/schemas/NextRereadChapter'
  *          note:
  *            type: string
  *          hidden:
@@ -198,6 +233,8 @@ const MangaSchema = new mongoose.Schema(
       enum: Object.values(Shelf),
       default: Shelf.READING,
     },
+
+    nextRereadChapter: NextRereadChapterSchema,
 
     note: {
       type: String,
@@ -261,6 +298,26 @@ MangaSchema.index(
 
 MangaSchema.pre("save", function (next) {
   this.status = getMangaStatusCode(this);
+
+  if (this.shelf === Shelf.REREAD) {
+    if (!this.nextRereadChapter) {
+      this.nextRereadChapter = this.chapters[0];
+    }
+    let nextChapIdx = this.chapters.findIndex((ch) => ch.link === this.nextRereadChapter.link);
+
+    if (nextChapIdx === -1) {
+      nextChapIdx = this.chapters.findIndex((ch) => ch.name === this.nextRereadChapter.name);
+    }
+
+    nextChapIdx = Math.max(0, nextChapIdx);
+
+    this.unreadChapCount = this.chapters.length - nextChapIdx;
+
+    next();
+    return;
+  }
+
+  this.nextRereadChapter = null;
   this.unreadChapCount = this.chapters.filter((ch) => !ch.isRead).length;
   next();
 });
