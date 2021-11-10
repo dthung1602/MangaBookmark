@@ -15,7 +15,8 @@ module.exports = async function (manga, data) {
   }
 
   if (data.shelf === Manga.Shelf.REREAD) {
-    const nextRereadChapter = manga.chapters.find((ch) => ch.link === data.nextRereadChapter) || manga.chapters[0];
+    const chap1 = manga.chapters[manga.chapters.length - 1];
+    const nextRereadChapter = manga.chapters.find((ch) => ch.link === data.nextRereadChapter) || chap1;
     manga.nextRereadChapter = pick(nextRereadChapter, nextRereadChapterFields);
   }
 

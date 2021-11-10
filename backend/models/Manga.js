@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const FuzzySearching = require("mongoose-fuzzy-searching");
+const { pick } = require("lodash");
 
 const { AdvanceQuery } = require("./plugins");
 
@@ -301,7 +302,7 @@ MangaSchema.pre("save", function (next) {
 
   if (this.shelf === Shelf.REREAD) {
     if (!this.nextRereadChapter) {
-      this.nextRereadChapter = this.chapters[0];
+      this.nextRereadChapter = pick(this.chapters[this.chapters.length - 1], ["name", "link"]);
     }
     let nextChapIdx = this.chapters.findIndex((ch) => ch.link === this.nextRereadChapter.link);
 
