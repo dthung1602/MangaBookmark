@@ -6,20 +6,36 @@ import { DoubleLeftOutlined, CheckOutlined, ClockCircleOutlined } from "@ant-des
 
 import { changeChapterReadStatusLogic, getNextChapToRead, getNextChapPage } from "../../utils/chapters";
 import { RIGHT_PANEL_TABLE_PAGE_SIZE } from "../../utils/constants";
-import { truncString } from "../../utils";
+import { truncString, clonePlainObject } from "../../utils";
+import { REREAD } from "../../utils/constants";
 import "./ChapterList.less";
 
 const { Column } = Table;
 const { Text } = Typography;
 
+const filterDisplayChapters = (manga, showReadChapters) => {
+  let { chapters, nextRereadChapter, shelf } = manga;
+
+  if (shelf === REREAD) {
+    chapters = clonePlainObject(chapters);
+    let reachedNextRereadChapter = false;
+    for (let chap of chapters) {
+      chap.isRead = reachedNextRereadChapter; // remember, chapters are in reversed order!
+      reachedNextRereadChapter = reachedNextRereadChapter || chap.link === nextRereadChapter.link;
+    }
+  }
+
+  return showReadChapters ? chapters : chapters.filter((ch) => !ch.isRead);
+};
+
 function ChapterList({ manga, isLoading, onChangeChapterStatus, type, showDate = true, maxChapNameLen = 35 }) {
   const { chapters } = manga;
-  const nextChapIdx = getNextChapToRead(chapters)[1];
+  const nextChapIdx = getNextChapToRead(manga)[1];
   const nextChapPage = getNextChapPage(chapters, nextChapIdx);
 
   const [showReadChapters, setShowReadChapters] = useState(true);
 
-  const displayChapters = showReadChapters ? chapters : chapters.filter((ch) => !ch.isRead);
+  const displayChapters = filterDisplayChapters(manga, showReadChapters);
   const allChaptersRead = chapters.every((chap) => chap.isRead);
 
   const [pagination, setPagination] = useState({
@@ -36,7 +52,7 @@ function ChapterList({ manga, isLoading, onChangeChapterStatus, type, showDate =
 
   useEffect(() => setShowReadChapters(true), [chapters]);
   useEffect(() => {
-    const nextChapIdx = getNextChapToRead(chapters)[1];
+    const nextChapIdx = getNextChapToRead(manga)[1];
     const currentPage = getNextChapPage(chapters, nextChapIdx);
     setPagination({ ...pagination, current: currentPage });
   }, [manga]);

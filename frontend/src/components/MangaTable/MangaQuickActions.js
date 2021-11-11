@@ -8,7 +8,7 @@ import "./MangaQuickActions.less";
 
 const MangaQuickActions = ({ manga, updateMangaDone }) => {
   const [isChapterLoading, onChangeChapterStatus] = useMarkChapterAPI(updateMangaDone);
-  const nextChapToRead = getNextChapToRead(manga.chapters)[0];
+  const [nextChapToRead] = getNextChapToRead(manga);
   // eslint-disable-next-line no-unused-vars
   const [markOne, _, markAll] = changeChapterReadStatusLogic(manga, onChangeChapterStatus);
   const allRead = manga.chapters.every((ch) => ch.isRead);

@@ -1,4 +1,4 @@
-import { RIGHT_PANEL_TABLE_PAGE_SIZE } from "./constants";
+import { RIGHT_PANEL_TABLE_PAGE_SIZE, REREAD } from "./constants";
 
 export const changeChapterReadStatusLogic = (manga, onChangeChapterStatus) => {
   const onChangeChapterStatusWrapper = (isRead, chaps) => onChangeChapterStatus(manga._id, isRead, chaps);
@@ -21,7 +21,20 @@ export const changeChapterReadStatusLogic = (manga, onChangeChapterStatus) => {
   return [checkboxChange, markUpTo, markAll];
 };
 
-export const getNextChapToRead = (chapters) => {
+export const getNextChapToRead = (manga) => {
+  const { shelf, chapters, nextRereadChapter } = manga;
+
+  if (shelf === REREAD) {
+    return [
+      {
+        empty: false,
+        name: nextRereadChapter.name,
+        link: nextRereadChapter.link,
+      },
+      chapters.findIndex((ch) => ch.link === nextRereadChapter.link),
+    ];
+  }
+
   if (!chapters) {
     return [{}, -1];
   }

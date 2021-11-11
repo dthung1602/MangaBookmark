@@ -36,7 +36,7 @@ const TAB_MAPPING = {
     filters: {
       shelf: [READING, REREAD],
       unreadChapCountGTE: 1,
-      sort: "-unreadChapCount",
+      sort: "-status -unreadChapCount",
       page: 1,
       perPage: 0,
     },
