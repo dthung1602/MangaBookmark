@@ -7,5 +7,6 @@ module.exports = {
   updateMultiple: require("./update-multiple"),
   parseManga: require("./parsers").parseManga,
   markChapters: require("./mark-chapters"),
+  updateRereadProgress: require("./update-reread-progress"),
   parsers: require("./parsers"),
 };

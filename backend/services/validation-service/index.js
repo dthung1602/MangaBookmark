@@ -10,6 +10,7 @@ module.exports = {
   MangaFilterValidator,
   MANGA_FILTER_FIELDS,
   MarkChapterValidator: require("./manga-mark-chapter"),
+  MangaRereadProgressValidator: require("./manga-reread-progress"),
   MangaInfoValidator: require("./manga-info"),
   MangaCreateValidator: require("./manga-create"),
   MangaPatchValidator: require("./manga-patch"),

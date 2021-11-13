@@ -9,6 +9,7 @@ const {
   MANGA_FILTER_FIELDS,
   MangaFilterValidator,
   MarkChapterValidator,
+  MangaRereadProgressValidator,
   MangaInfoValidator,
   MangaCreateValidator,
   MangaPatchValidator,
@@ -370,6 +371,43 @@ router.postAsync("/:manga/mark-chapters", MarkChapterValidator, async (req, res)
   const { chapters, isRead } = req.body;
   let { manga } = req;
   manga = await MangaService.markChapters(manga, isRead, chapters);
+  res.json(manga);
+});
+
+//-----------------------------------
+//  Update reread progress
+//-----------------------------------
+/**
+ * @swagger
+ *
+ * /api/mangas/{mangaId}/reread-progress:
+ *   post:
+ *     description: Update reread progress
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nextRereadChapterLink:
+ *                 required: true
+ *                 oneOf:
+ *                   - type: string
+ *                     format: uri
+ *                   - type: string
+ *                     maxLength: 0
+ *     responses:
+ *       201:
+ *         description: Reread progress updated successfully
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Manga'
+ */
+router.postAsync("/:manga/reread-progress", MangaRereadProgressValidator, async (req, res) => {
+  const { nextRereadChapterLink } = req.body;
+  let { manga } = req;
+  manga = await MangaService.updateRereadProgress(manga, nextRereadChapterLink);
   res.json(manga);
 });
 
