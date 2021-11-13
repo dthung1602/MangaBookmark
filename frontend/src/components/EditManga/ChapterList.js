@@ -4,7 +4,7 @@ import moment from "moment";
 import { Button, Checkbox, Spin, Table, Popconfirm, Typography } from "antd";
 import { DoubleLeftOutlined, CheckOutlined, ClockCircleOutlined } from "@ant-design/icons";
 
-import { changeChapterReadStatusLogic, getNextChapToRead, getNextChapPage } from "../../utils/chapters";
+import { markChapterLogic, getNextChapToRead, getNextChapPage } from "../../utils/chapters";
 import { RIGHT_PANEL_TABLE_PAGE_SIZE } from "../../utils/constants";
 import { truncString, clonePlainObject } from "../../utils";
 import { REREAD } from "../../utils/constants";
@@ -48,7 +48,7 @@ function ChapterList({ manga, isLoading, onChangeChapterStatus, type, showDate =
     setPagination({ ...pagination, current: newPage });
   };
 
-  const [checkboxChange, markUpTo, markAll] = changeChapterReadStatusLogic(manga, onChangeChapterStatus);
+  const [checkboxChange, markUpTo, markAll] = markChapterLogic(manga, onChangeChapterStatus);
 
   useEffect(() => setShowReadChapters(true), [chapters]);
   useEffect(() => {

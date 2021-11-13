@@ -25,6 +25,10 @@ class MangaAPI extends BaseAPI {
     return this.post({ isRead, chapters: chapterLinks }, `${mangaId}/mark-chapters`);
   }
 
+  updateRereadProgress(mangaId, nextRereadChapterLink) {
+    return this.post({ nextRereadChapterLink }, `${mangaId}/reread-progress`);
+  }
+
   update(mangaId) {
     return this.post({}, `${mangaId}/update`);
   }

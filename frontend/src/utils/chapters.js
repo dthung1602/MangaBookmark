@@ -1,21 +1,47 @@
 import { RIGHT_PANEL_TABLE_PAGE_SIZE, REREAD } from "./constants";
 
-export const changeChapterReadStatusLogic = (manga, onChangeChapterStatus) => {
-  const onChangeChapterStatusWrapper = (isRead, chaps) => onChangeChapterStatus(manga._id, isRead, chaps);
+export const markChapterLogic = (manga, onChangeChapterStatus) => {
+  return manga.shelf === REREAD
+    ? updateRereadProgressLogic(manga, onChangeChapterStatus)
+    : updateChapterReadStatusLogic(manga, onChangeChapterStatus);
+};
 
+const updateRereadProgressLogic = (manga, onChangeChapterStatus) => {
+  const checkboxChange = () => {};
+
+  const markUpTo = (chapter) => {
+    let nextRereadChapterLink;
+    if (!chapter.isRead) {
+      const idx = manga.chapters.findIndex((ch) => ch.link === chapter.link) - 1;
+      nextRereadChapterLink = idx === -1 ? "" : manga.chapters[idx].link;
+    } else {
+      nextRereadChapterLink = chapter.link;
+    }
+    console.log("markUpTo", { chapter, nextRereadChapterLink });
+    onChangeChapterStatus(manga, null, [nextRereadChapterLink]);
+  };
+
+  const markAll = () => {
+    onChangeChapterStatus(manga, null, [""]);
+  };
+
+  return [checkboxChange, markUpTo, markAll];
+};
+
+const updateChapterReadStatusLogic = (manga, onChangeChapterStatus) => {
   const checkboxChange = (chapter) => {
-    onChangeChapterStatusWrapper(!chapter.isRead, [chapter.link]);
+    onChangeChapterStatus(manga, !chapter.isRead, [chapter.link]);
   };
 
   const markUpTo = (chapter) => {
     const idx = manga.chapters.indexOf(chapter);
     const chapsToMark = manga.chapters.filter((ch, i) => i >= idx && !ch.isRead).map((ch) => ch.link);
-    onChangeChapterStatusWrapper(true, chapsToMark);
+    onChangeChapterStatus(manga, true, chapsToMark);
   };
 
   const markAll = () => {
     const chapsToMark = manga.chapters.filter((ch) => !ch.isRead).map((ch) => ch.link);
-    onChangeChapterStatusWrapper(true, chapsToMark);
+    onChangeChapterStatus(manga, true, chapsToMark);
   };
 
   return [checkboxChange, markUpTo, markAll];

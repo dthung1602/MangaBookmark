@@ -27,7 +27,7 @@ const NewMangaModal = ({ open, onCancel, addMangaDone }) => {
 
   const toggleExpand = () => setExpand(!expand);
 
-  const changeChapterReadStatus = (mangaId, isRead, chapLinks) => {
+  const changeChapterReadStatus = (_, isRead, chapLinks) => {
     const cloneManga = clonePlainObject(manga);
     cloneManga.chapters.forEach((ch) => {
       if (chapLinks.includes(ch.link)) {

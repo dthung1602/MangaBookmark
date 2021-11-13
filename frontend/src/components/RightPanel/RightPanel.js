@@ -11,7 +11,7 @@ import { MangaAPI } from "../../api";
 import { useMarkChapterAPI } from "../../hooks";
 import { formatDate, isNonEmptyArray } from "../../utils";
 import { throwOnCriticalErrors, notifyError } from "../../utils/error-handler";
-import { changeChapterReadStatusLogic } from "../../utils/chapters";
+import { markChapterLogic } from "../../utils/chapters";
 import PLACE_HOLDER_IMG from "../../assets/right-panel-footer.webp";
 import "./RightPanel.less";
 
@@ -71,7 +71,7 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
 
   const allChaptersRead = manga.chapters.every((chap) => chap.isRead);
 
-  const markAllChapterAsRead = changeChapterReadStatusLogic(manga, markChapters)[2];
+  const markAllChapterAsRead = markChapterLogic(manga, markChapters)[2];
 
   return (
     <div id="right-panel">

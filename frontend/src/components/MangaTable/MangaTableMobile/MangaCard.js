@@ -19,7 +19,7 @@ import MangaCover from "../../MangaCover";
 import MangaQuickActions from "../MangaQuickActions.js";
 import { MangaAPI } from "../../../api";
 import { useMarkChapterAPI } from "../../../hooks";
-import { changeChapterReadStatusLogic, getNextChapToRead } from "../../../utils/chapters";
+import { markChapterLogic, getNextChapToRead } from "../../../utils/chapters";
 import { throwOnCriticalErrors, notifyError } from "../../../utils/error-handler";
 import { statusToClassMapping } from "../utils";
 import "./MangaCard.less";
@@ -35,7 +35,7 @@ const MangaCard = ({ manga, isSkeleton, updateMangaDone, deleteMangaDone }) => {
   const statusClass = statusToClassMapping[manga.status];
   const [nextChapToRead] = getNextChapToRead(manga);
   // eslint-disable-next-line no-unused-vars
-  const [markOne, markUpTo, markAll] = changeChapterReadStatusLogic(manga, onChangeChapterStatus);
+  const [markOne, markUpTo, markAll] = markChapterLogic(manga, onChangeChapterStatus);
 
   const markLatestChapter = () => {
     markOne(nextChapToRead);
