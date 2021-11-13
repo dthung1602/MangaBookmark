@@ -7,9 +7,7 @@ export const markChapterLogic = (manga, onChangeChapterStatus) => {
 };
 
 const updateRereadProgressLogic = (manga, onChangeChapterStatus) => {
-  const checkboxChange = () => {};
-
-  const markUpTo = (chapter) => {
+  const checkboxChange = (chapter) => {
     let nextRereadChapterLink;
     if (!chapter.isRead) {
       const idx = manga.chapters.findIndex((ch) => ch.link === chapter.link) - 1;
@@ -20,6 +18,8 @@ const updateRereadProgressLogic = (manga, onChangeChapterStatus) => {
     console.log("markUpTo", { chapter, nextRereadChapterLink });
     onChangeChapterStatus(manga, null, [nextRereadChapterLink]);
   };
+
+  const markUpTo = checkboxChange;
 
   const markAll = () => {
     onChangeChapterStatus(manga, null, [""]);
