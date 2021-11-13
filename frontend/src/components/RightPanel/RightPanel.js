@@ -10,6 +10,7 @@ import { BasicFields, ChapterList, Note } from "../EditManga";
 import { MangaAPI } from "../../api";
 import { useMarkChapterAPI } from "../../hooks";
 import { formatDate, isNonEmptyArray } from "../../utils";
+import { REREAD } from "../../utils/constants";
 import { throwOnCriticalErrors, notifyError } from "../../utils/error-handler";
 import { markChapterLogic } from "../../utils/chapters";
 import PLACE_HOLDER_IMG from "../../assets/right-panel-footer.webp";
@@ -69,7 +70,7 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
     );
   }
 
-  const allChaptersRead = manga.chapters.every((chap) => chap.isRead);
+  const disableMarkAll = manga.shelf === REREAD ? false : manga.chapters.every((chap) => chap.isRead);
 
   const markAllChapterAsRead = markChapterLogic(manga, markChapters)[2];
 
@@ -95,7 +96,7 @@ const RightPanel = ({ manga, showImage, deleteMangaDone, updateMangaDone }) => {
               <SyncOutlined />
               <span>Update</span>
             </div>
-            {allChaptersRead ? null : (
+            {disableMarkAll ? null : (
               <div className="mark-all" onClick={markAllChapterAsRead}>
                 <CheckOutlined />
                 <span>Mark all</span>

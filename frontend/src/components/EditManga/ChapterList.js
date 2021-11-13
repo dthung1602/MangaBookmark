@@ -36,7 +36,7 @@ function ChapterList({ manga, isLoading, onChangeChapterStatus, type, showDate =
   const [showReadChapters, setShowReadChapters] = useState(true);
 
   const displayChapters = filterDisplayChapters(manga, showReadChapters);
-  const allChaptersRead = chapters.every((chap) => chap.isRead);
+  const disableMarkAll = manga.shelf === REREAD ? false : manga.chapters.every((chap) => chap.isRead);
 
   const [pagination, setPagination] = useState({
     hideOnSinglePage: true,
@@ -76,17 +76,12 @@ function ChapterList({ manga, isLoading, onChangeChapterStatus, type, showDate =
                   title={(showReadChapters ? "Hide" : "Show") + " read chapters"}
                   onClick={() => setShowReadChapters(!showReadChapters)}
                 />
-                <Popconfirm
-                  title={"Mark all as read ?"}
-                  placement="left"
-                  disabled={allChaptersRead}
-                  onConfirm={markAll}
-                >
+                <Popconfirm title={"Mark all as read ?"} placement="left" disabled={disableMarkAll} onConfirm={markAll}>
                   <Button
                     size="small"
                     type="text"
                     icon={<CheckOutlined />}
-                    disabled={allChaptersRead}
+                    disabled={disableMarkAll}
                     title="Mark all as read"
                   />
                 </Popconfirm>
