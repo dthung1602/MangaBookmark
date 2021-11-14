@@ -15,7 +15,6 @@ const updateRereadProgressLogic = (manga, onChangeChapterStatus) => {
     } else {
       nextRereadChapterLink = chapter.link;
     }
-    console.log("markUpTo", { chapter, nextRereadChapterLink });
     onChangeChapterStatus(manga, null, [nextRereadChapterLink]);
   };
 

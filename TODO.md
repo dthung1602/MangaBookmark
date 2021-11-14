@@ -148,7 +148,7 @@
     - [x] Search by partial keywords. See [this](https://stackoverflow.com/a/54318581/7342188)
     - [ ] ~~Search language ?~~
 
-- [ ] Deactivate hocvientruyentranh
+- [x] Deactivate hocvientruyentranh
 
 ## Important
 
@@ -161,9 +161,9 @@
   - [x] Upload avt in setting page
   - ~~[ ] Show static welcome page after sign up~~
 
-- [ ] Migrated shelf: basically drop, but because the site updates too infrequently
+- [x] Change-site shelf: basically drop, but because the site updates too infrequently
     
-- [ ] Reread shelf
+- [x] Reread shelf
     - Still save current progress
     - Independent reread progress
     - Should be in Reading tab
@@ -240,5 +240,5 @@
 
 # Other improvement
 
-- [ ] git hook pre-commit lint only changed files
+- [x] git hook pre-commit lint only changed files
 - [ ] replace convert api call by a local package 
