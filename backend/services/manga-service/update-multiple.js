@@ -1,7 +1,16 @@
 const updateSingleManga = require("./update");
+const {
+  getLogger,
+  TOTAL_MANGA_FOUND,
+  TOTAL_MANGA_PUSHED_TO_QUEUE,
+  UPDATE_MANGA_SUCCEEDED,
+  UPDATE_MANGA_FAILED,
+} = require("../log-service");
 const { Manga, MangaUpdateSummary } = require("../../models");
 const { getMangaUpdateQueue, getMangaUpdateResultCache, getMangaUpdateStatusMemo } = require("../../datasource");
 const { CRAWL_CONCURRENCY } = require("../../config");
+
+const logger = getLogger("update-multiple-service");
 
 const ProcessStatuses = Object.freeze({
   NONE: "none",
@@ -30,14 +39,13 @@ async function pushToQueue(queueType, filters, verbose) {
   const queueResponse = [];
   let pushedToQueue = 0;
   for await (const manga of mangasToUpdate) {
-    console.log(`Found manga "${manga.name}" - ${manga.site}`);
     queueResponse.push(queue.enqueue(manga).then(() => (pushedToQueue += 1)));
   }
   await Promise.allSettled(queueResponse);
 
   if (verbose) {
-    console.log(`Found ${queueResponse.length} mangas`);
-    console.log(`Pushed to queue ${pushedToQueue} mangas`);
+    logger.log(TOTAL_MANGA_FOUND, { total: queueResponse.length });
+    logger.log(TOTAL_MANGA_PUSHED_TO_QUEUE, { total: pushedToQueue });
   }
 
   return pushedToQueue;
@@ -63,19 +71,21 @@ async function consumeFromQueue(queueType, additionalUpdate, verbose) {
       if (!manga) {
         return Promise.allSettled(promises);
       }
-      if (verbose) {
-        console.log(`Updating "${manga.name}" - ${manga.site}`);
-      }
       promises.push(
         updateSingleManga(manga, additionalUpdate)
           .then(() => {
-            console.log(`Update successfully manga "${manga.name}" - ${manga.site}`);
+            logger.log(UPDATE_MANGA_SUCCEEDED, { id: manga._id, site: manga.site, link: manga.link, name: manga.name });
             return resultCache.addOne(manga.user, new MangaUpdateSummary("success", manga));
           })
           .catch((e) => {
             if (verbose) {
-              console.error(`Fail to update ${manga.name} - ${manga.site}`);
-              console.error(e);
+              logger.error(UPDATE_MANGA_FAILED, {
+                id: manga._id,
+                site: manga.site,
+                link: manga.link,
+                name: manga.name,
+                error: "" + e,
+              });
             }
             return resultCache.addOne(manga.user, new MangaUpdateSummary("failed", undefined, e.toString()));
           }),

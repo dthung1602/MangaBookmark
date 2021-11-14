@@ -1,12 +1,16 @@
 const amqplib = require("amqplib");
 
+const { getLogger, CONNECTION_ERROR } = require("../services/log-service");
 const { AMQP_URL } = require("../config");
+
+const logger = getLogger("queue");
+const logError = (error) => logger.log(CONNECTION_ERROR, { error: error + "" });
 
 let connection = null;
 const connectionPromise = amqplib
   .connect(AMQP_URL)
   .then((conn) => (connection = conn))
-  .catch(console.error);
+  .catch(logError);
 
 class Queue {
   constructor(name) {
@@ -18,7 +22,7 @@ class Queue {
         this.channel = ch;
         return ch.assertQueue(this.name);
       })
-      .catch(console.error);
+      .catch(logError);
   }
 
   static async closeConnection() {

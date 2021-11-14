@@ -1,5 +1,9 @@
 const { HTTPError } = require("got");
 
+const { getLogger, INTERNAL_SERVER_ERROR } = require("./services/log-service");
+
+const logger = getLogger("error-handler");
+
 class CustomError extends Error {
   constructor(errors, statusCode) {
     super();
@@ -46,8 +50,8 @@ const ErrorHandlerMiddleware = (err, req, res, next) => {
   if (err instanceof CustomError) {
     res.status(err.statusCode).json({ errors: err.errors });
   } else {
-    const message = err.message || "Internal server error";
-    res.status(500).json({ "": message });
+    logger.error(INTERNAL_SERVER_ERROR, { error: err.message || err + "" });
+    res.status(500).json({ "": "Internal server error" });
   }
 };
 

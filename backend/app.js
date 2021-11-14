@@ -71,7 +71,6 @@ app.use(
 // Any request that doesn't match one above, send back React's index.html file
 const frontendBuildIndex = path.join(__dirname, "frontend-build", "index.html");
 app.get("*", (req, res) => {
-  console.log(req.url);
   res.sendFile(frontendBuildIndex);
 });
 

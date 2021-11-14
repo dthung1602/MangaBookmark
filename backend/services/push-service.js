@@ -2,12 +2,15 @@ const webpush = require("web-push");
 
 const { Subscription, User } = require("../models");
 const { getMangaUpdateResultCache } = require("../datasource");
+const { getLogger, WEBPUSH_FINISHED, WEBPUSH_NO_UPDATE, WEBPUSH_FAILED } = require("./log-service");
 const {
   updateMultiple: { QueueTypes },
 } = require("./manga-service");
 const { REACT_APP_VAPID_PUBLIC_KEY, REACT_APP_VAPID_PRIVATE_KEY, WEB_PUSH_CONTACT } = require("../config");
 
 webpush.setVapidDetails(WEB_PUSH_CONTACT, REACT_APP_VAPID_PUBLIC_KEY, REACT_APP_VAPID_PRIVATE_KEY);
+
+const logger = getLogger("web-push-service");
 
 async function pushAllMangaNotifications(verbose = false) {
   const resultCache = getMangaUpdateResultCache(QueueTypes.SCHEDULED);
@@ -30,7 +33,7 @@ async function pushNotificationsToUser(user, summaries, verbose = false) {
 
   if (summaries.length === 0) {
     if (verbose) {
-      console.log(`No updates for user "${user.id}"`);
+      logger.log(WEBPUSH_NO_UPDATE, { user: user.id });
     }
     return;
   }
@@ -47,20 +50,21 @@ async function pushNotificationsToUser(user, summaries, verbose = false) {
           successCount += 1;
         })
         .catch((err) => {
+          if (verbose) {
+            logger.error(WEBPUSH_FAILED, {
+              error: "" + err,
+              statusCode: err.statusCode,
+            });
+          }
           if (err.statusCode === 404 || err.statusCode === 410) {
-            if (verbose) {
-              console.log(`Subscription ${subscription._id} has expired or is no longer valid`);
-            }
             subscription.delete();
-          } else {
-            console.error(err);
           }
         }),
     ),
   );
 
   if (verbose) {
-    console.log(`Sent ${successCount}/${subscriptions.length} notifications to user "${user.id}"`);
+    logger.log(WEBPUSH_FINISHED, { user: user._id, success: successCount, total: subscriptions.length });
   }
 }
 
