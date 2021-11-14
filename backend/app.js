@@ -4,7 +4,6 @@ const path = require("path");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
 const cookieParser = require("cookie-parser");
-const logger = require("morgan");
 const helmet = require("helmet");
 const staticGZIP = require("express-static-gzip");
 const dynamicGZIP = require("compression");
@@ -25,7 +24,6 @@ if (config.NODE_ENV === "production") {
     }),
   );
 }
-app.use(logger("dev"));
 app.use(express.json({ limit: "64mb" }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

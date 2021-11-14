@@ -42,7 +42,6 @@
     "lodash": "^4.17.20",
     "mongoose": "^5.10.11",
     "mongoose-fuzzy-searching": "^2.0.2",
-    "morgan": "~1.10.0",
     "multer": "^1.4.3",
     "passport": "^0.4.1",
     "passport-facebook": "^3.0.0",
