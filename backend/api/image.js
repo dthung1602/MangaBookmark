@@ -56,18 +56,22 @@ router.getAsync("/proxy", ImageProxyValidator, async (req, res) => {
   const requestEtag = req.headers["if-none-match"];
   const etag = proxy.getEtag(req.query.url);
 
+  // etag exists, image in cache
   if (etag && etag === requestEtag) {
     res.sendStatus(304);
     return;
   }
 
   const image = await proxy.getImage(req.query.url, req.query.mangaSite);
+
+  // etag exists, image NOT in cache
   if (requestEtag === image.etag) {
     res.sendStatus(304);
     return;
   }
 
-  res.set("ETag", etag);
+  // etag doesn't exists / doesn't match
+  res.set("ETag", image.etag);
   res.set("Content-Type", image.contentType);
   res.end(image.buffer);
 });

@@ -145,7 +145,7 @@ describe("Manga API", () => {
       user: "111aaaaaaaaaaaaaaaaaa111",
       createdAt: expect.anything(),
       updatedAt: expect.anything(),
-      status: 2,
+      status: 3,
       statusString: "many to read",
       unreadChapCount: 2,
       newChapCount: 2,
@@ -311,7 +311,7 @@ describe("Manga API", () => {
       isCompleted: mockParsedManga.isCompleted,
       newChapCount: 2,
       unreadChapCount: 2,
-      status: 2,
+      status: 3,
       statusString: "many to read",
     });
     expect(response.body).toEqual(expectedManga);
