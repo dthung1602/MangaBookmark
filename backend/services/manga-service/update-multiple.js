@@ -75,7 +75,7 @@ async function consumeFromQueue(queueType, additionalUpdate, verbose) {
         updateSingleManga(manga, additionalUpdate)
           .then(() => {
             logger.log(UPDATE_MANGA_SUCCEEDED, {
-              id: "" + manga._id,
+              id: manga.id,
               site: manga.site,
               link: manga.link,
               name: manga.name,
@@ -85,7 +85,7 @@ async function consumeFromQueue(queueType, additionalUpdate, verbose) {
           .catch((e) => {
             if (verbose) {
               logger.error(UPDATE_MANGA_FAILED, {
-                id: manga._id,
+                id: manga.id,
                 site: manga.site,
                 link: manga.link,
                 name: manga.name,

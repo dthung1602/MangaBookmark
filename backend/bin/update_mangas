@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const { Manga } = require("../models");
-const { TO_READ, READING, WAITING } = Manga.Shelf;
+const { TO_READ, READING, WAITING, REREAD } = Manga.Shelf;
 const db = require("../services/db-service");
 const datasource = require("../datasource")
 const { pushAllMangaNotifications } = require("../services/push-service");
@@ -13,7 +13,7 @@ async function main() {
 
   // TODO add more shelf
   const filters = {
-    shelf: { $in: [TO_READ] },
+    shelf: { $in: [TO_READ, READING, WAITING, REREAD] },
     isCompleted: false,
   };
 

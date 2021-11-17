@@ -64,7 +64,7 @@ async function pushNotificationsToUser(user, summaries, verbose = false) {
   );
 
   if (verbose) {
-    logger.log(WEBPUSH_FINISHED, { user: user._id, success: successCount, total: subscriptions.length });
+    logger.log(WEBPUSH_FINISHED, { user: user.id, success: successCount, total: subscriptions.length });
   }
 }
 

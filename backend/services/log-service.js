@@ -16,7 +16,7 @@ const INTERNAL_SERVER_ERROR = "Internal server error";
 const CONNECTION_ERROR = "Connection error";
 
 function formatMessage(component, message, args = {}) {
-  let logValue = `component=${component} message="${message}"`;
+  let logValue = `timestamp=${new Date().toISOString()} component=${component} message="${message}"`;
   for (let [key, value] of Object.entries(flattenObject(args))) {
     if (isString(value)) {
       logValue += ` ${key}="${value}"`;
