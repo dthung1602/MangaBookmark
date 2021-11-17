@@ -74,7 +74,12 @@ async function consumeFromQueue(queueType, additionalUpdate, verbose) {
       promises.push(
         updateSingleManga(manga, additionalUpdate)
           .then(() => {
-            logger.log(UPDATE_MANGA_SUCCEEDED, { id: manga._id, site: manga.site, link: manga.link, name: manga.name });
+            logger.log(UPDATE_MANGA_SUCCEEDED, {
+              id: "" + manga._id,
+              site: manga.site,
+              link: manga.link,
+              name: manga.name,
+            });
             return resultCache.addOne(manga.user, new MangaUpdateSummary("success", manga));
           })
           .catch((e) => {

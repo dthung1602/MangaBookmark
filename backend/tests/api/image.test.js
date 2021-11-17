@@ -1,3 +1,11 @@
+jest.mock("../../services/log-service", () => ({
+  ...jest.requireActual("../../services/log-service"),
+  getLogger: jest.fn().mockReturnValue({
+    log: jest.fn(),
+    error: jest.fn(),
+  }),
+}));
+
 jest.mock("../../services/image-service/proxy", () => ({
   getImage: jest.fn(),
   getEtag: jest.fn(),

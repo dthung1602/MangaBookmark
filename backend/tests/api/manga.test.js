@@ -10,6 +10,14 @@ jest.mock("../../datasource", () => ({
   getMangaUpdateStatusMemo: jest.fn(),
 }));
 
+jest.mock("../../services/log-service", () => ({
+  ...jest.requireActual("../../services/log-service"),
+  getLogger: jest.fn().mockReturnValue({
+    log: jest.fn(),
+    error: jest.fn(),
+  }),
+}));
+
 const request = require("supertest");
 const { pick, map, range } = require("lodash");
 
