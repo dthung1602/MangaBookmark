@@ -1,7 +1,7 @@
 const { User } = require("../../models");
 
-module.exports = async function (data) {
-  const user = new User(data);
+module.exports = async function ({ username, email, password }) {
+  const user = new User({ username, email, password });
   await user.save();
   return user;
 };

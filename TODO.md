@@ -168,17 +168,18 @@
     - Independent reread progress
     - Should be in Reading tab
 
-- [ ] Improve daily crawling report
-    - [ ] Email?
-    - [ ] Admin notification?
-    - [ ] Admin page
-      - [ ] Set up basic FE + Admin account in BE
-      - [ ] Crawling report page
-        - Total number of pages crawl
-        - \#success, #fail
-        - View log
-      - [ ] Back up process status page
-      - [ ] Generic stats page
+- [x] Improve daily crawling report
+    - [ ] Use 3rd party log analyzer & visualizer
+    - ~~[ ] Email?~~
+    - ~~[ ] Admin notification?~~
+    - ~~[ ] Admin page~~
+      - ~~[ ] Set up basic FE + Admin account in BE~~
+      - ~~[ ] Crawling report page~~
+      - ~~Total number of pages crawl~~
+      - ~~\#success, #fail~~
+      - ~~View log~~
+      - ~~[ ] Back up process status page~~
+      - ~~[ ] Generic stats page~~
       
 - [ ] One master note for user -> take note everything
 

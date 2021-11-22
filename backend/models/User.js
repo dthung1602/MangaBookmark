@@ -40,6 +40,8 @@ function setPassword(newPassword) {
  *          email:
  *            type: string
  *            format: email
+ *          note:
+ *            type: string
  *          createdAt:
  *            type: string
  *            format: date-time
@@ -66,6 +68,10 @@ let userSchema = new mongoose.Schema(
     facebookName: String,
 
     email: String,
+    note: {
+      type: String,
+      default: "",
+    },
   },
   {
     timestamps: true,

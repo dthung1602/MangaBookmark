@@ -1,4 +1,7 @@
 module.exports = async function (user, authProvider) {
+  if (authProvider !== "facebook" && authProvider !== "google") {
+    throw new Error(`Invalid auth provider '${authProvider}'`);
+  }
   if (user[authProvider + "Pic"] === user.avatar) {
     const alternativeAuthProvider = authProvider === "google" ? "facebook" : "google";
     user.avatar = user[alternativeAuthProvider + "Pic"];

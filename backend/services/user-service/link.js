@@ -1,6 +1,9 @@
 const { get } = require("lodash");
 
 module.exports = async function (user, authProvider, profile) {
+  if (authProvider !== "facebook" && authProvider !== "google") {
+    throw new Error(`Invalid auth provider '${authProvider}'`);
+  }
   user[`${authProvider}Id`] = profile.id;
   user[`${authProvider}Pic`] = get(profile, "photos[0].value");
   user[`${authProvider}Name`] = profile.displayName;

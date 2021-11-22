@@ -103,6 +103,8 @@ router.getAsync("/", async (req, res) => {
  *               avatar:
  *                 type: string
  *                 format: url
+ *               note:
+ *                 type: string
  *     responses:
  *       201:
  *         description: User info updated successfully

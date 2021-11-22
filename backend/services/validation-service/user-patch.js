@@ -25,5 +25,6 @@ module.exports = [
       }
     }),
   check("avatar").optional().isURL(),
+  check("note").optional().trim(),
   ErrorFormatter,
 ];
