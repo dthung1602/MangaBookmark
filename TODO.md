@@ -169,7 +169,7 @@
     - Should be in Reading tab
 
 - [x] Improve daily crawling report
-    - [ ] Use 3rd party log analyzer & visualizer
+    - [x] Use 3rd party log analyzer & visualizer
     - ~~[ ] Email?~~
     - ~~[ ] Admin notification?~~
     - ~~[ ] Admin page~~
@@ -181,7 +181,7 @@
       - ~~[ ] Back up process status page~~
       - ~~[ ] Generic stats page~~
       
-- [ ] One master note for user -> take note everything
+- [x] One master note for user -> take note everything
 
 - [ ] Cross site search
   - [ ] Search in supported site

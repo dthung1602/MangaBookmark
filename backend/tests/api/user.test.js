@@ -58,6 +58,7 @@ describe("User API", () => {
       facebookId: "1111111111111111",
       facebookName: "Facebook User 1",
       facebookPic: "https://www.example.com/facebook/pic1",
+      note: "",
       __v: 0,
       email: "user1@example.com",
     });
@@ -111,6 +112,7 @@ describe("User API", () => {
     const userInfo = {
       username: "alphonse_elric",
       email: "alphonse@resembool.town",
+      note: "this is a note",
     };
 
     const response = await request(app).patch("/api/user").send(userInfo);

@@ -1,13 +1,13 @@
 import { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Tooltip } from "antd";
-import { PlusOutlined, ReloadOutlined, UpOutlined, AppstoreOutlined } from "@ant-design/icons";
+import { PlusOutlined, ReloadOutlined, UpOutlined, AppstoreOutlined, FileTextOutlined } from "@ant-design/icons";
 
 import { useOnClickOutside } from "../../hooks";
 import { scrollToTop } from "../../utils";
 import "./FAB.less";
 
-const FAB = ({ openNewMangaModal, isUpdatingMangas, updateMangas }) => {
+const FAB = ({ openNewMangaModal, isUpdatingMangas, updateMangas, openUserNote }) => {
   const [showExpandBtns, setShowExpandBtns] = useState(false);
   const containerRef = useRef(null);
 
@@ -57,6 +57,16 @@ const FAB = ({ openNewMangaModal, isUpdatingMangas, updateMangas }) => {
           onClick={handleExpandBtnClickWrapper(updateMangas)}
         />
       </Tooltip>
+      <Tooltip placement="left" visible={showExpandBtns} title="Note" overlayClassName="fab-tooltip-overlay">
+        <Button
+          shape="circle"
+          size="large"
+          type="primary"
+          className="fab-expand-btn"
+          icon={<FileTextOutlined />}
+          onClick={handleExpandBtnClickWrapper(openUserNote)}
+        />
+      </Tooltip>
       <Tooltip placement="left" visible={showExpandBtns} title="New manga" overlayClassName="fab-tooltip-overlay">
         <Button
           shape="circle"
@@ -84,6 +94,7 @@ FAB.propTypes = {
   openNewMangaModal: PropTypes.func.isRequired,
   updateMangas: PropTypes.func.isRequired,
   isUpdatingMangas: PropTypes.bool.isRequired,
+  openUserNote: PropTypes.bool.isRequired,
 };
 
 export default FAB;

@@ -19,6 +19,7 @@ import { useUpdateMultipleAPI } from "../hooks";
 import { removeUndefinedAttrs, removeEmptyStringAttrs, scrollToTop } from "../utils";
 import { throwOnCriticalErrors, notifyError } from "../utils/error-handler";
 import "./Mangas.less";
+import UserNote from "../components/UserNoteModal/UserNoteModal";
 
 const AllMangas = () => {
   const [mangas, setMangas] = useState([]);
@@ -29,6 +30,7 @@ const AllMangas = () => {
   const [allLoaded, setAllLoaded] = useState(false);
   const [openImg, setOpenImg] = useState(false);
   const [newMangaModalOpen, setNewMangaModalOpen] = useState(false);
+  const [userNoteModalOpen, setUserNoteModalOpen] = useState(false);
 
   const [filters, setFilters] = useQueryParams({
     shelf: withDefault(StringParam, ANY),
@@ -128,6 +130,9 @@ const AllMangas = () => {
   const openNewMangaModal = () => setNewMangaModalOpen(true);
   const closeNewMangaModal = () => setNewMangaModalOpen(false);
 
+  const openUserNoteModal = () => setUserNoteModalOpen(true);
+  const closeUserNoteModal = () => setUserNoteModalOpen(false);
+
   const pageHeader = (
     <MangaPageHeader
       title="All mangas"
@@ -136,6 +141,7 @@ const AllMangas = () => {
       openNewMangaModal={openNewMangaModal}
       isUpdatingMangas={isUpdatingMangas}
       updateMangas={updateMangas}
+      openUserNoteModal={openUserNoteModal}
     />
   );
   const endOfList = <EndOfList onReached={() => setPage(page + 1)} disabled={isLoading || allLoaded} />;
@@ -187,9 +193,16 @@ const AllMangas = () => {
         />
       </Layout>
 
-      <FAB openNewMangaModal={openNewMangaModal} isUpdatingMangas={isUpdatingMangas} updateMangas={updateMangas} />
+      <FAB
+        openNewMangaModal={openNewMangaModal}
+        isUpdatingMangas={isUpdatingMangas}
+        updateMangas={updateMangas}
+        openUserNote={openUserNoteModal}
+      />
 
       <NewMangaModal open={newMangaModalOpen} onCancel={closeNewMangaModal} addMangaDone={addMangaDone} />
+
+      <UserNote open={userNoteModalOpen} onCancel={closeUserNoteModal} />
 
       <Modal visible={openImg} footer={null} onCancel={() => setOpenImg(false)}>
         <MangaCover

@@ -11,6 +11,7 @@ import RightPanel from "../components/RightPanel";
 import MangaTableDesktop from "../components/MangaTable/MangaTableDesktop";
 import MangaTableMobile from "../components/MangaTable/MangaTableMobile";
 import NewMangaModal from "../components/NewMangaModal";
+import UserNote from "../components/UserNoteModal/UserNoteModal";
 import MangaCover from "../components/MangaCover";
 import {
   READING,
@@ -77,6 +78,7 @@ const QuickAccess = () => {
   const [mangaCount, setMangaCount] = useState(NaN);
   const [openImg, setOpenImg] = useState(false);
   const [newMangaModalOpen, setNewMangaModalOpen] = useState(false);
+  const [userNoteModalOpen, setUserNoteModalOpen] = useState(false);
 
   const [tab, setTab] = useQueryParam("tab", withDefault(StringParam, "reading"));
 
@@ -132,6 +134,9 @@ const QuickAccess = () => {
   const openNewMangaModal = () => setNewMangaModalOpen(true);
   const closeNewMangaModal = () => setNewMangaModalOpen(false);
 
+  const openUserNoteModal = () => setUserNoteModalOpen(true);
+  const closeUserNoteModal = () => setUserNoteModalOpen(false);
+
   const displayMangas = mangas.filter((mg) => showHidden || !mg.hidden);
 
   const pageHeader = (
@@ -142,6 +147,7 @@ const QuickAccess = () => {
       openNewMangaModal={openNewMangaModal}
       isUpdatingMangas={isUpdatingMangas}
       updateMangas={updateMangas}
+      openUserNoteModal={openUserNoteModal}
     />
   );
 
@@ -221,9 +227,16 @@ const QuickAccess = () => {
         />
       </Layout>
 
-      <FAB openNewMangaModal={openNewMangaModal} isUpdatingMangas={isUpdatingMangas} updateMangas={updateMangas} />
+      <FAB
+        openNewMangaModal={openNewMangaModal}
+        isUpdatingMangas={isUpdatingMangas}
+        updateMangas={updateMangas}
+        openUserNote={openUserNoteModal}
+      />
 
       <NewMangaModal open={newMangaModalOpen} onCancel={closeNewMangaModal} addMangaDone={addMangaDone} />
+
+      <UserNote open={userNoteModalOpen} onCancel={closeUserNoteModal} />
 
       <Modal visible={openImg} footer={null} onCancel={() => setOpenImg(false)}>
         <MangaCover
