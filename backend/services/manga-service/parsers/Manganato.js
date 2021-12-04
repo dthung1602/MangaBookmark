@@ -27,7 +27,12 @@ function parseAdditionalInfo($) {
 }
 
 async function parseManga(url) {
-  const $ = await fetchAndLoad(url);
+  let $ = await fetchAndLoad(url);
+  if ($("title").text().trim().toLowerCase() === "404 not found") {
+    url = url.replace("manganato", "readmanganato");
+  }
+
+  $ = await fetchAndLoad(url);
 
   return {
     name: $("h1").text().trim(),

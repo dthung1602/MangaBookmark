@@ -1,4 +1,4 @@
-const { uniq, uniqBy } = require("lodash");
+const { uniq, uniqBy, flatten } = require("lodash");
 
 const { fetch } = require("./utils");
 const URLRegex = /^https?:\/\/mangadex\.org\/title\/([^/]+)(\/.*)?/;
@@ -32,7 +32,7 @@ async function parseChapters(id) {
 
 async function parseAdditionalInfo(data) {
   const description = data.data.attributes.description.en;
-  const alternativeNames = data.data.attributes.altTitles.map((x) => x.en);
+  const alternativeNames = flatten(data.data.attributes.altTitles.map((x) => Object.values(x)));
   const tags = data.data.attributes.tags.map((x) => x.attributes.name.en.trim().toLowerCase());
   const authorsIds = data.data.relationships.filter((x) => x.type === "author" || x.type === "artist").map((x) => x.id);
   const authors = (
