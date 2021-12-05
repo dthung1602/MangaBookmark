@@ -2,7 +2,7 @@ module.exports = {
   openapi: "3.0.0",
   info: {
     title: "MangaBookmark API",
-    version: "3.3.4",
+    version: "4.0.0-beta",
     description: "API for MangaBookmark client",
   },
   apis: ["api/**/*.js", "models/**/*.js"],
@@ -12,7 +12,7 @@ module.exports = {
         type: "string",
         minLength: 24,
         maxLength: 24,
-        pattern: "^\\d{24}$",
+        pattern: "^[0-9a-f]{24}$",
       },
       MangaInfo: {
         type: "object",
