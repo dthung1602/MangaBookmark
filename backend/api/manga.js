@@ -178,6 +178,32 @@ router.getAsync("/", MangaFilterValidator, async (req, res) => {
 });
 
 //-----------------------------------
+//  Get manga
+//-----------------------------------
+/**
+ * @swagger
+ *
+ * /api/mangas/{mangaId}:
+ *   get:
+ *     description: Get manga info
+ *     parameters:
+ *       - in: path
+ *         name: mangaId
+ *         schema:
+ *           $ref: '#/components/schemas/Id'
+ *     responses:
+ *       200:
+ *         description: Retrieved successfully
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Manga'
+ */
+router.getAsync("/:manga", MangaPermissionValidator, async (req, res) => {
+  res.json(req.manga);
+});
+
+//-----------------------------------
 //  Create manga
 //-----------------------------------
 /**

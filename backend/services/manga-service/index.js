@@ -1,5 +1,6 @@
 module.exports = {
   create: require("./create"),
+  get: require("./get"),
   list: require("./list"),
   patch: require("./patch"),
   update: require("./update"),
