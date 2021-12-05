@@ -112,6 +112,7 @@ export const ROUTE_HOME = "/";
 export const ROUTE_LEGAL_NOTICE = "/legal-notice";
 export const ROUTE_ALL_MANGAS = "/mangas";
 export const ROUTE_QUICK_ACCESS = "/quick-access";
+export const ROUTE_MANGA_DETAIL = "/manga-detail";
 export const ROUTE_ACCOUNT = "/account";
 export const ROUTE_LOGIN = "/login";
 export const ROUTE_LOGIN_GOOGLE = `${apiServer}/api/user/google/auth`;

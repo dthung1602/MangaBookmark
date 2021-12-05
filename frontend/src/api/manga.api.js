@@ -8,6 +8,10 @@ class MangaAPI extends BaseAPI {
     super("mangas");
   }
 
+  get(id) {
+    return super.get(null, id);
+  }
+
   find(params) {
     for (let f of ignoreIfAny) {
       if (params[f] === ANY) {
