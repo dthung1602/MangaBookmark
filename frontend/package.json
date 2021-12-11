@@ -3,7 +3,7 @@
   "version": "4.0.0-beta",
   "private": true,
   "scripts": {
-    "dev": "PORT=3001 craco start",
+    "dev": "PORT=3001 DISABLE_ESLINT_PLUGIN=true craco start",
     "build": "node build-assets.js && craco build && node post-process.js",
     "test": "craco test",
     "lint": "eslint . --fix",

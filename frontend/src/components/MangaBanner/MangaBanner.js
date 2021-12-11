@@ -1,7 +1,10 @@
-import PropTypes from "prop-types";
+import { useContext } from "react";
+
+import { MangaContext } from "../../contexts";
 import "./MangaBanner.less";
 
-const MangaBanner = ({ manga }) => {
+const MangaBanner = () => {
+  const { manga } = useContext(MangaContext);
   return (
     <div className="manga-banner">
       <div className="image-wrapper">
@@ -10,10 +13,6 @@ const MangaBanner = ({ manga }) => {
       <h1>{manga.name}</h1>
     </div>
   );
-};
-
-MangaBanner.propTypes = {
-  manga: PropTypes.object.isRequired,
 };
 
 export default MangaBanner;
