@@ -4,14 +4,15 @@ import { Descriptions, Space, Typography } from "antd";
 
 import MangaSiteLink from "../MangaSiteLink";
 import MangaStatus from "../MangaStatus";
-import { Note } from "../EditManga";
+import MangaNote from "../MangaNote";
 import { formatDate, isNonEmptyArray } from "../../utils";
 import { MangaContext } from "../../contexts";
 import "./MangaDesctiption.less";
 
 const { Paragraph } = Typography;
+
 const MangaDescription = () => {
-  const { manga, editMangaField } = useContext(MangaContext);
+  const { manga } = useContext(MangaContext);
 
   return (
     <Descriptions key="description" column={2} className="non-editable-info">
@@ -61,7 +62,8 @@ const MangaDescription = () => {
         {formatDate(manga.updatedAt)}
       </Descriptions.Item>
       <Descriptions.Item label="Note" span={2} className="note-container">
-        <Note note={manga.note} editNote={editMangaField("note")} />
+        {/* TODO move note to UserInputProps */}
+        <MangaNote />
       </Descriptions.Item>
     </Descriptions>
   );

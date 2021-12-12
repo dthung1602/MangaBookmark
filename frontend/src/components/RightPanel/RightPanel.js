@@ -4,7 +4,8 @@ import Proptypes from "prop-types";
 import { Empty, Spin, Typography } from "antd";
 
 import MangaCover from "../MangaCover";
-import { BasicFields, ChapterList } from "../EditManga";
+import ChapterList from "../ChapterList";
+import MangaUserInputProps from "../MangaUserInputProps";
 import MangaDescription from "../MangaDescription";
 import VerticalActions from "./VerticalActions";
 import { MangaContext } from "../../contexts";
@@ -46,7 +47,7 @@ const RightPanel = ({ showImage }) => {
           </a>
         </Title>
         <MangaDescription />
-        <BasicFields key="basic-field" layout="row" />
+        <MangaUserInputProps layout="row" />
         <ChapterList key="chapter-list" type="page" />
         <div key="place-holder" className="placeholder">
           <img src={PLACE_HOLDER_IMG} alt="" />

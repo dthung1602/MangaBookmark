@@ -13,7 +13,9 @@ import {
   FullscreenExitOutlined,
 } from "@ant-design/icons";
 
-import { BasicFields, ChapterList, Note } from "../../EditManga";
+import MangaNote from "../../MangaNote";
+import ChapterList from "../../ChapterList";
+import MangaUserInputProps from "../../MangaUserInputProps";
 import MangaBasicInfo from "../MangaBasicInfo";
 import MangaCover from "../../MangaCover";
 import MangaQuickActions from "../MangaQuickActions.js";
@@ -73,18 +75,6 @@ const MangaCard = ({ manga, isSkeleton, updateMangaDone, deleteMangaDone }) => {
         throwOnCriticalErrors(response);
         const newManga = await response.json();
         message.success("Manga updated");
-        updateMangaDone(newManga);
-      })
-      .catch(notifyError)
-      .finally(() => setIsLoading(false));
-  };
-
-  const editManga = (field) => (value) => {
-    setIsLoading(true);
-    return MangaAPI.patch({ [field]: value }, manga._id)
-      .result.then(async (response) => {
-        throwOnCriticalErrors(response);
-        const newManga = await response.json();
         updateMangaDone(newManga);
       })
       .catch(notifyError)
@@ -159,10 +149,10 @@ const MangaCard = ({ manga, isSkeleton, updateMangaDone, deleteMangaDone }) => {
         </div>
         {enableEdit
           ? [
-              <BasicFields key="basic" manga={manga} editManga={editManga} layout="column" />,
+              <MangaUserInputProps key="user-input-props" layout="column" />,
               <div className="note" key="note">
                 <b>Note:</b> &nbsp; &nbsp;
-                <Note editNote={editManga("note")} note={manga.note} />
+                <MangaNote />
               </div>,
               <ChapterList
                 key="chapter"

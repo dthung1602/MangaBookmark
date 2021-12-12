@@ -1,60 +1,24 @@
-import { useState, useEffect, useContext } from "react";
+import { useContext } from "react";
 import PropTypes from "prop-types";
 
 import moment from "moment";
-import { Button, Checkbox, Spin, Table, Popconfirm, Typography } from "antd";
-import { DoubleLeftOutlined, CheckOutlined, ClockCircleOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Popconfirm, Spin, Table, Typography } from "antd";
+import { CheckOutlined, ClockCircleOutlined, DoubleLeftOutlined } from "@ant-design/icons";
 
-import { getNextChapToRead, getNextChapPage } from "../../utils/chapters";
-import { RIGHT_PANEL_TABLE_PAGE_SIZE, REREAD } from "../../utils/constants";
-import { truncString, clonePlainObject } from "../../utils";
+import { usePagination, useShowChapters } from "./hooks";
+import { truncString } from "../../utils";
 import { MangaContext } from "../../contexts";
 import "./ChapterList.less";
 
 const { Column } = Table;
 const { Text } = Typography;
 
-const filterDisplayChapters = (manga, showReadChapters) => {
-  let { chapters, nextRereadChapter, shelf } = manga;
-
-  if (shelf === REREAD) {
-    chapters = clonePlainObject(chapters);
-    let reachedNextRereadChapter = false;
-    for (let chap of chapters) {
-      chap.isRead = reachedNextRereadChapter; // remember, chapters are in reversed order!
-      reachedNextRereadChapter = reachedNextRereadChapter || chap.link === nextRereadChapter.link;
-    }
-  }
-
-  return showReadChapters ? chapters : chapters.filter((ch) => !ch.isRead);
-};
-
 function ChapterList({ type, showDate = true, maxChapNameLen = 35 }) {
   const { manga, isMarkingChapters, markOne, markAll, markUpTo, disableMarkAll } = useContext(MangaContext);
   const { chapters } = manga;
-  const nextChapIdx = getNextChapToRead(manga)[1];
-  const nextChapPage = getNextChapPage(chapters, nextChapIdx);
 
-  const [showReadChapters, setShowReadChapters] = useState(true);
-
-  const displayChapters = filterDisplayChapters(manga, showReadChapters);
-
-  const [pagination, setPagination] = useState({
-    hideOnSinglePage: true,
-    current: nextChapPage,
-    showSizeChanger: false,
-    defaultPageSize: RIGHT_PANEL_TABLE_PAGE_SIZE,
-  });
-  const onPageChange = (newPage) => {
-    setPagination({ ...pagination, current: newPage });
-  };
-
-  useEffect(() => setShowReadChapters(true), [chapters]);
-  useEffect(() => {
-    const nextChapIdx = getNextChapToRead(manga)[1];
-    const currentPage = getNextChapPage(chapters, nextChapIdx);
-    setPagination({ ...pagination, current: currentPage });
-  }, [manga]);
+  const { pagination, onPageChange } = usePagination(manga, chapters);
+  const { chaptersToShow, showReadChapters, toggleShowReadChapters } = useShowChapters(manga, chapters);
 
   return (
     <div className={`chapter-list ${type}`}>
@@ -63,7 +27,7 @@ function ChapterList({ type, showDate = true, maxChapNameLen = 35 }) {
           size="small"
           pagination={type === "scroll" ? false : { ...pagination, onChange: onPageChange }}
           showHeader={false}
-          dataSource={displayChapters}
+          dataSource={chaptersToShow}
           title={() => (
             <div className="table-header">
               <Text strong>Chapter list</Text>
@@ -73,7 +37,7 @@ function ChapterList({ type, showDate = true, maxChapNameLen = 35 }) {
                   type="text"
                   icon={<ClockCircleOutlined />}
                   title={(showReadChapters ? "Hide" : "Show") + " read chapters"}
-                  onClick={() => setShowReadChapters(!showReadChapters)}
+                  onClick={toggleShowReadChapters}
                 />
                 <Popconfirm title={"Mark all as read ?"} placement="left" disabled={disableMarkAll} onConfirm={markAll}>
                   <Button

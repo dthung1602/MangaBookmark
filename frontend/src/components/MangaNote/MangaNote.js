@@ -1,18 +1,22 @@
-import { useState, useRef, useEffect } from "react";
-import PropTypes from "prop-types";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Button, Input } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 
-import "./Note.less";
+import { MangaContext } from "../../contexts";
+import "./MangaNote.less";
 
-const Note = ({ note, editNote }) => {
+const MangaNote = () => {
+  const {
+    manga: { note },
+    editMangaField,
+  } = useContext(MangaContext);
   const [editing, setEditing] = useState(false);
   const textAreaRef = useRef();
 
   useEffect(() => setEditing(false), [note]);
 
   const edit = () => {
-    editNote(textAreaRef.current.resizableTextArea.props.value).then(() => setEditing(false));
+    editMangaField("note")(textAreaRef.current.resizableTextArea.props.value).then(() => setEditing(false));
   };
 
   if (editing) {
@@ -40,9 +44,4 @@ const Note = ({ note, editNote }) => {
   );
 };
 
-Note.propTypes = {
-  note: PropTypes.string.isRequired,
-  editNote: PropTypes.func.isRequired,
-};
-
-export default Note;
+export default MangaNote;

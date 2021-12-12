@@ -5,14 +5,14 @@ import FilterDropdown from "../Filters/FilterDropdown";
 import LoopButton from "../Filters/LoopButton";
 import { MangaContext } from "../../contexts";
 import { SHELVES } from "../../utils/constants";
-import "./BasicFields.less";
+import "./MangaUserInputProps.less";
 
-const BasicFields = ({ layout }) => {
+const MangaUserInputProps = ({ layout }) => {
   const { manga, editMangaField } = useContext(MangaContext);
   const block = layout === "column";
 
   return (
-    <div className={`basic-fields ${layout}`}>
+    <div className={`manga-user-input-props ${layout}`}>
       <FilterDropdown
         displayName={"Shelf"}
         options={SHELVES}
@@ -41,8 +41,8 @@ const BasicFields = ({ layout }) => {
   );
 };
 
-BasicFields.propTypes = {
+MangaUserInputProps.propTypes = {
   layout: Proptypes.oneOf(["column", "row"]).isRequired,
 };
 
-export default BasicFields;
+export default MangaUserInputProps;

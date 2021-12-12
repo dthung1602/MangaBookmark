@@ -4,7 +4,7 @@ import { Button, Col, Form, Input, Modal, Row, Select, Skeleton, Space, Switch, 
 import { FullscreenOutlined, FullscreenExitOutlined } from "@ant-design/icons";
 
 import MangaCover from "../MangaCover";
-import { ChapterList } from "../EditManga";
+import ChapterList from "../ChapterList";
 import { MangaAPI } from "../../api";
 import { clonePlainObject, isNonEmptyArray } from "../../utils";
 import { READING, SHELVES } from "../../utils/constants";
