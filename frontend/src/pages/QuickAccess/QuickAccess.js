@@ -3,16 +3,16 @@ import { StringParam, useQueryParam, withDefault } from "use-query-params";
 import { Affix, Layout, Modal, Switch, Tabs, Tooltip } from "antd";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 
-import { Desktop, Mobile } from "../components/ScreenSize";
-import PageLayout from "./PageLayout";
-import FAB from "../components/FAB";
-import MangaPageHeader from "../components/MangaPageHeader";
-import RightPanel from "../components/RightPanel";
-import MangaTableDesktop from "../components/MangaTable/MangaTableDesktop";
-import MangaTableMobile from "../components/MangaTable/MangaTableMobile";
-import NewMangaModal from "../components/NewMangaModal";
-import UserNote from "../components/UserNoteModal/UserNoteModal";
-import MangaCover from "../components/MangaCover";
+import { Desktop, Mobile } from "../../components/ScreenSize";
+import PageLayout from ".././PageLayout";
+import FAB from "../../components/FAB";
+import MangaPageHeader from "../../components/MangaPageHeader";
+import RightPanel from "../../components/RightPanel";
+import MangaTableDesktop from "../../components/MangaTable/MangaTableDesktop";
+import MangaTableMobile from "../../components/MangaTable/MangaTableMobile";
+import NewMangaModal from "../../components/NewMangaModal";
+import UserNote from "../../components/UserNoteModal/UserNoteModal";
+import MangaCover from "../../components/MangaCover";
 import {
   READING,
   REREAD,
@@ -21,12 +21,14 @@ import {
   TOP_WAITING_MG_COUNT,
   WAITING,
   WAITING_MG_UNREAD_CHAP_THRESHOLD,
-} from "../utils/constants";
-import { equalOrIn } from "../utils";
-import { MangaAPI } from "../api";
-import { useUpdateMultipleAPI } from "../hooks";
-import { notifyError, throwOnCriticalErrors } from "../utils/error-handler";
-import "./Mangas.less";
+} from "../../utils/constants";
+import { equalOrIn } from "../../utils";
+import { MangaAPI } from "../../api";
+import { MangaContext } from "../../contexts";
+import { useSelectedManga } from "./hooks";
+import { useUpdateMultipleAPI } from "../../hooks";
+import { notifyError, throwOnCriticalErrors } from "../../utils/error-handler";
+import "../Mangas.less"; // TODO refactor
 
 const { TabPane } = Tabs;
 
@@ -72,7 +74,8 @@ const DAILY_UPDATE_FILTERS = {
 
 const QuickAccess = () => {
   const [mangas, setMangas] = useState([]);
-  const [selectedManga, setSelectedManga] = useState(null);
+  // eslint-disable-next-line no-unused-vars
+  const [selectedManga, setSelectedManga, selectedMangaContext] = useSelectedManga();
   const [showHidden, setShowHidden] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [mangaCount, setMangaCount] = useState(NaN);
@@ -126,9 +129,9 @@ const QuickAccess = () => {
     });
   };
 
-  const deleteMangaDone = (mangaId) => {
+  const deleteMangaDone = ({ _id }) => {
     setSelectedManga(null);
-    setMangas((prevState) => prevState.filter((mg) => mg._id !== mangaId));
+    setMangas((prevState) => prevState.filter((mg) => mg._id !== _id));
   };
 
   const openNewMangaModal = () => setNewMangaModalOpen(true);
@@ -200,13 +203,9 @@ const QuickAccess = () => {
                   showImage={setOpenImg}
                 />
               </div>
-              <RightPanel
-                key={selectedManga?._id}
-                manga={selectedManga}
-                showImage={setOpenImg}
-                deleteMangaDone={deleteMangaDone}
-                updateMangaDone={updateMangaDone}
-              />
+              <MangaContext.Provider value={selectedMangaContext}>
+                <RightPanel showImage={setOpenImg} />
+              </MangaContext.Provider>
             </>
           )}
         />

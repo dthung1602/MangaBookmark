@@ -3,10 +3,18 @@ import { createContext } from "react";
 const initContext = {
   manga: null,
   setManga: () => {},
+  nextChapToRead: null,
   isLoading: false,
-  setIsLoading: () => {},
+
+  editMangaField: () => {},
+  updateManga: () => {},
+  deleteManga: () => {},
+
   isMarkingChapters: false,
-  markChapters: () => {},
+  markOne: () => {},
+  markUpTo: () => {},
+  markAll: () => {},
+  disableMarkAll: false,
 };
 
 const MangaContext = createContext(initContext);

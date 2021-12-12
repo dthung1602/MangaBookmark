@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
+
 import moment from "moment";
 import { Button, Checkbox, Spin, Table, Popconfirm, Typography } from "antd";
 import { DoubleLeftOutlined, CheckOutlined, ClockCircleOutlined } from "@ant-design/icons";
 
-import { markChapterLogic, getNextChapToRead, getNextChapPage } from "../../utils/chapters";
-import { RIGHT_PANEL_TABLE_PAGE_SIZE } from "../../utils/constants";
+import { getNextChapToRead, getNextChapPage } from "../../utils/chapters";
+import { RIGHT_PANEL_TABLE_PAGE_SIZE, REREAD } from "../../utils/constants";
 import { truncString, clonePlainObject } from "../../utils";
-import { REREAD } from "../../utils/constants";
+import { MangaContext } from "../../contexts";
 import "./ChapterList.less";
 
 const { Column } = Table;
@@ -28,7 +29,8 @@ const filterDisplayChapters = (manga, showReadChapters) => {
   return showReadChapters ? chapters : chapters.filter((ch) => !ch.isRead);
 };
 
-function ChapterList({ manga, isLoading, onChangeChapterStatus, type, showDate = true, maxChapNameLen = 35 }) {
+function ChapterList({ type, showDate = true, maxChapNameLen = 35 }) {
+  const { manga, isMarkingChapters, markOne, markAll, markUpTo, disableMarkAll } = useContext(MangaContext);
   const { chapters } = manga;
   const nextChapIdx = getNextChapToRead(manga)[1];
   const nextChapPage = getNextChapPage(chapters, nextChapIdx);
@@ -36,7 +38,6 @@ function ChapterList({ manga, isLoading, onChangeChapterStatus, type, showDate =
   const [showReadChapters, setShowReadChapters] = useState(true);
 
   const displayChapters = filterDisplayChapters(manga, showReadChapters);
-  const disableMarkAll = manga.shelf === REREAD ? false : manga.chapters.every((chap) => chap.isRead);
 
   const [pagination, setPagination] = useState({
     hideOnSinglePage: true,
@@ -48,8 +49,6 @@ function ChapterList({ manga, isLoading, onChangeChapterStatus, type, showDate =
     setPagination({ ...pagination, current: newPage });
   };
 
-  const [checkboxChange, markUpTo, markAll] = markChapterLogic(manga, onChangeChapterStatus);
-
   useEffect(() => setShowReadChapters(true), [chapters]);
   useEffect(() => {
     const nextChapIdx = getNextChapToRead(manga)[1];
@@ -59,7 +58,7 @@ function ChapterList({ manga, isLoading, onChangeChapterStatus, type, showDate =
 
   return (
     <div className={`chapter-list ${type}`}>
-      <Spin spinning={isLoading}>
+      <Spin spinning={isMarkingChapters}>
         <Table
           size="small"
           pagination={type === "scroll" ? false : { ...pagination, onChange: onPageChange }}
@@ -114,7 +113,7 @@ function ChapterList({ manga, isLoading, onChangeChapterStatus, type, showDate =
                 <div className="action">
                   <Button icon={<DoubleLeftOutlined />} size="small" type="text" onClick={() => markUpTo(chapter)} />
                   &nbsp;&nbsp;
-                  <Checkbox checked={chapter.isRead} onChange={() => checkboxChange(chapter)} />
+                  <Checkbox checked={chapter.isRead} onChange={() => markOne(chapter)} />
                 </div>
               );
             }}
@@ -126,9 +125,6 @@ function ChapterList({ manga, isLoading, onChangeChapterStatus, type, showDate =
 }
 
 ChapterList.propTypes = {
-  manga: PropTypes.object.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  onChangeChapterStatus: PropTypes.func.isRequired,
   type: PropTypes.oneOf(["scroll", "page"]).isRequired,
   showDate: PropTypes.bool,
   maxChapNameLen: PropTypes.number,

@@ -183,6 +183,19 @@
       
 - [x] One master note for user -> take note everything
 
+- [ ] Manga detail page
+  - [x] Setup BE to query 1 manga info
+  - [ ] Setup FE
+    - [x] Design
+    - [x] Fetch data
+    - [x] Basic page layout
+    - [ ] Display data
+    - [ ] Update manga
+    - [ ] How to open manga detail page?
+    - [ ] Back button
+
+- [ ] Change page title
+
 - [ ] Cross site search
   - [ ] Search in supported site
     - [ ] Setup FE

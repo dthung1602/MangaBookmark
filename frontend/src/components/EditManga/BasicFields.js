@@ -1,11 +1,14 @@
+import { useContext } from "react";
 import Proptypes from "prop-types";
 
 import FilterDropdown from "../Filters/FilterDropdown";
 import LoopButton from "../Filters/LoopButton";
+import { MangaContext } from "../../contexts";
 import { SHELVES } from "../../utils/constants";
 import "./BasicFields.less";
 
-const BasicFields = ({ manga, editManga, layout }) => {
+const BasicFields = ({ layout }) => {
+  const { manga, editMangaField } = useContext(MangaContext);
   const block = layout === "column";
 
   return (
@@ -15,7 +18,7 @@ const BasicFields = ({ manga, editManga, layout }) => {
         options={SHELVES}
         showAnyOption={false}
         selected={manga.shelf}
-        onSelect={editManga("shelf")}
+        onSelect={editMangaField("shelf")}
         block={block}
       />
       <LoopButton
@@ -23,7 +26,7 @@ const BasicFields = ({ manga, editManga, layout }) => {
         options={["true", "false"]}
         showAnyOption={false}
         selected={String(manga.isCompleted)}
-        onSelect={editManga("isCompleted")}
+        onSelect={editMangaField("isCompleted")}
         block={block}
       />
       <LoopButton
@@ -31,7 +34,7 @@ const BasicFields = ({ manga, editManga, layout }) => {
         options={["true", "false"]}
         showAnyOption={false}
         selected={String(manga.hidden)}
-        onSelect={editManga("hidden")}
+        onSelect={editMangaField("hidden")}
         block={block}
       />
     </div>
@@ -39,8 +42,6 @@ const BasicFields = ({ manga, editManga, layout }) => {
 };
 
 BasicFields.propTypes = {
-  manga: Proptypes.object.isRequired,
-  editManga: Proptypes.func.isRequired,
   layout: Proptypes.oneOf(["column", "row"]).isRequired,
 };
 

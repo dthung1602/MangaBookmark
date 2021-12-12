@@ -1,6 +1,11 @@
 import { RIGHT_PANEL_TABLE_PAGE_SIZE, REREAD } from "./constants";
 
+const doNothing = () => {};
+
 export const markChapterLogic = (manga, onChangeChapterStatus) => {
+  if (manga === null) {
+    return [doNothing, doNothing, doNothing];
+  }
   return manga.shelf === REREAD
     ? updateRereadProgressLogic(manga, onChangeChapterStatus)
     : updateChapterReadStatusLogic(manga, onChangeChapterStatus);
@@ -47,6 +52,10 @@ const updateChapterReadStatusLogic = (manga, onChangeChapterStatus) => {
 };
 
 export const getNextChapToRead = (manga) => {
+  if (manga === null || manga === undefined) {
+    return null;
+  }
+
   const { shelf, chapters, nextRereadChapter } = manga;
 
   if (shelf === REREAD) {

@@ -4,7 +4,7 @@ import { MangaAPI } from "../api";
 import { REREAD } from "../utils/constants";
 import { throwOnCriticalErrors, notifyError } from "../utils/error-handler";
 
-const useMarkChapterAPI = (updateMangaDone) => {
+const useMarkChapterAPI = (markChaptersDone) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const markChapters = (manga, isRead, chapLinks) => {
@@ -24,7 +24,9 @@ const useMarkChapterAPI = (updateMangaDone) => {
       .then(async (response) => {
         throwOnCriticalErrors(response);
         const newManga = await response.json();
-        updateMangaDone(newManga);
+        if (markChaptersDone) {
+          markChaptersDone(newManga);
+        }
       })
       .catch(notifyError)
       .finally(() => setIsLoading(false));
