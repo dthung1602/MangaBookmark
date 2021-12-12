@@ -13,8 +13,6 @@ const { Paragraph } = Typography;
 const MangaDescription = () => {
   const { manga, editMangaField } = useContext(MangaContext);
 
-  console.log("MANGA_DESCRIPTION", manga.note);
-
   return (
     <Descriptions key="description" column={2} className="non-editable-info">
       <Descriptions.Item label="Site">

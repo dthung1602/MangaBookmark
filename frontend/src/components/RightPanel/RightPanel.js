@@ -1,12 +1,12 @@
 import { useContext } from "react";
 import Proptypes from "prop-types";
 
-import { Empty, Popconfirm, Spin, Typography } from "antd";
-import { CheckOutlined, DeleteOutlined, SyncOutlined } from "@ant-design/icons";
+import { Empty, Spin, Typography } from "antd";
 
 import MangaCover from "../MangaCover";
 import { BasicFields, ChapterList } from "../EditManga";
 import MangaDescription from "../MangaDescription";
+import VerticalActions from "./VerticalActions";
 import { MangaContext } from "../../contexts";
 import "./RightPanel.less";
 
@@ -15,8 +15,7 @@ import PLACE_HOLDER_IMG from "../../assets/right-panel-footer.webp";
 const { Title } = Typography;
 
 const RightPanel = ({ showImage }) => {
-  const { manga, updateManga, deleteManga, isLoading, disableMarkAll, markAll, isMarkingChapters } =
-    useContext(MangaContext);
+  const { manga, isLoading, isMarkingChapters } = useContext(MangaContext);
 
   if (manga === null) {
     return (
@@ -39,24 +38,7 @@ const RightPanel = ({ showImage }) => {
             alt={manga.name}
             onClick={() => showImage({ src: manga.image, mangaSite: manga.site })}
           />
-          <div className="quick-actions">
-            <Popconfirm title="Delete this manga?" placement="right" onConfirm={deleteManga}>
-              <div className="delete">
-                <DeleteOutlined />
-                <span>Delete</span>
-              </div>
-            </Popconfirm>
-            <div className="update" onClick={updateManga}>
-              <SyncOutlined />
-              <span>Update</span>
-            </div>
-            {disableMarkAll ? null : (
-              <div className="mark-all" onClick={markAll}>
-                <CheckOutlined />
-                <span>Mark all</span>
-              </div>
-            )}
-          </div>
+          <VerticalActions />
         </div>
         <Title key="title" level={3}>
           <a href={manga.link} target="_blank" rel="noopener noreferrer">
@@ -64,8 +46,8 @@ const RightPanel = ({ showImage }) => {
           </a>
         </Title>
         <MangaDescription />
-        <BasicFields key="basic-field" manga={manga} layout="row" />
-        <ChapterList key="chapter-list" type="page" manga={manga} />
+        <BasicFields key="basic-field" layout="row" />
+        <ChapterList key="chapter-list" type="page" />
         <div key="place-holder" className="placeholder">
           <img src={PLACE_HOLDER_IMG} alt="" />
         </div>
