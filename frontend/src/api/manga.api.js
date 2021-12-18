@@ -22,7 +22,7 @@ class MangaAPI extends BaseAPI {
   }
 
   info(link) {
-    return this.get({ link }, "info");
+    return super.get({ link }, "info");
   }
 
   markChapters(mangaId, isRead, chapterLinks) {

@@ -178,6 +178,39 @@ router.getAsync("/", MangaFilterValidator, async (req, res) => {
 });
 
 //-----------------------------------
+//  Get manga info from link
+//-----------------------------------
+/**
+ * @swagger
+ *
+ * /api/mangas/info:
+ *   get:
+ *     description: Get live manga info. This manga might NOT be in the database.
+ *     parameters:
+ *       - in: query
+ *         name: link
+ *         schema:
+ *           type: string
+ *           format: uri
+ *           required: true
+ *     responses:
+ *       200:
+ *         description: Get info successfully
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/MangaInfo'
+ */
+router.getAsync("/info", MangaInfoValidator, async (req, res) => {
+  try {
+    const { manga } = await MangaService.parseManga(req.query.link, req.parser);
+    res.json(manga);
+  } catch (e) {
+    handleMangaParsingError(res, e);
+  }
+});
+
+//-----------------------------------
 //  Get manga
 //-----------------------------------
 /**
@@ -326,39 +359,6 @@ router.patchAsync("/:manga", MangaPatchValidator, async (req, res) => {
 router.deleteAsync("/:manga", MangaPermissionValidator, async (req, res) => {
   await MangaService.delete(req.manga);
   res.sendStatus(204);
-});
-
-//-----------------------------------
-//  Get manga info from link
-//-----------------------------------
-/**
- * @swagger
- *
- * /api/mangas/info:
- *   get:
- *     description: Get live manga info. This manga might NOT be in the database.
- *     parameters:
- *       - in: query
- *         name: link
- *         schema:
- *           type: string
- *           format: uri
- *           required: true
- *     responses:
- *       200:
- *         description: Get info successfully
- *         content:
- *           application/json:
- *              schema:
- *                $ref: '#/components/schemas/MangaInfo'
- */
-router.getAsync("/info", MangaInfoValidator, async (req, res) => {
-  try {
-    const { manga } = await MangaService.parseManga(req.query.link, req.parser);
-    res.json(manga);
-  } catch (e) {
-    handleMangaParsingError(res, e);
-  }
 });
 
 //-----------------------------------
