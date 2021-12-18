@@ -53,7 +53,8 @@ const MangaDescription = () => {
       <Descriptions.Item label="Status">
         <MangaStatus status={manga.status} />
       </Descriptions.Item>
-      <Descriptions.Item label="Total chapters">{manga.chapters.length}</Descriptions.Item>
+      {/* FIXME ?.length */}
+      <Descriptions.Item label="Total chapters">{manga.chapters?.length}</Descriptions.Item>
       <Descriptions.Item label="Unread">{manga.unreadChapCount}</Descriptions.Item>
       <Descriptions.Item label="New chap">{manga.newChapCount}</Descriptions.Item>
       <Descriptions.Item label="Last released">{formatDate(manga.lastReleased)}</Descriptions.Item>

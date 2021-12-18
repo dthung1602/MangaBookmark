@@ -15,7 +15,7 @@ const { useBreakpoint } = Grid;
 
 const skeletonData = Array(MANGA_PER_PAGE).fill({ isSkeleton: true });
 
-const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked, showImage }) => {
+const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked }) => {
   const mangaInfoColumn = useBreakpoint().xxl ? 2 : 1;
 
   let dataSource;
@@ -55,7 +55,6 @@ const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked,
               src={manga.image}
               mangaSite={manga.site}
               alt={manga.name}
-              onClick={() => showImage({ src: manga.image, mangaSite: manga.site })}
             />
           );
         }}
@@ -93,7 +92,6 @@ MangaTableDesktop.propTypes = {
   isLoading: PropTypes.oneOf([true, false, "reload"]).isRequired,
   updateMangaDone: PropTypes.func.isRequired,
   onMangaClicked: PropTypes.func.isRequired,
-  showImage: PropTypes.func.isRequired,
 };
 
 export default MangaTableDesktop;

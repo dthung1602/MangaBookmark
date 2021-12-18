@@ -790,6 +790,34 @@
         }
       }
     },
+    "/api/mangas/info": {
+      "get": {
+        "description": "Get live manga info. This manga might NOT be in the database.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "link",
+            "schema": {
+              "type": "string",
+              "format": "uri",
+              "required": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get info successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MangaInfo"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/mangas/{mangaId}": {
       "get": {
         "description": "Get manga info",
@@ -885,34 +913,6 @@
         "responses": {
           "204": {
             "description": "Deleted successfully"
-          }
-        }
-      }
-    },
-    "/api/mangas/info": {
-      "get": {
-        "description": "Get live manga info. This manga might NOT be in the database.",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "link",
-            "schema": {
-              "type": "string",
-              "format": "uri",
-              "required": true
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Get info successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MangaInfo"
-                }
-              }
-            }
           }
         }
       }

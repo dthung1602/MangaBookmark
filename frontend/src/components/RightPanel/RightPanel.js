@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import Proptypes from "prop-types";
 
 import { Empty, Spin, Typography } from "antd";
 
@@ -15,7 +14,7 @@ import PLACE_HOLDER_IMG from "../../assets/right-panel-footer.webp";
 
 const { Title } = Typography;
 
-const RightPanel = ({ showImage }) => {
+const RightPanel = () => {
   const { manga, isLoading, isMarkingChapters } = useContext(MangaContext);
 
   if (manga === null) {
@@ -37,7 +36,6 @@ const RightPanel = ({ showImage }) => {
             src={manga.image}
             mangaSite={manga.site}
             alt={manga.name}
-            onClick={() => showImage({ src: manga.image, mangaSite: manga.site })}
           />
           <VerticalActions />
         </div>
@@ -55,10 +53,6 @@ const RightPanel = ({ showImage }) => {
       </Spin>
     </div>
   );
-};
-
-RightPanel.propTypes = {
-  showImage: Proptypes.func.isRequired,
 };
 
 export default RightPanel;

@@ -55,6 +55,11 @@ html {
   padding: 10px 24px;
 }
 
+.ant-image-preview-img {
+  object-fit: contain;
+  height: calc(100% - 100px);
+}
+
 .triangle {
   &:after {
     content: '';
@@ -95,20 +100,6 @@ html {
   &.finished:after {
     border-color: grey;
   }
-}
-
-.manga-cover-image {
-  cursor: pointer;
-  transition: all 0.3s;
-  transform: scale(1);
-  &:hover {
-    transform: scale(1.02);
-    filter: brightness(110%);
-  }
-}
-
-.modal-image {
-  width: 100%;
 }
 
 .card-form {
