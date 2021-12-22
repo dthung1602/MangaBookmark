@@ -1,40 +1,42 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
-import { useMarkChapterAPI } from "../hooks";
-import { notifyError, throwOnCriticalErrors } from "../utils/error-handler";
-import { MangaAPI } from "../api";
 import { message } from "antd";
-import { getNextChapToRead, markChapterLogic } from "../utils/chapters";
 
-const doNothing = () => {};
+import { MangaAPI } from "../api";
+import { notifyError, throwOnCriticalErrors } from "../utils/error-handler";
+import { getNextChapToRead, markChapterLogic } from "../utils/chapters";
+import { REREAD } from "../utils/constants";
+import { doNothing } from "../utils";
+
+const shouldDisableMarkAll = (manga) => {
+  if (!manga || manga.shelf === REREAD) {
+    return false;
+  }
+  return manga.chapters.every((ch) => ch.isRead);
+};
 
 const useMangaContext = (
-  loadManga,
+  mangaOrFactory = null,
   editMangaDone = doNothing,
   updateMangaDone = doNothing,
-  markChapterDone = doNothing,
+  markChaptersDone = doNothing,
   deleteMangaDone = doNothing,
 ) => {
-  const [manga, setManga] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const [isMarkingChapters, markChapters] = useMarkChapterAPI(markChapterDone);
-  const [markOne, markUpTo, markAll] = markChapterLogic(manga, markChapters);
-  const nextChapToRead = getNextChapToRead(manga);
+  // ----------------
+  //    manga logic
+  // ----------------
+  const [manga, setManga] = useState(mangaOrFactory instanceof Function ? null : mangaOrFactory);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true);
-    const loaded = loadManga();
-
-    // handle a setting manga directly
-    if (!(loaded?.result instanceof Promise)) {
-      setManga(loaded);
-      setIsLoading(false);
+    if (!(mangaOrFactory instanceof Function)) {
       return;
     }
 
-    // handle api result
-    loaded.result
+    setIsLoading(true);
+    const { result, abort } = mangaOrFactory();
+
+    result
       .then(async (response) => {
         let newManga = response;
         if (response instanceof Response) {
@@ -50,53 +52,94 @@ const useMangaContext = (
         if (e.name !== "AbortError") {
           notifyError(e);
         }
-      });
-
-    return () => loaded.abort();
-  }, [loadManga]);
-
-  const editMangaField = (field) => (value) => {
-    setIsLoading(true);
-    return MangaAPI.patch({ [field]: value }, manga._id)
-      .result.then(async (response) => {
-        throwOnCriticalErrors(response);
-        const newManga = await response.json();
-        message.success("Manga updated");
-        editMangaDone(newManga);
       })
-      .catch(notifyError)
       .finally(() => setIsLoading(false));
-  };
 
-  const updateManga = () => {
+    return () => abort();
+  }, [mangaOrFactory]);
+
+  const editMangaField = useCallback(
+    (field) => (value) => {
+      setIsLoading(true);
+      return MangaAPI.patch({ [field]: value }, manga._id)
+        .result.then(async (response) => {
+          throwOnCriticalErrors(response);
+          const newManga = await response.json();
+          message.success("Manga updated");
+          setManga(newManga);
+          editMangaDone(newManga);
+        })
+        .catch(notifyError)
+        .finally(() => setIsLoading(false));
+    },
+    [setIsLoading, manga, editMangaDone],
+  );
+
+  const updateManga = useCallback(() => {
     setIsLoading(true);
     MangaAPI.update(manga._id)
       .result.then(async (response) => {
         throwOnCriticalErrors(response);
         const newManga = await response.json();
         message.success("Manga updated");
+        setManga(newManga);
         updateMangaDone(newManga);
       })
       .catch(notifyError)
       .finally(() => setIsLoading(false));
-  };
+  }, [setIsLoading, manga, updateMangaDone]);
 
-  const deleteManga = () => {
+  const deleteManga = useCallback(() => {
     setIsLoading(true);
     MangaAPI.delete(manga._id)
       .result.then(async (response) => {
         throwOnCriticalErrors(response);
         message.success("Manga deleted");
+        setManga(null);
         deleteMangaDone(manga);
       })
       .catch(notifyError)
       .finally(() => setIsLoading(false));
+  }, [setIsLoading, manga]);
+
+  // -----------------
+  //   chapter logic
+  // -----------------
+  const [isMarkingChapters, setIsMarkingChapters] = useState(false);
+  const [nextChapToRead, nextChapToReadIdx] = getNextChapToRead(manga);
+  const disableMarkAll = shouldDisableMarkAll(manga);
+
+  const markChapters = (manga, isRead, chapLinks) => {
+    if (chapLinks.length === 0) {
+      return;
+    }
+    setIsMarkingChapters(true);
+
+    let apiCall;
+    if (manga.shelf === REREAD) {
+      apiCall = MangaAPI.updateRereadProgress(manga._id, chapLinks[0]);
+    } else {
+      apiCall = MangaAPI.markChapters(manga._id, isRead, chapLinks);
+    }
+
+    apiCall.result
+      .then(async (response) => {
+        throwOnCriticalErrors(response);
+        const newManga = await response.json();
+        setManga(newManga);
+        markChaptersDone(newManga);
+      })
+      .catch(notifyError)
+      .finally(() => setIsMarkingChapters(false));
   };
+
+  const [markOne, markUpTo, markAll] = markChapterLogic(manga, markChapters);
 
   return {
     manga,
     setManga,
     nextChapToRead,
+    nextChapToReadIdx,
     isLoading,
     editMangaField,
     updateManga,
@@ -105,6 +148,7 @@ const useMangaContext = (
     markOne,
     markUpTo,
     markAll,
+    disableMarkAll,
   };
 };
 

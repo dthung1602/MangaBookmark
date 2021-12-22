@@ -4,6 +4,7 @@ const initContext = {
   manga: null,
   setManga: () => {},
   nextChapToRead: null,
+  nextChapToReadIdx: -1,
   isLoading: false,
 
   editMangaField: () => {},

@@ -53,7 +53,7 @@ const updateChapterReadStatusLogic = (manga, onChangeChapterStatus) => {
 
 export const getNextChapToRead = (manga) => {
   if (manga === null || manga === undefined) {
-    return null;
+    return [{}, -1];
   }
 
   const { shelf, chapters, nextRereadChapter } = manga;
