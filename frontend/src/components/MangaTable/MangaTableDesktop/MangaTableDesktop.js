@@ -1,11 +1,14 @@
-import PropTypes from "prop-types";
+import { useContext } from "react";
+
 import { Grid, Skeleton, Table, Typography } from "antd";
 
 import MangaBasicInfo from "../MangaBasicInfo";
-import MangaQuickActions from "../MangaQuickActions";
+import MangaQuickActions from "../QuickActions";
 import MangaCover from "../../MangaCover";
-import CopyLinkButton from "./CopyLinkButton";
+import CopyLinkButton from "../CopyLinkButton";
+import { MangaListContext } from "../../../contexts";
 import { statusToClassMapping } from "../utils";
+import { clonePlainObject } from "../../../utils";
 import { MANGA_PER_PAGE } from "../../../utils/constants";
 import "./MangaTableDesktop.less";
 
@@ -15,18 +18,12 @@ const { useBreakpoint } = Grid;
 
 const skeletonData = Array(MANGA_PER_PAGE).fill({ isSkeleton: true });
 
-const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked }) => {
+const MangaTableDesktop = () => {
+  const { isLoading, mangasToShow, onMangaClicked, updateMangaDone } = useContext(MangaListContext);
   const mangaInfoColumn = useBreakpoint().xxl ? 2 : 1;
 
-  let dataSource;
-  if (isLoading === "reload") {
-    dataSource = skeletonData;
-  } else if (isLoading) {
-    dataSource = [...mangas, ...skeletonData];
-  } else {
-    dataSource = mangas;
-  }
-  dataSource = JSON.parse(JSON.stringify(dataSource));
+  // TODO optimize?
+  const dataSource = clonePlainObject(isLoading ? [...mangasToShow, ...skeletonData] : mangasToShow);
 
   return (
     <Table
@@ -85,13 +82,6 @@ const MangaTableDesktop = ({ mangas, isLoading, updateMangaDone, onMangaClicked 
       />
     </Table>
   );
-};
-
-MangaTableDesktop.propTypes = {
-  mangas: PropTypes.array.isRequired,
-  isLoading: PropTypes.oneOf([true, false, "reload"]).isRequired,
-  updateMangaDone: PropTypes.func.isRequired,
-  onMangaClicked: PropTypes.func.isRequired,
 };
 
 export default MangaTableDesktop;

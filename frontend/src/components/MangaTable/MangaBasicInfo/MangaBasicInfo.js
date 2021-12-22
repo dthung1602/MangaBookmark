@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import { Descriptions, Space, Typography } from "antd";
 
-import MangaStatus from "../MangaStatus";
-import MangaSiteLink from "../MangaSiteLink";
-import { SHELVES } from "../../utils/constants";
-import { isNonEmptyArray } from "../../utils";
+import MangaStatus from "../../MangaStatus";
+import MangaSiteLink from "../../MangaSiteLink";
+import { SHELVES } from "../../../utils/constants";
+import { isNonEmptyArray } from "../../../utils";
 import "./MangaBasicInfo.less";
 
 const { Title, Paragraph } = Typography;

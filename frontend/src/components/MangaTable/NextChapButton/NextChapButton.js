@@ -1,10 +1,11 @@
 import { useState } from "react";
+
 import PropTypes from "prop-types";
 import { Tooltip } from "antd";
 import { DoubleRightOutlined } from "@ant-design/icons";
 
-import { DOUBLE_CLICK_DELAY } from "../../utils/constants";
-import { truncString } from "../../utils";
+import { DOUBLE_CLICK_DELAY } from "../../../utils/constants";
+import { truncString } from "../../../utils";
 import "./NextChapButton.less";
 
 const NextChapToRead = ({ nextChapToRead, markOne }) => {

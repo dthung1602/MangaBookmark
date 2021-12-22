@@ -1,7 +1,9 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+
 import { Tooltip } from "antd";
 import { LinkOutlined } from "@ant-design/icons";
+
 import "./CopyLinkButton.less";
 
 const CopyLinkButton = ({ link }) => {

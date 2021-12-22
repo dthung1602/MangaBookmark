@@ -18,7 +18,7 @@ import ChapterList from "../../ChapterList";
 import MangaUserInputProps from "../../MangaUserInputProps";
 import MangaBasicInfo from "../MangaBasicInfo";
 import MangaCover from "../../MangaCover";
-import MangaQuickActions from "../MangaQuickActions.js";
+import MangaQuickActions from "../QuickActions";
 import { MangaAPI } from "../../../api";
 import { useMarkChapterAPI } from "../../../hooks";
 import { markChapterLogic, getNextChapToRead } from "../../../utils/chapters";
