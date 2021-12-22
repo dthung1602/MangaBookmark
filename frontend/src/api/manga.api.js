@@ -1,4 +1,5 @@
 import BaseAPI, { pollAPI } from "./base.api";
+import { clonePlainObject } from "../utils";
 import { ANY } from "../utils/constants";
 
 const ignoreIfAny = ["shelf", "status", "site", "lang", "isCompleted", "hidden"];
@@ -13,6 +14,7 @@ class MangaAPI extends BaseAPI {
   }
 
   find(params) {
+    params = clonePlainObject(params);
     for (let f of ignoreIfAny) {
       if (params[f] === ANY) {
         delete params[f];
@@ -38,6 +40,7 @@ class MangaAPI extends BaseAPI {
   }
 
   updateMultiple(params) {
+    params = clonePlainObject(params);
     for (let f of ignoreIfAny) {
       if (params[f] === ANY) {
         delete params[f];
