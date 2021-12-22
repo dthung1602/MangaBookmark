@@ -5,7 +5,12 @@ import { Modal } from "antd";
 
 import "./index.less";
 import App from "./App";
+import { addDebugObjectId } from "./utils";
 import * as serviceWorker from "./serviceWorker";
+
+if (process.env["NODE_ENV"] !== "PRODUCTION") {
+  addDebugObjectId();
+}
 
 ReactDOM.render(
   <StrictMode>

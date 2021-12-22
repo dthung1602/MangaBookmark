@@ -1,5 +1,32 @@
 import moment from "moment";
 
+/**
+ * Ref: https://stackoverflow.com/a/1997811/7342188
+ */
+export const addDebugObjectId = () => {
+  if (typeof Object.id == "undefined") {
+    let id = 0;
+
+    Object.id = function (o) {
+      if (o === null || o === undefined) {
+        return o;
+      }
+
+      if (typeof o.__uniqueid == "undefined") {
+        Object.defineProperty(o, "__uniqueid", {
+          value: ++id,
+          enumerable: false,
+          writable: false,
+        });
+      }
+
+      return o.__uniqueid;
+    };
+  }
+
+  console.log("Static method Object.id added for debugging");
+};
+
 export const randomFrom = (array) => {
   return array[Math.floor(Math.random() * array.length)];
 };
@@ -62,3 +89,5 @@ export const equalOrIn = (element, target) => {
   }
   return element === target;
 };
+
+export const doNothing = () => {};
