@@ -62,6 +62,7 @@ const useMangaTab = (setSelectedManga) => {
     setSelectedManga,
     setSelectedManga,
     setSelectedManga,
+    setSelectedManga,
     setSelectedMangaToNull,
     setSelectedManga,
   );

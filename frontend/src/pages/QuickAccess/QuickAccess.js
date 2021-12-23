@@ -24,12 +24,28 @@ const DAILY_UPDATE_FILTERS = {
 };
 
 const QuickAccess = () => {
-  const selectedMangaContext = useMangaContext(null);
-
+  /**
+   * TODO Refactor modals
+   * 1. mount fab in App
+   * 2. configurable actions buttons in fab
+   * 3. fab is configured using global context
+   * 4. modal open states/set open state are stored in global context
+   * 5. QuickAccess gets setNewMangaModalOpen from global context and register it as fab action
+   * 6. QuickAccess mounts Modal & FAB
+   */
   const [newMangaModalOpen, setNewMangaModalOpen] = useState(false);
   const [userNoteModalOpen, setUserNoteModalOpen] = useState(false);
 
-  const { tab, setTab, mangaListContext } = useMangaTab(selectedMangaContext.setManga);
+  const [selectedManga, setSelectedManga] = useState(null);
+  const { tab, setTab, mangaListContext } = useMangaTab(setSelectedManga);
+
+  const selectedMangaContext = useMangaContext(
+    selectedManga,
+    mangaListContext.editMangaDone,
+    mangaListContext.updateMangaDone,
+    mangaListContext.markChaptersDone,
+    mangaListContext.deleteMangaDone,
+  );
 
   const [isUpdatingMangas, updateMangas] = useUpdateMultipleAPI(DAILY_UPDATE_FILTERS);
 

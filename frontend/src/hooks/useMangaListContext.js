@@ -7,6 +7,7 @@ const useMangaListContext = (
   addMangaDone = doNothing,
   editMangaDone = doNothing,
   updateMangaDone = doNothing,
+  markChaptersDone = doNothing,
   deleteMangaDone = doNothing,
   onMangaClicked = doNothing,
 ) => {
@@ -77,6 +78,18 @@ const useMangaListContext = (
     [updateMangaDone],
   );
 
+  const wrappedMarkChaptersDone = useCallback(
+    (newManga) => {
+      setMangas((prevState) => {
+        const idx = prevState.findIndex((mg) => mg._id === newManga._id);
+        prevState[idx] = newManga;
+        return [...prevState];
+      });
+      markChaptersDone(newManga);
+    },
+    [markChaptersDone],
+  );
+
   const wrappedDeleteMangaDone = useCallback(
     (deletedManga) => {
       setMangas((prevState) => prevState.filter((mg) => mg._id !== deletedManga._id));
@@ -100,6 +113,7 @@ const useMangaListContext = (
     addMangaDone: wrappedAddMangaDone,
     editMangaDone: wrappedEditMangaDone,
     updateMangaDone: wrappedUpdateMangaDone,
+    markChaptersDone: wrappedMarkChaptersDone,
     deleteMangaDone: wrappedDeleteMangaDone,
   };
 };

@@ -30,6 +30,7 @@ const useMangaContext = (
 
   useEffect(() => {
     if (!(mangaOrFactory instanceof Function)) {
+      setManga(mangaOrFactory);
       return;
     }
 
