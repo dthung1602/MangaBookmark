@@ -1,3 +1,5 @@
+@import "../../../variables";
+
 #right-panel .vertical-actions {
   position: absolute;
   left: -24px;
@@ -27,7 +29,7 @@
       }
     }
 
-    &:hover {
+    &:hover, &.ant-popover-open {
       width: 102px;
       span:last-child {
         visibility: visible;
@@ -50,7 +52,7 @@
     background: lighten(#f5222d, 10%);
   }
 
-  .mark-all {
-    background: #70c3b9;
+  .detail {
+    background: @primary-color;
   }
 }

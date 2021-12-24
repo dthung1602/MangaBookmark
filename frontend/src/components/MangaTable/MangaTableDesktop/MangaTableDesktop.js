@@ -5,7 +5,7 @@ import { Grid, Skeleton, Table, Typography } from "antd";
 import MangaBasicInfo from "../MangaBasicInfo";
 import MangaQuickActions from "../QuickActions";
 import MangaCover from "../../MangaCover";
-import CopyLinkButton from "../CopyLinkButton";
+import ExpandButton from "../ExpandButton";
 import { MangaListContext } from "../../../contexts";
 import { statusToClassMapping } from "../utils";
 import { clonePlainObject } from "../../../utils";
@@ -70,7 +70,7 @@ const MangaTableDesktop = () => {
                 <a href={manga.link} target="_blank" rel="noopener noreferrer">
                   {manga.name}
                 </a>
-                <CopyLinkButton link={manga.link} />
+                <ExpandButton manga={manga} />
               </Title>
               <div className="manga-details">
                 <MangaBasicInfo manga={manga} showTitle={false} column={mangaInfoColumn} />
