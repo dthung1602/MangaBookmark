@@ -25,8 +25,10 @@ const useMangaContext = (
   // ----------------
   //    manga logic
   // ----------------
-  const [manga, setManga] = useState(mangaOrFactory instanceof Function ? null : mangaOrFactory);
-  const [isLoading, setIsLoading] = useState(false);
+  const initMangaValue = mangaOrFactory instanceof Function ? null : mangaOrFactory;
+  const initLoadingValue = mangaOrFactory instanceof Function;
+  const [manga, setManga] = useState(initMangaValue);
+  const [isLoading, setIsLoading] = useState(initLoadingValue);
 
   useEffect(() => {
     if (!(mangaOrFactory instanceof Function)) {

@@ -13,7 +13,7 @@ import "./ChapterList.less";
 const { Column } = Table;
 const { Text } = Typography;
 
-function ChapterList({ type, showDate = true, maxChapNameLen = 35 }) {
+function ChapterList({ type = "scroll", height = "medium", showDate = true, maxChapNameLen = 35 }) {
   const { manga, isMarkingChapters, markOne, markAll, markUpTo, disableMarkAll } = useContext(MangaContext);
   const { chapters } = manga;
 
@@ -21,7 +21,7 @@ function ChapterList({ type, showDate = true, maxChapNameLen = 35 }) {
   const { chaptersToShow, showReadChapters, toggleShowReadChapters } = useShowChapters(manga, chapters);
 
   return (
-    <div className={`chapter-list ${type}`}>
+    <div className={`chapter-list ${type} ${height}`}>
       <Spin spinning={isMarkingChapters}>
         <Table
           size="small"
@@ -30,7 +30,7 @@ function ChapterList({ type, showDate = true, maxChapNameLen = 35 }) {
           dataSource={chaptersToShow}
           title={() => (
             <div className="table-header">
-              <Text strong>Chapter list</Text>
+              <Text strong>Chapters</Text>
               <div>
                 <Button
                   size="small"
@@ -89,7 +89,8 @@ function ChapterList({ type, showDate = true, maxChapNameLen = 35 }) {
 }
 
 ChapterList.propTypes = {
-  type: PropTypes.oneOf(["scroll", "page"]).isRequired,
+  type: PropTypes.oneOf(["scroll", "page"]),
+  height: PropTypes.oneOf(["short", "medium", "tall"]),
   showDate: PropTypes.bool,
   maxChapNameLen: PropTypes.number,
 };

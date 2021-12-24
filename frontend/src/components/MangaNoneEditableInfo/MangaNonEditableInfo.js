@@ -7,15 +7,15 @@ import MangaStatus from "../MangaStatus";
 import MangaNote from "../MangaNote";
 import { formatDate, isNonEmptyArray } from "../../utils";
 import { MangaContext } from "../../contexts";
-import "./MangaDesctiption.less";
+import "./MangaNonEditableInfo.less";
 
 const { Paragraph } = Typography;
 
-const MangaDescription = () => {
+const MangaNonEditableInfo = () => {
   const { manga } = useContext(MangaContext);
 
   return (
-    <Descriptions key="description" column={2} className="non-editable-info">
+    <Descriptions key="description" column={2} className="manga-non-editable-info">
       <Descriptions.Item label="Site">
         <MangaSiteLink mangaSiteName={manga.site} />
       </Descriptions.Item>
@@ -70,4 +70,4 @@ const MangaDescription = () => {
   );
 };
 
-export default MangaDescription;
+export default MangaNonEditableInfo;

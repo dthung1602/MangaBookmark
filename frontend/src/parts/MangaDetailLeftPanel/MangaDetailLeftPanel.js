@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Button, Space } from "antd";
 
-import MangaCover from "../MangaCover";
+import { MangaCover } from "../../components";
 import { MangaContext } from "../../contexts";
 import "./MangaDetailLeftPanel.less";
 

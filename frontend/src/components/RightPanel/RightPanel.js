@@ -5,7 +5,7 @@ import { Empty, Spin, Typography } from "antd";
 import MangaCover from "../MangaCover";
 import ChapterList from "../ChapterList";
 import MangaUserInputProps from "../MangaUserInputProps";
-import MangaDescription from "../MangaDescription";
+import MangaNonEditableInfo from "../MangaNoneEditableInfo";
 import VerticalActions from "./VerticalActions";
 import { MangaContext } from "../../contexts";
 import "./RightPanel.less";
@@ -44,7 +44,7 @@ const RightPanel = () => {
             {manga.name}
           </a>
         </Title>
-        <MangaDescription />
+        <MangaNonEditableInfo />
         <MangaUserInputProps layout="row" />
         <ChapterList key="chapter-list" type="page" />
         <div key="place-holder" className="placeholder">

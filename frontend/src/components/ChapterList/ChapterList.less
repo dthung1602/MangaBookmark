@@ -16,10 +16,29 @@
     top: unset !important;
   }
 
-  &.scroll .ant-table-container {
-    max-height: 300px;
-    overflow-y: scroll;
-    .hide-scroll-bar();
+  &.scroll {
+    .ant-table-container {
+      overflow-y: scroll;
+      .hide-scroll-bar();
+    }
+
+    &.short {
+      .ant-table-container {
+        max-height: 200px;
+      }
+    }
+
+    &.medium {
+      .ant-table-container {
+        max-height: 400px;
+      }
+    }
+
+    &.tall {
+      .ant-table-container {
+        max-height: 600px;
+      }
+    }
   }
 
   .ant-table-title, .ant-table-cell {

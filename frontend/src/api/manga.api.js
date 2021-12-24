@@ -10,6 +10,7 @@ class MangaAPI extends BaseAPI {
   }
 
   get(id) {
+    console.log("CALL GET API ", id);
     return super.get(null, id);
   }
 
