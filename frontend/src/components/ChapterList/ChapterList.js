@@ -39,15 +39,14 @@ function ChapterList({ type = "scroll", height = "medium", showDate = true, maxC
                   title={(showReadChapters ? "Hide" : "Show") + " read chapters"}
                   onClick={toggleShowReadChapters}
                 />
-                <Popconfirm title={"Mark all as read ?"} placement="left" disabled={disableMarkAll} onConfirm={markAll}>
-                  <Button
-                    size="small"
-                    type="text"
-                    icon={<CheckOutlined />}
-                    disabled={disableMarkAll}
-                    title="Mark all as read"
-                  />
-                </Popconfirm>
+                <Button
+                  size="small"
+                  type="text"
+                  icon={<CheckOutlined />}
+                  disabled={disableMarkAll}
+                  title="Mark all as read"
+                  onClick={markAll}
+                />
               </div>
             </div>
           )}

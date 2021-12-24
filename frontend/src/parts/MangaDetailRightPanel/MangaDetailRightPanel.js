@@ -1,9 +1,10 @@
 import { useContext } from "react";
 
-import { Spin } from "antd";
+import { Spin, Button } from "antd";
 
 import { ChapterList, MangaNoneEditableInfo, MangaUserInputProps } from "../../components";
 import { MangaContext } from "../../contexts";
+import { scrollToTop } from "../../utils";
 import "./MangaDetailRightPanel.less";
 
 const MangaDetailRightPanel = () => {
@@ -15,6 +16,9 @@ const MangaDetailRightPanel = () => {
         <MangaNoneEditableInfo />
         <MangaUserInputProps layout="row" />
         <ChapterList type="scroll" height="tall" />
+        <Button block type="link" className="scroll-to-top" onClick={scrollToTop}>
+          Scroll to top ↑
+        </Button>
       </Spin>
     </div>
   );
