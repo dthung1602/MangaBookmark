@@ -7,7 +7,7 @@ import MangaQuickActions from "../QuickActions";
 import MangaCover from "../../MangaCover";
 import ExpandButton from "../ExpandButton";
 import { MangaListContext } from "../../../contexts";
-import { statusToClassMapping } from "../utils";
+import { statusToClassMapping } from "../../../utils/manga";
 import { clonePlainObject } from "../../../utils";
 import { MANGA_PER_PAGE } from "../../../utils/constants";
 import "./MangaTableDesktop.less";

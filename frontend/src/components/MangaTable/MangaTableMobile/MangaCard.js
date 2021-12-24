@@ -23,7 +23,7 @@ import { MangaAPI } from "../../../api";
 import { useMarkChapterAPI } from "../../../hooks";
 import { markChapterLogic, getNextChapToRead } from "../../../utils/chapters";
 import { throwOnCriticalErrors, notifyError } from "../../../utils/error-handler";
-import { statusToClassMapping } from "../utils";
+import { statusToClassMapping } from "../../../utils/manga";
 import "./MangaCard.less";
 
 const { confirm } = Modal;
