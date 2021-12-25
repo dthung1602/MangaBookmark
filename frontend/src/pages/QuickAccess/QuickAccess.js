@@ -1,25 +1,22 @@
 import { useState } from "react";
-import { Affix, Layout, Switch, Tabs, Tooltip } from "antd";
-import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
+
+import { Layout } from "antd";
 
 import { Desktop, Mobile } from "../../components/ScreenSize";
-import PageLayout from ".././PageLayout";
+import PageLayout from "../PageLayout";
 import FAB from "../../components/FAB";
-import MangaPageHeader from "../../components/MangaPageHeader";
-import RightPanel from "../../components/RightPanel";
-import { MangaTableDesktop, MangaTableMobile } from "../../parts";
+import MangaListingPageHeader from "../../parts/MangaListingPageHeader";
 import NewMangaModal from "../../components/NewMangaModal";
 import UserNote from "../../components/UserNoteModal/UserNoteModal";
-import { READING, TO_READ, WAITING } from "../../utils/constants";
+import { MangaTableDesktop, MangaTableMobile, MangaTabs, PreviewRightPanel } from "../../parts";
+import { READING, TO_READ, WAITING, REREAD } from "../../utils/constants";
 import { MangaContext, MangaListContext } from "../../contexts";
 import { TAB_MAPPING, useMangaTab } from "./hooks";
-import { useUpdateMultipleAPI, useMangaContext } from "../../hooks";
+import { useMangaContext, useUpdateMultipleAPI } from "../../hooks";
 import "../Mangas.less"; // TODO refactor
 
-const { TabPane } = Tabs;
-
 const DAILY_UPDATE_FILTERS = {
-  shelf: [READING, WAITING, TO_READ],
+  shelf: [READING, WAITING, TO_READ, REREAD],
   isCompleted: false,
 };
 
@@ -57,51 +54,14 @@ const QuickAccess = () => {
   const closeUserNoteModal = () => setUserNoteModalOpen(false);
 
   const pageHeader = (
-    <MangaPageHeader
+    <MangaListingPageHeader
+      key="header"
       title="Quick access"
-      updateBtnText="Daily update"
-      mangaCount={mangaListContext.totalFound}
-      openNewMangaModal={openNewMangaModal}
-      isUpdatingMangas={isUpdatingMangas}
-      updateMangas={updateMangas}
-      openUserNoteModal={openUserNoteModal}
+      updateFilter={DAILY_UPDATE_FILTERS}
+      updateButtonText="Daily update"
     />
   );
-
-  const tabs = (
-    <Affix className="affix-container">
-      <Tabs
-        defaultActiveKey={tab}
-        onChange={setTab}
-        className="tab"
-        tabBarExtraContent={
-          <Tooltip
-            placement="bottomRight"
-            title={mangaListContext.showHidden ? "Hide hidden mangas" : "Show hidden mangas"}
-          >
-            <Switch
-              size="small"
-              checked={mangaListContext.showHidden}
-              onChange={(v) => mangaListContext.setShowHidden(v)}
-              checkedChildren={<EyeOutlined />}
-              unCheckedChildren={<EyeInvisibleOutlined />}
-            />
-          </Tooltip>
-        }
-      >
-        {Object.entries(TAB_MAPPING).map(([tab, { displayName, description }]) => (
-          <TabPane
-            key={tab}
-            tab={
-              <Tooltip title={description} placement="bottomLeft">
-                {displayName}
-              </Tooltip>
-            }
-          />
-        ))}
-      </Tabs>
-    </Affix>
-  );
+  const tabs = <MangaTabs key="tabs" tab={tab} setTab={setTab} tabMappings={TAB_MAPPING} />;
 
   return (
     <PageLayout>
@@ -110,27 +70,25 @@ const QuickAccess = () => {
           render={() => (
             <>
               <div className="left-panel">
-                {pageHeader}
-                {tabs}
                 <MangaListContext.Provider value={mangaListContext}>
-                  <MangaTableDesktop />
+                  {pageHeader}
+                  {tabs}
+                  <MangaTableDesktop key="table" />
                 </MangaListContext.Provider>
               </div>
               <MangaContext.Provider value={selectedMangaContext}>
-                <RightPanel />
+                <PreviewRightPanel />
               </MangaContext.Provider>
             </>
           )}
         />
         <Mobile
           render={() => (
-            <>
+            <MangaListContext.Provider value={mangaListContext}>
               {pageHeader}
               {tabs}
-              <MangaListContext.Provider value={mangaListContext}>
-                <MangaTableMobile />
-              </MangaListContext.Provider>
-            </>
+              <MangaTableMobile key="table" />
+            </MangaListContext.Provider>
           )}
         />
       </Layout>
