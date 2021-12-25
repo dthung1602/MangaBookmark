@@ -5,3 +5,4 @@ export { default as useLogoutAPI } from "./useLogoutAPI";
 export { default as useOnIntersectViewPort } from "./useOnIntersectViewPort";
 export { default as useMangaContext } from "./useMangaContext";
 export { default as useMangaListContext } from "./useMangaListContext";
+export { default as useModal } from "./useModal";

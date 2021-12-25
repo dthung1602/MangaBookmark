@@ -1,0 +1,25 @@
+@import "../../variables";
+
+.listing-left-panel {
+  overflow: initial;
+  margin-right: @preview-right-panel-width;
+
+  .affix-container {
+    margin: 0;
+
+    .ant-affix {
+      top: @navbar-height !important;
+      transition: top @navbar-toggle-duration;
+      box-shadow: @box-shadow;
+    }
+  }
+}
+
+// TODO move this to navbar
+#root.navbar-hidden {
+  .affix-container {
+    .ant-affix {
+      top: 0 !important;
+    }
+  }
+}

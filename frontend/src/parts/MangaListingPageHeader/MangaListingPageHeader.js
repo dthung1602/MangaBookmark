@@ -5,13 +5,18 @@ import { PlusOutlined, ReloadOutlined, FileTextOutlined } from "@ant-design/icon
 import "./MangaListingPageHeader.less";
 import { useContext } from "react";
 import { MangaListContext } from "../../contexts";
-import { useUpdateMultipleAPI } from "../../hooks";
 
 const { useBreakpoint } = Grid;
 
-const MangaListingPageHeader = ({ title, updateButtonText, updateFilter }) => {
+const MangaListingPageHeader = ({
+  title,
+  updateButtonText,
+  isUpdatingMangas,
+  updateMangas,
+  openNoteModal,
+  openNewMangaModal,
+}) => {
   const { totalFound } = useContext(MangaListContext);
-  const [isUpdatingMangas, updateMangas] = useUpdateMultipleAPI(updateFilter);
   const desktop = useBreakpoint().lg;
 
   const mangaCountString = `${totalFound} manga${totalFound > 1 ? "s" : ""}`;
@@ -25,8 +30,10 @@ const MangaListingPageHeader = ({ title, updateButtonText, updateFilter }) => {
           <Button icon={<ReloadOutlined />} onClick={updateMangas} loading={isUpdatingMangas}>
             {desktop ? updateButtonText : null}
           </Button>
-          <Button icon={<FileTextOutlined />}>{desktop ? "Note" : null}</Button>
-          <Button type="primary" icon={<PlusOutlined />}>
+          <Button icon={<FileTextOutlined />} onClick={openNoteModal}>
+            {desktop ? "Note" : null}
+          </Button>
+          <Button type="primary" icon={<PlusOutlined />} onClick={openNewMangaModal}>
             {desktop ? "Add manga" : null}
           </Button>
         </>
@@ -41,7 +48,10 @@ const MangaListingPageHeader = ({ title, updateButtonText, updateFilter }) => {
 MangaListingPageHeader.propTypes = {
   title: PropTypes.string.isRequired,
   updateButtonText: PropTypes.string.isRequired,
-  updateFilter: PropTypes.object.isRequired,
+  isUpdatingMangas: PropTypes.bool.isRequired,
+  updateMangas: PropTypes.func.isRequired,
+  openNoteModal: PropTypes.func.isRequired,
+  openNewMangaModal: PropTypes.func.isRequired,
 };
 
 export default MangaListingPageHeader;

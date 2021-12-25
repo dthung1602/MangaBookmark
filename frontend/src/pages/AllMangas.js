@@ -17,7 +17,7 @@ import { MangaAPI } from "../api";
 import { useUpdateMultipleAPI } from "../hooks";
 import { removeUndefinedAttrs, removeEmptyStringAttrs, scrollToTop } from "../utils";
 import { throwOnCriticalErrors, notifyError } from "../utils/error-handler";
-import "./Mangas.less";
+import "./MangaListingPage/MangaListingPage.less";
 import UserNote from "../components/UserNoteModal/UserNoteModal";
 
 const AllMangas = () => {

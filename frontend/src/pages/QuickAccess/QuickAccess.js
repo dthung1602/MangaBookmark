@@ -1,19 +1,55 @@
-import { useState } from "react";
+import { useCallback } from "react";
 
-import { Layout } from "antd";
+import { StringParam, useQueryParam, withDefault } from "use-query-params";
 
-import { Desktop, Mobile } from "../../components/ScreenSize";
-import PageLayout from "../PageLayout";
-import FAB from "../../components/FAB";
-import MangaListingPageHeader from "../../parts/MangaListingPageHeader";
-import NewMangaModal from "../../components/NewMangaModal";
-import UserNote from "../../components/UserNoteModal/UserNoteModal";
-import { MangaTableDesktop, MangaTableMobile, MangaTabs, PreviewRightPanel } from "../../parts";
-import { READING, TO_READ, WAITING, REREAD } from "../../utils/constants";
-import { MangaContext, MangaListContext } from "../../contexts";
-import { TAB_MAPPING, useMangaTab } from "./hooks";
-import { useMangaContext, useUpdateMultipleAPI } from "../../hooks";
-import "../Mangas.less"; // TODO refactor
+import { MangaTabs } from "../../parts";
+import MangaListingPage from "../MangaListingPage";
+import {
+  READING,
+  REREAD,
+  TO_READ,
+  TOP_TO_READ_MG_COUNT,
+  TOP_WAITING_MG_COUNT,
+  WAITING,
+  WAITING_MG_UNREAD_CHAP_THRESHOLD,
+} from "../../utils/constants";
+import { MangaAPI } from "../../api";
+import "./QuickAccess.less";
+
+const TAB_MAPPING = {
+  reading: {
+    displayName: "Reading",
+    description: "Mangas in Reading shelf that has unread chapters",
+    filters: {
+      shelf: [READING, REREAD],
+      unreadChapCountGTE: 1,
+      sort: "-status -unreadChapCount",
+      page: 1,
+      perPage: 0,
+    },
+  },
+  waiting: {
+    displayName: "Waiting",
+    description: `Top ${TOP_WAITING_MG_COUNT} mangas in Waiting shelf that has more than ${WAITING_MG_UNREAD_CHAP_THRESHOLD} unread chapters`,
+    filters: {
+      shelf: WAITING,
+      unreadChapCountGTE: WAITING_MG_UNREAD_CHAP_THRESHOLD,
+      sort: "-unreadChapCount",
+      page: 1,
+      perPage: TOP_WAITING_MG_COUNT,
+    },
+  },
+  toread: {
+    displayName: "Top to read",
+    description: `Top ${TOP_TO_READ_MG_COUNT} mangas in To Read shelf that *should* be read first`,
+    filters: {
+      shelf: TO_READ,
+      sort: "-isCompleted createdAt -unreadChapCount",
+      page: 1,
+      perPage: TOP_TO_READ_MG_COUNT,
+    },
+  },
+};
 
 const DAILY_UPDATE_FILTERS = {
   shelf: [READING, WAITING, TO_READ, REREAD],
@@ -21,93 +57,19 @@ const DAILY_UPDATE_FILTERS = {
 };
 
 const QuickAccess = () => {
-  /**
-   * TODO Refactor modals
-   * 1. mount fab in App
-   * 2. configurable actions buttons in fab
-   * 3. fab is configured using global context
-   * 4. modal open states/set open state are stored in global context
-   * 5. QuickAccess gets setNewMangaModalOpen from global context and register it as fab action
-   * 6. QuickAccess mounts Modal & FAB
-   */
-  const [newMangaModalOpen, setNewMangaModalOpen] = useState(false);
-  const [userNoteModalOpen, setUserNoteModalOpen] = useState(false);
+  const [tab, setTab] = useQueryParam("tab", withDefault(StringParam, "reading"));
+  const loadMangas = useCallback(() => MangaAPI.find(TAB_MAPPING[tab].filters), [tab]);
 
-  const [selectedManga, setSelectedManga] = useState(null);
-  const { tab, setTab, mangaListContext } = useMangaTab(setSelectedManga);
-
-  // TODO merge edit,update,mark,delete into option
-  const selectedMangaContext = useMangaContext(
-    selectedManga,
-    mangaListContext.editMangaDone,
-    mangaListContext.updateMangaDone,
-    mangaListContext.markChaptersDone,
-    mangaListContext.deleteMangaDone,
-  );
-
-  const [isUpdatingMangas, updateMangas] = useUpdateMultipleAPI(DAILY_UPDATE_FILTERS);
-
-  const openNewMangaModal = () => setNewMangaModalOpen(true);
-  const closeNewMangaModal = () => setNewMangaModalOpen(false);
-
-  const openUserNoteModal = () => setUserNoteModalOpen(true);
-  const closeUserNoteModal = () => setUserNoteModalOpen(false);
-
-  const pageHeader = (
-    <MangaListingPageHeader
-      key="header"
-      title="Quick access"
-      updateFilter={DAILY_UPDATE_FILTERS}
-      updateButtonText="Daily update"
-    />
-  );
   const tabs = <MangaTabs key="tabs" tab={tab} setTab={setTab} tabMappings={TAB_MAPPING} />;
 
   return (
-    <PageLayout>
-      <Layout>
-        <Desktop
-          render={() => (
-            <>
-              <div className="left-panel">
-                <MangaListContext.Provider value={mangaListContext}>
-                  {pageHeader}
-                  {tabs}
-                  <MangaTableDesktop key="table" />
-                </MangaListContext.Provider>
-              </div>
-              <MangaContext.Provider value={selectedMangaContext}>
-                <PreviewRightPanel />
-              </MangaContext.Provider>
-            </>
-          )}
-        />
-        <Mobile
-          render={() => (
-            <MangaListContext.Provider value={mangaListContext}>
-              {pageHeader}
-              {tabs}
-              <MangaTableMobile key="table" />
-            </MangaListContext.Provider>
-          )}
-        />
-      </Layout>
-
-      <FAB
-        openNewMangaModal={openNewMangaModal}
-        isUpdatingMangas={isUpdatingMangas}
-        updateMangas={updateMangas}
-        openUserNote={openUserNoteModal}
-      />
-
-      <NewMangaModal
-        open={newMangaModalOpen}
-        onCancel={closeNewMangaModal}
-        addMangaDone={mangaListContext.addMangaDone}
-      />
-
-      <UserNote open={userNoteModalOpen} onCancel={closeUserNoteModal} />
-    </PageLayout>
+    <MangaListingPage
+      title="Quick access"
+      mangasOrFactory={loadMangas}
+      filterNode={tabs}
+      updateMangaFilters={DAILY_UPDATE_FILTERS}
+      updateButtonText="Daily update"
+    />
   );
 };
 

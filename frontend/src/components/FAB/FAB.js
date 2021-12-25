@@ -1,13 +1,13 @@
 import { useRef, useState } from "react";
+
 import PropTypes from "prop-types";
 import { Button, Tooltip } from "antd";
-import { PlusOutlined, ReloadOutlined, UpOutlined, AppstoreOutlined, FileTextOutlined } from "@ant-design/icons";
+import { AppstoreOutlined } from "@ant-design/icons";
 
 import { useOnClickOutside } from "../../hooks";
-import { scrollToTop } from "../../utils";
 import "./FAB.less";
 
-const FAB = ({ openNewMangaModal, isUpdatingMangas, updateMangas, openUserNote }) => {
+const FAB = ({ config }) => {
   const [showExpandBtns, setShowExpandBtns] = useState(false);
   const containerRef = useRef(null);
 
@@ -34,49 +34,50 @@ const FAB = ({ openNewMangaModal, isUpdatingMangas, updateMangas, openUserNote }
     };
   };
 
+  // Hide FAB entirely
+  if (config === false) {
+    return;
+  }
+
+  // Only one action, no need for special effects
+  if (config.length === 0) {
+    return (
+      <div ref={containerRef} className={containerClass}>
+        <Tooltip key={config[0].title} placement="left" title={config[0].title} overlayClassName="fab-tooltip-overlay">
+          <Button
+            shape="circle"
+            type="primary"
+            size="large"
+            className="fab-root-btn"
+            icon={config[0].icon}
+            onClick={config[0].onClick}
+          />
+        </Tooltip>
+      </div>
+    );
+  }
+
+  // Many actions -> only display them when mouse over
   return (
     <div ref={containerRef} className={containerClass} onMouseLeave={hide}>
-      <Tooltip placement="left" visible={showExpandBtns} title="Back to top" overlayClassName="fab-tooltip-overlay">
-        <Button
-          shape="circle"
-          size="large"
-          type="primary"
-          className="fab-expand-btn"
-          icon={<UpOutlined />}
-          onClick={handleExpandBtnClickWrapper(scrollToTop)}
-        />
-      </Tooltip>
-      <Tooltip placement="left" visible={showExpandBtns} title="Update mangas" overlayClassName="fab-tooltip-overlay">
-        <Button
-          shape="circle"
-          size="large"
-          type="primary"
-          className="fab-expand-btn"
-          loading={isUpdatingMangas}
-          icon={<ReloadOutlined />}
-          onClick={handleExpandBtnClickWrapper(updateMangas)}
-        />
-      </Tooltip>
-      <Tooltip placement="left" visible={showExpandBtns} title="Note" overlayClassName="fab-tooltip-overlay">
-        <Button
-          shape="circle"
-          size="large"
-          type="primary"
-          className="fab-expand-btn"
-          icon={<FileTextOutlined />}
-          onClick={handleExpandBtnClickWrapper(openUserNote)}
-        />
-      </Tooltip>
-      <Tooltip placement="left" visible={showExpandBtns} title="New manga" overlayClassName="fab-tooltip-overlay">
-        <Button
-          shape="circle"
-          size="large"
-          type="primary"
-          className="fab-expand-btn"
-          icon={<PlusOutlined />}
-          onClick={handleExpandBtnClickWrapper(openNewMangaModal)}
-        />
-      </Tooltip>
+      {config.map(({ title, icon, onClick }) => (
+        <Tooltip
+          key={title}
+          placement="left"
+          visible={showExpandBtns}
+          title={title}
+          overlayClassName="fab-tooltip-overlay"
+        >
+          <Button
+            shape="circle"
+            size="large"
+            type="primary"
+            className="fab-expand-btn"
+            icon={icon}
+            onClick={handleExpandBtnClickWrapper(onClick)}
+          />
+        </Tooltip>
+      ))}
       <Button
         shape="circle"
         type="primary"
@@ -91,10 +92,7 @@ const FAB = ({ openNewMangaModal, isUpdatingMangas, updateMangas, openUserNote }
 };
 
 FAB.propTypes = {
-  openNewMangaModal: PropTypes.func.isRequired,
-  updateMangas: PropTypes.func.isRequired,
-  isUpdatingMangas: PropTypes.bool.isRequired,
-  openUserNote: PropTypes.func.isRequired,
+  config: PropTypes.oneOfType([PropTypes.bool, PropTypes.arrayOf(PropTypes.object).isRequired]),
 };
 
 export default FAB;
