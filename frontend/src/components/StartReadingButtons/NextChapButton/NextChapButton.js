@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
-import PropTypes from "prop-types";
 import { Tooltip } from "antd";
 import { DoubleRightOutlined } from "@ant-design/icons";
 
 import { DOUBLE_CLICK_DELAY } from "../../../utils/constants";
 import { truncString } from "../../../utils";
+import { MangaContext } from "../../../contexts";
 import "./NextChapButton.less";
 
-const NextChapToRead = ({ nextChapToRead, markOne }) => {
+const NextChapToRead = () => {
+  const { markOne, nextChapToRead } = useContext(MangaContext);
   const [doubleClickFlag, setDoubleClickFlag] = useState(false);
 
   const onClick = (event) => {
@@ -39,11 +40,6 @@ const NextChapToRead = ({ nextChapToRead, markOne }) => {
       </a>
     </Tooltip>
   );
-};
-
-NextChapToRead.propTypes = {
-  nextChapToRead: PropTypes.object.isRequired,
-  markOne: PropTypes.func.isRequired,
 };
 
 export default NextChapToRead;

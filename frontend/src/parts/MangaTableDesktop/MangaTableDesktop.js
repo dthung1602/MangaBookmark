@@ -1,26 +1,20 @@
 import { useContext } from "react";
 
-import { Grid, Skeleton, Table, Typography } from "antd";
+import { Skeleton, Table } from "antd";
 
-import MangaBasicInfo from "../MangaBasicInfo";
-import MangaQuickActions from "../QuickActions";
-import MangaCover from "../../MangaCover";
-import ExpandButton from "../ExpandButton";
-import { MangaListContext } from "../../../contexts";
-import { statusToClassMapping } from "../../../utils/manga";
-import { clonePlainObject } from "../../../utils";
-import { MANGA_PER_PAGE } from "../../../utils/constants";
+import MangaTableDesktopRow from "./MangaTableDesktopRow";
+import { MangaCover } from "../../components";
+import { MangaListContext } from "../../contexts";
+import { clonePlainObject } from "../../utils";
+import { MANGA_PER_PAGE } from "../../utils/constants";
 import "./MangaTableDesktop.less";
 
 const { Column } = Table;
-const { Title } = Typography;
-const { useBreakpoint } = Grid;
 
 const skeletonData = Array(MANGA_PER_PAGE).fill({ isSkeleton: true });
 
 const MangaTableDesktop = () => {
-  const { isLoading, mangasToShow, onMangaClicked, updateMangaDone } = useContext(MangaListContext);
-  const mangaInfoColumn = useBreakpoint().xxl ? 2 : 1;
+  const { isLoading, mangasToShow, onMangaClicked } = useContext(MangaListContext);
 
   // TODO optimize?
   const dataSource = clonePlainObject(isLoading ? [...mangasToShow, ...skeletonData] : mangasToShow);
@@ -63,21 +57,7 @@ const MangaTableDesktop = () => {
           if (manga.isSkeleton) {
             return <Skeleton active key={manga._id} />;
           }
-
-          return (
-            <div key={manga._id} className={"triangle top-right " + statusToClassMapping[manga.status]}>
-              <Title level={4} className="manga-title">
-                <a href={manga.link} target="_blank" rel="noopener noreferrer">
-                  {manga.name}
-                </a>
-                <ExpandButton manga={manga} />
-              </Title>
-              <div className="manga-details">
-                <MangaBasicInfo manga={manga} showTitle={false} column={mangaInfoColumn} />
-                <MangaQuickActions manga={manga} updateMangaDone={updateMangaDone} />
-              </div>
-            </div>
-          );
+          return <MangaTableDesktopRow key={manga._id} manga={manga} />;
         }}
       />
     </Table>

@@ -2,7 +2,7 @@ import { useContext } from "react";
 
 import { Spin, Button } from "antd";
 
-import { ChapterList, MangaNoneEditableInfo, MangaUserInputProps } from "../../components";
+import { ChapterList, MangaNonEditableInfo, MangaUserInputProps } from "../../components";
 import { MangaContext } from "../../contexts";
 import { scrollToTop } from "../../utils";
 import { statusToClassMapping } from "../../utils/manga";
@@ -15,7 +15,7 @@ const MangaDetailRightPanel = () => {
     <div className="manga-detail-right-panel">
       <Spin key="spin" spinning={isLoading || isMarkingChapters}>
         <div className={"triangle large top-right " + statusToClassMapping[manga.status]}>
-          <MangaNoneEditableInfo />
+          <MangaNonEditableInfo />
           <MangaUserInputProps layout="row" />
           <ChapterList type="scroll" height="tall" />
           <Button block type="link" className="scroll-to-top" onClick={scrollToTop}>

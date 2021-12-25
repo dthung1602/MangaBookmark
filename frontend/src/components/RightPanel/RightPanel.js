@@ -5,7 +5,7 @@ import { Empty, Spin, Typography } from "antd";
 import MangaCover from "../MangaCover";
 import ChapterList from "../ChapterList";
 import MangaUserInputProps from "../MangaUserInputProps";
-import MangaNonEditableInfo from "../MangaNoneEditableInfo";
+import MangaNonEditableInfo from "../MangaNonEditableInfo";
 import VerticalActions from "./VerticalActions";
 import { MangaContext } from "../../contexts";
 import "./RightPanel.less";

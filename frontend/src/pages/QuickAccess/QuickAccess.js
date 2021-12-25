@@ -2,12 +2,12 @@ import { useState } from "react";
 import { Affix, Layout, Switch, Tabs, Tooltip } from "antd";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 
-import { Desktop } from "../../components/ScreenSize";
+import { Desktop, Mobile } from "../../components/ScreenSize";
 import PageLayout from ".././PageLayout";
 import FAB from "../../components/FAB";
 import MangaPageHeader from "../../components/MangaPageHeader";
 import RightPanel from "../../components/RightPanel";
-import MangaTableDesktop from "../../components/MangaTable/MangaTableDesktop";
+import { MangaTableDesktop, MangaTableMobile } from "../../parts";
 import NewMangaModal from "../../components/NewMangaModal";
 import UserNote from "../../components/UserNoteModal/UserNoteModal";
 import { READING, TO_READ, WAITING } from "../../utils/constants";
@@ -39,6 +39,7 @@ const QuickAccess = () => {
   const [selectedManga, setSelectedManga] = useState(null);
   const { tab, setTab, mangaListContext } = useMangaTab(setSelectedManga);
 
+  // TODO merge edit,update,mark,delete into option
   const selectedMangaContext = useMangaContext(
     selectedManga,
     mangaListContext.editMangaDone,
@@ -121,22 +122,17 @@ const QuickAccess = () => {
             </>
           )}
         />
-
-        {/* TODO re enable this */}
-        {/*<Mobile*/}
-        {/*  render={() => (*/}
-        {/*    <>*/}
-        {/*      {pageHeader}*/}
-        {/*      {tabs}*/}
-        {/*      <MangaTableMobile*/}
-        {/*        mangas={displayMangas}*/}
-        {/*        isLoading={isLoading}*/}
-        {/*        deleteMangaDone={deleteMangaDone}*/}
-        {/*        updateMangaDone={updateMangaDone}*/}
-        {/*      />*/}
-        {/*    </>*/}
-        {/*  )}*/}
-        {/*/>*/}
+        <Mobile
+          render={() => (
+            <>
+              {pageHeader}
+              {tabs}
+              <MangaListContext.Provider value={mangaListContext}>
+                <MangaTableMobile />
+              </MangaListContext.Provider>
+            </>
+          )}
+        />
       </Layout>
 
       <FAB

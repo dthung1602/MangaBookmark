@@ -189,10 +189,12 @@
     - [x] Design
     - [x] Fetch data
     - [x] Basic page layout
-    - [ ] Display data
-    - [ ] Update manga
-    - [ ] How to open manga detail page?
-    - [ ] Back button
+    - [x] Display data
+    - [x] Update manga
+    - [x] How to open manga detail page?
+    - ~~[ ] Back button~~
+    - [ ] Refactor
+    - [ ] Polish FE
 
 - [ ] Change page title
 

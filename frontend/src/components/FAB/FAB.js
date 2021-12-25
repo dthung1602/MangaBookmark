@@ -94,7 +94,7 @@ FAB.propTypes = {
   openNewMangaModal: PropTypes.func.isRequired,
   updateMangas: PropTypes.func.isRequired,
   isUpdatingMangas: PropTypes.bool.isRequired,
-  openUserNote: PropTypes.bool.isRequired,
+  openUserNote: PropTypes.func.isRequired,
 };
 
 export default FAB;
