@@ -18,6 +18,7 @@ import "./MangaMenu.less";
 
 const MangaMenu = ({ expand, toggleExpand, enableEdit }) => {
   const { updateManga, deleteManga, markAll, markOne, nextChapToRead } = useContext(MangaContext);
+  const markLatestChap = () => markOne(nextChapToRead);
 
   return (
     <Dropdown
@@ -26,7 +27,7 @@ const MangaMenu = ({ expand, toggleExpand, enableEdit }) => {
           <Menu.Item icon={<CheckSquareOutlined />} onClick={markAll} disabled={nextChapToRead.empty}>
             Mark all
           </Menu.Item>
-          <Menu.Item icon={<PlusSquareOutlined />} onClick={markOne} disabled={nextChapToRead.empty}>
+          <Menu.Item icon={<PlusSquareOutlined />} onClick={markLatestChap} disabled={nextChapToRead.empty}>
             Mark one
           </Menu.Item>
           <Menu.Item icon={<EditOutlined />} onClick={enableEdit}>

@@ -47,7 +47,7 @@ const MangaCard = ({ manga }) => {
           }
         >
           <div className={`collapsable ${editEnabled ? "collapsed" : ""}`}>
-            <MangaBasicInfo headerExtra={headerExtra} />
+            <MangaBasicInfo headerExtra={headerExtra} showAdditionalInfo={expand} />
             <StartReadingButtons />
           </div>
           {editEnabled
