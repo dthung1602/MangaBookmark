@@ -89,7 +89,7 @@ function ChapterList({ type = "scroll", height = "medium", showDate = true, maxC
 
 ChapterList.propTypes = {
   type: PropTypes.oneOf(["scroll", "page"]),
-  height: PropTypes.oneOf(["short", "medium", "tall"]),
+  height: PropTypes.oneOf(["short", "medium", "tall", "infinite"]),
   showDate: PropTypes.bool,
   maxChapNameLen: PropTypes.number,
 };

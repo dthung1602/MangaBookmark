@@ -17,9 +17,9 @@ const MangaDetailRightPanel = () => {
         <div className={"triangle large top-right " + statusToClassMapping[manga.status]}>
           <MangaNonEditableInfo />
           <MangaUserInputProps layout="row" />
-          <ChapterList type="scroll" height="tall" />
+          <ChapterList type="scroll" height="infinite" />
           <Button block type="link" className="scroll-to-top" onClick={scrollToTop}>
-            Scroll to top ↑
+            ↑ Back to top
           </Button>
         </div>
       </Spin>

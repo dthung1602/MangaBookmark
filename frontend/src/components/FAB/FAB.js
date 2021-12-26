@@ -36,7 +36,7 @@ const FAB = ({ config }) => {
 
   // Hide FAB entirely
   if (config === false) {
-    return;
+    return null;
   }
 
   // Only one action, no need for special effects

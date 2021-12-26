@@ -20,7 +20,7 @@ const useMangaListContext = (mangasOrFactory, loadMode, callbacks = {}) => {
 
   const { addMangaDone, editMangaDone, updateMangaDone, markChaptersDone, deleteMangaDone, onMangaClicked } = {
     ...defaultCallbacks,
-    callbacks,
+    ...callbacks,
   };
 
   useEffect(() => {

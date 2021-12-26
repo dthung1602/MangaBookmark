@@ -31,7 +31,7 @@ const useMangaContext = (mangaOrFactory = null, callbacks = {}) => {
   const [manga, setManga] = useState(initMangaValue);
   const [isLoading, setIsLoading] = useState(initLoadingValue);
 
-  const { editMangaDone, updateMangaDone, markChaptersDone, deleteMangaDone } = { ...defaultCallbacks, callbacks };
+  const { editMangaDone, updateMangaDone, markChaptersDone, deleteMangaDone } = { ...defaultCallbacks, ...callbacks };
 
   useEffect(() => {
     if (!(mangaOrFactory instanceof Function)) {

@@ -17,6 +17,7 @@ const MangaTableDesktop = () => {
   const { isLoading, mangasToShow, onMangaClicked } = useContext(MangaListContext);
 
   // TODO optimize?
+  // TODO skeleton loading
   const dataSource = clonePlainObject(isLoading ? [...mangasToShow, ...skeletonData] : mangasToShow);
 
   return (
