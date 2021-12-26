@@ -13,10 +13,7 @@ import {
   ROUTE_REGISTER,
 } from "./utils/constants";
 import { GlobalContextProvider } from "./components/GlobalContext";
-import ErrorBoundary from "./components/ErrorBoundary";
-import PrivateRoute from "./components/PrivateRoute";
-import FullScreenLoading from "./components/FullScreenLoading";
-import Subscription from "./components/Subscription";
+import { ErrorBoundary, PrivateRoute, FullScreenLoading, Subscription } from "./components";
 
 import Home from "./pages/Home"; // load home page eagerly for better UX
 const Account = lazy(() => import("./pages/Account"));

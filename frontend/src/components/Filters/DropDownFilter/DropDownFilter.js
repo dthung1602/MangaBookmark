@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import { Button, Dropdown, Menu } from "antd";
 
-import { ANY } from "../../utils/constants";
-import "./FilterDropdown.less";
+import { ANY } from "../../../utils/constants";
+import "./DropDownFilter.less";
 
-const FilterDropdown = ({
+const DropDownFilter = ({
   options,
   selected,
   displayName,
@@ -40,7 +40,6 @@ const FilterDropdown = ({
         </div>
       }
       trigger={["hover", "click"]}
-      className="filter-btn"
       overlayClassName="box-shadow"
       placement={placement}
       arrow
@@ -53,7 +52,7 @@ const FilterDropdown = ({
   );
 };
 
-FilterDropdown.propTypes = {
+DropDownFilter.propTypes = {
   options: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
   selected: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   displayName: PropTypes.string.isRequired,
@@ -66,4 +65,4 @@ FilterDropdown.propTypes = {
   block: PropTypes.bool,
 };
 
-export default FilterDropdown;
+export default DropDownFilter;

@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 
 import { ArrayParam, StringParam, useQueryParams, withDefault } from "use-query-params";
 
-import Filters from "../../components/Filters";
+import { MangaFilters } from "../../components";
 import MangaListingPage from "../MangaListingPage";
 import { MangaAPI } from "../../api";
 import { ANY, MANGA_PER_PAGE, SORT_DEC_STATUS } from "../../utils/constants";
@@ -63,7 +63,7 @@ const AllMangas = () => {
     setPage(1);
   };
 
-  const filterBar = <Filters filters={filters} updateFilters={updateFilters} resetFilters={resetFilters} />;
+  const filterBar = <MangaFilters filters={filters} updateFilters={updateFilters} resetFilters={resetFilters} />;
 
   return (
     <MangaListingPage

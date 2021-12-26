@@ -1,20 +1,18 @@
 import { useContext, useState } from "react";
+
 import PropTypes from "prop-types";
 import { Affix, Space, Button, Collapse, Grid, Input } from "antd";
 import { CaretDownOutlined, CaretUpOutlined, SearchOutlined, ClearOutlined } from "@ant-design/icons";
 
-import FilterDropdown from "./FilterDropdown";
-import LoopButton from "./LoopButton";
-import DateFilter from "./DateFilter";
-import MultipleSelectFilter from "./MultipleSelectFilter";
+import { DropDownFilter, LoopButtonFilter, DateFilter, MultipleSelectFilter } from "../Filters";
 import { GlobalContext } from "../GlobalContext";
 import { MG_STATUSES, SHELVES, SORTABLE_FIELDS, LANGUAGES } from "../../utils/constants";
-import "./Filters.less";
+import "./MangaFilters.less";
 
 const { Panel } = Collapse;
 const { useBreakpoint } = Grid;
 
-const Filters = ({ filters, updateFilters, resetFilters }) => {
+const MangaFilters = ({ filters, updateFilters, resetFilters }) => {
   const [open, setOpen] = useState(false);
   const [{ supportedSites, availableTags }] = useContext(GlobalContext);
 
@@ -30,7 +28,7 @@ const Filters = ({ filters, updateFilters, resetFilters }) => {
   };
 
   const shelfFilter = (
-    <FilterDropdown
+    <DropDownFilter
       key="shelf"
       displayName={"Shelf"}
       options={SHELVES}
@@ -39,7 +37,7 @@ const Filters = ({ filters, updateFilters, resetFilters }) => {
     />
   );
   const statusFilter = (
-    <FilterDropdown
+    <DropDownFilter
       key="status"
       displayName={"Status"}
       options={MG_STATUSES}
@@ -48,7 +46,7 @@ const Filters = ({ filters, updateFilters, resetFilters }) => {
     />
   );
   const isCompletedFilter = (
-    <LoopButton
+    <LoopButtonFilter
       key="isCompleted"
       displayName={"Completed"}
       options={["true", "false"]}
@@ -57,7 +55,7 @@ const Filters = ({ filters, updateFilters, resetFilters }) => {
     />
   );
   const sort = (
-    <FilterDropdown
+    <DropDownFilter
       key="sort"
       displayName={"Sort"}
       options={SORTABLE_FIELDS}
@@ -77,7 +75,7 @@ const Filters = ({ filters, updateFilters, resetFilters }) => {
     />
   );
   const hiddenFilter = (
-    <LoopButton
+    <LoopButtonFilter
       key="hidden"
       displayName={"Hidden"}
       options={["true", "false"]}
@@ -86,7 +84,7 @@ const Filters = ({ filters, updateFilters, resetFilters }) => {
     />
   );
   const siteFilter = (
-    <FilterDropdown
+    <DropDownFilter
       key="site"
       displayName={"Site"}
       options={supportedSites.map((site) => site.name)}
@@ -111,7 +109,7 @@ const Filters = ({ filters, updateFilters, resetFilters }) => {
     />
   );
   const languageFilter = (
-    <FilterDropdown
+    <DropDownFilter
       key="lang"
       displayName={"Language"}
       options={LANGUAGES}
@@ -173,7 +171,7 @@ const Filters = ({ filters, updateFilters, resetFilters }) => {
 
   return (
     <Affix className="affix-container">
-      <div className="filter-basic">
+      <div className="manga-filter-basic">
         <Space>{basicFilters}</Space>
         &nbsp;&nbsp;
         <div className="flex-1" />
@@ -192,7 +190,7 @@ const Filters = ({ filters, updateFilters, resetFilters }) => {
       </div>
 
       <Collapse bordered={false} activeKey={open ? 1 : undefined}>
-        <Panel header={""} key="1" showArrow={false} className="filter-advance">
+        <Panel header={""} key="1" showArrow={false} className="manga-filter-advance">
           <Space wrap>{advanceFilters}</Space>
         </Panel>
       </Collapse>
@@ -200,10 +198,10 @@ const Filters = ({ filters, updateFilters, resetFilters }) => {
   );
 };
 
-Filters.propTypes = {
+MangaFilters.propTypes = {
   filters: PropTypes.object.isRequired,
   updateFilters: PropTypes.func.isRequired,
   resetFilters: PropTypes.func.isRequired,
 };
 
-export default Filters;
+export default MangaFilters;

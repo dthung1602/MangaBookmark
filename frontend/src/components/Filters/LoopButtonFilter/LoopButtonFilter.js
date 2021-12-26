@@ -1,8 +1,10 @@
 import PropTypes from "prop-types";
 import { Button } from "antd";
-import { ANY } from "../../utils/constants";
 
-const LoopButton = ({
+import { ANY } from "../../../utils/constants";
+import "./LoopButtonFilter.less";
+
+const LoopButtonFilter = ({
   options,
   selected,
   displayName,
@@ -27,14 +29,14 @@ const LoopButton = ({
   const nextValue = keys[(keys.indexOf(selected) + 1) % keys.length];
 
   return (
-    <Button className="filter-btn" size={size} onClick={() => onSelect(nextValue)} block={block}>
+    <Button size={size} onClick={() => onSelect(nextValue)} block={block}>
       <b>{displayName}: </b>
       {options[selected] || (showAnyOption ? anyText : "")}
     </Button>
   );
 };
 
-LoopButton.propTypes = {
+LoopButtonFilter.propTypes = {
   options: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
   selected: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   displayName: PropTypes.string.isRequired,
@@ -46,4 +48,4 @@ LoopButton.propTypes = {
   block: PropTypes.bool,
 };
 
-export default LoopButton;
+export default LoopButtonFilter;

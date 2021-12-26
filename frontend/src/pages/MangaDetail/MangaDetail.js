@@ -3,8 +3,8 @@ import { Spin } from "antd";
 import { useQueryParam } from "use-query-params";
 
 import PageLayout from "../PageLayout";
+import { MangaBanner } from "../../components";
 import { MangaDetailLeftPanel, MangaDetailRightPanel } from "../../parts";
-import MangaBanner from "../../components/MangaBanner";
 import { MangaContext } from "../../contexts";
 import { useMangaContext } from "../../hooks";
 import { MangaAPI } from "../../api";

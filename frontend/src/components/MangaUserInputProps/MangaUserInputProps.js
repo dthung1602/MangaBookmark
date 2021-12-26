@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import Proptypes from "prop-types";
 
-import FilterDropdown from "../Filters/FilterDropdown";
-import LoopButton from "../Filters/LoopButton";
+import DropDownFilter from "../Filters/DropDownFilter/DropDownFilter";
+import LoopButtonFilter from "../Filters/LoopButtonFilter/LoopButtonFilter";
 import { MangaContext } from "../../contexts";
 import { SHELVES } from "../../utils/constants";
 import "./MangaUserInputProps.less";
@@ -13,7 +13,7 @@ const MangaUserInputProps = ({ layout }) => {
 
   return (
     <div className={`manga-user-input-props ${layout}`}>
-      <FilterDropdown
+      <DropDownFilter
         displayName={"Shelf"}
         options={SHELVES}
         showAnyOption={false}
@@ -21,7 +21,7 @@ const MangaUserInputProps = ({ layout }) => {
         onSelect={editMangaField("shelf")}
         block={block}
       />
-      <LoopButton
+      <LoopButtonFilter
         displayName={"Completed"}
         options={["true", "false"]}
         showAnyOption={false}
@@ -29,7 +29,7 @@ const MangaUserInputProps = ({ layout }) => {
         onSelect={editMangaField("isCompleted")}
         block={block}
       />
-      <LoopButton
+      <LoopButtonFilter
         displayName={"Hidden"}
         options={["true", "false"]}
         showAnyOption={false}

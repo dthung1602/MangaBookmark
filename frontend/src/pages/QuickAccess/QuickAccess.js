@@ -2,7 +2,7 @@ import { useCallback } from "react";
 
 import { StringParam, useQueryParam, withDefault } from "use-query-params";
 
-import { MangaTabs } from "../../parts";
+import { MangaTabs } from "../../components";
 import MangaListingPage from "../MangaListingPage";
 import {
   READING,

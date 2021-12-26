@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { Select } from "antd";
 import { SettingOutlined } from "@ant-design/icons";
+
 import "./MultipleSelectFilter.less";
 
 const { Option } = Select;
@@ -15,7 +16,7 @@ const MultipleSelectFilter = ({ options, selected, displayName, onSelect, size =
 
   return (
     <Select
-      className="filter-btn multiple-select"
+      className="multiple-select"
       mode="multiple"
       allowClear
       placeholder={displayName}
