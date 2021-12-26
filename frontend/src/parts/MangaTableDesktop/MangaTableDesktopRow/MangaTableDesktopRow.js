@@ -16,8 +16,8 @@ const { Title } = Typography;
 const { useBreakpoint } = Grid;
 
 const MangaTableDesktopRow = ({ manga }) => {
-  const { editMangaDone, updateMangaDone, deleteMangaDone } = useContext(MangaListContext);
-  const mangaContext = useMangaContext(manga, editMangaDone, updateMangaDone, editMangaDone, deleteMangaDone);
+  const mangaListContext = useContext(MangaListContext);
+  const mangaContext = useMangaContext(manga, mangaListContext);
   const numberOfColumns = useBreakpoint().xxl ? 2 : 1;
   const mangaStatusClass = statusToClassMapping[manga.status];
 
@@ -34,7 +34,7 @@ const MangaTableDesktopRow = ({ manga }) => {
         </Title>
         <div className="manga-details">
           <MangaBasicInfo showTitle={false} numberOfColumns={numberOfColumns} />
-          <StartReadingButtons manga={manga} updateMangaDone={updateMangaDone} />
+          <StartReadingButtons manga={manga} updateMangaDone={mangaListContext.updateMangaDone} />
         </div>
       </div>
     </MangaContext.Provider>

@@ -1,20 +1,22 @@
 import { createContext } from "react";
 
+import { doNothing } from "../utils";
+
 const initContext = {
   manga: null,
-  setManga: () => {},
+  setManga: doNothing,
   nextChapToRead: null,
   nextChapToReadIdx: -1,
   isLoading: false,
 
-  editMangaField: () => {},
-  updateManga: () => {},
-  deleteManga: () => {},
+  editMangaField: doNothing,
+  updateManga: doNothing,
+  deleteManga: doNothing,
 
   isMarkingChapters: false,
-  markOne: () => {},
-  markUpTo: () => {},
-  markAll: () => {},
+  markOne: doNothing,
+  markUpTo: doNothing,
+  markAll: doNothing,
   disableMarkAll: false,
 };
 

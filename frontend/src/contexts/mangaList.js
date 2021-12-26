@@ -1,11 +1,14 @@
 import { createContext } from "react";
 
-const doNothing = () => {};
+import { doNothing } from "../utils";
 
 const initContext = {
   mangas: [],
   setMangas: doNothing,
   isLoading: false,
+
+  loadMode: "replace",
+  allLoaded: false,
   totalFound: NaN,
 
   showHidden: false,
@@ -17,6 +20,7 @@ const initContext = {
   addMangaDone: doNothing,
   editMangaDone: doNothing,
   updateMangaDone: doNothing,
+  markChaptersDone: doNothing,
   deleteMangaDone: doNothing,
 };
 

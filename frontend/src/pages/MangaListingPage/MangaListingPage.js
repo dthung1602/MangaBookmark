@@ -8,37 +8,39 @@ import { Desktop, Mobile } from "../../components/ScreenSize";
 import MangaListingPageHeader from "../../parts/MangaListingPageHeader";
 import NewMangaModal from "../../components/NewMangaModal";
 import UserNoteModal from "../../components/UserNoteModal/UserNoteModal";
+import EndOfList from "../../components/EndOfList";
 import { MangaTableDesktop, MangaTableMobile, PreviewRightPanel } from "../../parts";
 import PageLayout from "../PageLayout";
-import { scrollToTop } from "../../utils";
+import { doNothing, scrollToTop } from "../../utils";
 import { MangaContext, MangaListContext } from "../../contexts";
 import { useMangaContext, useMangaListContext, useModal, useUpdateMultipleAPI } from "../../hooks";
 import "./MangaListingPage.less";
 
-const MangaListingPage = ({ title, mangasOrFactory, filterNode, updateMangaFilters, updateButtonText }) => {
+const MangaListingPage = ({
+  title,
+  mangasOrFactory,
+  loadMode,
+  filterNode,
+  updateMangaFilters,
+  updateButtonText,
+  onReachedEndOfList = doNothing,
+}) => {
   const { visible: newMangaModalVisible, closeModal: closeNewMangaModal, openModal: openNewMangaModal } = useModal();
   const { visible: noteModalVisible, closeModal: closeNoteModal, openModal: openNoteModal } = useModal();
 
   const [selectedManga, setSelectedManga] = useState(null);
   const setSelectedMangaToNull = useCallback(() => setSelectedManga(null), [setSelectedManga]);
-  const mangaListContext = useMangaListContext(
-    mangasOrFactory,
-    setSelectedManga,
-    setSelectedManga,
-    setSelectedManga,
-    setSelectedManga,
-    setSelectedMangaToNull,
-    setSelectedManga,
-  );
 
-  // TODO merge edit,update,mark,delete into option
-  const selectedMangaContext = useMangaContext(
-    selectedManga,
-    mangaListContext.editMangaDone,
-    mangaListContext.updateMangaDone,
-    mangaListContext.markChaptersDone,
-    mangaListContext.deleteMangaDone,
-  );
+  const mangaListContext = useMangaListContext(mangasOrFactory, loadMode, {
+    addMangaDone: setSelectedManga,
+    editMangaDone: setSelectedManga,
+    updateMangaDone: setSelectedManga,
+    markChaptersDone: setSelectedManga,
+    deleteMangaDone: setSelectedMangaToNull,
+    onMangaClicked: setSelectedManga,
+  });
+
+  const selectedMangaContext = useMangaContext(selectedManga, mangaListContext);
 
   const [isUpdatingMangas, updateMangas] = useUpdateMultipleAPI(updateMangaFilters);
 
@@ -79,6 +81,10 @@ const MangaListingPage = ({ title, mangasOrFactory, filterNode, updateMangaFilte
     />
   );
 
+  const endOfList = (
+    <EndOfList onReached={onReachedEndOfList} disabled={mangaListContext.isLoading || mangaListContext.allLoaded} />
+  );
+
   return (
     <PageLayout fabConfig={fabConfig}>
       <Layout>
@@ -90,6 +96,7 @@ const MangaListingPage = ({ title, mangasOrFactory, filterNode, updateMangaFilte
                   {pageHeader}
                   {filterNode}
                   <MangaTableDesktop key="table" />
+                  {endOfList}
                 </MangaListContext.Provider>
               </div>
               <MangaContext.Provider value={selectedMangaContext}>
@@ -104,6 +111,7 @@ const MangaListingPage = ({ title, mangasOrFactory, filterNode, updateMangaFilte
               {pageHeader}
               {filterNode}
               <MangaTableMobile key="table" />
+              {endOfList}
             </MangaListContext.Provider>
           )}
         />
@@ -123,9 +131,11 @@ const MangaListingPage = ({ title, mangasOrFactory, filterNode, updateMangaFilte
 MangaListingPage.propTypes = {
   title: PropTypes.string.isRequired,
   mangasOrFactory: PropTypes.oneOfType([PropTypes.array, PropTypes.func]).isRequired,
+  loadMode: PropTypes.oneOf(["append", "replace"]).isRequired,
   filterNode: PropTypes.node.isRequired,
   updateMangaFilters: PropTypes.object.isRequired,
   updateButtonText: PropTypes.string.isRequired,
+  onReachedEndOfList: PropTypes.func,
 };
 
 export default MangaListingPage;

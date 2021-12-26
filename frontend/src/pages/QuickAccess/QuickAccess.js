@@ -66,6 +66,7 @@ const QuickAccess = () => {
     <MangaListingPage
       title="Quick access"
       mangasOrFactory={loadMangas}
+      loadMode="replace"
       filterNode={tabs}
       updateMangaFilters={DAILY_UPDATE_FILTERS}
       updateButtonText="Daily update"

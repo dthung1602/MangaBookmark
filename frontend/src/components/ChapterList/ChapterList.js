@@ -2,7 +2,7 @@ import { useContext } from "react";
 import PropTypes from "prop-types";
 
 import moment from "moment";
-import { Button, Checkbox, Popconfirm, Spin, Table, Typography } from "antd";
+import { Button, Checkbox, Spin, Table, Typography } from "antd";
 import { CheckOutlined, ClockCircleOutlined, DoubleLeftOutlined } from "@ant-design/icons";
 
 import { usePagination, useShowChapters } from "./hooks";

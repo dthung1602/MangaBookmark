@@ -15,13 +15,14 @@ const shouldDisableMarkAll = (manga) => {
   return manga.chapters.every((ch) => ch.isRead);
 };
 
-const useMangaContext = (
-  mangaOrFactory = null,
-  editMangaDone = doNothing,
-  updateMangaDone = doNothing,
-  markChaptersDone = doNothing,
-  deleteMangaDone = doNothing,
-) => {
+const defaultCallbacks = {
+  editMangaDone: doNothing,
+  updateMangaDone: doNothing,
+  markChaptersDone: doNothing,
+  deleteMangaDone: doNothing,
+};
+
+const useMangaContext = (mangaOrFactory = null, callbacks = {}) => {
   // ----------------
   //    manga logic
   // ----------------
@@ -29,6 +30,8 @@ const useMangaContext = (
   const initLoadingValue = mangaOrFactory instanceof Function;
   const [manga, setManga] = useState(initMangaValue);
   const [isLoading, setIsLoading] = useState(initLoadingValue);
+
+  const { editMangaDone, updateMangaDone, markChaptersDone, deleteMangaDone } = { ...defaultCallbacks, callbacks };
 
   useEffect(() => {
     if (!(mangaOrFactory instanceof Function)) {

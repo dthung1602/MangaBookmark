@@ -2,34 +2,45 @@ import { useEffect, useCallback, useState, useMemo } from "react";
 import { notifyError, throwOnCriticalErrors } from "../utils/error-handler";
 import { doNothing } from "../utils";
 
-const useMangaListContext = (
-  mangasOrFactory,
-  addMangaDone = doNothing,
-  editMangaDone = doNothing,
-  updateMangaDone = doNothing,
-  markChaptersDone = doNothing,
-  deleteMangaDone = doNothing,
-  onMangaClicked = doNothing,
-) => {
+const defaultCallbacks = {
+  addMangaDone: doNothing,
+  editMangaDone: doNothing,
+  updateMangaDone: doNothing,
+  markChaptersDone: doNothing,
+  deleteMangaDone: doNothing,
+  onMangaClicked: doNothing,
+};
+
+const useMangaListContext = (mangasOrFactory, loadMode, callbacks = {}) => {
   const [totalFound, setTotalFound] = useState(NaN);
   const [mangas, setMangas] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(mangasOrFactory instanceof Function ? loadMode : false);
   const [showHidden, setShowHidden] = useState(false);
+  const [allLoaded, setAllLoaded] = useState(false);
+
+  const { addMangaDone, editMangaDone, updateMangaDone, markChaptersDone, deleteMangaDone, onMangaClicked } = {
+    ...defaultCallbacks,
+    callbacks,
+  };
 
   useEffect(() => {
     if (!(mangasOrFactory instanceof Function)) {
       return;
     }
 
-    setIsLoading(true);
+    setIsLoading(loadMode);
     const { result, abort } = mangasOrFactory();
 
     result
       .then(async (response) => {
         throwOnCriticalErrors(response);
-        const { data, totalItem } = await response.json();
-        setMangas(data);
+        let { data, totalItem, isLastPage, page } = await response.json();
+        setAllLoaded(isLastPage);
         setTotalFound(totalItem);
+        if (page > 1) {
+          data = mangas.concat(data);
+        }
+        setMangas(data);
       })
       .catch((e) => {
         // silently ignore AbortError while report others
@@ -105,6 +116,8 @@ const useMangaListContext = (
     mangas,
     setMangas,
     isLoading,
+    loadMode,
+    allLoaded,
     totalFound,
     showHidden,
     setShowHidden,

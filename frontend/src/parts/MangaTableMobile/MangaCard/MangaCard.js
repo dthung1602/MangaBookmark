@@ -19,8 +19,8 @@ import { MangaContext, MangaListContext } from "../../../contexts";
 import "./MangaCard.less";
 
 const MangaCard = ({ manga }) => {
-  const { editMangaDone, updateMangaDone, deleteMangaDone } = useContext(MangaListContext);
-  const mangaContext = useMangaContext(manga, editMangaDone, updateMangaDone, editMangaDone, deleteMangaDone);
+  const mangaListContext = useContext(MangaListContext);
+  const mangaContext = useMangaContext(manga, mangaListContext);
 
   const [editEnabled, setEditEnabled] = useState(false);
   const [expand, setExpand] = useState(false);
