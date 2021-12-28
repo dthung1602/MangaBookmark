@@ -183,9 +183,19 @@
       
 - [x] One master note for user -> take note everything
 
-- [ ] Manga detail page
+- [ ] Refactor
+  - [x] Quick access
+  - [x] All mangas
+  - [ ] New manga modal
+  - [ ] Login 
+  - [ ] Register
+  - [ ] Account
+  - [ ] components vs parts
+  - [ ] optimize speed
+
+- [x] Manga detail page
   - [x] Setup BE to query 1 manga info
-  - [ ] Setup FE
+  - [x] Setup FE
     - [x] Design
     - [x] Fetch data
     - [x] Basic page layout
@@ -193,8 +203,13 @@
     - [x] Update manga
     - [x] How to open manga detail page?
     - ~~[ ] Back button~~
-    - [ ] Refactor
-    - [ ] Polish FE
+
+- [ ] Polish FE
+  - [ ] MDP page
+  - [ ] MangaTableDesktop, MangaTableMobile
+  - [ ] Update Homepage
+    - [ ] Video
+    - [ ] Guide = picture
 
 - [ ] Change page title
 
