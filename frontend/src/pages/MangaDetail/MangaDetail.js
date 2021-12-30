@@ -6,14 +6,14 @@ import PageLayout from "../PageLayout";
 import { MangaBanner } from "../../components";
 import { MangaDetailLeftPanel, MangaDetailRightPanel } from "../../parts";
 import { MangaContext } from "../../contexts";
-import { useMangaContext } from "../../hooks";
+import { useMangaAPIContext } from "../../hooks";
 import { MangaAPI } from "../../api";
 import "./MangaDetail.less";
 
 const MangaDetail = () => {
   const [mangaId] = useQueryParam("id");
   const loadManga = useCallback(() => MangaAPI.get(mangaId), [mangaId]);
-  const mangaContext = useMangaContext(loadManga);
+  const mangaContext = useMangaAPIContext(loadManga);
 
   return (
     <MangaContext.Provider value={mangaContext}>

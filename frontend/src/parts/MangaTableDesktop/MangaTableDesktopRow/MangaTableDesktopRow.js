@@ -6,7 +6,7 @@ import { Grid, Typography } from "antd";
 import { FullscreenOutlined } from "@ant-design/icons";
 
 import { MangaBasicInfo, StartReadingButtons } from "../../../components";
-import { useMangaContext } from "../../../hooks";
+import { useMangaAPIContext } from "../../../hooks";
 import { MangaContext, MangaListContext } from "../../../contexts";
 import { statusToClassMapping } from "../../../utils/manga";
 import { buildMangaDetailPath } from "../../../utils";
@@ -17,7 +17,7 @@ const { useBreakpoint } = Grid;
 
 const MangaTableDesktopRow = ({ manga }) => {
   const mangaListContext = useContext(MangaListContext);
-  const mangaContext = useMangaContext(manga, mangaListContext);
+  const mangaContext = useMangaAPIContext(manga, mangaListContext);
   const numberOfColumns = useBreakpoint().xxl ? 2 : 1;
   const mangaStatusClass = statusToClassMapping[manga.status];
 

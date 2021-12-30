@@ -5,9 +5,12 @@ import { doNothing } from "../utils";
 const initContext = {
   manga: null,
   setManga: doNothing,
+  isLoading: false,
+  errors: [],
+  setErrors: doNothing,
+
   nextChapToRead: null,
   nextChapToReadIdx: -1,
-  isLoading: false,
 
   editMangaField: doNothing,
   updateManga: doNothing,

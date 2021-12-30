@@ -13,14 +13,14 @@ import {
   MangaUserInputProps,
   StartReadingButtons,
 } from "../../../components";
-import { useMangaContext } from "../../../hooks";
+import { useMangaAPIContext } from "../../../hooks";
 import { statusToClassMapping } from "../../../utils/manga";
 import { MangaContext, MangaListContext } from "../../../contexts";
 import "./MangaCard.less";
 
 const MangaCard = ({ manga }) => {
   const mangaListContext = useContext(MangaListContext);
-  const mangaContext = useMangaContext(manga, mangaListContext);
+  const mangaContext = useMangaAPIContext(manga, mangaListContext);
 
   const [editEnabled, setEditEnabled] = useState(false);
   const [expand, setExpand] = useState(false);

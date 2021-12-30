@@ -4,12 +4,12 @@ import PropTypes from "prop-types";
 import { Layout } from "antd";
 import { FileTextOutlined, PlusOutlined, ReloadOutlined, UpOutlined } from "@ant-design/icons";
 
-import { ScreenSize, MangaListingPageHeader, NewMangaModal, UserNoteModal, EndOfList } from "../../components";
-import { MangaTableDesktop, MangaTableMobile, PreviewRightPanel } from "../../parts";
+import { ScreenSize, MangaListingPageHeader, UserNoteModal, EndOfList } from "../../components";
+import { MangaTableDesktop, MangaTableMobile, PreviewRightPanel, NewMangaModal } from "../../parts";
 import PageLayout from "../PageLayout";
 import { doNothing, scrollToTop } from "../../utils";
 import { MangaContext, MangaListContext } from "../../contexts";
-import { useMangaContext, useMangaListContext, useModal, useUpdateMultipleAPI } from "../../hooks";
+import { useMangaAPIContext, useMangaListContext, useModal, useUpdateMultipleAPI } from "../../hooks";
 import "./MangaListingPage.less";
 
 const { Desktop, Mobile } = ScreenSize;
@@ -38,7 +38,7 @@ const MangaListingPage = ({
     onMangaClicked: setSelectedManga,
   });
 
-  const selectedMangaContext = useMangaContext(selectedManga, mangaListContext);
+  const selectedMangaContext = useMangaAPIContext(selectedManga, mangaListContext);
 
   const [isUpdatingMangas, updateMangas] = useUpdateMultipleAPI(updateMangaFilters);
 

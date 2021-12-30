@@ -5,15 +5,9 @@ import { message } from "antd";
 import { MangaAPI } from "../api";
 import { notifyError, throwOnCriticalErrors } from "../utils/error-handler";
 import { getNextChapToRead, markChapterLogic } from "../utils/chapters";
+import { shouldDisableMarkAll } from "../utils/manga";
 import { REREAD } from "../utils/constants";
 import { doNothing } from "../utils";
-
-const shouldDisableMarkAll = (manga) => {
-  if (!manga || manga.shelf === REREAD) {
-    return false;
-  }
-  return manga.chapters.every((ch) => ch.isRead);
-};
 
 const defaultCallbacks = {
   editMangaDone: doNothing,
@@ -22,7 +16,7 @@ const defaultCallbacks = {
   deleteMangaDone: doNothing,
 };
 
-const useMangaContext = (mangaOrFactory = null, callbacks = {}) => {
+const useMangaAPIContext = (mangaOrFactory = null, callbacks = {}) => {
   // ----------------
   //    manga logic
   // ----------------
@@ -30,27 +24,48 @@ const useMangaContext = (mangaOrFactory = null, callbacks = {}) => {
   const initLoadingValue = mangaOrFactory instanceof Function;
   const [manga, setManga] = useState(initMangaValue);
   const [isLoading, setIsLoading] = useState(initLoadingValue);
+  const [errors, setErrors] = useState({});
 
   const { editMangaDone, updateMangaDone, markChaptersDone, deleteMangaDone } = { ...defaultCallbacks, ...callbacks };
 
   useEffect(() => {
+    setErrors({});
+
+    // not a function -> set manga
     if (!(mangaOrFactory instanceof Function)) {
       setManga(mangaOrFactory);
       return;
     }
 
-    setIsLoading(true);
-    const { result, abort } = mangaOrFactory();
+    const maybeAPICall = mangaOrFactory();
 
-    result
+    // not an api call -> set result as manga
+    if (maybeAPICall === null || !("result" in maybeAPICall)) {
+      setManga(maybeAPICall);
+      setIsLoading(false);
+      return;
+    }
+
+    // perform api call
+    setIsLoading(true);
+    maybeAPICall.result
       .then(async (response) => {
+        // default value when manga is set directly
         let newManga = response;
+        let newErrors = {};
+
         if (response instanceof Response) {
           throwOnCriticalErrors(response);
           newManga = await response.json();
+
+          if (!response.ok) {
+            newErrors = newManga.errors;
+            newManga = null;
+          }
         }
+
         setManga(newManga);
-        setIsLoading(false);
+        setErrors(newErrors);
       })
       .catch((e) => {
         // silently ignore AbortError while report others
@@ -61,7 +76,7 @@ const useMangaContext = (mangaOrFactory = null, callbacks = {}) => {
       })
       .finally(() => setIsLoading(false));
 
-    return () => abort();
+    return () => maybeAPICall.abort();
   }, [mangaOrFactory]);
 
   const editMangaField = useCallback(
@@ -144,9 +159,11 @@ const useMangaContext = (mangaOrFactory = null, callbacks = {}) => {
   return {
     manga,
     setManga,
+    isLoading,
+    errors,
+    setErrors,
     nextChapToRead,
     nextChapToReadIdx,
-    isLoading,
     editMangaField,
     updateManga,
     deleteManga,
@@ -158,4 +175,4 @@ const useMangaContext = (mangaOrFactory = null, callbacks = {}) => {
   };
 };
 
-export default useMangaContext;
+export default useMangaAPIContext;
