@@ -25,7 +25,7 @@ export const addDebugObjectId = () => {
     };
   }
 
-  console.log("Static method Object.id added for debugging");
+  console.debug("Static method Object.id added for debugging");
 };
 
 export const randomFrom = (array) => {

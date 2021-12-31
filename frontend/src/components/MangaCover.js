@@ -1,14 +1,14 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-import { Image, Spin } from "antd";
+import { Image, Skeleton } from "antd";
 import { ImageAPI } from "../api";
 import FALLBACK_IMG from "../assets/fallback-manga-cover.webp";
 
-const spin = (
+const skeleton = (
   // TODO vertical align me
   <div className="text-align-center">
-    <Spin />
+    <Skeleton.Image />
   </div>
 );
 
@@ -35,7 +35,7 @@ const MangaCover = ({ src: originalSrc, mangaSite, ...props }) => {
     props.preview = false;
   }
 
-  return <Image {...props} placeholder={spin} src={src} onError={onError} />;
+  return <Image {...props} placeholder={skeleton} src={src} onError={onError} />;
 };
 
 MangaCover.propTypes = {

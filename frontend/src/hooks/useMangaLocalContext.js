@@ -4,6 +4,7 @@ import { notifyError, throwOnCriticalErrors } from "../utils/error-handler";
 import { getNextChapToRead, markChapterLogic } from "../utils/chapters";
 import { shouldDisableMarkAll } from "../utils/manga";
 import { clonePlainObject, doNothing } from "../utils";
+import { REREAD } from "../utils/constants";
 
 const defaultCallbacks = {
   editMangaDone: doNothing,
@@ -93,12 +94,30 @@ const useMangaLocalContext = (mangaOrFactory = null, callbacks = {}) => {
   const disableMarkAll = shouldDisableMarkAll(manga);
 
   const markChapters = (manga, isRead, chapLinks) => {
+    if (chapLinks.length === 0) {
+      return;
+    }
+
     const cloneManga = clonePlainObject(manga);
-    cloneManga.chapters.forEach((ch) => {
-      if (chapLinks.includes(ch.link)) {
-        ch.isRead = isRead;
-      }
-    });
+
+    if (cloneManga.shelf === REREAD) {
+      cloneManga.nextRereadChapter = null;
+      let encounteredNextChapToRead = chapLinks[0] === "";
+      cloneManga.chapters.forEach((ch) => {
+        ch.isRead = encounteredNextChapToRead;
+        if (ch.link === chapLinks[0]) {
+          cloneManga.nextRereadChapter = clonePlainObject(ch);
+          encounteredNextChapToRead = true;
+        }
+      });
+    } else {
+      cloneManga.chapters.forEach((ch) => {
+        if (chapLinks.includes(ch.link)) {
+          ch.isRead = isRead;
+        }
+      });
+    }
+
     setManga(cloneManga);
     markChaptersDone();
   };

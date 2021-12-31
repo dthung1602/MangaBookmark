@@ -20,13 +20,13 @@ const updateRereadProgressLogic = (manga, onChangeChapterStatus) => {
     } else {
       nextRereadChapterLink = chapter.link;
     }
-    onChangeChapterStatus(manga, null, [nextRereadChapterLink]);
+    onChangeChapterStatus(manga, !chapter.isRead, [nextRereadChapterLink]);
   };
 
   const markUpTo = checkboxChange;
 
   const markAll = () => {
-    onChangeChapterStatus(manga, null, [""]);
+    onChangeChapterStatus(manga, true, [""]);
   };
 
   return [checkboxChange, markUpTo, markAll];
@@ -59,6 +59,9 @@ export const getNextChapToRead = (manga) => {
   const { shelf, chapters, nextRereadChapter } = manga;
 
   if (shelf === REREAD) {
+    if (!nextRereadChapter) {
+      return [{}, -1];
+    }
     return [
       {
         empty: false,
