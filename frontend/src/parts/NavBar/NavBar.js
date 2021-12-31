@@ -26,7 +26,7 @@ import {
 } from "../../utils/constants";
 import User from "./User";
 import NavBarSearch from "./NavBarSearch";
-import { Desktop, Mobile } from "../ScreenSize";
+import { Desktop, Mobile } from "../../components/ScreenSize";
 import { useLogoutAPI } from "../../hooks";
 import { scrollToTop } from "../../utils";
 import LOGO from "../../assets/tech-logo/logo-invert.webp";

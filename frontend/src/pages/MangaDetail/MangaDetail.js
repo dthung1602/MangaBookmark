@@ -1,8 +1,9 @@
 import { useCallback } from "react";
+
 import { Spin } from "antd";
 import { useQueryParam } from "use-query-params";
 
-import PageLayout from "../PageLayout";
+import DefaultLayout from "../DefaultLayout";
 import { MangaBanner } from "../../components";
 import { MangaDetailLeftPanel, MangaDetailRightPanel } from "../../parts";
 import { MangaContext } from "../../contexts";
@@ -17,17 +18,17 @@ const MangaDetail = () => {
 
   return (
     <MangaContext.Provider value={mangaContext}>
-      <PageLayout>
+      <DefaultLayout>
         {mangaContext.isLoading ? (
           <Spin />
         ) : (
-          <div className="manga-detail">
+          <div>
             <MangaBanner />
             <MangaDetailLeftPanel />
             <MangaDetailRightPanel />
           </div>
         )}
-      </PageLayout>
+      </DefaultLayout>
     </MangaContext.Provider>
   );
 };

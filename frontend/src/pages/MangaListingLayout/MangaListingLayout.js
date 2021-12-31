@@ -4,17 +4,17 @@ import PropTypes from "prop-types";
 import { Layout } from "antd";
 import { FileTextOutlined, PlusOutlined, ReloadOutlined, UpOutlined } from "@ant-design/icons";
 
+import DefaultLayout from "../DefaultLayout";
 import { ScreenSize, MangaListingPageHeader, UserNoteModal, EndOfList } from "../../components";
 import { MangaTableDesktop, MangaTableMobile, PreviewRightPanel, NewMangaModal } from "../../parts";
-import PageLayout from "../PageLayout";
 import { doNothing, scrollToTop } from "../../utils";
 import { MangaContext, MangaListContext } from "../../contexts";
 import { useMangaAPIContext, useMangaListContext, useModal, useUpdateMultipleAPI } from "../../hooks";
-import "./MangaListingPage.less";
+import "./MangaListingLayout.less";
 
 const { Desktop, Mobile } = ScreenSize;
 
-const MangaListingPage = ({
+const MangaListingLayout = ({
   title,
   mangasOrFactory,
   loadMode,
@@ -84,7 +84,7 @@ const MangaListingPage = ({
   );
 
   return (
-    <PageLayout fabConfig={fabConfig}>
+    <DefaultLayout fabConfig={fabConfig}>
       <Layout>
         <Desktop
           render={() => (
@@ -122,11 +122,11 @@ const MangaListingPage = ({
       />
 
       <UserNoteModal open={noteModalVisible} onCancel={closeNoteModal} />
-    </PageLayout>
+    </DefaultLayout>
   );
 };
 
-MangaListingPage.propTypes = {
+MangaListingLayout.propTypes = {
   title: PropTypes.string.isRequired,
   mangasOrFactory: PropTypes.oneOfType([PropTypes.array, PropTypes.func]).isRequired,
   loadMode: PropTypes.oneOf(["append", "replace"]).isRequired,
@@ -136,4 +136,4 @@ MangaListingPage.propTypes = {
   onReachedEndOfList: PropTypes.func,
 };
 
-export default MangaListingPage;
+export default MangaListingLayout;

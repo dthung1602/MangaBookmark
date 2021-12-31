@@ -2,8 +2,8 @@ import { useCallback } from "react";
 
 import { StringParam, useQueryParam, withDefault } from "use-query-params";
 
+import MangaListingLayout from "../MangaListingLayout";
 import { MangaTabs } from "../../components";
-import MangaListingPage from "../MangaListingPage";
 import {
   READING,
   REREAD,
@@ -63,7 +63,7 @@ const QuickAccess = () => {
   const tabs = <MangaTabs key="tabs" tab={tab} setTab={setTab} tabMappings={TAB_MAPPING} />;
 
   return (
-    <MangaListingPage
+    <MangaListingLayout
       title="Quick access"
       mangasOrFactory={loadMangas}
       loadMode="replace"

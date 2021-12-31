@@ -186,7 +186,7 @@
 - [ ] Refactor
   - [x] Quick access
   - [x] All mangas
-  - [ ] New manga modal
+  - [x] New manga modal
   - [ ] Login 
   - [ ] Register
   - [ ] Account

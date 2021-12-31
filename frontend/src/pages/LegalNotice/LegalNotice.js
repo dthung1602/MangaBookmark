@@ -1,17 +1,17 @@
 import { Anchor, Grid, Layout, PageHeader, Typography, Divider, Button } from "antd";
 import { GithubOutlined, LinkedinOutlined, MailOutlined, ArrowUpOutlined } from "@ant-design/icons";
 
-import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
-import { Desktop } from "../components/ScreenSize";
-import { LINK_EMAIL, LINK_GITHUB, LINK_LINKEDIN } from "../utils/constants";
-import { scrollToTop } from "../utils";
+import { NavBar, Footer } from "../../parts";
+import { ScreenSize } from "../../components";
+import { LINK_EMAIL, LINK_GITHUB, LINK_LINKEDIN } from "../../utils/constants";
+import { scrollToTop } from "../../utils";
 import "./LegalNotice.less";
 
 const { useBreakpoint } = Grid;
 const { Link } = Anchor;
 const { Title } = Typography;
 const { Content, Sider } = Layout;
+const { Desktop } = ScreenSize;
 
 const LegalNotice = () => {
   const affix = useBreakpoint().lg;

@@ -1,20 +1,20 @@
 import PropTypes from "prop-types";
 import { Card, Layout } from "antd";
 
-import PageLayout from "./PageLayout";
-import CornerImageSource from "../components/CornerImageSource";
-import { Desktop } from "../components/ScreenSize";
-import { randomFrom } from "../utils";
-import backgroundImages from "../assets/background";
-import "./AuthLayout.less";
+import DefaultLayout from "../DefaultLayout";
+import { CornerImageSource, ScreenSize } from "../../components";
+import { randomFrom } from "../../utils";
+import backgroundImages from "../../assets/background";
+import "./BoxLayout.less";
 
 const { Content } = Layout;
+const { Desktop } = ScreenSize;
 
-const AuthLayout = ({ showFooter = false, title, children }) => {
+const BoxLayout = ({ showFooter = false, title, children }) => {
   const bgUrl = randomFrom(backgroundImages);
 
   return (
-    <PageLayout showFooter={showFooter}>
+    <DefaultLayout showFooter={showFooter}>
       <Content className="card-form-container" style={{ backgroundImage: `url(${bgUrl})` }}>
         <Card title={title} className="card-form">
           {children}
@@ -23,14 +23,14 @@ const AuthLayout = ({ showFooter = false, title, children }) => {
           <CornerImageSource url="https://wall.alphacoders.com" name="Wallpaper Abyss" />
         </Desktop>
       </Content>
-    </PageLayout>
+    </DefaultLayout>
   );
 };
 
-AuthLayout.propTypes = {
+BoxLayout.propTypes = {
   children: PropTypes.node,
   showFooter: PropTypes.bool,
   title: PropTypes.string,
 };
 
-export default AuthLayout;
+export default BoxLayout;

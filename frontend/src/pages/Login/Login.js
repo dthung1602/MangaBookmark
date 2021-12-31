@@ -1,8 +1,9 @@
 import { Divider } from "antd";
 
-import AuthLayout from "./AuthLayout";
-import LoginForm from "../components/LoginForm";
-import { FacebookButton, GoogleButton } from "../components/SocialNetworkButton";
+import AuthLayout from "../BoxLayout";
+import { LoginForm, SocialNetworkButton } from "../../components";
+
+const { FacebookButton, GoogleButton } = SocialNetworkButton;
 
 const Login = () => {
   return (

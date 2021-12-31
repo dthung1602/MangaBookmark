@@ -2,16 +2,16 @@ import { Button } from "antd";
 import { HomeOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
 
-import PageLayout from "./PageLayout";
-import { ROUTE_HOME } from "../utils/constants";
-import ERROR_IMG from "../assets/error.webp";
+import DefaultLayout from "../DefaultLayout";
+import { ROUTE_HOME } from "../../utils/constants";
+import ERROR_IMG from "../../assets/error.webp";
 
 const NotFound = () => {
   const history = useHistory();
   const backHome = () => history.push(ROUTE_HOME);
 
   return (
-    <PageLayout>
+    <DefaultLayout>
       <div className="ant-result">
         <div className="ant-result-icon ant-result-image">
           <img src={ERROR_IMG} alt="404" style={{ width: "100%" }} />
@@ -28,7 +28,7 @@ const NotFound = () => {
           </Button>
         </div>
       </div>
-    </PageLayout>
+    </DefaultLayout>
   );
 };
 

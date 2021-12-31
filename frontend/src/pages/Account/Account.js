@@ -1,17 +1,17 @@
 import { createElement } from "react";
+
 import { StringParam, useQueryParam, withDefault } from "use-query-params";
 import { Card, Grid, Layout, Tabs } from "antd";
 
-import PageLayout from "./PageLayout";
-import { BasicInfo, ChangePassword, AccountManagement, Notification } from "../components/Account";
-import backgroundImages from "../assets/background";
-
+import DefaultLayout from "../DefaultLayout";
+import { CornerImageSource, Account as AccountComponents } from "../../components";
+import { randomFrom } from "../../utils";
+import backgroundImages from "../../assets/background";
 import "./Account.less";
-import { randomFrom } from "../utils";
-import CornerImageSource from "../components/CornerImageSource";
 
 const { TabPane } = Tabs;
 const { useBreakpoint } = Grid;
+const { BasicInfo, ChangePassword, AccountManagement, Notification } = AccountComponents;
 
 const TAB_MAPPING = {
   "account-management": {
@@ -39,7 +39,7 @@ const Account = () => {
   const bgUrl = randomFrom(backgroundImages);
 
   return (
-    <PageLayout>
+    <DefaultLayout>
       <Layout className="account-container" style={{ backgroundImage: `url(${bgUrl})` }}>
         <div className="tab-container">
           <Tabs tabPosition={tabPosition} defaultActiveKey={tab} onChange={setTab}>
@@ -57,7 +57,7 @@ const Account = () => {
         </div>
         <CornerImageSource url="https://wall.alphacoders.com" name="Wallpaper Abyss" />
       </Layout>
-    </PageLayout>
+    </DefaultLayout>
   );
 };
 

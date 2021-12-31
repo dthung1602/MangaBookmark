@@ -1,4 +1,5 @@
 import { useContext, useRef, useState } from "react";
+
 import { Link } from "react-router-dom";
 import { Layout, Typography, Button, Row, Col, Divider } from "antd";
 import {
@@ -15,11 +16,10 @@ import {
   MailOutlined,
 } from "@ant-design/icons";
 
-import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
-import { scrollToTop } from "../utils";
-import { GlobalContext } from "../components/GlobalContext";
-import { useOnIntersectViewPort } from "../hooks";
+import { NavBar, Footer } from "../../parts";
+import { scrollToTop } from "../../utils";
+import { GlobalContext } from "../../components/GlobalContext";
+import { useOnIntersectViewPort } from "../../hooks";
 import {
   ROUTE_REGISTER,
   LINK_GITHUB,
@@ -29,11 +29,11 @@ import {
   LINK_LINKEDIN,
   EMBED_DEMO_VIDEO_ID,
   FRONTEND_VERSION,
-} from "../utils/constants";
-import LOGO from "../assets/tech-logo/logo-invert.webp";
-import TECH_LOGO_SPRITE from "../assets/tech-logo/tech-logo.webp";
-import MANGA_SITE_LOGO_SPRITE from "../assets/manga-site-logo/manga-site-logo.webp";
-import DEMO_VIDEO_PLACEHOLDER from "../assets/demo-video-placeholder.webp";
+} from "../../utils/constants";
+import LOGO from "../../assets/tech-logo/logo-invert.webp";
+import TECH_LOGO_SPRITE from "../../assets/tech-logo/tech-logo.webp";
+import MANGA_SITE_LOGO_SPRITE from "../../assets/manga-site-logo/manga-site-logo.webp";
+import DEMO_VIDEO_PLACEHOLDER from "../../assets/demo-video-placeholder.webp";
 import "./Home.less";
 
 const { Title } = Typography;

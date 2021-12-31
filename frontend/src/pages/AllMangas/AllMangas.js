@@ -2,12 +2,11 @@ import { useCallback, useState } from "react";
 
 import { ArrayParam, StringParam, useQueryParams, withDefault } from "use-query-params";
 
+import MangaListingLayout from "../MangaListingLayout";
 import { MangaFilters } from "../../components";
-import MangaListingPage from "../MangaListingPage";
 import { MangaAPI } from "../../api";
 import { ANY, MANGA_PER_PAGE, SORT_DEC_STATUS } from "../../utils/constants";
 import { removeEmptyStringAttrs, removeUndefinedAttrs } from "../../utils";
-import "../MangaListingPage/MangaListingPage.less";
 
 const AllMangas = () => {
   const [page, setPage] = useState(1);
@@ -66,7 +65,7 @@ const AllMangas = () => {
   const filterBar = <MangaFilters filters={filters} updateFilters={updateFilters} resetFilters={resetFilters} />;
 
   return (
-    <MangaListingPage
+    <MangaListingLayout
       title="All mangas"
       mangasOrFactory={loadMangas}
       loadMode={loadMode}

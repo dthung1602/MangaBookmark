@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { GlobalContext } from "../GlobalContext";
+import { GlobalContext } from "../../components/GlobalContext";
 import { Avatar } from "antd";
 
 const User = () => {

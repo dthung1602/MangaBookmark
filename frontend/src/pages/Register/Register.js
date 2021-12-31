@@ -1,10 +1,11 @@
 import { Divider } from "antd";
-
-import AuthLayout from "./AuthLayout";
-import RegisterForm from "../components/RegisterForm";
-import { FacebookButton, GoogleButton } from "../components/SocialNetworkButton";
 import { Link } from "react-router-dom";
-import { ROUTE_LOGIN } from "../utils/constants";
+
+import AuthLayout from "../BoxLayout";
+import { RegisterForm, SocialNetworkButton } from "../../components";
+import { ROUTE_LOGIN } from "../../utils/constants";
+
+const { FacebookButton, GoogleButton } = SocialNetworkButton;
 
 const Register = () => {
   return (
