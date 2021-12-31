@@ -755,6 +755,11 @@
                       "format": "url"
                     }
                   },
+                  "nextRereadChapterLink": {
+                    "type": "string",
+                    "format": "uri",
+                    "required": false
+                  },
                   "note": {
                     "type": "string",
                     "required": false

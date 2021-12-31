@@ -260,6 +260,10 @@ router.getAsync("/:manga", MangaPermissionValidator, async (req, res) => {
  *                 items:
  *                   type: string
  *                   format: url
+ *               nextRereadChapterLink:
+ *                 type: string
+ *                 format: uri
+ *                 required: false
  *               note:
  *                 type: string
  *                 required: false

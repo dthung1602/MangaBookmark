@@ -17,7 +17,20 @@ module.exports = [
         throw new Error("Manga already existed");
       }
     }),
-  check("readChapters").optional().isArray(),
+  check("readChapters")
+    .optional()
+    .isArray()
+    .custom(async (readChapters) => {
+      readChapters.forEach((chapLink) => new URL(chapLink));
+    }),
+  check("nextRereadChapterLink")
+    .optional()
+    .isURL()
+    .custom(async (nextRereadChapterLink, { req }) => {
+      if (nextRereadChapterLink !== null && req.body.shelf !== Shelf.REREAD) {
+        throw new Error("Next reread chapter is set while shelf is not reread");
+      }
+    }),
   check("note").optional().trim(),
   check("isCompleted").optional().isBoolean().toBoolean(),
   check("hidden").optional().isBoolean().toBoolean(),
