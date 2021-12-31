@@ -4,21 +4,15 @@ import { Skeleton, Table } from "antd";
 
 import MangaTableDesktopRow from "./MangaTableDesktopRow";
 import { MangaCover } from "../../components";
+import { useDisplayMangas } from "../../hooks";
 import { MangaListContext } from "../../contexts";
-import { clonePlainObject } from "../../utils";
-import { MANGA_PER_PAGE } from "../../utils/constants";
 import "./MangaTableDesktop.less";
 
 const { Column } = Table;
 
-const skeletonData = Array(MANGA_PER_PAGE).fill({ isSkeleton: true });
-
 const MangaTableDesktop = () => {
-  const { isLoading, mangasToShow, onMangaClicked } = useContext(MangaListContext);
-
-  // TODO optimize?
-  // TODO skeleton loading
-  const dataSource = clonePlainObject(isLoading ? [...mangasToShow, ...skeletonData] : mangasToShow);
+  const { onMangaClicked } = useContext(MangaListContext);
+  const dataSource = useDisplayMangas();
 
   return (
     <Table

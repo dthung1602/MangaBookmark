@@ -7,3 +7,4 @@ export { default as useMangaAPIContext } from "./useMangaAPIContext";
 export { default as useMangaLocalContext } from "./useMangaLocalContext";
 export { default as useMangaListContext } from "./useMangaListContext";
 export { default as useModal } from "./useModal";
+export { default as useDisplayMangas } from "./useDisplayMangas";

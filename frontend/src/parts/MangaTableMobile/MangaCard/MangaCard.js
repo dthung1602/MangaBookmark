@@ -5,14 +5,7 @@ import { Button, Card, Spin } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 
 import MangaMenu from "../MangaMenu";
-import {
-  ChapterList,
-  MangaBasicInfo,
-  MangaCover,
-  MangaNote,
-  MangaUserInputProps,
-  StartReadingButtons,
-} from "../../../components";
+import { ChapterList, MangaBasicInfo, MangaCover, MangaUserInputProps, StartReadingButtons } from "../../../components";
 import { useMangaAPIContext } from "../../../hooks";
 import { statusToClassMapping } from "../../../utils/manga";
 import { MangaContext, MangaListContext } from "../../../contexts";
@@ -53,10 +46,6 @@ const MangaCard = ({ manga }) => {
           {editEnabled
             ? [
                 <MangaUserInputProps key="user-input-props" layout="column" />,
-                <div className="note" key="note">
-                  <b>Note:</b> &nbsp; &nbsp;
-                  <MangaNote />
-                </div>,
                 <ChapterList key="chapter" type="scroll" showDate={false} maxChapNameLen={27} />,
               ]
             : null}

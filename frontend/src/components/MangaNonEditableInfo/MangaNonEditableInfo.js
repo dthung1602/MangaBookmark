@@ -4,7 +4,6 @@ import { Descriptions, Space, Typography } from "antd";
 
 import MangaSiteLink from "../MangaSiteLink";
 import MangaStatus from "../MangaStatus";
-import MangaNote from "../MangaNote";
 import { formatDate, isNonEmptyArray } from "../../utils";
 import { MangaContext } from "../../contexts";
 import "./MangaNonEditableInfo.less";
@@ -53,18 +52,13 @@ const MangaNonEditableInfo = () => {
       <Descriptions.Item label="Status">
         <MangaStatus status={manga.status} />
       </Descriptions.Item>
-      {/* FIXME ?.length */}
-      <Descriptions.Item label="Total chapters">{manga.chapters?.length}</Descriptions.Item>
+      <Descriptions.Item label="Total chapters">{manga.chapters.length}</Descriptions.Item>
       <Descriptions.Item label="Unread">{manga.unreadChapCount}</Descriptions.Item>
       <Descriptions.Item label="New chap">{manga.newChapCount}</Descriptions.Item>
       <Descriptions.Item label="Last released">{formatDate(manga.lastReleased)}</Descriptions.Item>
       <Descriptions.Item label="Created at">{formatDate(manga.createdAt)}</Descriptions.Item>
       <Descriptions.Item label="Updated at" span={2}>
         {formatDate(manga.updatedAt)}
-      </Descriptions.Item>
-      <Descriptions.Item label="Note" span={2} className="note-container">
-        {/* TODO move note to UserInputProps */}
-        <MangaNote />
       </Descriptions.Item>
     </Descriptions>
   );
