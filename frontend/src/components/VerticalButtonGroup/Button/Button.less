@@ -1,0 +1,64 @@
+@import "../../../styles/variables";
+
+.vertical-button-group.left .vertical-button{
+  flex-direction: row-reverse;
+  &:first-child {
+    border-top-left-radius: 4px;
+  }
+  &:last-child {
+    border-bottom-left-radius: 4px;
+  }
+}
+
+.vertical-button-group.right .vertical-button {
+  flex-direction: row;
+  &:first-child {
+    border-top-right-radius: 4px;
+  }
+  &:last-child {
+    border-bottom-right-radius: 4px;
+  }
+}
+
+.vertical-button {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  color: white;
+  transition: all 0.3s;
+  cursor: pointer;
+
+  span {
+    white-space: nowrap;
+    &:first-child {
+      margin: 0 12px;
+    }
+    &:last-child {
+      visibility: hidden;
+    }
+  }
+
+  &:hover, &.ant-popover-open {
+    width: 102px;
+    span:last-child {
+      visibility: visible;
+    }
+  }
+
+  &.warning {
+    background: lighten(#faad14, 10%);
+  }
+
+  &.danger {
+    background: lighten(#f5222d, 10%);
+  }
+
+  &.primary {
+    background: @primary-color;
+  }
+
+  &.info {
+    background: #1890ff; // blue-6
+  }
+}

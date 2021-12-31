@@ -1,12 +1,13 @@
 @import "../../styles/variables";
 
 .card-form-container {
-  height: calc(100vh - @navbar-height);
+  min-height: calc(100vh - @navbar-height);
   background-size: cover;
   background-repeat: no-repeat;
   display: flex;
   justify-content: flex-end;
-  padding: 48px 128px 48px;
+  padding: 48px 72px 48px;
+
   @media (max-width: @bp-sm) {
     padding: 32px 8px;
   }

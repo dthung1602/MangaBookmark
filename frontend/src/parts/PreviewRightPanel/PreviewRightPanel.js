@@ -1,12 +1,17 @@
-import { useContext } from "react";
+import { useContext, useCallback } from "react";
 
-import { Empty, Spin, Typography } from "antd";
+import { useHistory } from "react-router-dom";
+import { Empty, Spin, Typography, Popconfirm } from "antd";
+import { FullscreenOutlined, SyncOutlined, DeleteOutlined } from "@ant-design/icons";
 
-import MangaCover from "../../components/MangaCover";
-import ChapterList from "../../components/ChapterList";
-import MangaUserInputProps from "../../components/MangaUserInputProps";
-import MangaNonEditableInfo from "../../components/MangaNonEditableInfo";
-import VerticalActions from "./VerticalActions";
+import {
+  MangaCover,
+  ChapterList,
+  VerticalButtonGroup,
+  MangaUserInputProps,
+  MangaNonEditableInfo,
+} from "../../components";
+import { buildMangaDetailPath } from "../../utils";
 import { MangaContext } from "../../contexts";
 import "./PreviewRightPanel.less";
 
@@ -15,7 +20,10 @@ import PLACE_HOLDER_IMG from "../../assets/right-panel-footer.webp";
 const { Title } = Typography;
 
 const PreviewRightPanel = () => {
-  const { manga, isLoading, isMarkingChapters } = useContext(MangaContext);
+  const { manga, isLoading, isMarkingChapters, updateManga, deleteManga } = useContext(MangaContext);
+  const history = useHistory();
+
+  const viewDetail = useCallback(() => history.push(buildMangaDetailPath(manga)), [manga, history]);
 
   if (manga === null) {
     return (
@@ -37,7 +45,19 @@ const PreviewRightPanel = () => {
             mangaSite={manga.site}
             alt={manga.name}
           />
-          <VerticalActions />
+          <VerticalButtonGroup side="right" expandOnHover={true}>
+            <VerticalButtonGroup.Button type="primary" icon={<FullscreenOutlined />} onClick={viewDetail}>
+              Detail
+            </VerticalButtonGroup.Button>
+            <VerticalButtonGroup.Button type="warning" icon={<SyncOutlined />} onClick={updateManga}>
+              Update
+            </VerticalButtonGroup.Button>
+            <Popconfirm title="Delete this manga?" placement="bottom" onConfirm={deleteManga}>
+              <VerticalButtonGroup.Button type="danger" icon={<DeleteOutlined />}>
+                Delete
+              </VerticalButtonGroup.Button>
+            </Popconfirm>
+          </VerticalButtonGroup>
         </div>
         <Title key="title" level={3}>
           <a href={manga.link} target="_blank" rel="noopener noreferrer">

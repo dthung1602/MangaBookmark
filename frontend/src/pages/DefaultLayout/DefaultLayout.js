@@ -8,7 +8,7 @@ import "./DefaultLayout.less";
 
 const DefaultLayout = ({ children, showFooter = true, showNavBar = true, fabConfig = false }) => {
   return (
-    <Layout>
+    <Layout className="default-layout">
       {showNavBar ? <NavBar key="navbar" /> : null}
       {children}
       <FAB config={fabConfig} />

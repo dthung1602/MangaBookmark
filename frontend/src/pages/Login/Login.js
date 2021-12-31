@@ -1,7 +1,7 @@
 import { Divider, Tooltip } from "antd";
 import { Link } from "react-router-dom";
 
-import AuthLayout from "../BoxLayout";
+import BoxLayout from "../BoxLayout";
 import { LoginForm } from "../../parts";
 import { SocialNetworkButton } from "../../components";
 import { ROUTE_REGISTER } from "../../utils/constants";
@@ -11,7 +11,7 @@ const { FacebookButton, GoogleButton } = SocialNetworkButton;
 
 const Login = () => {
   return (
-    <AuthLayout showFooter={false} title="login">
+    <BoxLayout showFooter={false} title="login">
       <LoginForm />
       <div className="login-other-actions">
         <Tooltip title="Sorry, haven't implemented yet :(">
@@ -22,7 +22,7 @@ const Login = () => {
       <Divider>or</Divider>
       <GoogleButton action="login" />
       <FacebookButton action="login" />
-    </AuthLayout>
+    </BoxLayout>
   );
 };
 
