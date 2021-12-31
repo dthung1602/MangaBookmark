@@ -1,12 +1,14 @@
 import { useContext } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
-import { Button, Form, Input, Tooltip } from "antd";
+
+import { useHistory, useLocation } from "react-router-dom";
+import { Button, Form, Input } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 
-import { GlobalContext } from "./GlobalContext";
-import { ROUTE_QUICK_ACCESS, ROUTE_REGISTER } from "../utils/constants";
-import { throwOnCriticalErrors, formatErrors, notifyError } from "../utils/error-handler";
-import { UserAPI } from "../api";
+import { GlobalContext } from "../../components/GlobalContext";
+import { ROUTE_QUICK_ACCESS } from "../../utils/constants";
+import { formatErrors, notifyError, throwOnCriticalErrors } from "../../utils/error-handler";
+import { UserAPI } from "../../api";
+import "./LoginForm.less";
 
 const LoginForm = () => {
   const history = useHistory();
@@ -42,18 +44,9 @@ const LoginForm = () => {
         <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} type="password" />
       </Form.Item>
 
-      <div className="auth-other-actions">
-        <Tooltip title="Sorry, haven't implemented yet :(">
-          <a>Forgot password?</a>
-        </Tooltip>
-        <Link to={ROUTE_REGISTER}>Register</Link>
-      </div>
-
-      <Form.Item label=" ">
-        <Button type="primary" htmlType="submit" block={true}>
-          Login
-        </Button>
-      </Form.Item>
+      <Button type="primary" htmlType="submit" block={true} className="login-form-submit">
+        Login
+      </Button>
     </Form>
   );
 };

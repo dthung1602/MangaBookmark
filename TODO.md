@@ -187,8 +187,8 @@
   - [x] Quick access
   - [x] All mangas
   - [x] New manga modal
-  - [ ] Login 
-  - [ ] Register
+  - [x] Login 
+  - [x] Register
   - [ ] Account
   - [ ] components vs parts
   - [ ] optimize speed

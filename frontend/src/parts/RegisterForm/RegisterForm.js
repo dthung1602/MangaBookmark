@@ -3,10 +3,10 @@ import { useHistory } from "react-router-dom";
 import { Button, Form, Input } from "antd";
 import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 
-import { GlobalContext } from "./GlobalContext";
-import { ROUTE_ALL_MANGAS } from "../utils/constants";
-import { throwOnCriticalErrors, formatErrors, notifyError } from "../utils/error-handler";
-import { UserAPI } from "../api";
+import { GlobalContext } from "../../components/GlobalContext";
+import { ROUTE_ALL_MANGAS } from "../../utils/constants";
+import { throwOnCriticalErrors, formatErrors, notifyError } from "../../utils/error-handler";
+import { UserAPI } from "../../api";
 
 const RegisterForm = () => {
   const history = useHistory();
