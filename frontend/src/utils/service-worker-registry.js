@@ -10,6 +10,9 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://cra.link/PWA
 
+import { Modal } from "antd";
+import { ReloadOutlined } from "@ant-design/icons";
+
 const DISABLE_SW_ON_LOCALHOST = false;
 
 const isLocalhost = Boolean(
@@ -20,6 +23,9 @@ const isLocalhost = Boolean(
     window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/),
 );
 
+/**
+ * @param config: {onUpdate, onSuccess}
+ */
 export function register(config) {
   if ("serviceWorker" in navigator) {
     // The URL constructor is available in all browsers that support SW.
@@ -136,5 +142,36 @@ export function unregister() {
       .catch((error) => {
         console.error(error.message);
       });
+  }
+}
+
+export function announceNewVersion(registration) {
+  const { waiting } = registration;
+  if (waiting) {
+    Modal.confirm({
+      title: "New version available",
+      content: (
+        <>
+          <p>
+            A new version of this website is available, which might not be compatible with the current version cached on
+            your device.
+          </p>
+          <p>
+            Please close <b>all</b> other tabs of this page and then reload.
+          </p>
+        </>
+      ),
+      okText: (
+        <span>
+          <ReloadOutlined /> &nbsp; Reload
+        </span>
+      ),
+      onOk: () => {
+        waiting.postMessage({ type: "SKIP_WAITING" });
+        window.location.reload();
+        return false;
+      },
+      cancelText: "Cancel",
+    });
   }
 }
