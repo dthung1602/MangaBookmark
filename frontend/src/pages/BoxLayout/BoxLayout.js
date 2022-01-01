@@ -14,8 +14,8 @@ const BoxLayout = ({ title, children, showFooter = false, containerClass = "", e
 
   return (
     <DefaultLayout showFooter={showFooter}>
-      <Content className={`card-form-container ${containerClass}`} style={{ backgroundImage: `url(${bgUrl})` }}>
-        <Card title={title} className="card-form">
+      <Content className={`box-layout-content ${containerClass}`} style={{ backgroundImage: `url(${bgUrl})` }}>
+        <Card title={title} className="box-layout-card">
           {children}
         </Card>
         {extraContent}

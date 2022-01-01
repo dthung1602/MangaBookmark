@@ -1,7 +1,7 @@
 import { createElement } from "react";
 
 import { StringParam, useQueryParam, withDefault } from "use-query-params";
-import { Grid } from "antd";
+import { Grid, Tabs } from "antd";
 import { ToolOutlined, UserOutlined, KeyOutlined, NotificationOutlined } from "@ant-design/icons";
 
 import { Account as AccountComponents, VerticalButtonGroup } from "../../components";
@@ -9,6 +9,7 @@ import BoxLayout from "../BoxLayout";
 import "./Account.less";
 
 const { useBreakpoint } = Grid;
+const { TabPane } = Tabs;
 const { BasicInfo, ChangePassword, AccountManagement, Notification } = AccountComponents;
 const { Button } = VerticalButtonGroup;
 
@@ -37,13 +38,13 @@ const TAB_MAPPING = {
 
 const Account = () => {
   const [tab, setTab] = useQueryParam("tab", withDefault(StringParam, "account-management"));
-  const isDesktop = useBreakpoint().lg;
+  const useVerticalButtons = useBreakpoint().sm;
   const { displayName, component } = TAB_MAPPING[tab];
   const content = createElement(component);
 
-  const tabButtons = (
+  const tabController = useVerticalButtons ? (
     <div className="account-tab-buttons-container">
-      <VerticalButtonGroup side="left" solidColor={false} expandOnHover={isDesktop}>
+      <VerticalButtonGroup side="left" solidColor={false} expandOnHover={true}>
         {Object.entries(TAB_MAPPING).map(([key, { displayName, icon }]) => (
           <Button key={key} type="primary" icon={icon} selected={key === tab} onClick={() => setTab(key)}>
             {displayName}
@@ -51,10 +52,16 @@ const Account = () => {
         ))}
       </VerticalButtonGroup>
     </div>
+  ) : (
+    <Tabs activeKey={tab} onChange={setTab}>
+      {Object.entries(TAB_MAPPING).map(([key, { displayName }]) => (
+        <TabPane key={key} tab={displayName} />
+      ))}
+    </Tabs>
   );
 
   return (
-    <BoxLayout showFooter={false} title={displayName} extraContent={tabButtons} containerClass="account">
+    <BoxLayout showFooter={false} title={displayName} extraContent={tabController} containerClass="account">
       {content}
     </BoxLayout>
   );
