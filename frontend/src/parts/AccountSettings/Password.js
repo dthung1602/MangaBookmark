@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import { Button, Form, Input, message } from "antd";
 import { LockOutlined, SafetyCertificateOutlined } from "@ant-design/icons";
 
@@ -7,7 +8,7 @@ import { throwOnCriticalErrors, notifyError, formatErrors } from "../../utils/er
 
 const { useForm } = Form;
 
-const ChangePassword = () => {
+const Password = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [form] = useForm();
 
@@ -90,4 +91,4 @@ const ChangePassword = () => {
   );
 };
 
-export default ChangePassword;
+export default Password;

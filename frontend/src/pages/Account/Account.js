@@ -4,29 +4,30 @@ import { StringParam, useQueryParam, withDefault } from "use-query-params";
 import { Grid, Tabs } from "antd";
 import { ToolOutlined, UserOutlined, KeyOutlined, NotificationOutlined } from "@ant-design/icons";
 
-import { Account as AccountComponents, VerticalButtonGroup } from "../../components";
+import { VerticalButtonGroup } from "../../components";
+import { AccountSettings } from "../../parts";
 import BoxLayout from "../BoxLayout";
 import "./Account.less";
 
 const { useBreakpoint } = Grid;
 const { TabPane } = Tabs;
-const { BasicInfo, ChangePassword, AccountManagement, Notification } = AccountComponents;
+const { User, Password, General, Notification } = AccountSettings;
 const { Button } = VerticalButtonGroup;
 
 const TAB_MAPPING = {
-  "account-management": {
-    displayName: "Account management",
-    component: AccountManagement,
+  general: {
+    displayName: "General",
+    component: General,
     icon: <ToolOutlined />,
   },
-  info: {
-    displayName: "Basic info",
-    component: BasicInfo,
+  user: {
+    displayName: "User",
+    component: User,
     icon: <UserOutlined />,
   },
-  "change-pass": {
-    displayName: "Change password",
-    component: ChangePassword,
+  password: {
+    displayName: "Password",
+    component: Password,
     icon: <KeyOutlined />,
   },
   notification: {
@@ -37,9 +38,9 @@ const TAB_MAPPING = {
 };
 
 const Account = () => {
-  const [tab, setTab] = useQueryParam("tab", withDefault(StringParam, "account-management"));
+  const [tab, setTab] = useQueryParam("tab", withDefault(StringParam, "general"));
   const useVerticalButtons = useBreakpoint().sm;
-  const { displayName, component } = TAB_MAPPING[tab];
+  const { displayName, component } = TAB_MAPPING[tab] || "general";
   const content = createElement(component);
 
   const tabController = useVerticalButtons ? (

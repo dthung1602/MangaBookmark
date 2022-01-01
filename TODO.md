@@ -183,16 +183,15 @@
       
 - [x] One master note for user -> take note everything
 
-- [ ] Refactor
+- [x] Refactor
   - [x] Quick access
   - [x] All mangas
   - [x] New manga modal
   - [x] Login 
   - [x] Register
-  - [ ] Account
-  - [ ] components vs parts
-  - [ ] optimize speed
-
+  - [x] Account
+  - [x] components vs parts
+  
 - [x] Manga detail page
   - [x] Setup BE to query 1 manga info
   - [x] Setup FE
@@ -210,6 +209,8 @@
   - [ ] Update Homepage
     - [ ] Video
     - [ ] Guide = picture
+
+- [ ] optimize speed
 
 - [ ] Change page title
 

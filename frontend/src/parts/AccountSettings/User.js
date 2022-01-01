@@ -1,13 +1,14 @@
 import { useContext, useState } from "react";
+
 import { Button, Form, Input, Upload, Spin, message } from "antd";
 import { MailOutlined, UserOutlined } from "@ant-design/icons";
-
-import { UserAPI } from "../../api";
-import { GlobalContext } from "../GlobalContext";
-import { throwOnCriticalErrors, notifyError } from "../../utils/error-handler";
 import ImgCrop from "antd-img-crop";
 
-const BasicInfo = () => {
+import { UserAPI } from "../../api";
+import { GlobalContext } from "../../components/GlobalContext";
+import { throwOnCriticalErrors, notifyError } from "../../utils/error-handler";
+
+const User = () => {
   const [{ user }, updateGlobalContext] = useContext(GlobalContext);
   const [isLoading, setIsLoading] = useState(false);
   const [isAvatarUploading, setIsAvatarUploading] = useState(false);
@@ -42,7 +43,7 @@ const BasicInfo = () => {
         throwOnCriticalErrors(response);
         const newUser = await response.json();
         updateGlobalContext({ user: newUser });
-        message.success("Account saved");
+        message.success("AccountSettings saved");
       })
       .catch(notifyError)
       .finally(() => setIsLoading(false));
@@ -109,4 +110,4 @@ const BasicInfo = () => {
   );
 };
 
-export default BasicInfo;
+export default User;

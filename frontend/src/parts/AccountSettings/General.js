@@ -1,16 +1,18 @@
 import { useContext, useState } from "react";
-import { Avatar, Button, Modal, message } from "antd";
 
-import { GoogleButton, FacebookButton } from "../SocialNetworkButton";
-import { GlobalContext } from "../GlobalContext";
+import { Avatar, Button, Modal, message } from "antd";
 import { DeleteOutlined, LogoutOutlined } from "@ant-design/icons";
+
+import { SocialNetworkButton } from "../../components";
+import { GlobalContext } from "../../components/GlobalContext";
 import { useLogoutAPI } from "../../hooks";
 import { UserAPI } from "../../api";
 import { notifyError, throwOnCriticalErrors } from "../../utils/error-handler";
 
 const { confirm } = Modal;
+const { GoogleButton, FacebookButton } = SocialNetworkButton;
 
-const AccountManagement = () => {
+const General = () => {
   const [{ user }] = useContext(GlobalContext);
   const [isDeletingAccount, setDeletingAccount] = useState(false);
 
@@ -22,7 +24,7 @@ const AccountManagement = () => {
       .result.then((response) => {
         throwOnCriticalErrors(response);
         logout();
-        message.success("Account deleted");
+        message.success("AccountSettings deleted");
       })
       .catch(notifyError)
       .finally(() => setDeletingAccount(false));
@@ -79,4 +81,4 @@ const AccountManagement = () => {
   );
 };
 
-export default AccountManagement;
+export default General;

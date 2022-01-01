@@ -8,3 +8,5 @@ export { default as NavBar } from "./NavBar";
 export { default as NewMangaModal } from "./NewMangaModal";
 export { default as PreviewRightPanel } from "./PreviewRightPanel";
 export { default as RegisterForm } from "./RegisterForm";
+import * as AccountSettings from "./AccountSettings";
+export { AccountSettings };
