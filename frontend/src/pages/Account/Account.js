@@ -54,8 +54,16 @@ const Account = () => {
     </div>
   ) : (
     <Tabs activeKey={tab} onChange={setTab}>
-      {Object.entries(TAB_MAPPING).map(([key, { displayName }]) => (
-        <TabPane key={key} tab={displayName} />
+      {Object.entries(TAB_MAPPING).map(([key, { displayName, icon }]) => (
+        <TabPane
+          key={key}
+          tab={
+            <>
+              &nbsp;&nbsp;&nbsp;{icon}
+              {displayName}&nbsp;&nbsp;&nbsp;
+            </>
+          }
+        />
       ))}
     </Tabs>
   );
