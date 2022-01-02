@@ -1,6 +1,6 @@
 import BaseAPI from "./base.api";
 
-class MangaAPI extends BaseAPI {
+class ImageAPI extends BaseAPI {
   constructor() {
     super("image");
   }
@@ -16,4 +16,4 @@ class MangaAPI extends BaseAPI {
   }
 }
 
-export default new MangaAPI();
+export default new ImageAPI();
