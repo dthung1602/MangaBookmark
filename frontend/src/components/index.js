@@ -5,7 +5,6 @@ export { default as ErrorBoundary } from "./ErrorBoundary";
 export { default as FAB } from "./FAB";
 import * as Filters from "./Filters";
 export { Filters };
-export { default as Footer } from "../parts/Footer";
 export { default as FullScreenLoading } from "./FullScreenLoading";
 import * as GlobalContext from "./GlobalContext";
 export { GlobalContext };
