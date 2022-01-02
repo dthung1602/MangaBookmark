@@ -10,6 +10,8 @@ import "./Login.less";
 const { FacebookButton, GoogleButton } = SocialNetworkButton;
 
 const Login = () => {
+  document.title = "Login | MangaBookmark";
+
   return (
     <BoxLayout showFooter={false} title="login">
       <LoginForm />

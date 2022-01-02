@@ -52,6 +52,8 @@ const Home = () => {
 
   useOnIntersectViewPort(logoRef, () => setHideLogo(isLogoInViewPort()), { rootMargin: "-64px" });
 
+  document.title = "MangaBookmark";
+
   return (
     <Layout>
       <NavBar hideLogo={hideLogo} />

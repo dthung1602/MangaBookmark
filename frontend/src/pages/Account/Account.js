@@ -1,4 +1,4 @@
-import { createElement } from "react";
+import { createElement, useEffect } from "react";
 
 import { StringParam, useQueryParam, withDefault } from "use-query-params";
 import { Grid, Tabs } from "antd";
@@ -42,6 +42,10 @@ const Account = () => {
   const useVerticalButtons = useBreakpoint().sm;
   const { displayName, component } = TAB_MAPPING[tab] || "general";
   const content = createElement(component);
+
+  useEffect(() => {
+    document.title = `Account - ${TAB_MAPPING[tab].displayName} | MangaBookmark`;
+  }, [tab]);
 
   const tabController = useVerticalButtons ? (
     <div className="account-tab-buttons-container">

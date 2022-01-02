@@ -16,6 +16,8 @@ const MangaDetail = () => {
   const loadManga = useCallback(() => MangaAPI.get(mangaId), [mangaId]);
   const mangaContext = useMangaAPIContext(loadManga);
 
+  document.title = "Manga detail | MangaBookmark";
+
   return (
     <MangaContext.Provider value={mangaContext}>
       <DefaultLayout>

@@ -16,6 +16,8 @@ const { Desktop } = ScreenSize;
 const LegalNotice = () => {
   const affix = useBreakpoint().lg;
 
+  document.title = "Legal notice | MangaBookmark";
+
   return (
     <>
       <NavBar />

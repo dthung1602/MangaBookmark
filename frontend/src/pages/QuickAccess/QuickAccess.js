@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 
 import { StringParam, useQueryParam, withDefault } from "use-query-params";
 
@@ -61,6 +61,10 @@ const QuickAccess = () => {
   const loadMangas = useCallback(() => MangaAPI.find(TAB_MAPPING[tab].filters), [tab]);
 
   const tabs = <MangaTabs key="tabs" tab={tab} setTab={setTab} tabMappings={TAB_MAPPING} />;
+
+  useEffect(() => {
+    document.title = `Quick access - ${TAB_MAPPING[tab].displayName} | MangaBookmark`;
+  }, [tab]);
 
   return (
     <MangaListingLayout

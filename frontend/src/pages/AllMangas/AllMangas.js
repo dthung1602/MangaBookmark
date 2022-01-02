@@ -30,6 +30,8 @@ const AllMangas = () => {
     lastReleasedLTE: StringParam,
   });
 
+  document.title = "All mangas | MangaBookmark";
+
   const loadMangas = useCallback(() => MangaAPI.find({ ...filters, page, perPage: MANGA_PER_PAGE }), [filters, page]);
 
   const updateFilters = (values) => {

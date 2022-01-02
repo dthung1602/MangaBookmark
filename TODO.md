@@ -212,7 +212,7 @@
 
 - [ ] optimize speed
 
-- [ ] Change page title
+- [x] Change page title
 
 - [ ] Cross site search
   - [ ] Search in supported site

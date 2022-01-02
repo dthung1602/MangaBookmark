@@ -10,6 +10,8 @@ import "./Register.less";
 const { FacebookButton, GoogleButton } = SocialNetworkButton;
 
 const Register = () => {
+  document.title = "Register | MangaBookmark";
+
   return (
     <BoxLayout showFooter={false} title="register">
       <RegisterForm />

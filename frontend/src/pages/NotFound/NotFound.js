@@ -10,6 +10,8 @@ const NotFound = () => {
   const history = useHistory();
   const backHome = () => history.push(ROUTE_HOME);
 
+  document.title = "Not found | MangaBookmark";
+
   return (
     <DefaultLayout>
       <div className="ant-result">
