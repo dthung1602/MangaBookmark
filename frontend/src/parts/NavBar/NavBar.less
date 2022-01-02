@@ -70,7 +70,25 @@
   background: @default-color;
   height: 100%;
 
-  &.ant-menu-horizontal, .navbar-search {
+  .omni-search {
+    background: transparent;
+    border: none;
+    outline: none;
+    text-transform: none !important;
+    &::placeholder {
+      @media(min-width: @bp-lg) {
+        text-transform: uppercase;
+      }
+    }
+
+    width: 75px;
+    transition: width 0.33s;
+    &:focus {
+      width: 180px;
+    }
+  }
+
+  &.ant-menu-horizontal, .omni-search {
     border-bottom: none;
     text-transform: uppercase;
     font-weight: bold;
@@ -107,6 +125,8 @@
     }
   }
 }
+
+
 
 .navbar-user {
   text-transform: none;

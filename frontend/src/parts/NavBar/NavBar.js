@@ -1,44 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+
 import PropTypes from "prop-types";
 import { Link, useHistory } from "react-router-dom";
 import { Badge, Drawer, Layout, Menu } from "antd";
-import {
-  BookOutlined,
-  FormOutlined,
-  LoginOutlined,
-  LogoutOutlined,
-  MenuOutlined,
-  StarOutlined,
-  UserOutlined,
-  AuditOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
+import { BookOutlined, MenuOutlined, SearchOutlined, StarOutlined } from "@ant-design/icons";
 
-import {
-  FRONTEND_VERSION,
-  ROUTE_ACCOUNT,
-  ROUTE_ALL_MANGAS,
-  ROUTE_HOME,
-  ROUTE_LEGAL_NOTICE,
-  ROUTE_LOGIN,
-  ROUTE_QUICK_ACCESS,
-  ROUTE_REGISTER,
-} from "../../utils/constants";
 import User from "./User";
-import NavBarSearch from "./NavBarSearch";
 import { Desktop, Mobile } from "../../components/ScreenSize";
-import { useLogoutAPI } from "../../hooks";
+import OmniSearch from "../OmniSearch";
+import { useBuildUserDependentMenu, useMobileMenuVisibility } from "./hooks";
 import { scrollToTop } from "../../utils";
+import { FRONTEND_VERSION, ROUTE_ALL_MANGAS, ROUTE_HOME, ROUTE_QUICK_ACCESS } from "../../utils/constants";
 import LOGO from "../../assets/tech-logo/logo-invert.webp";
 import "./NavBar.less";
 
 const { Header } = Layout;
 const { Item, SubMenu } = Menu;
+// FIXME const { Desktop, Mobile } = ScreenSize; ? why not work
 
 const NavBar = ({ hideLogo = false }) => {
   const history = useHistory();
-  const [mobileMenuVisible, setMobileMenuVisible] = useState(false);
-  const [logout, user] = useLogoutAPI();
 
   useEffect(() => {
     return history.listen((location) => {
@@ -48,46 +29,13 @@ const NavBar = ({ hideLogo = false }) => {
     });
   }, [history]);
 
-  const showMenu = () => {
-    setMobileMenuVisible(true);
-  };
+  const { mobileMenuVisible, showMenu, closeMenu } = useMobileMenuVisibility();
 
-  const closeMenu = (event) => {
-    // when search box is clicked, do not close to allow for user input
-    if (event.key !== "search") {
-      setMobileMenuVisible(false);
-    }
-  };
-
-  let userDependentMenu;
-  if (user) {
-    userDependentMenu = [
-      <Item key="account" icon={<UserOutlined />}>
-        <Link to={ROUTE_ACCOUNT}>Account</Link>
-      </Item>,
-      <Item key="logout" icon={<LogoutOutlined />} onClick={logout}>
-        Logout
-      </Item>,
-    ];
-  } else {
-    userDependentMenu = [
-      <Item key="login" icon={<LoginOutlined />}>
-        <Link to={ROUTE_LOGIN}>Login</Link>
-      </Item>,
-    ];
-  }
-  userDependentMenu = userDependentMenu.concat([
-    <Item key="register" icon={<FormOutlined />}>
-      <Link to={ROUTE_REGISTER}>Register</Link>
-    </Item>,
-    <Item key="legal" icon={<AuditOutlined />}>
-      <Link to={ROUTE_LEGAL_NOTICE}>Legal notice</Link>
-    </Item>,
-  ]);
+  const userDependentMenu = useBuildUserDependentMenu();
 
   const userIndependentMenu = [
     <Item key="search" icon={<SearchOutlined />}>
-      <NavBarSearch onSearch={() => setMobileMenuVisible(false)} />
+      <OmniSearch onSearch={closeMenu} />
     </Item>,
     <Item key="quick" icon={<StarOutlined />}>
       <Link to={ROUTE_QUICK_ACCESS}>Quick access</Link>
