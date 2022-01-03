@@ -1,10 +1,8 @@
 import PropTypes from "prop-types";
+import { Spin } from "antd";
 
-import { Link } from "react-router-dom";
-import { Row, Col, Spin } from "antd";
-
-import { MangaSiteLink, MangaStatus } from "../../../components";
-import { buildMangaDetailPath, formatDate, truncString } from "../../../utils";
+import OmniSearchResultUserMangaRow from "../OmniSearchResultUserMangaRow";
+import OmniSearchResultScanlationMangaRow from "../OmniSearchResultScanlationMangaRow";
 import "./OmniSearchResult.less";
 
 const placeholder = (
@@ -13,62 +11,31 @@ const placeholder = (
   </div>
 );
 
-const OmniSearchResult = ({ userMangas, isLoadingUserMangas }) => {
+const OmniSearchResult = ({ searchContext }) => {
+  const { userMangas, isLoadingUserMangas, scanlationMangas, isLoadingScanlationMangas } = searchContext;
+
   return (
     <div className="omnisearch-result">
       <div key="header-user-mangas" className="omnisearch-content-header">
         From your library
       </div>
       {isLoadingUserMangas ? placeholder : null}
-      {userMangas.map((result) => {
-        const content = (
-          <div className="omnisearch-content">
-            <div className="omnisearch-cover">
-              <img src={result.image} alt={result.name} />
-            </div>
-            <div className="omnisearch-info">
-              <div className="omnisearch-name">{result.name}</div>
-              <div className="omnisearch-short-description">
-                <MangaStatus status={result.attributes.status} />
-                <MangaSiteLink mangaSiteName={result.attributes.site} />
-              </div>
-              <Row className="omnisearch-long-description" gutter={[0, 4]}>
-                <Col span={10}>
-                  <b>Shelf:</b> {result.attributes.shelf}
-                </Col>
-                <Col span={14}>
-                  <b>Author:</b> {result.attributes.authors.join("-")}
-                </Col>
-                <Col span={24}>
-                  <b>Latest chap:</b> {truncString(result.attributes.latestChapter.name, 30)}
-                </Col>
-                <Col span={24}>
-                  <b>Last released:</b> {formatDate(result.attributes.lastReleased)}
-                </Col>
-              </Row>
-            </div>
-          </div>
-        );
-
-        return (
-          <div key={result._id} className="omnisearch-result-row">
-            {result.type === "user-manga" ? (
-              <Link to={buildMangaDetailPath(result)}>{content}</Link>
-            ) : (
-              <a href={result.attributes.link} target="_blank" rel="noreferrer noopener">
-                {content}
-              </a>
-            )}
-          </div>
-        );
-      })}
+      {userMangas.map((result) => (
+        <OmniSearchResultUserMangaRow key={result._id} result={result} />
+      ))}
+      <div key="header-scanlation-mangas" className="omnisearch-content-header">
+        From scanlation sites
+      </div>
+      {isLoadingScanlationMangas ? placeholder : null}
+      {scanlationMangas.map((result) => (
+        <OmniSearchResultScanlationMangaRow key={result._id} result={result} />
+      ))}
     </div>
   );
 };
 
 OmniSearchResult.propTypes = {
-  userMangas: PropTypes.array.isRequired,
-  isLoadingUserMangas: PropTypes.bool.isRequired,
+  searchContext: PropTypes.object.isRequired,
 };
 
 export default OmniSearchResult;

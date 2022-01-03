@@ -1,6 +1,6 @@
 import BaseAPI from "./base.api";
 
-const formatFakeResult = (object, timeout = 10000) =>
+const formatFakeResult = (object, timeout = 3000) =>
   new Promise((resolve) => {
     setTimeout(() => resolve(new Response(new Blob([JSON.stringify(object)]))), timeout);
   });
@@ -97,7 +97,27 @@ const userData = {
 };
 
 const scanlationSitesData = {
-  data: [],
+  data: [
+    {
+      _id: "sdfsdf60366250890c37002dec23e4",
+      type: "scanlation-manga",
+      name: "Ayakashi Triangle",
+      image:
+        "http://fmcdn.mfcdn.net/store/manga/34383/cover.jpg?token=d81495829ddf3d904fc972c6c242639ad4d14fd0&ttl=1641042000&v=1639953724",
+      attributes: {
+        site: "Mangakakalot",
+        lang: "en",
+        isCompleted: true,
+        authors: ["abc xyz"],
+        totalChapters: 83,
+        lastReleased: "2021-12-12T00:00:12.213Z",
+        latestChapter: {
+          name: "Chap 77 A New Morning",
+          link: "https://mangadex.org/chapter/bae16d28-b678-43b3-b398-5a1a9902ca65/1",
+        },
+      },
+    },
+  ],
 };
 
 const malData = {
