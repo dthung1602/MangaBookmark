@@ -1,6 +1,6 @@
 import BaseAPI from "./base.api";
 
-const formatFakeResult = (object, timeout = 100) =>
+const formatFakeResult = (object, timeout = 10000) =>
   new Promise((resolve) => {
     setTimeout(() => resolve(new Response(new Blob([JSON.stringify(object)]))), timeout);
   });
@@ -46,6 +46,12 @@ const userData = {
         site: "Mangakakalot",
         lang: "en",
         isCompleted: true,
+        authors: ["abc xyz"],
+        lastReleased: "2021-12-14T00:00:12.213Z",
+        latestChapter: {
+          name: "Ayakashi Triangle Ch.073",
+          link: "http://fanfox.net/manga/ayakashi_triangle/c073/1.html",
+        },
       },
     },
     {
@@ -59,6 +65,12 @@ const userData = {
         site: "MangaDex",
         lang: "en",
         isCompleted: false,
+        authors: ["abc xyz", "kjw NSu"],
+        lastReleased: "2021-12-02T00:00:12.213Z",
+        latestChapter: {
+          name: "Chapter 23",
+          link: "http://fanfox.net/manga/ayakashi_triangle/c073/1.html",
+        },
       },
     },
     {
@@ -73,6 +85,12 @@ const userData = {
         site: "Mangakakalot",
         lang: "vi",
         isCompleted: false,
+        authors: ["abc xyz"],
+        lastReleased: "2021-12-12T00:00:12.213Z",
+        latestChapter: {
+          name: "Chap 77 A New Morning",
+          link: "https://mangadex.org/chapter/bae16d28-b678-43b3-b398-5a1a9902ca65/1",
+        },
       },
     },
   ],

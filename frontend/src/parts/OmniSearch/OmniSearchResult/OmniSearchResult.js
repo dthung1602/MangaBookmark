@@ -1,18 +1,25 @@
 import PropTypes from "prop-types";
 
 import { Link } from "react-router-dom";
+import { Row, Col, Spin } from "antd";
 
 import { MangaSiteLink, MangaStatus } from "../../../components";
-import { buildMangaDetailPath } from "../../../utils";
-
+import { buildMangaDetailPath, formatDate, truncString } from "../../../utils";
 import "./OmniSearchResult.less";
 
-const OmniSearchResult = ({ userMangas }) => {
+const placeholder = (
+  <div className="omnisearch-result-row-placeholder">
+    <Spin />
+  </div>
+);
+
+const OmniSearchResult = ({ userMangas, isLoadingUserMangas }) => {
   return (
     <div className="omnisearch-result">
       <div key="header-user-mangas" className="omnisearch-content-header">
         From your library
       </div>
+      {isLoadingUserMangas ? placeholder : null}
       {userMangas.map((result) => {
         const content = (
           <div className="omnisearch-content">
@@ -23,20 +30,22 @@ const OmniSearchResult = ({ userMangas }) => {
               <div className="omnisearch-name">{result.name}</div>
               <div className="omnisearch-short-description">
                 <MangaStatus status={result.attributes.status} />
-                <span>
-                  <b>Shelf:</b> {result.attributes.shelf}
-                </span>
+                <MangaSiteLink mangaSiteName={result.attributes.site} />
               </div>
-              <div className="omnisearch-long-description">
-                <MangaStatus status={result.attributes.status} />
-                <span>
-                  <b>Site:</b>&nbsp;&nbsp;
-                  <MangaSiteLink mangaSiteName={result.attributes.site} />
-                </span>
-                <span>
+              <Row className="omnisearch-long-description" gutter={[0, 4]}>
+                <Col span={10}>
                   <b>Shelf:</b> {result.attributes.shelf}
-                </span>
-              </div>
+                </Col>
+                <Col span={14}>
+                  <b>Author:</b> {result.attributes.authors.join("-")}
+                </Col>
+                <Col span={24}>
+                  <b>Latest chap:</b> {truncString(result.attributes.latestChapter.name, 30)}
+                </Col>
+                <Col span={24}>
+                  <b>Last released:</b> {formatDate(result.attributes.lastReleased)}
+                </Col>
+              </Row>
             </div>
           </div>
         );
@@ -46,7 +55,9 @@ const OmniSearchResult = ({ userMangas }) => {
             {result.type === "user-manga" ? (
               <Link to={buildMangaDetailPath(result)}>{content}</Link>
             ) : (
-              <a href={result.attributes.link}>{content}</a>
+              <a href={result.attributes.link} target="_blank" rel="noreferrer noopener">
+                {content}
+              </a>
             )}
           </div>
         );
@@ -57,6 +68,7 @@ const OmniSearchResult = ({ userMangas }) => {
 
 OmniSearchResult.propTypes = {
   userMangas: PropTypes.array.isRequired,
+  isLoadingUserMangas: PropTypes.bool.isRequired,
 };
 
 export default OmniSearchResult;
