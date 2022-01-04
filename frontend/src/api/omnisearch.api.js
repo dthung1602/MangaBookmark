@@ -11,10 +11,7 @@ class OmniSearchAPI extends BaseAPI {
   }
 
   searchUserManga(term) {
-    return {
-      result: formatFakeResult(userData),
-      abort: () => {},
-    };
+    return super.get({ search: term }, "user-manga");
   }
 
   searchScanlationSites(term) {

@@ -1,14 +1,18 @@
 import PropTypes from "prop-types";
-import { Spin } from "antd";
+import { Spin, Empty } from "antd";
 
 import OmniSearchResultUserMangaRow from "../OmniSearchResultUserMangaRow";
 import OmniSearchResultScanlationMangaRow from "../OmniSearchResultScanlationMangaRow";
 import "./OmniSearchResult.less";
 
-const placeholder = (
+const loadingPlaceholder = (
   <div className="omnisearch-result-row-placeholder">
     <Spin />
   </div>
+);
+
+const emptyPlaceholder = (
+  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Nothing found" className="omnisearch-result-row-empty" />
 );
 
 const OmniSearchResult = ({ searchContext }) => {
@@ -19,17 +23,19 @@ const OmniSearchResult = ({ searchContext }) => {
       <div key="header-user-mangas" className="omnisearch-content-header">
         From your library
       </div>
-      {isLoadingUserMangas ? placeholder : null}
+      {isLoadingUserMangas ? loadingPlaceholder : null}
       {userMangas.map((result) => (
         <OmniSearchResultUserMangaRow key={result._id} result={result} />
       ))}
+      {userMangas.length === 0 && !isLoadingUserMangas ? emptyPlaceholder : null}
       <div key="header-scanlation-mangas" className="omnisearch-content-header">
         From scanlation sites
       </div>
-      {isLoadingScanlationMangas ? placeholder : null}
+      {isLoadingScanlationMangas ? loadingPlaceholder : null}
       {scanlationMangas.map((result) => (
         <OmniSearchResultScanlationMangaRow key={result._id} result={result} />
       ))}
+      {scanlationMangas.length === 0 && !isLoadingScanlationMangas ? emptyPlaceholder : null}
     </div>
   );
 };
