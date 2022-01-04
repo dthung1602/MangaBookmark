@@ -1,6 +1,7 @@
 const { check } = require("express-validator");
 
 const { Manga } = require("../../models");
+const Pagination = require("./pagination");
 const ErrorFormatter = require("./validation-error-formatter");
 
 const MangaFilterValidator = [
@@ -18,11 +19,7 @@ const MangaFilterValidator = [
   check("unreadChapCountGTE").optional().isInt().toInt(),
   check("unreadChapCountLTE").optional().isInt().toInt(),
   check("tags.*").optional().trim(),
-  check("page").optional().isInt({ min: 1 }).toInt(),
-  check("perPage").optional().isInt({ min: 0 }).toInt(),
-  check("sort.*")
-    .optional()
-    .matches(/^-?[0-9a-zA-Z]+$/),
+  ...Pagination,
   ErrorFormatter,
 ];
 

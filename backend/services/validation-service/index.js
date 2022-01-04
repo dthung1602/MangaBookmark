@@ -21,4 +21,6 @@ module.exports = {
   SubscriptionDeleteValidator: require("./subsription-delete"),
 
   ImageProxyValidator: require("./image-proxy"),
+
+  OmnisearchUserMangaValidator: require("./omnisearch-user-manga"),
 };

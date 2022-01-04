@@ -42,6 +42,7 @@ const UserRouter = require("./api/user");
 const SubscriptionRouter = require("./api/subscription");
 const MetaRouter = require("./api/meta");
 const ImageRouter = require("./api/image");
+const OmnisearchRouter = require("./api/omnisearch");
 const { AuthenticateMiddleware } = require("./services/auth-service");
 const { DBConnectionMiddleware } = require("./services/db-service");
 const { ErrorHandlerMiddleware, NotFoundError } = require("./errors");
@@ -54,6 +55,7 @@ apiRouter.use("/user", UserRouter);
 apiRouter.use("/subscriptions", SubscriptionRouter);
 apiRouter.use("/meta", MetaRouter);
 apiRouter.use("/image", ImageRouter);
+apiRouter.use("/omnisearch", OmnisearchRouter);
 apiRouter.use("*", () => {
   throw new NotFoundError();
 });
