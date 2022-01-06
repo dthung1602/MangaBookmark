@@ -8,6 +8,8 @@ const TOTAL_MANGA_PUSHED_TO_QUEUE = "Total manga pushed to queue";
 const UPDATE_MANGA_SUCCEEDED = "Update manga succeeded";
 const UPDATE_MANGA_FAILED = "Update manga failed";
 
+const SEARCH_MANGA_FAILED = "Search manga failed";
+
 const WEBPUSH_NO_UPDATE = "No updates for user";
 const WEBPUSH_FINISHED = "Webpush finished";
 const WEBPUSH_FAILED = "Webpush failed";
@@ -42,6 +44,7 @@ module.exports = {
   TOTAL_MANGA_PUSHED_TO_QUEUE,
   UPDATE_MANGA_SUCCEEDED,
   UPDATE_MANGA_FAILED,
+  SEARCH_MANGA_FAILED,
   WEBPUSH_FINISHED,
   WEBPUSH_FAILED,
   WEBPUSH_NO_UPDATE,

@@ -3,6 +3,7 @@ const router = Router();
 
 const { OmnisearchUserMangaResult } = require("../models");
 const { OmnisearchUserMangaValidator, OmnisearchScanlationMangaValidator } = require("../services/validation-service");
+const { ensureIsArray } = require("../services/utils");
 const MangaService = require("../services/manga-service");
 const ScanlationSiteService = require("../services/scanlation-site-searching-service");
 
@@ -74,8 +75,10 @@ router.getAsync("/user-manga", OmnisearchUserMangaValidator, async (req, res) =>
  *         name: sites
  *         description: scanlation sites to search
  *         schema:
- *           type: string
+ *           type: array
  *           required: false
+ *           items:
+ *             type: string
  *     responses:
  *       200:
  *         description: Retrieved successfully
@@ -87,7 +90,8 @@ router.getAsync("/user-manga", OmnisearchUserMangaValidator, async (req, res) =>
  *                 $ref: '#/components/schemas/OmnisearchResult'
  */
 router.getAsync("/scanlation-manga", OmnisearchScanlationMangaValidator, async (req, res) => {
-  const sitesToSearch = req.query.sites || ScanlationSiteService.supportedSites;
+  const sitesToSearch =
+    req.query.sites === undefined ? ScanlationSiteService.supportedSites : ensureIsArray(req.query.sites);
   const result = await ScanlationSiteService.searchMultipleSites(sitesToSearch, req.query.search, req.query.topN);
   res.json(result);
 });

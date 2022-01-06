@@ -68,4 +68,11 @@ function flattenObject(ob) {
 //   };
 // }
 
-module.exports = { pickCopy, flattenObject };
+function ensureIsArray(maybeArray) {
+  if (Array.isArray(maybeArray)) {
+    return maybeArray;
+  }
+  return [maybeArray];
+}
+
+module.exports = { pickCopy, flattenObject, ensureIsArray };
