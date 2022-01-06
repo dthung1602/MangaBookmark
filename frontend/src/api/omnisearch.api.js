@@ -10,15 +10,12 @@ class OmniSearchAPI extends BaseAPI {
     super("omnisearch");
   }
 
-  searchUserManga(term) {
-    return super.get({ search: term }, "user-manga");
+  searchUserManga(term, topN = 3) {
+    return super.get({ search: term, topN }, "user-manga");
   }
 
-  searchScanlationSites(term) {
-    return {
-      result: formatFakeResult(scanlationSitesData),
-      abort: () => {},
-    };
+  searchScanlationSites(term, topN = 3, sites = undefined) {
+    return super.get({ search: term, topN, sites }, "scanlation-manga");
   }
 
   searchMAL(term) {

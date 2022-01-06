@@ -28,7 +28,7 @@ const OmniSearchResultScanlationMangaRow = ({ result }) => {
               <b>Author:</b> {result.attributes.authors.join("-")}
             </Col>
             <Col span={10}>
-              <b>Total chapters:</b> {result.attributes.totalChapters}
+              <b>Total chapters:</b> {result.attributes.totalChapters ?? "n/a"}
             </Col>
             <Col span={24}>
               <b>Latest chap:</b> {truncString(result.attributes.latestChapter.name, 30)}

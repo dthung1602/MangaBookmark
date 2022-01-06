@@ -48,7 +48,7 @@ async function search(term, topN) {
   return matchingMangas.map(
     (rawManga) =>
       new OmnisearchScanlationMangaResult({
-        site: "Manga4life",
+        site: "Manga4Life",
         _id: rawManga.i,
         name: rawManga.s,
         image: `https://cover.nep.li/cover/${rawManga.i}.jpg`,
@@ -71,6 +71,6 @@ async function search(term, topN) {
 }
 
 module.exports = {
-  site: "Manga4life",
+  site: "Manga4Life",
   search,
 };

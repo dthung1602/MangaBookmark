@@ -29,8 +29,7 @@ const useSearch = (setSearchResultVisible) => {
     userMangaAPICall.result
       .then(async (response) => {
         throwOnCriticalErrors(response);
-        const { data } = await response.json();
-        setUserMangas(data);
+        setUserMangas(await response.json());
       })
       .catch(notifyError)
       .finally(() => setIsLoadingUserMangas(false));
@@ -38,8 +37,7 @@ const useSearch = (setSearchResultVisible) => {
     scanlationMangaAPICall.result
       .then(async (response) => {
         throwOnCriticalErrors(response);
-        const { data } = await response.json();
-        setScanlationMangas(data);
+        setScanlationMangas(await response.json());
       })
       .catch(notifyError)
       .finally(() => setIsLoadingScanlationMangas(false));
