@@ -93,6 +93,6 @@ export const equalOrIn = (element, target) => {
 
 export const doNothing = () => {};
 
-export const buildMangaDetailPath = (manga) => {
-  return ROUTE_MANGA_DETAIL + "?id=" + manga._id;
+export const buildMangaDetailPath = (mangaId) => {
+  return ROUTE_MANGA_DETAIL + "?id=" + mangaId;
 };

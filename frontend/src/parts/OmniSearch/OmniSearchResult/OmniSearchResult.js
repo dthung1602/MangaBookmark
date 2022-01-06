@@ -24,16 +24,16 @@ const OmniSearchResult = ({ searchContext }) => {
         From your library
       </div>
       {isLoadingUserMangas ? loadingPlaceholder : null}
-      {userMangas.map((result) => (
-        <OmniSearchResultUserMangaRow key={result._id} result={result} />
+      {userMangas.map((result, index) => (
+        <OmniSearchResultUserMangaRow key={`user-manga-${index}`} result={result} />
       ))}
       {userMangas.length === 0 && !isLoadingUserMangas ? emptyPlaceholder : null}
       <div key="header-scanlation-mangas" className="omnisearch-content-header">
         From scanlation sites
       </div>
       {isLoadingScanlationMangas ? loadingPlaceholder : null}
-      {scanlationMangas.map((result) => (
-        <OmniSearchResultScanlationMangaRow key={result._id} result={result} />
+      {scanlationMangas.map((result, index) => (
+        <OmniSearchResultScanlationMangaRow key={`scanlation-manga-${index}`} result={result} />
       ))}
       {scanlationMangas.length === 0 && !isLoadingScanlationMangas ? emptyPlaceholder : null}
     </div>

@@ -8,7 +8,7 @@ import "./OmniSearchResultScanlationMangaRow.less";
 const OmniSearchResultScanlationMangaRow = ({ result }) => {
   return (
     <div className="omnisearch-result-row">
-      <a href={result.link} target="_blank" rel="noopener noreferrer" className="omnisearch-content">
+      <a href={result.attributes.link} target="_blank" rel="noopener noreferrer" className="omnisearch-content">
         <div className="omnisearch-cover">
           <img src={result.image} alt={result.name} />
         </div>

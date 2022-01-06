@@ -9,7 +9,7 @@ import "./OmniSearchResultUserMangaRow.less";
 const OmniSearchResultUserMangaRow = ({ result }) => {
   return (
     <div className="omnisearch-result-row">
-      <Link to={buildMangaDetailPath(result)} className="omnisearch-content">
+      <Link to={buildMangaDetailPath(result.attributes._id)} className="omnisearch-content">
         <div className="omnisearch-cover">
           <img src={result.image} alt={result.name} />
         </div>

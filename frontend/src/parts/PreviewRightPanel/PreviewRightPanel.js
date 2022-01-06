@@ -23,7 +23,7 @@ const PreviewRightPanel = () => {
   const { manga, isLoading, isMarkingChapters, updateManga, deleteManga } = useContext(MangaContext);
   const history = useHistory();
 
-  const viewDetail = useCallback(() => history.push(buildMangaDetailPath(manga)), [manga, history]);
+  const viewDetail = useCallback(() => history.push(buildMangaDetailPath(manga._id)), [manga, history]);
 
   if (manga === null) {
     return (

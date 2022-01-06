@@ -28,7 +28,7 @@ const MangaTableDesktopRow = ({ manga }) => {
           <a href={manga.link} target="_blank" rel="noopener noreferrer">
             {manga.name}
           </a>
-          <Link to={buildMangaDetailPath(manga)} className="expand-btn">
+          <Link to={buildMangaDetailPath(manga._id)} className="expand-btn">
             <FullscreenOutlined />
           </Link>
         </Title>
