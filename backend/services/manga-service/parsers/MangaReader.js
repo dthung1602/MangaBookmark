@@ -1,4 +1,4 @@
-const { fetchAndLoad } = require("./utils");
+const { fetchAndLoad } = require("../../scraping-service");
 
 const URLRegex = /^https?:\/\/www\.mangareader\.net\/.+$/;
 const baseURL = "http://www.mangareader.net";

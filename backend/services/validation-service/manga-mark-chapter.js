@@ -1,7 +1,7 @@
 const { check } = require("express-validator");
 
 const MangaPermissionValidator = require("./manga-permission");
-const ErrorFormatter = require("./validation-error-formatter");
+const { ErrorFormatter } = require("./mixins");
 
 module.exports = [
   check("isRead").exists().isBoolean().toBoolean(),

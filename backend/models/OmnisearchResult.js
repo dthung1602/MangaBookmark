@@ -1,3 +1,5 @@
+const crypto = require("crypto");
+
 const { pick, cloneDeep } = require("lodash");
 
 const resultFields = ["_id", "name", "image"];
@@ -26,8 +28,17 @@ const resultFields = ["_id", "name", "image"];
 class OmnisearchResult {
   constructor(manga, type) {
     Object.assign(this, cloneDeep(pick(manga, resultFields)));
+    this.normalizeId();
     this.type = type;
     this.attributes = {};
+  }
+
+  normalizeId() {
+    this._id = this._id.toString();
+    if (!this._id.match(/^[0-9a-f]{24}$/)) {
+      const hash = crypto.createHash("md5").update(this._id).digest("hex");
+      this._id = hash.slice(0, 24);
+    }
   }
 }
 
@@ -41,14 +52,12 @@ class OmnisearchUserMangaResult extends OmnisearchResult {
   }
 }
 
-const scanlationMangaAttributes = ["site", "isCompleted", "authors", "lastReleased"];
+const scanlationMangaAttributes = ["site", "isCompleted", "authors", "lastReleased", "latestChapter", "totalChapters"];
 
 class OmnisearchScanlationMangaResult extends OmnisearchResult {
   constructor(manga) {
     super(manga, "scanlation-manga");
     this.attributes = cloneDeep(pick(manga, scanlationMangaAttributes));
-    this.attributes.totalChapters = manga.chapters.length;
-    this.attributes.latestChapter = pick(manga.chapters[0] || {}, ["name", "link"]);
   }
 }
 

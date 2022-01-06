@@ -23,4 +23,5 @@ module.exports = {
   ImageProxyValidator: require("./image-proxy"),
 
   OmnisearchUserMangaValidator: require("./omnisearch-user-manga"),
+  OmnisearchScanlationMangaValidator: require("./omnisearch-scanlation-manga"),
 };

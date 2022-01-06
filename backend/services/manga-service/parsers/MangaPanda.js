@@ -1,4 +1,4 @@
-const { fetchAndLoad } = require("./utils");
+const { fetchAndLoad } = require("../../scraping-service");
 
 const URLRegex = /^https?:\/\/www\.mangapanda\.com\/.+$/;
 const baseURL = "http://www.mangapanda.com";

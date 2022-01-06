@@ -4,7 +4,7 @@ const {
   extractTagsFromText,
   extractAuthorsFromText,
   useImageProxy,
-} = require("./utils");
+} = require("../../scraping-service");
 
 const URLRegex = /^https?:\/\/mangahasu\.se\/.+/;
 

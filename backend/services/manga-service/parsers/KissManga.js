@@ -4,7 +4,7 @@ const {
   findNodeWithHeaderAndExtractNameFromText,
   findNodeWithHeaderAndExtractTagsFromText,
   findNodeWithHeaderAndExtractAuthorFromText,
-} = require("./utils");
+} = require("../../scraping-service");
 
 const URLRegex = /^https?:\/\/kissmanga\.org\/manga\/.+$/;
 const BaseURL = "https://kissmanga.org";

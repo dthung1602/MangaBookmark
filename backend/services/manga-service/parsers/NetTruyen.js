@@ -1,4 +1,9 @@
-const { fetchAndLoad, extractAuthorsFromNode, extractTagsFromNode, extractNamesFromText } = require("./utils");
+const {
+  fetchAndLoad,
+  extractAuthorsFromNode,
+  extractTagsFromNode,
+  extractNamesFromText,
+} = require("../../scraping-service");
 
 const URLRegex = /^https?:\/\/www\.nettruyenpro\.com\/truyen-tranh\/.+$/;
 

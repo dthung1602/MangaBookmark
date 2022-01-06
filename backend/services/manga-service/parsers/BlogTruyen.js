@@ -3,7 +3,7 @@ const {
   findNodeWithHeaderAndExtractNameFromText,
   extractTagsFromNode,
   extractAuthorsFromNode,
-} = require("./utils");
+} = require("../../scraping-service");
 
 const URLRegex = /^https?:\/\/blogtruyen\.vn\/[0-9]+\/.+/;
 

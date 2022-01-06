@@ -1,7 +1,7 @@
 const { check } = require("express-validator");
 
 const { User } = require("../../models");
-const ErrorFormatter = require("./validation-error-formatter");
+const { ErrorFormatter } = require("./mixins");
 
 module.exports = [
   check("password").exists().isLength({ min: 8 }),

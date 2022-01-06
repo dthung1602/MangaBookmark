@@ -216,20 +216,20 @@
 
 - [ ] Cross site search
   - [ ] Search in supported site
-    - [ ] Setup FE
-      - Cross site search vs search saved magna
-      - Show results in dropdown (see github)
-      - Preview result
+    - [x] Setup FE
+      - [x] Cross site search vs search saved magna
+      - [x] Show results in dropdown (see github)
+      - [x] Preview result
       - Add manga from result
     - [ ] Setup basic BE
-      - Crawl name, image, status?, latest chapter, last release?
-      - Manga site priority?
+      - [x] Crawl name, image, status?, latest chapter, last release?
+      - [ ] Manga site priority?
     - [ ] Add custom search page parser
       - [ ] Mangakakalot
       - [ ] Manganelo
       - [ ] Fanfox
       - [ ] Mangadex
-      - [ ] manga4life
+      - [x] manga4life
       - [ ] Truyenqq
       - [ ] BlogTruyen
   - [ ] Search for manga in MAL

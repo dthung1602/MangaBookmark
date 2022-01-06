@@ -1,7 +1,7 @@
 const { check } = require("express-validator");
 
 const { supportedSites } = require("../manga-service/parsers");
-const ErrorFormatter = require("./validation-error-formatter");
+const { ErrorFormatter } = require("./mixins");
 
 const mangaSites = supportedSites.map((s) => s.name);
 

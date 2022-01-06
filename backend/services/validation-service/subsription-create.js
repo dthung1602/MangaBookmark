@@ -2,7 +2,7 @@ const { check } = require("express-validator");
 
 const { Subscription } = require("../../models");
 const { OSs, Browsers } = Subscription;
-const ErrorFormatter = require("./validation-error-formatter");
+const { ErrorFormatter } = require("./mixins");
 
 module.exports = [
   check("os").exists().isIn(Object.values(OSs)),

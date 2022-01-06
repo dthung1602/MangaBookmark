@@ -1,4 +1,4 @@
-const { fetchAndLoad } = require("./utils");
+const { fetchAndLoad } = require("../../scraping-service");
 
 const URLRegex = /^https?:\/\/www\.medoctruyentranh\.net\/truyen-tranh\/.+-[0-9]+$/;
 

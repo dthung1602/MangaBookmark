@@ -1,4 +1,4 @@
-const { fetchAndLoad, removeMangaNamePrefix } = require("./utils");
+const { fetchAndLoad, removeMangaNamePrefix } = require("../../scraping-service");
 
 const URLRegex = /^https?:\/\/mangahub\.io\/manga\/.+$/;
 

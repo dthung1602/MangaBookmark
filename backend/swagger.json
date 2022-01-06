@@ -1295,32 +1295,63 @@
           },
           {
             "in": "query",
-            "name": "page",
+            "name": "topN",
+            "description": "How many results to fetch",
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "required": false
+              "required": false,
+              "default": 3
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OmnisearchResult"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/omnisearch/scanlation-manga": {
+      "get": {
+        "description": "Search for mangas on scanlation sites",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "description": "Search mangas by name",
+            "schema": {
+              "type": "string",
+              "required": true
             }
           },
           {
             "in": "query",
-            "name": "perPage",
+            "name": "topN",
+            "description": "How many results to fetch",
             "schema": {
               "type": "integer",
-              "minimum": 0,
-              "description": "If set to 0, all pages are retrieved.",
-              "required": false
+              "minimum": 1,
+              "required": false,
+              "default": 3
             }
           },
           {
             "in": "query",
-            "name": "sort",
+            "name": "sites",
+            "description": "scanlation sites to search",
             "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "description": "The field name to sort. Add - to sort desc. This field can be a string of one filed a string of multiple fields separated by space, or an array of string.",
+              "type": "string",
               "required": false
             }
           }
@@ -1331,23 +1362,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/OmnisearchResult"
-                      }
-                    },
-                    "page": {
-                      "type": "integer"
-                    },
-                    "totalItem": {
-                      "type": "integer"
-                    },
-                    "totalPage": {
-                      "type": "integer"
-                    }
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OmnisearchResult"
                   }
                 }
               }

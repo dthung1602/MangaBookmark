@@ -2,7 +2,7 @@ const { check } = require("express-validator");
 
 const MangaService = require("../manga-service");
 const { NotFoundError, PermissionError } = require("../../errors");
-const ErrorFormatter = require("./validation-error-formatter");
+const { ErrorFormatter } = require("./mixins");
 
 module.exports = [
   check("manga", "Invalid manga ID")

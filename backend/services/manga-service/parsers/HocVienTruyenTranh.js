@@ -3,7 +3,7 @@ const {
   findNodeWithHeaderAndExtractNameFromText,
   findNodeWithHeaderAndExtractAuthorFromText,
   findNodeWithHeaderAndExtractTagsFromText,
-} = require("./utils");
+} = require("../../scraping-service");
 
 const URLRegex = /^https?:\/\/hocvientruyentranh\.(com|net)\/(index.php\/)?truyen\/[0-9]+\/.+$/;
 

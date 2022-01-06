@@ -1,6 +1,5 @@
 const { check } = require("express-validator");
 
-const Pagination = require("./pagination");
-const ErrorFormatter = require("./validation-error-formatter");
+const { ErrorFormatter } = require("./mixins");
 
-module.exports = [check("search").exists(), ...Pagination, ErrorFormatter];
+module.exports = [check("search").exists(), check("topN").exists().isInt({ min: 1 }).toInt(), ErrorFormatter];
