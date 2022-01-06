@@ -225,10 +225,10 @@
       - [x] Crawl name, image, status?, latest chapter, last release?
       - [ ] Manga site priority?
     - [ ] Add custom search page parser
-      - [ ] Mangakakalot
-      - [ ] Manganelo
+      - [x] Mangakakalot
+      - [ ] ~~Manganelo~~
       - [ ] Fanfox
-      - [ ] Mangadex
+      - [x] Mangadex
       - [x] manga4life
       - [ ] Truyenqq
       - [ ] BlogTruyen
