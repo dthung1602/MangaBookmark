@@ -323,9 +323,6 @@
       "OmnisearchResult": {
         "type": "object",
         "properties": {
-          "_id": {
-            "$ref": "#/components/schemas/Id"
-          },
           "type": {
             "type": "string",
             "enum": [
