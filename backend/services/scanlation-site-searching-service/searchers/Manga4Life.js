@@ -54,7 +54,7 @@ async function search(term, topN) {
         image: `https://cover.nep.li/cover/${rawManga.i}.jpg`,
         isCompleted: rawManga.ss === "Complete",
         authors: rawManga.a,
-        lastReleased: rawManga.ls.replace("+00:00", "Z"),
+        lastReleased: rawManga.ls,
         latestChapter: {
           name: `Chapter ${ChapterChop(rawManga.l, "Chapter")}${ChapterChop(rawManga.l, "Odd")}`,
           link:

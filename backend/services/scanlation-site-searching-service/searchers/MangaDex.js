@@ -52,7 +52,7 @@ async function search(term, topN) {
         isCompleted: rawManga.attributes.status === "completed",
         authors: extractAuthors(rawManga),
         totalChapters: chapters.total,
-        lastReleased: lastChapter.attributes.publishAt.replace("+00:00", "Z"),
+        lastReleased: lastChapter.attributes.publishAt,
         latestChapter: {
           name: `Chap ${lastChapter.attributes.chapter} ${lastChapter.attributes.title}`,
           link: `https://mangadex.org/chapter/${lastChapter.id}/1`,

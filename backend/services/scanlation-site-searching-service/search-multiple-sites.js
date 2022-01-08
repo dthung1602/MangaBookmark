@@ -1,5 +1,5 @@
 const { getLogger, SEARCH_MANGA_FAILED } = require("../log-service");
-const searchOneSite = require("./searchOneSite");
+const searchOneSite = require("./search-one-site");
 
 const logger = getLogger("search-multiple-scanlation-sites");
 

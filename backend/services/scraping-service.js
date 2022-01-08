@@ -107,7 +107,7 @@ function extractTagsFromNode($, tagNodes) {
 function extractAuthorsFromNode($, authorNodes) {
   return $(authorNodes)
     .toArray()
-    .map((node) => startCase($(node).text()))
+    .map((node) => startCase($(node).text().trim()))
     .filter(Boolean);
 }
 

@@ -6,11 +6,6 @@ function buildSearchURL(term) {
   return `https://mangakakalot.com/search/story/${term}`;
 }
 
-function parseLastReleased(text) {
-  text = text.trim().replace("Updated :", "").replaceAll("-", " ").trim();
-  return new Date(Date.parse(text)).toISOString();
-}
-
 async function search(term, topN) {
   const url = buildSearchURL(term);
   const $ = await fetchAndLoad(url);
@@ -22,19 +17,18 @@ async function search(term, topN) {
 
       return new OmnisearchScanlationMangaResult({
         site: "Mangakakalot",
-        name: mangaRootElement.find(".story_name").text().trim(), // TODO move normalize logic out
-        link: mangaRootElement.find(".story_name a").attr("href").trim(),
-        image: mangaRootElement.find("img").attr("src").trim(),
+        name: mangaRootElement.find(".story_name").text(),
+        link: mangaRootElement.find(".story_name a").attr("href"),
+        image: mangaRootElement.find("img").attr("src"),
         authors: extractAuthorsFromText($(spans[0]).text(), ",", "Author(s) :"),
-        lastReleased: parseLastReleased($(spans[1]).text()),
+        lastReleased: $(spans[1]).text().replace("Updated :", "").replaceAll("-", " "),
         latestChapter: {
-          name: $(mangaRootElement.find(".story_chapter")[0]).text().trim(),
-          link: mangaRootElement.find(".story_chapter a").attr("href").trim(),
+          name: $(mangaRootElement.find(".story_chapter")[0]).text(),
+          link: mangaRootElement.find(".story_chapter a").attr("href"),
         },
       });
     })
-    .toArray()
-    .slice(0, topN);
+    .toArray();
 }
 
 module.exports = {

@@ -75,4 +75,30 @@ function ensureIsArray(maybeArray) {
   return [maybeArray];
 }
 
-module.exports = { pickCopy, flattenObject, ensureIsArray };
+function trimExtra(string) {
+  return string.replace(/  +/g, " ").trim();
+}
+
+function normalizeURL(url) {
+  return new URL(url).toString();
+}
+
+function normalizeDate(date) {
+  if (date instanceof Date) {
+    return date.toString();
+  }
+  return new Date(Date.parse(trimExtra(date))).toISOString();
+}
+
+function parseBoolean(value) {
+  const normalizedValue = value.toString().toLowerCase().trim();
+  if (normalizedValue === "true") {
+    return true;
+  }
+  if (normalizedValue === "false") {
+    return false;
+  }
+  throw new Error("Invalid boolean value");
+}
+
+module.exports = { pickCopy, flattenObject, ensureIsArray, trimExtra, normalizeURL, normalizeDate, parseBoolean };

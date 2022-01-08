@@ -1,20 +1,11 @@
+const { parseBoolean } = require("./services/utils");
+
 function getEnv(envName, defaultValue = undefined, converter = (x) => x) {
   let value = process.env[envName];
   if (value === undefined) {
     value = defaultValue;
   }
   return converter(value);
-}
-
-function parseBoolean(value) {
-  const normalizedValue = value.toString().toLowerCase().trim();
-  if (normalizedValue === "true") {
-    return true;
-  }
-  if (normalizedValue === "false") {
-    return false;
-  }
-  throw new Error("Invalid boolean option value");
 }
 
 const NODE_ENV = getEnv("NODE_ENV", "development");
