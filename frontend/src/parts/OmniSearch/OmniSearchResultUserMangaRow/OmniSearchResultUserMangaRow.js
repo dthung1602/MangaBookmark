@@ -2,14 +2,15 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Col, Row } from "antd";
 
-import { buildMangaDetailPath, formatDate, truncString } from "../../../utils";
+import { formatDate, truncString } from "../../../utils";
+import { buildMangaDetailRoute } from "../../../utils/route";
 import { MangaSiteLink, MangaStatus } from "../../../components";
 import "./OmniSearchResultUserMangaRow.less";
 
 const OmniSearchResultUserMangaRow = ({ result }) => {
   return (
     <div className="omnisearch-result-row">
-      <Link to={buildMangaDetailPath(result.attributes._id)} className="omnisearch-content">
+      <Link to={buildMangaDetailRoute(result.attributes._id)} className="omnisearch-content">
         <div className="omnisearch-cover">
           <img src={result.image} alt={result.name} />
         </div>
