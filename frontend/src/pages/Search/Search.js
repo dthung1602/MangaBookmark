@@ -2,6 +2,7 @@ import { useQueryParam } from "use-query-params";
 import { Input, Affix } from "antd";
 
 import MangaListingLayout from "../MangaListingLayout";
+import { WorkInProgress } from "../../components";
 import "./Search.less";
 
 const Search = () => {
@@ -20,14 +21,17 @@ const Search = () => {
 
   // TODO this page
   return (
-    <MangaListingLayout
-      title="Search scan sites"
-      mangasOrFactory={[]}
-      loadMode="replace"
-      filterNode={searchBar}
-      updateMangaFilters={{}}
-      updateButtonText=""
-    />
+    <>
+      <MangaListingLayout
+        title="Search scan sites"
+        mangasOrFactory={[]}
+        loadMode="replace"
+        filterNode={searchBar}
+        updateMangaFilters={{}}
+        updateButtonText=""
+      />
+      <WorkInProgress />
+    </>
   );
 };
 
