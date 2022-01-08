@@ -19,7 +19,7 @@ const OmniSearch = ({ onSearch }) => {
     const term = inputRef.current.value.trim();
     if (event.key === "Enter" && term) {
       searchContext.search(term);
-      onSearch();
+      onSearch(event);
     }
   };
 
