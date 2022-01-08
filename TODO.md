@@ -220,18 +220,25 @@
       - [x] Cross site search vs search saved magna
       - [x] Show results in dropdown (see github)
       - [x] Preview result
-      - Add manga from result
+      - [ ] Add manga from result
     - [ ] Setup basic BE
       - [x] Crawl name, image, status?, latest chapter, last release?
       - [ ] Manga site priority?
     - [ ] Add custom search page parser
       - [x] Mangakakalot
       - [ ] ~~Manganelo~~
-      - [ ] Fanfox
+      - [x] Fanfox
       - [x] Mangadex
       - [x] manga4life
       - [ ] Truyenqq
       - [ ] BlogTruyen
+  - [ ] Scanlation site result
+    - [ ] Refactor MangaListingPage
+    - [ ] "Custom" right panel
+    - [ ] "Custom" manga table row & manga card
+    - [ ] Add actions to searched mangas
+    - [ ] Add more filters on result
+    - [ ] Pagination / load more ?
   - [ ] Search for manga in MAL
   - [ ] Add option view more result in Google
 
