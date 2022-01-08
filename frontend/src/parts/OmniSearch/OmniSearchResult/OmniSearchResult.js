@@ -1,9 +1,11 @@
 import PropTypes from "prop-types";
 import { Spin, Empty } from "antd";
+import { Link, useHistory } from "react-router-dom";
 
 import OmniSearchResultUserMangaRow from "../OmniSearchResultUserMangaRow";
 import OmniSearchResultScanlationMangaRow from "../OmniSearchResultScanlationMangaRow";
 import "./OmniSearchResult.less";
+import { buildAllMangasRoute, buildSearchRoute } from "../../../utils/route";
 
 const loadingPlaceholder = (
   <div className="omnisearch-result-row-placeholder">
@@ -16,12 +18,15 @@ const emptyPlaceholder = (
 );
 
 const OmniSearchResult = ({ searchContext }) => {
-  const { userMangas, isLoadingUserMangas, scanlationMangas, isLoadingScanlationMangas } = searchContext;
+  const { searchTerm, userMangas, isLoadingUserMangas, scanlationMangas, isLoadingScanlationMangas } = searchContext;
 
   return (
     <div className="omnisearch-result">
       <div key="header-user-mangas" className="omnisearch-content-header">
         From your library
+        <Link to={buildAllMangasRoute({ search: searchTerm })} className="float-right">
+          View more
+        </Link>
       </div>
       {isLoadingUserMangas ? loadingPlaceholder : null}
       {userMangas.map((result, index) => (
@@ -30,6 +35,9 @@ const OmniSearchResult = ({ searchContext }) => {
       {userMangas.length === 0 && !isLoadingUserMangas ? emptyPlaceholder : null}
       <div key="header-scanlation-mangas" className="omnisearch-content-header">
         From scanlation sites
+        <Link to={buildSearchRoute(searchTerm)} className="float-right">
+          View more
+        </Link>
       </div>
       {isLoadingScanlationMangas ? loadingPlaceholder : null}
       {scanlationMangas.map((result, index) => (

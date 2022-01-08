@@ -4,7 +4,7 @@ import { OmniSearchAPI } from "../../api";
 import { notifyError, throwOnCriticalErrors } from "../../utils/error-handler";
 import { doNothing } from "../../utils";
 
-const useSearch = (setSearchResultVisible) => {
+const useSearchAPI = (setSearchResultVisible, searchTerm) => {
   const [userMangas, setUserMangas] = useState([]);
   const [isLoadingUserMangas, setIsLoadingUserMangas] = useState(false);
 
@@ -13,6 +13,7 @@ const useSearch = (setSearchResultVisible) => {
 
   const abortLastSearchRef = useRef(doNothing);
 
+  // TODO don't re-create search function
   const search = debounce((term) => {
     abortLastSearchRef.current();
 
@@ -52,6 +53,7 @@ const useSearch = (setSearchResultVisible) => {
 
   return {
     search,
+    searchTerm,
     userMangas,
     isLoadingUserMangas,
     scanlationMangas,
@@ -60,4 +62,4 @@ const useSearch = (setSearchResultVisible) => {
   };
 };
 
-export { useSearch };
+export { useSearchAPI };

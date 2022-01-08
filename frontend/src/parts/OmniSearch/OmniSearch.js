@@ -1,11 +1,11 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { Dropdown } from "antd";
 
 import { Desktop, Mobile } from "../../components/ScreenSize";
-import { useSearch } from "./hooks";
+import { useSearchAPI } from "./hooks";
 import OmniSearchResult from "./OmniSearchResult";
 import { buildSearchRoute } from "../../utils/route";
 import "./OmniSearch.less";
@@ -18,13 +18,25 @@ const OmniSearch = ({ onSearch }) => {
 
   const [searchResultVisible, setSearchResultVisible] = useState(false);
 
+  const [searchTerm, setSearchTerm] = useState("");
   const [prevSearchTerm, setPrevSearchTerm] = useState("");
-  const inputRef = useRef(null);
 
-  const searchContext = useSearch(setSearchResultVisible);
+  const searchContext = useSearchAPI(setSearchResultVisible, searchTerm);
+
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleKeyDownMobile = (event) => {
+    const term = searchTerm.trim();
+    if (event.key === "Enter" && term) {
+      onSearch(event);
+      history.push(buildSearchRoute(term));
+    }
+  };
 
   const handleKeyDownDesktop = (event) => {
-    const term = inputRef.current.value.trim();
+    const term = searchTerm.trim();
     if (event.key === "Enter" && term) {
       searchContext.search(term);
       onSearch(event);
@@ -32,24 +44,18 @@ const OmniSearch = ({ onSearch }) => {
   };
 
   const onBlurDesktop = () => {
-    setPrevSearchTerm(inputRef.current.value.trim());
-    inputRef.current.value = "";
     // must delay so that the result doesn't disappear when clicked
-    setTimeout(() => setSearchResultVisible(false), 200);
+    setTimeout(() => {
+      setPrevSearchTerm(searchTerm.trim());
+      setSearchTerm("");
+      setSearchResultVisible(false);
+    }, 100);
   };
 
   const onFocusDesktop = () => {
-    inputRef.current.value = prevSearchTerm;
+    setSearchTerm(prevSearchTerm);
     if (prevSearchTerm !== "" && searchContext.hasData) {
       setSearchResultVisible(true);
-    }
-  };
-
-  const handleKeyDownMobile = (event) => {
-    const term = inputRef.current.value.trim();
-    if (event.key === "Enter" && term) {
-      onSearch(event);
-      history.push(buildSearchRoute(term));
     }
   };
 
@@ -66,17 +72,24 @@ const OmniSearch = ({ onSearch }) => {
             <input
               className="omnisearch"
               placeholder="Search"
-              ref={inputRef}
+              value={searchTerm}
               onBlur={onBlurDesktop}
               onFocus={onFocusDesktop}
               onKeyDown={handleKeyDownDesktop}
+              onChange={handleChange}
             />
           </Dropdown>
         )}
       />
       <Mobile
         render={() => (
-          <input className="omnisearch" placeholder="Search" ref={inputRef} onKeyDown={handleKeyDownMobile} />
+          <input
+            className="omnisearch"
+            placeholder="Search"
+            value={searchTerm}
+            onKeyDown={handleKeyDownMobile}
+            onChange={handleChange}
+          />
         )}
       />
     </>
