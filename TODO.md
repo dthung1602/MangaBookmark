@@ -239,8 +239,7 @@
     - [ ] Add actions to searched mangas
     - [ ] Add more filters on result
     - [ ] Pagination / load more ?
-  - [ ] Search for manga in MAL
-  - [ ] Add option view more result in Google
+  - [x] Add option view more result in Google/MAL/anime planet/...
 
 - [ ] Improve auth:
     - [ ] ~~confirm email~~
