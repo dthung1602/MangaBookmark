@@ -1,5 +1,3 @@
-import Icon from "@ant-design/icons";
-
 import { ReactComponent as AniListIcon } from "./ani-list.svg";
 import { ReactComponent as AnimePlanetIcon } from "./anime-planet.svg";
 import { ReactComponent as GoogleIcon } from "./google.svg";

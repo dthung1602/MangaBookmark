@@ -6,7 +6,7 @@ function buildSearchURL(term) {
   return `https://mangakakalot.com/search/story/${term}`;
 }
 
-async function search(term, topN) {
+async function search(term) {
   const url = buildSearchURL(term);
   const $ = await fetchAndLoad(url);
 
