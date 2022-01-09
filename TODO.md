@@ -220,10 +220,10 @@
       - [x] Cross site search vs search saved magna
       - [x] Show results in dropdown (see github)
       - [x] Preview result
-      - [ ] Add manga from result
-    - [ ] Setup basic BE
+      - [x] Add manga from result
+    - [x] Setup basic BE
       - [x] Crawl name, image, status?, latest chapter, last release?
-      - [ ] Manga site priority?
+      - [x] Manga site priority: alphabet
     - [ ] Add custom search page parser
       - [x] Mangakakalot
       - [ ] ~~Manganelo~~
