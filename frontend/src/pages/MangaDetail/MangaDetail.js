@@ -18,18 +18,18 @@ const MangaDetail = () => {
 
   document.title = "Manga detail | MangaBookmark";
 
+  let s = "";
+  for (let i = 0; i < 100; i++) {
+    s += "agsd  asdfia uwye fiufwe of pofkwpeo fpwekfwe ufh we sdklfja oie";
+  }
+
   return (
     <MangaContext.Provider value={mangaContext}>
       <DefaultLayout>
-        {mangaContext.isLoading ? (
-          <Spin />
-        ) : (
-          <div>
-            <MangaBanner />
-            <MangaDetailLeftPanel />
-            <MangaDetailRightPanel />
-          </div>
-        )}
+        <MangaBanner />
+        <MangaDetailLeftPanel />
+        {/*<div>{s}</div>*/}
+        <MangaDetailRightPanel />
       </DefaultLayout>
     </MangaContext.Provider>
   );

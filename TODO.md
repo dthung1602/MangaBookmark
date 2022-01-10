@@ -192,7 +192,7 @@
   - [x] Account
   - [x] components vs parts
   
-- [x] Manga detail page
+- [x] Manga detail page Desktop
   - [x] Setup BE to query 1 manga info
   - [x] Setup FE
     - [x] Design
@@ -203,19 +203,24 @@
     - [x] How to open manga detail page?
     - ~~[ ] Back button~~
 
+- [ ] Manga detail page Mobile
+
 - [ ] Polish FE
-  - [ ] MDP page
+  - [x] MDP page
   - [ ] MangaTableDesktop, MangaTableMobile
   - [ ] Update Homepage
     - [ ] Video
     - [ ] Guide = picture
 
-- [ ] optimize speed
+- [x] optimize speed
+  - [x] add profile tool
+  - [x] identify hot spot
+  - [ ] optimize (currently not needed)
 
 - [x] Change page title
 
 - [ ] Cross site search
-  - [ ] Search in supported site
+  - [x] Search in supported site
     - [x] Setup FE
       - [x] Cross site search vs search saved magna
       - [x] Show results in dropdown (see github)
@@ -224,7 +229,7 @@
     - [x] Setup basic BE
       - [x] Crawl name, image, status?, latest chapter, last release?
       - [x] Manga site priority: alphabet
-    - [ ] Add custom search page parser
+    - [x] Add custom search page parser
       - [x] Mangakakalot
       - [ ] ~~Manganelo~~
       - [x] Fanfox
