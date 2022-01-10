@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "PORT=3001 DISABLE_ESLINT_PLUGIN=true craco start",
     "build": "node build-assets.js && craco build && node post-process.js",
+    "build-profile": "node build-assets.js && craco build --profile && node post-process.js",
     "test": "craco test",
     "lint": "eslint . --fix",
     "watch-assets": "watch 'node build-assets.js' --wait=8 --interval=8 src/assets/manga-site-logo",

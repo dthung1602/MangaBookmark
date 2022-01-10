@@ -7,6 +7,7 @@ import { FAB } from "../../components";
 import "./DefaultLayout.less";
 
 const DefaultLayout = ({ children, showFooter = true, showNavBar = true, fabConfig = false }) => {
+  // TODO optimize do not rerender navbar & footer & FAB
   return (
     <Layout className="default-layout">
       {showNavBar ? <NavBar key="navbar" /> : null}

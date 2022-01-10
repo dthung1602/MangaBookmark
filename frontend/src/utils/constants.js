@@ -4,7 +4,7 @@
 export const FRONTEND_VERSION = "4.0.0-beta-2";
 export const ANY = "any";
 export const MANGA_PER_PAGE = 5;
-export const RIGHT_PANEL_TABLE_PAGE_SIZE = 20;
+export const RIGHT_PANEL_TABLE_PAGE_SIZE = 20; // TODO decrease to improve performance
 export const WAITING_MG_UNREAD_CHAP_THRESHOLD = 5;
 export const TOP_TO_READ_MG_COUNT = 10;
 export const TOP_WAITING_MG_COUNT = 15;

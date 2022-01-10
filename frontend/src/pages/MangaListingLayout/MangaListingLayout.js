@@ -83,6 +83,8 @@ const MangaListingLayout = ({
     <EndOfList onReached={onReachedEndOfList} disabled={mangaListContext.isLoading || mangaListContext.allLoaded} />
   );
 
+  // TODO avoid rerender manga table when select right review
+
   return (
     <DefaultLayout fabConfig={fabConfig}>
       <Layout>

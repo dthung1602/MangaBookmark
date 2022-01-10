@@ -1,8 +1,10 @@
 import { Component } from "react";
+
 import PropTypes from "prop-types";
 import { Button } from "antd";
-import { ReloadOutlined, BugOutlined, FundOutlined } from "@ant-design/icons";
-import { LINK_ISSUE_TRACKER } from "../utils/constants";
+import { ReloadOutlined, BugOutlined, FundOutlined, HomeOutlined } from "@ant-design/icons";
+
+import { LINK_ISSUE_TRACKER, ROUTE_HOME } from "../utils/constants";
 import ERROR_IMG from "../assets/error.webp";
 
 class ErrorBoundary extends Component {
@@ -18,6 +20,10 @@ class ErrorBoundary extends Component {
 
   reload = () => {
     window.location.reload();
+  };
+
+  backHome = () => {
+    window.location = ROUTE_HOME;
   };
 
   toggleStackTrace = () => {
@@ -42,6 +48,9 @@ class ErrorBoundary extends Component {
             </Button>
             <Button icon={<BugOutlined />} href={LINK_ISSUE_TRACKER} rel="noopener noreferrer" target="_blank">
               Report issue
+            </Button>
+            <Button icon={<HomeOutlined />} onClick={this.backHome}>
+              Go home
             </Button>
             <Button type="primary" icon={<ReloadOutlined />} onClick={this.reload}>
               Reload page
