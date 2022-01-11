@@ -1,40 +1,24 @@
 import { useContext } from "react";
 
-import Proptypes from "prop-types";
 import { Button, Dropdown, Menu } from "antd";
-import {
-  CheckSquareOutlined,
-  DeleteOutlined,
-  EditOutlined,
-  FullscreenExitOutlined,
-  FullscreenOutlined,
-  MoreOutlined,
-  PlusSquareOutlined,
-  RetweetOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined, FullscreenOutlined, MoreOutlined, RetweetOutlined } from "@ant-design/icons";
+import { useHistory } from "react-router-dom";
 
+import { buildMangaDetailRoute } from "../../../utils/route";
 import { MangaContext } from "../../../contexts";
 import "./MangaMenu.less";
 
-const MangaMenu = ({ expand, toggleExpand, enableEdit }) => {
-  const { updateManga, deleteManga, markAll, markOne, nextChapToRead } = useContext(MangaContext);
-  const markLatestChap = () => markOne(nextChapToRead);
+const MangaMenu = () => {
+  const { manga, updateManga, deleteManga } = useContext(MangaContext);
+  const history = useHistory();
+  const showDetail = () => history.push(buildMangaDetailRoute(manga._id));
 
   return (
     <Dropdown
       overlay={
         <Menu>
-          <Menu.Item icon={<CheckSquareOutlined />} onClick={markAll} disabled={nextChapToRead.empty}>
-            Mark all
-          </Menu.Item>
-          <Menu.Item icon={<PlusSquareOutlined />} onClick={markLatestChap} disabled={nextChapToRead.empty}>
-            Mark one
-          </Menu.Item>
-          <Menu.Item icon={<EditOutlined />} onClick={enableEdit}>
-            Edit
-          </Menu.Item>
-          <Menu.Item icon={expand ? <FullscreenExitOutlined /> : <FullscreenOutlined />} onClick={toggleExpand}>
-            {expand ? "Hide" : "Show"} details
+          <Menu.Item icon={<FullscreenOutlined />} onClick={showDetail}>
+            Details
           </Menu.Item>
           <Menu.Item icon={<RetweetOutlined />} onClick={updateManga}>
             Update
@@ -49,12 +33,6 @@ const MangaMenu = ({ expand, toggleExpand, enableEdit }) => {
       <Button type="text" shape="circle" icon={<MoreOutlined />} />
     </Dropdown>
   );
-};
-
-MangaMenu.propTypes = {
-  expand: Proptypes.bool.isRequired,
-  toggleExpand: Proptypes.func.isRequired,
-  enableEdit: Proptypes.func.isRequired,
 };
 
 export default MangaMenu;

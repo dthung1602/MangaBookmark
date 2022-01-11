@@ -1,3 +1,4 @@
+export { default as BackToTopButton } from "./BackToTopButton";
 export { default as ChapterList } from "./ChapterList";
 export { default as CornerImageSource } from "./CornerImageSource";
 export { default as EndOfList } from "./EndOfList";

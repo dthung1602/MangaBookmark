@@ -1,10 +1,10 @@
 import { useCallback } from "react";
 
-import { Spin } from "antd";
 import { useQueryParam } from "use-query-params";
 
 import DefaultLayout from "../DefaultLayout";
 import { MangaBanner } from "../../components";
+import { Desktop, Mobile } from "../../components/ScreenSize";
 import { MangaDetailLeftPanel, MangaDetailRightPanel } from "../../parts";
 import { MangaContext } from "../../contexts";
 import { useMangaAPIContext } from "../../hooks";
@@ -18,18 +18,26 @@ const MangaDetail = () => {
 
   document.title = "Manga detail | MangaBookmark";
 
-  let s = "";
-  for (let i = 0; i < 100; i++) {
-    s += "agsd  asdfia uwye fiufwe of pofkwpeo fpwekfwe ufh we sdklfja oie";
-  }
-
   return (
     <MangaContext.Provider value={mangaContext}>
       <DefaultLayout>
-        <MangaBanner />
-        <MangaDetailLeftPanel />
-        {/*<div>{s}</div>*/}
-        <MangaDetailRightPanel />
+        <Desktop
+          render={() => (
+            <>
+              <MangaBanner />
+              <MangaDetailLeftPanel />
+              <MangaDetailRightPanel />
+            </>
+          )}
+        />
+        <Mobile
+          render={() => (
+            <>
+              <MangaBanner />
+              <MangaDetailRightPanel />
+            </>
+          )}
+        />
       </DefaultLayout>
     </MangaContext.Provider>
   );

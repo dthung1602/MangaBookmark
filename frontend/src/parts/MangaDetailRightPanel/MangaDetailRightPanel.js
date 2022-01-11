@@ -1,15 +1,17 @@
 import { useContext } from "react";
 
-import { Spin, Button, Skeleton } from "antd";
+import { Spin, Skeleton, Grid } from "antd";
 
-import { ChapterList, MangaNonEditableInfo, MangaUserInputProps } from "../../components";
+import { ChapterList, MangaNonEditableInfo, MangaUserInputProps, BackToTopButton } from "../../components";
 import { MangaContext } from "../../contexts";
-import { scrollToTop } from "../../utils";
 import { statusToClassMapping } from "../../utils/manga";
 import "./MangaDetailRightPanel.less";
 
+const { useBreakpoint } = Grid;
+
 const MangaDetailRightPanel = () => {
   const { manga, isLoading, isMarkingChapters } = useContext(MangaContext);
+  const isDesktop = useBreakpoint().lg;
 
   if (!manga) {
     return (
@@ -27,11 +29,9 @@ const MangaDetailRightPanel = () => {
       <Spin key="spin" spinning={isLoading || isMarkingChapters}>
         <div className={"triangle large top-right " + statusToClassMapping[manga.status]}>
           <MangaNonEditableInfo />
-          <MangaUserInputProps layout="row" />
+          <MangaUserInputProps layout={isDesktop ? "row" : "column"} />
           <ChapterList type="scroll" height="infinite" />
-          <Button block type="link" className="scroll-to-top" onClick={scrollToTop}>
-            ↑ Back to top
-          </Button>
+          <BackToTopButton />
         </div>
       </Spin>
     </div>

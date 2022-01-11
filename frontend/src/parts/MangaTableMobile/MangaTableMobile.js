@@ -1,14 +1,10 @@
-import { useContext } from "react";
-
 import { Card, Empty, Skeleton } from "antd";
 
 import MangaCard from "./MangaCard";
-import { MangaListContext } from "../../contexts";
 import { useDisplayMangas } from "../../hooks";
 import "./MangaTableMobile.less";
 
 const MangaTableMobile = () => {
-  const { updateMangaDone, deleteMangaDone, editMangaDone } = useContext(MangaListContext);
   const dataSource = useDisplayMangas();
 
   return (
@@ -22,15 +18,7 @@ const MangaTableMobile = () => {
             </Card>
           );
         }
-        return (
-          <MangaCard
-            key={manga._id}
-            manga={manga}
-            editMangaDone={editMangaDone}
-            updateMangaDone={updateMangaDone}
-            deleteMangaDone={deleteMangaDone}
-          />
-        );
+        return <MangaCard key={manga._id} manga={manga} />;
       })}
     </div>
   );
