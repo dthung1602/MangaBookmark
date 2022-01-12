@@ -1257,10 +1257,19 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "version": {
+                      "type": "string"
+                    },
                     "supportedSites": {
                       "type": "array",
                       "items": {
                         "$ref": "#/components/schemas/MangaSite"
+                      }
+                    },
+                    "supportedSearchSites": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
                       }
                     },
                     "availableTags": {

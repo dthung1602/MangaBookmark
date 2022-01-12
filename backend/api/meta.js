@@ -3,6 +3,7 @@ const router = Router();
 
 const { version } = require("../swaggerDef").info;
 const { supportedSites, availableTags } = require("../services/manga-service/parsers");
+const { supportedSites: supportedSearchSites } = require("../services/scanlation-site-searching-service");
 
 //---------------------------------------
 //  Get global meta data of this site
@@ -21,17 +22,23 @@ const { supportedSites, availableTags } = require("../services/manga-service/par
  *              schema:
  *                type: object
  *                properties:
+ *                  version:
+ *                    type: string
  *                  supportedSites:
  *                    type: array
  *                    items:
  *                      $ref: '#/components/schemas/MangaSite'
+ *                  supportedSearchSites:
+ *                    type: array
+ *                    items:
+ *                      type: string
  *                  availableTags:
  *                    type: array
  *                    items:
  *                      type: string
  */
 router.getAsync("/", async (req, res) => {
-  res.json({ version, supportedSites, availableTags });
+  res.json({ version, supportedSites, supportedSearchSites, availableTags });
 });
 
 module.exports = router;

@@ -1,37 +1,63 @@
-import { useQueryParam } from "use-query-params";
-import { Input, Affix } from "antd";
+import { useCallback, useContext } from "react";
+
+import { StringParam, useQueryParams, withDefault } from "use-query-params";
+import { Affix, Input, Space } from "antd";
 
 import MangaListingLayout from "../MangaListingLayout";
-import { WorkInProgress } from "../../components";
+import { OmniSearchAPI } from "../../api";
+import { Filters } from "../../components";
+import { GlobalContext } from "../../components/GlobalContext";
+import { ANY } from "../../utils/constants";
 import "./Search.less";
 
+const { DropDownFilter } = Filters;
+
 const Search = () => {
-  const [term, setTerm] = useQueryParam("term");
+  const [{ supportedSearchSites }] = useContext(GlobalContext);
+
+  const [filters, setFilters] = useQueryParams({
+    term: StringParam,
+    site: withDefault(StringParam, ANY),
+  });
+
+  const searchScanlationSites = useCallback(() => {
+    const sites = filters.site === ANY ? undefined : [filters.site];
+    return OmniSearchAPI.searchScanlationSites(filters.term, 10, sites);
+  }, [filters]);
+
   document.title = "Search | MangaBookmark";
 
   const onSearch = (newTerm) => {
-    setTerm(newTerm);
+    setFilters({ ...filters, term: newTerm });
+  };
+
+  const onChangeSite = (newSite) => {
+    setFilters({ ...filters, site: newSite });
   };
 
   const searchBar = (
     <Affix className="affix-container">
-      <Input.Search allowClear placeholder="Search" className="search-bar" defaultValue={term} onSearch={onSearch} />
+      <Space className="search-bar">
+        <DropDownFilter
+          displayName={"Site"}
+          options={supportedSearchSites}
+          selected={filters.site}
+          onSelect={onChangeSite}
+        />
+        <Input.Search allowClear placeholder="Search" defaultValue={filters.term} onSearch={onSearch} />
+      </Space>
     </Affix>
   );
 
-  // TODO this page
   return (
-    <>
-      <MangaListingLayout
-        title="Search scan sites"
-        mangasOrFactory={[]}
-        loadMode="replace"
-        filterNode={searchBar}
-        updateMangaFilters={{}}
-        updateButtonText=""
-      />
-      <WorkInProgress />
-    </>
+    <MangaListingLayout
+      title="Search scan sites"
+      mangasOrFactory={[]}
+      loadMode="replace"
+      filterNode={searchBar}
+      updateMangaFilters={{}}
+      updateButtonText=""
+    />
   );
 };
 

@@ -203,11 +203,11 @@
     - [x] How to open manga detail page?
     - ~~[ ] Back button~~
 
-- [ ] Manga detail page Mobile
+- [x] Manga detail page Mobile
 
 - [ ] Polish FE
   - [x] MDP page
-  - [ ] MangaTableDesktop, MangaTableMobile
+  - [x] MangaTableDesktop, MangaTableMobile
   - [ ] Update Homepage
     - [ ] Video
     - [ ] Guide = picture
