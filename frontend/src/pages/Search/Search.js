@@ -20,6 +20,7 @@ const Search = () => {
     site: withDefault(StringParam, ANY),
   });
 
+  // eslint-disable-next-line no-unused-vars
   const searchScanlationSites = useCallback(() => {
     const sites = filters.site === ANY ? undefined : [filters.site];
     return OmniSearchAPI.searchScanlationSites(filters.term, 10, sites);
