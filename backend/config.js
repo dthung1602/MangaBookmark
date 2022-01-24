@@ -19,7 +19,7 @@ module.exports = {
   DB_URL: getEnv("DB_URL", fallbackDatabaseURL),
   AMQP_URL: getEnv("AMQP_URL", "amqp://localhost"),
   REDIS_URL: getEnv("REDIS_URL", "redis://localhost:6379"),
-  CRAWL_CONCURRENCY: getEnv("CRAWL_CONCURRENCY", 8, parseInt),
+  CRAWL_CONCURRENCY: getEnv("CRAWL_CONCURRENCY", 4, parseInt),
 
   PROXY_ENABLED: getEnv("PROXY_ENABLED", false, parseBoolean),
   PROXY_HOST: getEnv("PROXY_HOST", ""),
