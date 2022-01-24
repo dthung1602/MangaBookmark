@@ -7,7 +7,7 @@ const {
   extractAuthorsFromText,
 } = require("./utils");
 
-const URLRegex = /^https?:\/\/truyenqqtop\.com\/truyen-tranh\/.+$/;
+const URLRegex = /^https?:\/\/truyenqq(top|vip)\.com\/truyen-tranh\/.+$/;
 
 async function parseChapters($) {
   const rows = $(".works-chapter-list a");
@@ -37,8 +37,8 @@ const headers = {
   "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:92.0) Gecko/20100101 Firefox/92.0",
   Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
   "Accept-Language": "en",
-  Host: "truyenqqtop.com",
-  Referer: "http://truyenqqtop.com/",
+  Host: "truyenqqvip.com",
+  Referer: "http://truyenqqvip.com/",
   DNT: "1",
   Connection: "keep-alive",
 };
@@ -63,12 +63,14 @@ async function byPassCookieGuard(url) {
 }
 
 async function parseManga(url) {
+  url = url.replace("truyenqqtop", "truyenqqvip");
+
   const $ = await byPassCookieGuard(url);
 
   return {
     name: $("h1").text().trim(),
     link: url,
-    image: JSON.parse($('script[type="application/ld+json"]')[0].children[0].data).image.url.trim(),
+    image: $(".main-content .left img").attr("src"),
     isCompleted: $(".block01 .txt").text().includes("Hoàn Thành"),
     chapters: await parseChapters($),
     ...parseAdditionalInfo($),
@@ -79,7 +81,7 @@ module.exports = {
   active: true,
   lang: "vi",
   site: "TruyenQQ",
-  homepage: "http://truyenqqtop.com/",
+  homepage: "http://truyenqqvip.com/",
   URLRegex,
   parseManga,
   parseChapters,
