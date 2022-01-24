@@ -1,45 +1,34 @@
 import { useContext } from "react";
 import PropTypes from "prop-types";
-import { notification } from "antd";
+import { Button, notification } from "antd";
 
 import { MangaAPI } from "../api";
 import { throwOnCriticalErrors, notifyError } from "../utils/error-handler";
 import { GlobalContext } from "../components/GlobalContext";
+import { ReloadOutlined } from "@ant-design/icons";
+
+const reload = () => {
+  window.location.reload();
+};
 
 const UpdateResult = ({ success, fail }) => {
-  const mangasWithNewChaps = success.filter((mg) => mg.newChapCount > 0);
+  const mangasWithNewChaps = success.filter((mg) => mg.data.newChapCount > 0);
+
   return (
     <>
       <div>
-        {success.length} manga(s) updated <i>successfully</i>.
+        {success.length} manga(s) updated <i>successfully</i>
       </div>
       <div>{mangasWithNewChaps.length} of which has/have new chapters</div>
-      {mangasWithNewChaps.length === 0 ? null : (
-        <ul>
-          {mangasWithNewChaps.map((mg) => (
-            <li key={mg._id}>
-              <a href={mg.link} rel="noopener noreferrer" target="_blank">
-                {mg.name}
-              </a>
-              &nbsp;&nbsp; ({mg.newChapCount})
-            </li>
-          ))}
-        </ul>
-      )}
       <div>
         {fail.length} manga(s) <i>failed</i> to update
       </div>
-      {fail.length === 0 ? null : (
-        <ul>
-          {fail.map((mg) => (
-            <li key={mg._id}>
-              <a href={mg.link} rel="noopener noreferrer" target="_blank">
-                {mg.name}
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
+      <br />
+      <div>
+        <Button type="primary" size="small" icon={<ReloadOutlined />} onClick={reload}>
+          Reload page
+        </Button>
+      </div>
     </>
   );
 };
