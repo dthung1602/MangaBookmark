@@ -219,7 +219,7 @@
 
 - [x] Change page title
 
-- [ ] Cross site search
+- [x] Cross site search
   - [x] Search in supported site
     - [x] Setup FE
       - [x] Cross site search vs search saved magna
@@ -235,16 +235,17 @@
       - [x] Fanfox
       - [x] Mangadex
       - [x] manga4life
-      - [ ] Truyenqq
-      - [ ] BlogTruyen
-  - [ ] Scanlation site result
-    - [ ] Refactor MangaListingPage
-    - [ ] "Custom" right panel
-    - [ ] "Custom" manga table row & manga card
-    - [ ] Add actions to searched mangas
-    - [ ] Add more filters on result
-    - [ ] Pagination / load more ?
+      - [x] Truyenqq
+      - [ ] ~~BlogTruyen~~
   - [x] Add option view more result in Google/MAL/anime planet/...
+
+- [ ] Scanlation site result
+  - [ ] Refactor MangaListingPage
+  - [ ] "Custom" right panel
+  - [ ] "Custom" manga table row & manga card
+  - [ ] Add actions to searched mangas
+  - [ ] Add more filters on result
+  - [ ] Pagination / load more ?
 
 - [ ] Improve auth:
     - [ ] ~~confirm email~~
