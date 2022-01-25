@@ -65,6 +65,9 @@ export const clonePlainObject = (obj) => {
 };
 
 export const formatDate = (dateString, relative = false) => {
+  if (!dateString) {
+    return "n/a";
+  }
   const date = moment.utc(dateString);
   return relative ? date.fromNow() : date.format("DD-MM-YYYY");
 };

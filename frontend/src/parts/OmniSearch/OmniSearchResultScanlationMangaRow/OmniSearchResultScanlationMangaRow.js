@@ -62,7 +62,7 @@ const OmniSearchResultScanlationMangaRow = ({ result }) => {
           </div>
           <Row className="omnisearch-long-description" gutter={[0, 4]}>
             <Col span={14}>
-              <b>Author:</b> {result.attributes.authors.join("-")}
+              <b>Author:</b> {result.attributes.authors ? result.attributes.authors.join("-") : "n/a"}
             </Col>
             <Col span={10}>
               <b>Total chapters:</b> {result.attributes.totalChapters ?? "n/a"}
