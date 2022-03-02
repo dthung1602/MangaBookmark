@@ -2,7 +2,7 @@ module.exports = {
   openapi: "3.0.0",
   info: {
     title: "MangaBookmark API",
-    version: "4.0.0-beta-2",
+    version: "4.0.0",
     description: "API for MangaBookmark client",
   },
   apis: ["api/**/*.js", "models/**/*.js"],

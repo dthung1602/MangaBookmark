@@ -1,6 +1,6 @@
 {
   "name": "mangabookmark-backend",
-  "version": "4.0.0-beta-2",
+  "version": "4.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
