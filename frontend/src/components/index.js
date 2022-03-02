@@ -1,3 +1,4 @@
+export { default as BackToTopButton } from "./BackToTopButton";
 export { default as ChapterList } from "./ChapterList";
 export { default as CornerImageSource } from "./CornerImageSource";
 export { default as EndOfList } from "./EndOfList";
@@ -21,7 +22,6 @@ export { default as MangaStatus } from "./MangaStatus";
 export { default as MangaTabs } from "./MangaTabs";
 export { default as MangaUrlInput } from "./MangaUrlInput";
 export { default as MangaUserInputProps } from "./MangaUserInputProps";
-export { default as NavBar } from "../parts/NavBar";
 export { default as PrivateRoute } from "./PrivateRoute";
 import * as ScreenSize from "./ScreenSize";
 export { ScreenSize };
@@ -31,3 +31,4 @@ export { default as StartReadingButtons } from "./StartReadingButtons";
 export { default as Subscription } from "./Subscription";
 export { default as UserNoteModal } from "./UserNoteModal";
 export { default as VerticalButtonGroup } from "./VerticalButtonGroup";
+export { default as WorkInProgress } from "./WorkInProgress";

@@ -9,7 +9,7 @@ const { chunk } = require("lodash");
 
 const { Manga } = require("../models");
 const { DB_URL, CRAWL_CONCURRENCY } = require("../config");
-const { fetch } = require("../services/manga-service/parsers/utils");
+const { fetch } = require("../services/scraping-service");
 const MangaService = require("../services/manga-service");
 
 mongoose.set("useNewUrlParser", true);

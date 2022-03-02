@@ -1,19 +1,35 @@
 @import "../../styles/variables";
 
 .manga-detail-right-panel {
-  margin: 24px 64px 36px @manga-detail-left-panel-width;
   background: white;
   position: relative;
 
-  .ant-spin-container > *:not(:first-child):not(:last-child) {
-    margin: 12px 0;
+  @media (min-width: @bp-lg) {
+    margin: 24px 64px 36px @manga-detail-left-panel-width;
+
+    .manga-user-input-props {
+      margin-top: 12px;
+    }
+
+    .ant-spin-container > *:not(:first-child):not(:last-child) {
+      margin: 12px 0;
+    }
+
+    .triangle {
+      padding: 24px 36px;
+    }
   }
 
-  .triangle {
-    padding: 24px 36px;
-  }
 
-  .scroll-to-top {
-    margin-top: 20px;
+  @media (max-width: @bp-md) {
+    margin: 12px 6px;
+
+    .ant-spin-container > *:not(:first-child):not(:last-child) {
+      margin: 12px 0;
+    }
+
+    .triangle {
+      padding: 12px 12px 0 12px;
+    }
   }
 }

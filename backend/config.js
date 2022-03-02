@@ -1,20 +1,11 @@
+const { parseBoolean } = require("./services/utils");
+
 function getEnv(envName, defaultValue = undefined, converter = (x) => x) {
   let value = process.env[envName];
   if (value === undefined) {
     value = defaultValue;
   }
   return converter(value);
-}
-
-function parseBoolean(value) {
-  const normalizedValue = value.toString().toLowerCase().trim();
-  if (normalizedValue === "true") {
-    return true;
-  }
-  if (normalizedValue === "false") {
-    return false;
-  }
-  throw new Error("Invalid boolean option value");
 }
 
 const NODE_ENV = getEnv("NODE_ENV", "development");
@@ -28,7 +19,7 @@ module.exports = {
   DB_URL: getEnv("DB_URL", fallbackDatabaseURL),
   AMQP_URL: getEnv("AMQP_URL", "amqp://localhost"),
   REDIS_URL: getEnv("REDIS_URL", "redis://localhost:6379"),
-  CRAWL_CONCURRENCY: getEnv("CRAWL_CONCURRENCY", 8, parseInt),
+  CRAWL_CONCURRENCY: getEnv("CRAWL_CONCURRENCY", 4, parseInt),
 
   PROXY_ENABLED: getEnv("PROXY_ENABLED", false, parseBoolean),
   PROXY_HOST: getEnv("PROXY_HOST", ""),

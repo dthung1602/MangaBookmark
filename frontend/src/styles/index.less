@@ -5,11 +5,19 @@ html {
   scroll-behavior: smooth;
 }
 
+input:focus, textarea:focus, select:focus {
+  outline: none !important;
+}
+
 #root {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
+}
+
+.disable-scrolling {
+  overflow-y: hidden !important;
 }
 
 .wrap {

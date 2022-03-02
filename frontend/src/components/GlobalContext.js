@@ -7,6 +7,7 @@ const initContext = {
   user: null,
   isUserLoading: true,
   supportedSites: [],
+  supportedSearchSites: [],
   isUpdatingMangas: false,
 };
 

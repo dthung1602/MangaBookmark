@@ -8,9 +8,9 @@ const MangaBanner = () => {
   return (
     <div className="manga-banner">
       <div className="image-wrapper">
-        <img src={manga.image} alt="" />
+        <img src={manga?.image} alt="" />
       </div>
-      <h1>{manga.name}</h1>
+      <h1>{manga?.name}</h1>
     </div>
   );
 };

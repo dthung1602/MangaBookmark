@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { Descriptions, Space, Typography } from "antd";
+import { Descriptions, Grid, Space, Typography } from "antd";
 
 import MangaSiteLink from "../MangaSiteLink";
 import MangaStatus from "../MangaStatus";
@@ -9,9 +9,11 @@ import { MangaContext } from "../../contexts";
 import "./MangaNonEditableInfo.less";
 
 const { Paragraph } = Typography;
+const { useBreakpoint } = Grid;
 
 const MangaNonEditableInfo = () => {
   const { manga } = useContext(MangaContext);
+  const isDesktop = useBreakpoint().lg;
 
   return (
     <Descriptions key="description" column={2} className="manga-non-editable-info">
@@ -55,8 +57,12 @@ const MangaNonEditableInfo = () => {
       <Descriptions.Item label="Total chapters">{manga.chapters.length}</Descriptions.Item>
       <Descriptions.Item label="Unread">{manga.unreadChapCount}</Descriptions.Item>
       <Descriptions.Item label="New chap">{manga.newChapCount}</Descriptions.Item>
-      <Descriptions.Item label="Last released">{formatDate(manga.lastReleased)}</Descriptions.Item>
-      <Descriptions.Item label="Created at">{formatDate(manga.createdAt)}</Descriptions.Item>
+      <Descriptions.Item label="Last released" span={isDesktop ? 1 : 2}>
+        {formatDate(manga.lastReleased)}
+      </Descriptions.Item>
+      <Descriptions.Item label="Created at" span={isDesktop ? 1 : 2}>
+        {formatDate(manga.createdAt)}
+      </Descriptions.Item>
       <Descriptions.Item label="Updated at" span={2}>
         {formatDate(manga.updatedAt)}
       </Descriptions.Item>

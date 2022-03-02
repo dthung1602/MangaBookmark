@@ -1,5 +1,10 @@
-const { fetchAndLoad } = require("./utils");
-const { extractAuthorsFromNode, extractTagsFromNode, extractNamesFromText, cleanText } = require("./utils");
+const { fetchAndLoad } = require("../../scraping-service");
+const {
+  extractAuthorsFromNode,
+  extractTagsFromNode,
+  extractNamesFromText,
+  cleanText,
+} = require("../../scraping-service");
 
 const URLRegex = /^https?:\/\/(read)?manganato\.com\/manga.+$/;
 

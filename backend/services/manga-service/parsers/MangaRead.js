@@ -1,4 +1,4 @@
-const { fetchAndLoad, cleanText } = require("./utils");
+const { fetchAndLoad, cleanText } = require("../../scraping-service");
 
 const URLRegex = /^https?:\/\/www\.mangaread\.org\/manga\/.+$/;
 

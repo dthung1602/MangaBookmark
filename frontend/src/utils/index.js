@@ -1,5 +1,4 @@
 import moment from "moment";
-import { ROUTE_MANGA_DETAIL } from "./constants";
 
 /**
  * Ref: https://stackoverflow.com/a/1997811/7342188
@@ -66,6 +65,9 @@ export const clonePlainObject = (obj) => {
 };
 
 export const formatDate = (dateString, relative = false) => {
+  if (!dateString) {
+    return "n/a";
+  }
   const date = moment.utc(dateString);
   return relative ? date.fromNow() : date.format("DD-MM-YYYY");
 };
@@ -92,7 +94,3 @@ export const equalOrIn = (element, target) => {
 };
 
 export const doNothing = () => {};
-
-export const buildMangaDetailPath = (manga) => {
-  return ROUTE_MANGA_DETAIL + "?id=" + manga._id;
-};

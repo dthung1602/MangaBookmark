@@ -1,10 +1,10 @@
 import { useCallback } from "react";
 
-import { Spin } from "antd";
 import { useQueryParam } from "use-query-params";
 
 import DefaultLayout from "../DefaultLayout";
 import { MangaBanner } from "../../components";
+import { Desktop, Mobile } from "../../components/ScreenSize";
 import { MangaDetailLeftPanel, MangaDetailRightPanel } from "../../parts";
 import { MangaContext } from "../../contexts";
 import { useMangaAPIContext } from "../../hooks";
@@ -21,15 +21,23 @@ const MangaDetail = () => {
   return (
     <MangaContext.Provider value={mangaContext}>
       <DefaultLayout>
-        {mangaContext.isLoading ? (
-          <Spin />
-        ) : (
-          <div>
-            <MangaBanner />
-            <MangaDetailLeftPanel />
-            <MangaDetailRightPanel />
-          </div>
-        )}
+        <Desktop
+          render={() => (
+            <>
+              <MangaBanner />
+              <MangaDetailLeftPanel />
+              <MangaDetailRightPanel />
+            </>
+          )}
+        />
+        <Mobile
+          render={() => (
+            <>
+              <MangaBanner />
+              <MangaDetailRightPanel />
+            </>
+          )}
+        />
       </DefaultLayout>
     </MangaContext.Provider>
   );

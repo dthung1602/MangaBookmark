@@ -2,7 +2,7 @@ const { check } = require("express-validator");
 
 const { Manga } = require("../../models");
 const MangaPermissionValidator = require("./manga-permission");
-const ErrorFormatter = require("./validation-error-formatter");
+const { ErrorFormatter } = require("./mixins");
 const { ValidationError } = require("../../errors");
 
 module.exports = [

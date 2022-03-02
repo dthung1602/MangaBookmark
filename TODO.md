@@ -192,7 +192,7 @@
   - [x] Account
   - [x] components vs parts
   
-- [x] Manga detail page
+- [x] Manga detail page Desktop
   - [x] Setup BE to query 1 manga info
   - [x] Setup FE
     - [x] Design
@@ -203,37 +203,49 @@
     - [x] How to open manga detail page?
     - ~~[ ] Back button~~
 
+- [x] Manga detail page Mobile
+
 - [ ] Polish FE
-  - [ ] MDP page
-  - [ ] MangaTableDesktop, MangaTableMobile
+  - [x] MDP page
+  - [x] MangaTableDesktop, MangaTableMobile
   - [ ] Update Homepage
     - [ ] Video
     - [ ] Guide = picture
 
-- [ ] optimize speed
+- [x] optimize speed
+  - [x] add profile tool
+  - [x] identify hot spot
+  - [ ] optimize (currently not needed)
 
 - [x] Change page title
 
-- [ ] Cross site search
-  - [ ] Search in supported site
-    - [ ] Setup FE
-      - Cross site search vs search saved magna
-      - Show results in dropdown (see github)
-      - Preview result
-      - Add manga from result
-    - [ ] Setup basic BE
-      - Crawl name, image, status?, latest chapter, last release?
-      - Manga site priority?
-    - [ ] Add custom search page parser
-      - [ ] Mangakakalot
-      - [ ] Manganelo
-      - [ ] Fanfox
-      - [ ] Mangadex
-      - [ ] manga4life
-      - [ ] Truyenqq
-      - [ ] BlogTruyen
-  - [ ] Search for manga in MAL
-  - [ ] Add option view more result in Google
+- [x] Cross site search
+  - [x] Search in supported site
+    - [x] Setup FE
+      - [x] Cross site search vs search saved magna
+      - [x] Show results in dropdown (see github)
+      - [x] Preview result
+      - [x] Add manga from result
+    - [x] Setup basic BE
+      - [x] Crawl name, image, status?, latest chapter, last release?
+      - [x] Manga site priority: alphabet
+    - [x] Add custom search page parser
+      - [x] Mangakakalot
+      - [ ] ~~Manganelo~~
+      - [x] Fanfox
+      - [x] Mangadex
+      - [x] manga4life
+      - [x] Truyenqq
+      - [ ] ~~BlogTruyen~~
+  - [x] Add option view more result in Google/MAL/anime planet/...
+
+- [ ] Scanlation site result
+  - [ ] Refactor MangaListingPage
+  - [ ] "Custom" right panel
+  - [ ] "Custom" manga table row & manga card
+  - [ ] Add actions to searched mangas
+  - [ ] Add more filters on result
+  - [ ] Pagination / load more ?
 
 - [ ] Improve auth:
     - [ ] ~~confirm email~~

@@ -320,6 +320,28 @@
           }
         }
       },
+      "OmnisearchResult": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "user-manga",
+              "scanlation-manga"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string",
+            "format": "uri"
+          },
+          "attributes": {
+            "type": "object"
+          }
+        }
+      },
       "Subscription": {
         "type": "object",
         "properties": {
@@ -1235,10 +1257,19 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "version": {
+                      "type": "string"
+                    },
                     "supportedSites": {
                       "type": "array",
                       "items": {
                         "$ref": "#/components/schemas/MangaSite"
+                      }
+                    },
+                    "supportedSearchSites": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
                       }
                     },
                     "availableTags": {
@@ -1247,6 +1278,102 @@
                         "type": "string"
                       }
                     }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/omnisearch/user-manga": {
+      "get": {
+        "description": "Search for user manga",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "description": "Search mangas by name",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "in": "query",
+            "name": "topN",
+            "description": "How many results to fetch",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "required": false,
+              "default": 3
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OmnisearchResult"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/omnisearch/scanlation-manga": {
+      "get": {
+        "description": "Search for mangas on scanlation sites",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "description": "Search mangas by name",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "in": "query",
+            "name": "topN",
+            "description": "How many results to fetch",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "required": false,
+              "default": 3
+            }
+          },
+          {
+            "in": "query",
+            "name": "sites",
+            "description": "scanlation sites to search",
+            "schema": {
+              "type": "array",
+              "required": false,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OmnisearchResult"
                   }
                 }
               }

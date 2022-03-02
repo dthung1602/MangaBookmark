@@ -6,9 +6,10 @@ import { FAB } from "../../components";
 
 import "./DefaultLayout.less";
 
-const DefaultLayout = ({ children, showFooter = true, showNavBar = true, fabConfig = false }) => {
+const DefaultLayout = ({ children, showFooter = true, showNavBar = true, fabConfig = false, containerClass = "" }) => {
+  // TODO optimize do not rerender navbar & footer & FAB
   return (
-    <Layout className="default-layout">
+    <Layout className={`default-layout ${containerClass}`}>
       {showNavBar ? <NavBar key="navbar" /> : null}
       {children}
       <FAB config={fabConfig} />
@@ -22,6 +23,7 @@ DefaultLayout.propTypes = {
   showFooter: PropTypes.bool,
   showNavBar: PropTypes.bool,
   fabConfig: PropTypes.oneOfType([PropTypes.bool, PropTypes.arrayOf(PropTypes.object).isRequired]),
+  containerClass: PropTypes.string,
 };
 
 export default DefaultLayout;

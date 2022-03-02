@@ -1,6 +1,11 @@
 const { uniq } = require("lodash");
 
-const { fetchAndLoad, extractNamesFromText, extractAuthorsFromNode, extractTagsFromNode } = require("./utils");
+const {
+  fetchAndLoad,
+  extractNamesFromText,
+  extractAuthorsFromNode,
+  extractTagsFromNode,
+} = require("../../scraping-service");
 
 const URLRegex = /^https?:\/\/otakusan\.net\/(MangaDetail|manga-detail)\/[0-9]+\/.+$/;
 

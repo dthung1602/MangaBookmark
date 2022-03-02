@@ -5,7 +5,7 @@ const {
   extractNamesFromText,
   extractTagsFromNode,
   extractAuthorsFromText,
-} = require("./utils");
+} = require("../../scraping-service");
 
 const URLRegex = /^https?:\/\/truyenqq(top|vip)\.com\/truyen-tranh\/.+$/;
 

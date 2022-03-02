@@ -57,9 +57,6 @@ const MangaCard = ({ manga }) => {
 
 MangaCard.propTypes = {
   manga: PropTypes.object.isRequired,
-  editMangaDone: PropTypes.func,
-  updateMangaDone: PropTypes.func,
-  deleteMangaDone: PropTypes.func,
 };
 
 export default MangaCard;

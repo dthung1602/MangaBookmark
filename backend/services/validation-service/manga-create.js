@@ -3,7 +3,7 @@ const { check } = require("express-validator");
 const { Manga } = require("../../models");
 const { Shelf } = Manga;
 const MangaService = require("../manga-service");
-const ErrorFormatter = require("./validation-error-formatter");
+const { ErrorFormatter } = require("./mixins");
 
 module.exports = [
   check("link")

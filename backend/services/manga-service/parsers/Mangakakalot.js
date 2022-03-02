@@ -4,7 +4,7 @@ const {
   extractAuthorsFromNode,
   extractTagsFromNode,
   MangaSiteRedirectedException,
-} = require("./utils");
+} = require("../../scraping-service");
 
 const URLRegex = /^https?:\/\/mangakakalot\.com\/(read-|manga\/).+$/;
 

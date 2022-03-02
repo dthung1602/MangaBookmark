@@ -2,7 +2,7 @@ const { check } = require("express-validator");
 
 const { NotFoundError, PermissionError } = require("../../errors");
 const { Subscription } = require("../../models");
-const ErrorFormatter = require("./validation-error-formatter");
+const { ErrorFormatter } = require("./mixins");
 
 module.exports = [
   check("subscription")

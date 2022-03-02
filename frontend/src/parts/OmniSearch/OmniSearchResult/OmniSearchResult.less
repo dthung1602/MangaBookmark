@@ -1,0 +1,91 @@
+@import "../../../styles/variables";
+
+.omnisearch-result {
+  background: white;
+  border-radius: 3px;
+  padding-bottom: 1px;
+  position: relative;
+  max-height: 500px;
+  overflow-y: scroll;
+  left: 150px;
+  width: 500px;
+  box-shadow: 0px 12px 26px 9px rgb(168,168,168);
+}
+
+.omnisearch-result-row {
+  padding: 6px;
+
+  a {
+    color: unset;
+  }
+
+  &:hover {
+    background: #f0f0f0;
+    border: 1px solid #efefef;
+    border-right: 4px solid @primary-color;
+
+    .omnisearch-cover {
+      height: 150px;
+    }
+    .omnisearch-name {
+      font-weight: bold;
+    }
+  }
+
+  &:not(:hover) .omnisearch-long-description {
+    display: none;
+  }
+}
+
+.omnisearch-result-row-placeholder {
+  padding: 16px;
+  text-align: center;
+}
+
+.omnisearch-result-row-empty {
+  margin: 12px;
+}
+
+.omnisearch-content-header {
+  font-weight: bold;
+  padding: 8px;
+  background: #ececec;
+}
+
+.omnisearch-content {
+  display: flex;
+  justify-items: center;
+}
+
+.omnisearch-info {
+  margin-left: 12px;
+  width: 350px;
+
+  & > *{
+    margin: 8px 0;
+  }
+}
+
+.omnisearch-short-description {
+  & > * {
+    margin-right: 12px;
+  }
+}
+
+.omnisearch-name {
+  color: @primary-color;
+  font-weight: bold;
+}
+
+.omnisearch-cover {
+  img {
+    width: 100px;
+  }
+  height: 75px;
+  overflow-y: hidden;
+  border-radius: 2px;
+}
+
+.omnisearch-official-site {
+  margin: 8px;
+}

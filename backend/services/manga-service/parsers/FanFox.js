@@ -1,4 +1,4 @@
-const { fetchAndLoad, extractTagsFromNode, extractAuthorsFromNode } = require("./utils");
+const { fetchAndLoad, extractTagsFromNode, extractAuthorsFromNode } = require("../../scraping-service");
 
 const URLRegex = /^https?:\/\/fanfox\.net\/manga\/.+/;
 const BaseURL = "http://fanfox.net";

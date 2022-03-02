@@ -1,7 +1,7 @@
 const fs = require("fs");
 const { isString, uniqBy, uniq } = require("lodash");
 
-const { MangaSiteRedirectedException } = require("./utils");
+const { MangaSiteRedirectedException } = require("../../scraping-service");
 
 const parsers = [];
 const parserRegexMapping = {};

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { Button, Space, Popconfirm } from "antd";
+import { Button, Space, Popconfirm, Skeleton } from "antd";
 import { DoubleRightOutlined, SyncOutlined, CheckOutlined, DeleteOutlined } from "@ant-design/icons";
 
 import { MangaCover } from "../../components";
@@ -9,11 +9,23 @@ import { truncString } from "../../utils";
 import "./MangaDetailLeftPanel.less";
 
 const MangaDetailLeftPanel = () => {
-  const { manga, nextChapToRead, updateManga, deleteManga, markAll, disableMarkAll } = useContext(MangaContext);
+  const { manga, isLoading, nextChapToRead, updateManga, deleteManga, markAll, disableMarkAll } =
+    useContext(MangaContext);
+
+  if (isLoading) {
+    return (
+      <Space direction="vertical" size="small" className="manga-detail-left-panel">
+        <div className="ant-image" />
+        <Skeleton.Button active block />
+        <Skeleton.Button active block />
+        <Skeleton.Button active block />
+      </Space>
+    );
+  }
 
   return (
     <Space direction="vertical" size="small" className="manga-detail-left-panel">
-      <MangaCover key="cover" src={manga.image} mangaSite={manga.site} className="manga-cover-image" />
+      <MangaCover key="cover" src={manga.image} mangaSite={manga.site} />
       <Button key="read" type="primary" size="middle" block>
         <a href={nextChapToRead.link} target="_blank" rel="noreferrer noopener">
           {truncString(nextChapToRead.name, 20)} &nbsp;&nbsp; <DoubleRightOutlined />

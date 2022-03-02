@@ -9,7 +9,7 @@ import { MangaBasicInfo, StartReadingButtons } from "../../../components";
 import { useMangaAPIContext } from "../../../hooks";
 import { MangaContext, MangaListContext } from "../../../contexts";
 import { statusToClassMapping } from "../../../utils/manga";
-import { buildMangaDetailPath } from "../../../utils";
+import { buildMangaDetailRoute } from "../../../utils/route";
 import "./MangaTableDesktopRow.less";
 
 const { Title } = Typography;
@@ -28,7 +28,7 @@ const MangaTableDesktopRow = ({ manga }) => {
           <a href={manga.link} target="_blank" rel="noopener noreferrer">
             {manga.name}
           </a>
-          <Link to={buildMangaDetailPath(manga)} className="expand-btn">
+          <Link to={buildMangaDetailRoute(manga._id)} className="expand-btn">
             <FullscreenOutlined />
           </Link>
         </Title>
