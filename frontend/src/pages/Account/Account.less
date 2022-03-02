@@ -1,0 +1,26 @@
+@import "../../styles/variables";
+
+.account {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+
+  @media (max-width: @bp-sm) {
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    .ant-tabs-nav {
+      background: fade(@default-color, 90%);
+      color: white;
+    }
+    .ant-tabs-ink-bar {
+      height: 4px !important;
+    }
+    .ant-tabs-tab {
+      margin: 0 !important;
+    }
+  }
+}
+
+.account-tab-buttons-container {
+  position: relative;
+}

@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useContext } from "react";
 import PropTypes from "prop-types";
 import { notification } from "antd";
 
 import { MangaAPI } from "../api";
 import { throwOnCriticalErrors, notifyError } from "../utils/error-handler";
+import { GlobalContext } from "../components/GlobalContext";
 
 const UpdateResult = ({ success, fail }) => {
   const mangasWithNewChaps = success.filter((mg) => mg.newChapCount > 0);
@@ -49,10 +50,10 @@ UpdateResult.propTypes = {
 };
 
 const useUpdateMultipleAPI = (filters) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [{ isUpdatingMangas }, updateGlobalState] = useContext(GlobalContext);
 
   const updateMangas = () => {
-    setIsLoading(true);
+    updateGlobalState({ isUpdatingMangas: true });
     MangaAPI.updateMultiple(filters)
       .result.then(throwOnCriticalErrors)
       .then(async () => {
@@ -66,10 +67,10 @@ const useUpdateMultipleAPI = (filters) => {
         });
       })
       .catch(notifyError)
-      .finally(() => setIsLoading(false));
+      .finally(() => updateGlobalState({ isUpdatingMangas: false }));
   };
 
-  return [isLoading, updateMangas];
+  return [isUpdatingMangas, updateMangas];
 };
 
 export default useUpdateMultipleAPI;

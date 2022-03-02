@@ -1,4 +1,5 @@
 import BaseAPI from "./base.api";
+import { clonePlainObject } from "../utils";
 
 class UserAPI extends BaseAPI {
   constructor() {
@@ -6,14 +7,17 @@ class UserAPI extends BaseAPI {
   }
 
   create(params) {
+    params = clonePlainObject(params);
     return this.post(params);
   }
 
   changePassword(params) {
+    params = clonePlainObject(params);
     return this.patch(params, "change-password");
   }
 
   login(params) {
+    params = clonePlainObject(params);
     return this.post(params, "login");
   }
 

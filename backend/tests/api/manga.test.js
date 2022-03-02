@@ -117,6 +117,18 @@ describe("Manga API", () => {
     },
   );
 
+  it("should return manga", async function () {
+    const response = await request(app).get("/api/mangas/111eeeeeeeeeeeeeeeeee111");
+    expect(response.status).toEqual(200);
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        _id: "111eeeeeeeeeeeeeeeeee111",
+        link: "https://manga1.com",
+        name: "Hello world",
+      }),
+    );
+  });
+
   it("should create manga", async function () {
     const mockParsedManga = getMockParsedManga();
     const mockParsedChapters = mockParsedManga.chapters;

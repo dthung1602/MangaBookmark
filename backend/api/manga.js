@@ -178,6 +178,65 @@ router.getAsync("/", MangaFilterValidator, async (req, res) => {
 });
 
 //-----------------------------------
+//  Get manga info from link
+//-----------------------------------
+/**
+ * @swagger
+ *
+ * /api/mangas/info:
+ *   get:
+ *     description: Get live manga info. This manga might NOT be in the database.
+ *     parameters:
+ *       - in: query
+ *         name: link
+ *         schema:
+ *           type: string
+ *           format: uri
+ *           required: true
+ *     responses:
+ *       200:
+ *         description: Get info successfully
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/MangaInfo'
+ */
+router.getAsync("/info", MangaInfoValidator, async (req, res) => {
+  try {
+    const { manga } = await MangaService.parseManga(req.query.link, req.parser);
+    res.json(manga);
+  } catch (e) {
+    handleMangaParsingError(res, e);
+  }
+});
+
+//-----------------------------------
+//  Get manga
+//-----------------------------------
+/**
+ * @swagger
+ *
+ * /api/mangas/{mangaId}:
+ *   get:
+ *     description: Get manga info
+ *     parameters:
+ *       - in: path
+ *         name: mangaId
+ *         schema:
+ *           $ref: '#/components/schemas/Id'
+ *     responses:
+ *       200:
+ *         description: Retrieved successfully
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Manga'
+ */
+router.getAsync("/:manga", MangaPermissionValidator, async (req, res) => {
+  res.json(req.manga);
+});
+
+//-----------------------------------
 //  Create manga
 //-----------------------------------
 /**
@@ -201,6 +260,10 @@ router.getAsync("/", MangaFilterValidator, async (req, res) => {
  *                 items:
  *                   type: string
  *                   format: url
+ *               nextRereadChapterLink:
+ *                 type: string
+ *                 format: uri
+ *                 required: false
  *               note:
  *                 type: string
  *                 required: false
@@ -300,39 +363,6 @@ router.patchAsync("/:manga", MangaPatchValidator, async (req, res) => {
 router.deleteAsync("/:manga", MangaPermissionValidator, async (req, res) => {
   await MangaService.delete(req.manga);
   res.sendStatus(204);
-});
-
-//-----------------------------------
-//  Get manga info from link
-//-----------------------------------
-/**
- * @swagger
- *
- * /api/mangas/info:
- *   get:
- *     description: Get live manga info. This manga might NOT be in the database.
- *     parameters:
- *       - in: query
- *         name: link
- *         schema:
- *           type: string
- *           format: uri
- *           required: true
- *     responses:
- *       200:
- *         description: Get info successfully
- *         content:
- *           application/json:
- *              schema:
- *                $ref: '#/components/schemas/MangaInfo'
- */
-router.getAsync("/info", MangaInfoValidator, async (req, res) => {
-  try {
-    const { manga } = await MangaService.parseManga(req.query.link, req.parser);
-    res.json(manga);
-  } catch (e) {
-    handleMangaParsingError(res, e);
-  }
 });
 
 //-----------------------------------

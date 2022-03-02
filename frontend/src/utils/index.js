@@ -1,4 +1,32 @@
 import moment from "moment";
+import { ROUTE_MANGA_DETAIL } from "./constants";
+
+/**
+ * Ref: https://stackoverflow.com/a/1997811/7342188
+ */
+export const addDebugObjectId = () => {
+  if (typeof Object.id == "undefined") {
+    let id = 0;
+
+    Object.id = function (o) {
+      if (o === null || o === undefined) {
+        return o;
+      }
+
+      if (typeof o.__uniqueid == "undefined") {
+        Object.defineProperty(o, "__uniqueid", {
+          value: ++id,
+          enumerable: false,
+          writable: false,
+        });
+      }
+
+      return o.__uniqueid;
+    };
+  }
+
+  console.debug("Static method Object.id added for debugging");
+};
 
 export const randomFrom = (array) => {
   return array[Math.floor(Math.random() * array.length)];
@@ -61,4 +89,10 @@ export const equalOrIn = (element, target) => {
     return target.includes(element);
   }
   return element === target;
+};
+
+export const doNothing = () => {};
+
+export const buildMangaDetailPath = (manga) => {
+  return ROUTE_MANGA_DETAIL + "?id=" + manga._id;
 };

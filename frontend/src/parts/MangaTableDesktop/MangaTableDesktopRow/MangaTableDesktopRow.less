@@ -1,0 +1,38 @@
+@import "../../../styles/utils";
+
+.manga-table-desktop {
+  .manga-details {
+    display: flex;
+    align-items: center;
+  }
+
+  .expand-btn {
+    visibility: hidden;
+
+    color: @primary-color;
+    background: @primary-color-light;
+
+    vertical-align: baseline;
+    display: inline-grid;
+    cursor: pointer;
+    font-size: small;
+    margin-left: 8px;
+
+    border: 1px solid transparent;
+    border-radius: 2px;
+    padding: 4px;
+
+    &:hover {
+      .background-primary-color-animated();
+    }
+
+    &:active {
+      background: @primary-color;
+      color: white;
+    };
+  }
+
+  .ant-table-row:hover .expand-btn {
+    visibility: visible;
+  }
+}

@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "MangaBookmark API",
-    "version": "3.3.4",
+    "version": "4.0.0-beta-2",
     "description": "API for MangaBookmark client"
   },
   "components": {
@@ -11,7 +11,7 @@
         "type": "string",
         "minLength": 24,
         "maxLength": 24,
-        "pattern": "^\\d{24}$"
+        "pattern": "^[0-9a-f]{24}$"
       },
       "MangaInfo": {
         "type": "object",
@@ -120,6 +120,28 @@
           }
         }
       },
+      "MangaShelf": {
+        "type": "string",
+        "enum": [
+          "to read",
+          "reading",
+          "waiting",
+          "dropped",
+          "change site",
+          "reread",
+          "finished"
+        ]
+      },
+      "MangaStatusString": {
+        "type": "string",
+        "enum": [
+          "finished",
+          "last chap reached",
+          "reread",
+          "many to read",
+          "new chap"
+        ]
+      },
       "Chapter": {
         "type": "object",
         "properties": {
@@ -143,6 +165,21 @@
           "updatedAt": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "NextRereadChapter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "name": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string",
+            "format": "uri"
           }
         }
       },
@@ -214,26 +251,16 @@
           "status": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 3
+            "maximum": 4
           },
           "statusString": {
-            "type": "string",
-            "enum": [
-              "finished",
-              "last chap reached",
-              "many to read",
-              "new chap"
-            ]
+            "$ref": "#/components/schemas/MangaStatusString"
           },
           "shelf": {
-            "type": "string",
-            "enum": [
-              "to read",
-              "reading",
-              "waiting",
-              "dropped",
-              "finished"
-            ]
+            "$ref": "#/components/schemas/MangaShelf"
+          },
+          "nextRereadChapter": {
+            "$ref": "#/components/schemas/NextRereadChapter"
           },
           "note": {
             "type": "string"
@@ -381,6 +408,9 @@
             "type": "string",
             "format": "email"
           },
+          "note": {
+            "type": "string"
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -394,7 +424,7 @@
     }
   },
   "paths": {
-    "/api/image-proxy": {
+    "/api/image/proxy": {
       "get": {
         "description": "Get image with spoofed referer to bypass security measures",
         "parameters": [
@@ -451,6 +481,57 @@
         }
       }
     },
+    "/api/image/avatar": {
+      "post": {
+        "description": "Upload user avatar",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "filename": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Image uploaded successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success",
+                        "fail"
+                      ]
+                    },
+                    "url": {
+                      "type": "string",
+                      "format": "url"
+                    },
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/mangas": {
       "get": {
         "description": "Search & filter mangas",
@@ -470,13 +551,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "enum": [
-                  "to read",
-                  "reading",
-                  "waiting",
-                  "dropped",
-                  "finished"
-                ]
+                "$ref": "#/components/schemas/MangaShelf"
               },
               "required": false
             }
@@ -680,6 +755,11 @@
                       "format": "url"
                     }
                   },
+                  "nextRereadChapterLink": {
+                    "type": "string",
+                    "format": "uri",
+                    "required": false
+                  },
                   "note": {
                     "type": "string",
                     "required": false
@@ -693,14 +773,7 @@
                     "required": false
                   },
                   "shelf": {
-                    "type": "string",
-                    "enum": [
-                      "to read",
-                      "reading",
-                      "waiting",
-                      "dropped",
-                      "finished"
-                    ],
+                    "$ref": "#/components/schemas/MangaShelf",
                     "required": false
                   }
                 }
@@ -722,7 +795,59 @@
         }
       }
     },
+    "/api/mangas/info": {
+      "get": {
+        "description": "Get live manga info. This manga might NOT be in the database.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "link",
+            "schema": {
+              "type": "string",
+              "format": "uri",
+              "required": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get info successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MangaInfo"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/mangas/{mangaId}": {
+      "get": {
+        "description": "Get manga info",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "mangaId",
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Manga"
+                }
+              }
+            }
+          }
+        }
+      },
       "patch": {
         "description": "Edit manga",
         "parameters": [
@@ -753,14 +878,12 @@
                     "required": false
                   },
                   "shelf": {
+                    "$ref": "#/components/schemas/MangaShelf",
+                    "required": false
+                  },
+                  "nextRereadChapter": {
                     "type": "string",
-                    "enum": [
-                      "to read",
-                      "reading",
-                      "waiting",
-                      "dropped",
-                      "finished"
-                    ],
+                    "format": "uri",
                     "required": false
                   }
                 }
@@ -799,34 +922,6 @@
         }
       }
     },
-    "/api/mangas/info": {
-      "get": {
-        "description": "Get live manga info. This manga might NOT be in the database.",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "link",
-            "schema": {
-              "type": "string",
-              "format": "uri",
-              "required": true
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Get info successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MangaInfo"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/mangas/{mangaId}/mark-chapters": {
       "post": {
         "description": "Update chapter isRead status",
@@ -856,6 +951,47 @@
         "responses": {
           "201": {
             "description": "Chapters marked successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Manga"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/mangas/{mangaId}/reread-progress": {
+      "post": {
+        "description": "Update reread progress",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nextRereadChapterLink": {
+                    "required": true,
+                    "oneOf": [
+                      {
+                        "type": "string",
+                        "format": "uri"
+                      },
+                      {
+                        "type": "string",
+                        "maxLength": 0
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Reread progress updated successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -912,13 +1048,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "enum": [
-                  "to read",
-                  "reading",
-                  "waiting",
-                  "dropped",
-                  "finished"
-                ]
+                "$ref": "#/components/schemas/MangaShelf"
               },
               "required": false
             }
@@ -1061,9 +1191,9 @@
         }
       }
     },
-    "/api/mangas/update-multiple/status": {
-      "get": {
-        "description": "Get the status of the update manga job",
+    "/api/mangas/update-multiple/pop-result": {
+      "post": {
+        "description": "Pop the status & result of the update manga job",
         "responses": {
           "200": {
             "content": {
@@ -1379,6 +1509,13 @@
                   "email": {
                     "type": "string",
                     "format": "email"
+                  },
+                  "avatar": {
+                    "type": "string",
+                    "format": "url"
+                  },
+                  "note": {
+                    "type": "string"
                   }
                 }
               }

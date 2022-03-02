@@ -1,0 +1,31 @@
+@import "../../styles/variables";
+
+.box-layout-content {
+  min-height: calc(100vh - @navbar-height);
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: flex-end;
+  padding: 48px 72px 48px;
+
+  @media (max-width: @bp-sm) {
+    padding: 32px 8px;
+  }
+  @media (max-width: @bp-lg) {
+    justify-content: center;
+  }
+}
+
+.box-layout-card {
+  width: 350px;
+  height: fit-content;
+  @media (max-width: @bp-sm) {
+    width: 100%;
+  }
+  .ant-card-head {
+    background: @default-color;
+    color: @primary-color;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+}

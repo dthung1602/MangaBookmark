@@ -7,6 +7,7 @@ const initContext = {
   user: null,
   isUserLoading: true,
   supportedSites: [],
+  isUpdatingMangas: false,
 };
 
 const GlobalContext = createContext([initContext, (s) => s]);

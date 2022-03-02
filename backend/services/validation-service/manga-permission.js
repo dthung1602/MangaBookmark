@@ -1,6 +1,6 @@
 const { check } = require("express-validator");
 
-const { Manga } = require("../../models");
+const MangaService = require("../manga-service");
 const { NotFoundError, PermissionError } = require("../../errors");
 const ErrorFormatter = require("./validation-error-formatter");
 
@@ -8,7 +8,7 @@ module.exports = [
   check("manga", "Invalid manga ID")
     .exists()
     .custom(async (mangaID, { req }) => {
-      const manga = await Manga.findById(mangaID);
+      const manga = await MangaService.get(mangaID);
       if (manga === null) {
         throw new NotFoundError();
       }

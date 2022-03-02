@@ -1,0 +1,109 @@
+@import "../../../styles/variables";
+
+/**
+ *  Handle left-right expand direction
+ */
+.vertical-button .anticon {
+  margin: 12px;
+}
+
+.vertical-button-group.left {
+  .vertical-button, .vertical-button-content {
+    flex-direction: row-reverse;
+
+    &:first-child {
+      border-top-left-radius: 4px;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: 4px;
+    }
+
+    &>span {
+      margin-left: 12px;
+    }
+  }
+}
+
+.vertical-button-group.right {
+  .vertical-button, .vertical-button-content {
+    flex-direction: row;
+
+    &:first-child {
+      border-top-right-radius: 4px;
+    }
+
+    &:last-child {
+      border-bottom-right-radius: 4px;
+    }
+
+    &>span {
+      margin-right: 12px;
+    }
+  }
+}
+
+/**
+ *  Handle expansion animation
+ */
+
+@vertical-button-size: 38px;
+
+.vertical-button-content {
+  width: fit-content;
+  height: @vertical-button-size;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.vertical-button {
+  width: @vertical-button-size;
+  transition: all 0.5s;
+  overflow-x: hidden;
+  white-space: nowrap;
+  display: flex;
+}
+
+.vertical-button-group.expand {
+  .vertical-button {
+    &:hover, &.ant-popover-open {
+      width: 100%;
+    }
+  }
+}
+
+/**
+ *  Handle color scheme
+ */
+.vertical-button-content {
+  background: @default-color-active;
+  &.warning {
+    color: lighten(#faad14, 10%);
+  }
+  &.danger {
+    color: lighten(#f5222d, 10%);
+  }
+  &.primary {
+    color: @primary-color;
+  }
+  &.info {
+    color: #1890ff; // blue-6
+  }
+}
+
+.vertical-button-group.solid-color .vertical-button-content, .vertical-button-content.selected {
+  color: white;
+  &.warning {
+    background: lighten(#faad14, 10%);
+  }
+  &.danger {
+    background: lighten(#f5222d, 10%);
+  }
+  &.primary {
+    background: @primary-color;
+  }
+  &.info {
+    background: #1890ff; // blue-6
+  }
+}

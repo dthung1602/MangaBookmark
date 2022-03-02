@@ -1,6 +1,11 @@
 import { RIGHT_PANEL_TABLE_PAGE_SIZE, REREAD } from "./constants";
 
+const doNothing = () => {};
+
 export const markChapterLogic = (manga, onChangeChapterStatus) => {
+  if (manga === null) {
+    return [doNothing, doNothing, doNothing];
+  }
   return manga.shelf === REREAD
     ? updateRereadProgressLogic(manga, onChangeChapterStatus)
     : updateChapterReadStatusLogic(manga, onChangeChapterStatus);
@@ -15,13 +20,13 @@ const updateRereadProgressLogic = (manga, onChangeChapterStatus) => {
     } else {
       nextRereadChapterLink = chapter.link;
     }
-    onChangeChapterStatus(manga, null, [nextRereadChapterLink]);
+    onChangeChapterStatus(manga, !chapter.isRead, [nextRereadChapterLink]);
   };
 
   const markUpTo = checkboxChange;
 
   const markAll = () => {
-    onChangeChapterStatus(manga, null, [""]);
+    onChangeChapterStatus(manga, true, [""]);
   };
 
   return [checkboxChange, markUpTo, markAll];
@@ -47,9 +52,16 @@ const updateChapterReadStatusLogic = (manga, onChangeChapterStatus) => {
 };
 
 export const getNextChapToRead = (manga) => {
+  if (manga === null || manga === undefined) {
+    return [{}, -1];
+  }
+
   const { shelf, chapters, nextRereadChapter } = manga;
 
   if (shelf === REREAD) {
+    if (!nextRereadChapter) {
+      return [{}, -1];
+    }
     return [
       {
         empty: false,

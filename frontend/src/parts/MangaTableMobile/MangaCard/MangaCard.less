@@ -1,0 +1,39 @@
+@import "../../../styles/variables";
+
+.manga-card {
+  margin-bottom: 20px;
+
+  h4 {
+    margin-bottom: 2px !important;
+  }
+
+  .cover {
+    height: 250px;
+    overflow: hidden;
+    text-align: center;
+    .ant-image {
+      width: 100%;
+    }
+    .ant-skeleton {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+    }
+    @media (min-width: @bp-md) {
+      height: 400px;
+    }
+    @media (min-width: @bp-sm) and (max-width: @bp-md) {
+      height: 325px;
+    }
+  }
+
+  .collapsable {
+    height: auto;
+    overflow-y: hidden;
+    &.collapsed {
+      height: 36px;
+    }
+  }
+}

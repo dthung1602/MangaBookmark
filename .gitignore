@@ -6,7 +6,7 @@ backend/upload
 frontend/build
 frontend/src/assets/manga-site-logo/manga-site-logo*
 frontend/src/assets/tech-logo/tech-logo*
-foo*
+foo.*
 .env
 .env.export
 .env.prod

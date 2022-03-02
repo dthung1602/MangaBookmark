@@ -1,0 +1,44 @@
+@import "../../styles/variables";
+
+@cover-height: 300px;
+
+.manga-banner {
+  position: relative;
+  width: 100%;
+  height: @cover-height;
+  overflow-y: hidden;
+
+  .image-wrapper {
+    position: relative;
+
+    &:after {
+      position: absolute;
+      content: "";
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background: linear-gradient(to right, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0) 100%);
+    }
+  }
+
+  img {
+    position: relative;
+    top: -5px;
+    width: 100%;
+    height: calc(@cover-height + 10px);
+    filter: blur(3px);
+    object-fit: cover;
+  }
+
+  h1 {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    margin-left: @manga-detail-left-panel-width;
+
+    color: white;
+    font-weight: bold;
+    font-size: 48px;
+  }
+}
