@@ -5,11 +5,7 @@
  */
 const fs = require("fs");
 const Spritesmith = require("spritesmith");
-const convertapi = require("convertapi")(process.env["CONVERT_API_SECRET"], {
-  conversionTimeout: 120,
-  uploadTimeout: 120,
-  downloadTimeout: 120,
-});
+const webp = require("webp-converter");
 
 const getImagesPathFromDir = (dirPath, exclude) => {
   const dirName = dirPath.split("/").pop();
@@ -39,8 +35,7 @@ const generateCSS = (coordinates) => {
 
 const convertToWebp = async (pngSpritePath) => {
   const webpSpritePath = pngSpritePath.replace(".png", ".webp");
-  const result = await convertapi.convert("webp", { File: pngSpritePath });
-  await result.file.save(webpSpritePath);
+  await webp.cwebp(pngSpritePath, webpSpritePath);
   fs.unlinkSync(pngSpritePath);
 };
 
@@ -54,6 +49,13 @@ const SPRITES = [
     exclude: ["logo.png", "logo-invert.png"],
   },
 ];
+
+webp.grant_permission();
+
+process.on("unhandledRejection", (error) => {
+  console.error(error.message);
+  process.exit(1);
+});
 
 for (let { dir, exclude } of SPRITES) {
   console.log(`> Generating sprites for ${dir}`);
