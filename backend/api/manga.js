@@ -126,6 +126,13 @@ function handleMangaParsingError(res, e) {
  *           type: string
  *           required: false
  *       - in: query
+ *         name: chapters.link
+ *         description: Search mangas by chapter link
+ *         schema:
+ *           type: string
+ *           format: url
+ *           required: false
+ *       - in: query
  *         name: page
  *         schema:
  *           type: integer

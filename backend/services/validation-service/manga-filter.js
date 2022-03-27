@@ -19,6 +19,7 @@ const MangaFilterValidator = [
   check("unreadChapCountGTE").optional().isInt().toInt(),
   check("unreadChapCountLTE").optional().isInt().toInt(),
   check("tags.*").optional().trim(),
+  check("chapters.link").optional().trim().isURL(),
   ...PaginationMixin,
   ...SortMixin,
   ErrorFormatter,
@@ -38,6 +39,7 @@ const MANGA_FILTER_FIELDS = [
   "unreadChapCountGTE",
   "unreadChapCountLTE",
   "tags",
+  "chapters.link",
 ];
 
 module.exports = { MangaFilterValidator, MANGA_FILTER_FIELDS };

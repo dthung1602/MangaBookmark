@@ -261,6 +261,9 @@
 
 ## Random ideas
 
+- [ ] Browser extension
+    - [ ] access history -> mark automatically after x sec after page logo
+
 - [ ] Monthly update dropped / completed / finished mangas ?
 
 - [ ] Manga expected next release ?

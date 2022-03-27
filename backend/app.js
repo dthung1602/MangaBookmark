@@ -31,7 +31,11 @@ app.use(
   cookieSession({
     maxAge: config.COOKIE_MAX_AGE,
     keys: [config.SECRET_KEY],
-    sameSite: "lax", // must be lax for google/facebook authentication to work
+    // Must be at least lax for google/facebook authentication to work
+    // Must be none for browser extensions to make cross site requests
+    // See https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+    sameSite: "none",
+    secure: config.NODE_ENV === "production",
   }),
 );
 app.use(passport.initialize());
