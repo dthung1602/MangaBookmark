@@ -20,7 +20,7 @@ function getInfoRowByTitle($, title) {
 }
 
 function parseAdditionalInfo($) {
-  const description = $(".wrapper_content > .content-info").text().trim();
+  const description = $($(".wrapper_content > .content-info")[0]).text().trim();
   const alternativeNames = extractNamesFromText($(".info-title h3").text(), ";");
   const tags = extractTagsFromText(getInfoRowByTitle($, "Genre"), ",", "Genre(s):");
   const authors = [

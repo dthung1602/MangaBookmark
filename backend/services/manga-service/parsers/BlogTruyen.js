@@ -14,7 +14,7 @@ async function parseChapters($) {
   for (let i = 0; i < rows.length; i++) {
     chapters.push({
       name: rows[i].children[0].data,
-      link: "https://blogtruyen.vn/" + rows[i].attribs.href,
+      link: "https://blogtruyen.vn" + rows[i].attribs.href,
     });
   }
 

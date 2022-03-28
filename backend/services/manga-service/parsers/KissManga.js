@@ -86,7 +86,7 @@ const availableTags = [
 ];
 
 module.exports = {
-  active: true,
+  active: false,
   lang: "en",
   site: "KissManga",
   homepage: "https://kissmanga.org",
