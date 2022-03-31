@@ -5,7 +5,7 @@ const {
   extractNamesFromText,
 } = require("../../scraping-service");
 
-const URLRegex = /^https?:\/\/www\.nettruyen(pro|go)\.com\/truyen-tranh\/.+$/;
+const URLRegex = /^https?:\/\/www\.nettruyenone\.com\/truyen-tranh\/.+$/;
 
 async function parseChapters($) {
   const rows = $("nav .chapter a");
@@ -30,18 +30,19 @@ function parseAdditionalInfo($) {
 }
 
 const headers = {
-  Host: "www.nettruyengo.com",
-  "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:96.0) Gecko/20100101 Firefox/96.0",
   Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
   "Accept-Language": "en",
   "Accept-Encoding": "gzip, deflate",
-  DNT: "1",
   Connection: "keep-alive",
+  DNT: "1",
+  Host: "www.nettruyenone.com",
   "Upgrade-Insecure-Requests": "1",
+  "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:98.0) Gecko/20100101 Firefox/98.0",
 };
 
 async function parseManga(url) {
-  url = url.replace("www.nettruyenpro.com", "www.nettruyengo.com");
+  url = url.replace("www.nettruyenpro.com", "www.nettruyenone.com");
+  url = url.replace("www.nettruyengo.com", "www.nettruyenone.com");
 
   const $ = await fetchAndLoad(url, headers);
 
@@ -116,7 +117,7 @@ module.exports = {
   active: true,
   lang: "vi",
   site: "NetTruyen",
-  homepage: "http://www.nettruyengo.com/",
+  homepage: "http://www.nettruyenone.com/",
   URLRegex,
   parseManga,
   parseChapters,

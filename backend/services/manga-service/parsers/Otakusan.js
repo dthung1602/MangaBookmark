@@ -29,7 +29,7 @@ async function parseChapters($) {
 }
 
 function parseAdditionalInfo($) {
-  const description = $(".summary").text().trim();
+  const description = $(".summary").text().replace("Xem Thêm", "").trim();
   const alternativeNames = extractNamesFromText($(".table-info th:contains('Other Name')").parent().next().text());
   const authors = uniq(
     extractAuthorsFromNode($, $("th:contains('Tác Giả'), th:contains('Họa Sĩ')").parent().find("a")),

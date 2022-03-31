@@ -11,7 +11,7 @@ async function parseChapters($) {
   const prefix = extractName($);
 
   const chapters = [];
-  for (let i = 1; i < rows.length; i++) {
+  for (let i = 0; i < rows.length; i++) {
     let name = rows[i].children[0].data.replace(prefix, "").trim();
     if (name.startsWith("-")) {
       name = name.slice(1);

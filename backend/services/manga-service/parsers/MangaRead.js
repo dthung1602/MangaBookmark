@@ -24,7 +24,7 @@ async function parseManga(url) {
   return {
     name: cleanText($("h1").text()),
     link: url,
-    image: $(".summary_image img").attr("src"),
+    image: $(".summary_image img").attr("data-src"),
     isCompleted: $(".post-status").text().includes("Completed"),
     chapters: parseChapters($),
   };
