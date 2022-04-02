@@ -1,6 +1,6 @@
 {
   "name": "mangabookmark-frontend",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "private": true,
   "scripts": {
     "dev": "PORT=3001 DISABLE_ESLINT_PLUGIN=true craco start",
