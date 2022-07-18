@@ -1,4 +1,5 @@
 const {
+  cleanText,
   fetchAndLoad,
   findNodeWithHeader,
   findNodeWithHeaderAndExtractNameFromText,
@@ -62,7 +63,7 @@ async function parseChapters($) {
 
 function parseAdditionalInfo($) {
   const selector = ".MainContainer .BoxBody > div.row .list-group .list-group-item";
-  const description = findNodeWithHeader($, selector, "Description:").text();
+  const description = cleanText(findNodeWithHeader($, selector, "Description:").text(), "Description:");
   const alternativeNames = findNodeWithHeaderAndExtractNameFromText($, selector, "Alternate Name(s):");
   const tags = findNodeWithHeaderAndExtractTagsFromText($, selector, "Genre(s):");
   const authors = findNodeWithHeaderAndExtractAuthorFromText($, selector, "Author(s):");
