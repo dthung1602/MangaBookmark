@@ -1,4 +1,5 @@
 const { fetchAndLoad, extractTagsFromNode, extractAuthorsFromNode } = require("../../scraping-service");
+const { stripQuery } = require("../../utils");
 
 const URLRegex = /^https?:\/\/fanfox\.net\/manga\/.+/;
 const BaseURL = "http://fanfox.net";
@@ -22,12 +23,6 @@ function parseAdditionalInfo($) {
   const authors = extractAuthorsFromNode($, ".detail-info-right-say a");
   const tags = extractTagsFromNode($, ".detail-info-right-tag-list a");
   return { description, authors, tags };
-}
-
-function stripQuery(url) {
-  const u = new URL(url);
-  u.search = "";
-  return u.toString();
 }
 
 async function parseManga(url) {

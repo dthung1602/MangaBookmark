@@ -87,6 +87,12 @@ function normalizeURL(url) {
   return new URL(url).toString();
 }
 
+function stripQuery(url) {
+  const u = new URL(url);
+  u.search = "";
+  return u.toString();
+}
+
 function normalizeDate(date) {
   if (date instanceof Date) {
     return date.toString();
@@ -105,4 +111,13 @@ function parseBoolean(value) {
   throw new Error("Invalid boolean value");
 }
 
-module.exports = { pickCopy, flattenObject, ensureIsArray, trimExtra, normalizeURL, normalizeDate, parseBoolean };
+module.exports = {
+  pickCopy,
+  flattenObject,
+  ensureIsArray,
+  trimExtra,
+  normalizeURL,
+  stripQuery,
+  normalizeDate,
+  parseBoolean,
+};

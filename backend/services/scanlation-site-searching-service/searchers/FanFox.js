@@ -1,5 +1,7 @@
 const { fetchAndLoad, extractAuthorsFromNode } = require("../../scraping-service");
 const { OmnisearchScanlationMangaResult } = require("../../../models");
+const { useImageProxy } = require("../../scraping-service");
+const { stripQuery } = require("../../utils");
 
 function buildSearchURL(term, page) {
   const searchParams = new URLSearchParams({
@@ -19,7 +21,7 @@ function extractMangaFromPage($) {
         site: "FanFox",
         name: manga$(".manga-list-4-item-title").text(),
         link: "http://fanfox.net" + manga$("> a").attr("href"),
-        image: manga$("img").attr("src"),
+        image: useImageProxy(stripQuery(manga$("img").attr("src")), "FanFox", true),
         isCompleted: manga$(".manga-list-4-show-tag-list-2").text().includes("Completed"),
         authors: extractAuthorsFromNode(manga$, ".manga-list-4-item-tip a.blue"),
         latestChapter: {

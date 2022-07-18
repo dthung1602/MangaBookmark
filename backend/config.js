@@ -12,8 +12,16 @@ const NODE_ENV = getEnv("NODE_ENV", "development");
 let fallbackDatabaseURL =
   NODE_ENV === "test" ? "mongodb://localhost/TestMangaBookmark" : "mongodb://localhost/MangaBookmark";
 
+const HOST_NAME = getEnv("HOST_NAME", NODE_ENV === "development" ? "localhost:3000" : "");
+
+const HTTP_SCHEMA = NODE_ENV === "development" ? "http" : "https";
+const BASE_URL = HTTP_SCHEMA + "://" + HOST_NAME;
+
 module.exports = {
   NODE_ENV,
+  HOST_NAME,
+  HTTP_SCHEMA,
+  BASE_URL,
 
   PORT: getEnv("PORT", 3000, parseInt),
   DB_URL: getEnv("DB_URL", fallbackDatabaseURL),

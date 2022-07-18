@@ -3,7 +3,7 @@ const tunnel = require("tunnel");
 const cheerio = require("cheerio");
 const { startCase } = require("lodash");
 
-const { PROXY_HOST, PROXY_PORT, PROXY_ENABLED } = require("../config");
+const { PROXY_HOST, PROXY_PORT, PROXY_ENABLED, BASE_URL } = require("../config");
 
 function getDefaultHeaders() {
   return {
@@ -162,8 +162,12 @@ function extractNamesFromText(text, separator = ";", headerToRemove = null) {
     .filter(Boolean);
 }
 
-function useImageProxy(url, mangaSite) {
-  return "/api/image/proxy?" + new URLSearchParams({ url, mangaSite }).toString();
+function useImageProxy(url, mangaSite, fullURL = false) {
+  let imageUrl = "/api/image/proxy?" + new URLSearchParams({ url, mangaSite }).toString();
+  if (fullURL) {
+    imageUrl = BASE_URL + imageUrl;
+  }
+  return imageUrl;
 }
 
 const UAs = [
