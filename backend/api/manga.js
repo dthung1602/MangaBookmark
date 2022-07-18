@@ -210,7 +210,7 @@ router.getAsync("/", MangaFilterValidator, async (req, res) => {
  */
 router.getAsync("/info", MangaInfoValidator, async (req, res) => {
   try {
-    const { manga } = await MangaService.parseManga(req.query.link, req.parser);
+    const manga = await MangaService.getInfo(req.query.link, req.parser);
     res.json(manga);
   } catch (e) {
     handleMangaParsingError(res, e);

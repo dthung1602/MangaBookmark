@@ -24,6 +24,12 @@ function parseAdditionalInfo($) {
   return { description, authors, tags };
 }
 
+function stripQuery(url) {
+  const u = new URL(url);
+  u.search = "";
+  return u.toString();
+}
+
 async function parseManga(url) {
   const $ = await fetchAndLoad(url, {
     Cookie: "isAdult=1",
@@ -32,7 +38,7 @@ async function parseManga(url) {
   return {
     name: $(".detail-info-right-title-font").text(),
     link: url,
-    image: $(".detail-info-cover-img").attr("src"),
+    image: stripQuery($(".detail-info-cover-img").attr("src")),
     isCompleted: $(".detail-info-right-title-tip").text().includes("Completed"),
     chapters: await parseChapters($),
     ...parseAdditionalInfo($),

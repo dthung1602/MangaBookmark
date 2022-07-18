@@ -7,7 +7,7 @@ class ImageAPI extends BaseAPI {
 
   constructImageProxyURL(url, mangaSite) {
     const proxyURL = new URL(window.location.origin);
-    proxyURL.pathname = this.basePath;
+    proxyURL.pathname = this.basePath + "/proxy";
     proxyURL.searchParams.set("url", url);
     if (mangaSite) {
       proxyURL.searchParams.set("mangaSite", mangaSite);
