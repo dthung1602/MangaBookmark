@@ -1,7 +1,11 @@
-const { pick } = require("lodash");
+const { pick, omitBy, isNil } = require("lodash");
 
-function pickCopy(target, source, props) {
-  return Object.assign(target, pick(source, props));
+function pickCopy(target, source, props, skipNil = false) {
+  let obj = pick(source, props);
+  if (skipNil) {
+    obj = omitBy(obj, isNil);
+  }
+  return Object.assign(target, obj);
 }
 
 /**

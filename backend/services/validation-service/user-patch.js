@@ -1,19 +1,18 @@
 const { check } = require("express-validator");
 
 const { User } = require("../../models");
-const { ErrorFormatter } = require("./mixins");
+const { ErrorFormatter, FindUser } = require("./mixins");
 
 module.exports = [
+  FindUser,
   check("username")
     .optional()
     .isLength({ min: 1 })
     .custom(async (username, { req }) => {
-      const user = await User.findById(req.user.id);
       const usernameUser = await User.findOne({ username: username });
-      if (usernameUser && usernameUser.id !== user.id) {
+      if (usernameUser && usernameUser.id !== req.user.id) {
         throw new Error("Username taken");
       }
-      req.user = user;
     }),
   check("email")
     .optional()

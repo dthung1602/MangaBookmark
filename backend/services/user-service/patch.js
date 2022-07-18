@@ -1,7 +1,6 @@
+const { pickCopy } = require("../utils");
+
 module.exports = async function (user, data) {
-  user.username = data.username;
-  user.email = data.email;
-  user.avatar = data.avatar;
-  user.note = data.note;
+  pickCopy(user, data, ["username", "email", "avatar", "note"], true);
   return user.save();
 };

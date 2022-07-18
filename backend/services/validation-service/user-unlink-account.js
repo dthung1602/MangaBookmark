@@ -1,11 +1,11 @@
 const { check } = require("express-validator");
 
-const { User } = require("../../models");
-const { ErrorFormatter } = require("./mixins");
+const { ErrorFormatter, FindUser } = require("./mixins");
 
 module.exports = [
+  FindUser,
   check("authProvider").custom(async (value, { req }) => {
-    const user = await User.findById(req.user.id);
+    const { user } = req;
     if (value === "google") {
       if (!user.googleId) {
         throw new Error("There's no linked Google account");
@@ -22,7 +22,6 @@ module.exports = [
         throw new Error("Cannot unlink Facebook account. This is the only way to login.");
       }
     }
-    req.user = user;
   }),
   ErrorFormatter,
 ];

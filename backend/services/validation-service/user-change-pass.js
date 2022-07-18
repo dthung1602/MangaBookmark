@@ -1,18 +1,16 @@
 const { check } = require("express-validator");
 
-const { User } = require("../../models");
-const { ErrorFormatter } = require("./mixins");
+const { ErrorFormatter, FindUser } = require("./mixins");
 
 module.exports = [
   check("password").exists().isLength({ min: 8 }),
+  FindUser,
   check("currentPassword")
     .exists()
     .custom(async (value, { req }) => {
-      const user = await User.findById(req.user.id);
-      if (user.password && !user.validPassword(value)) {
+      if (req.user.password && !req.user.validPassword(value)) {
         throw new Error("Incorrect current password");
       }
-      req.user = user;
     }),
   ErrorFormatter,
 ];

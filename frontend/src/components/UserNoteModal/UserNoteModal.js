@@ -14,8 +14,7 @@ const UserNoteModal = ({ open, onCancel }) => {
 
   const updateNote = () => {
     setIsLoading(true);
-    // FIXME why username / email required?
-    UserAPI.patch({ note, email: user.email, avatar: user.avatar, username: user.username })
+    UserAPI.patch({ note })
       .result.then(async (response) => {
         throwOnCriticalErrors(response);
         const newUser = await response.json();
