@@ -65,7 +65,6 @@ const MangaCompactPreview = () => {
           {additionalInfo}
 
           <div className="info-row">
-            {/*FIXME REREAD does not work*/}
             <Text strong>Shelf</Text>
             <Select size="small" value={manga.shelf || READING} onChange={editMangaField("shelf")}>
               {Object.entries(SHELVES).map(([key, displayText]) => (

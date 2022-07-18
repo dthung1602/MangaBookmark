@@ -16,7 +16,6 @@ import "./NavBar.less";
 
 const { Header } = Layout;
 const { Item, SubMenu } = Menu;
-// FIXME const { Desktop, Mobile } = ScreenSize; ? why not work
 
 const NavBar = ({ hideLogo = false }) => {
   const history = useHistory();
