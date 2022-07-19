@@ -43,6 +43,16 @@ async function search(term, topN) {
       // TODO beware of rate limit
       const chapters = await requestChapters(rawManga);
       const lastChapter = chapters.data[0];
+      const lastReleased = lastChapter ? lastChapter.attributes.publishAt : new Date().toISOString();
+      const latestChapter = lastChapter
+        ? {
+            name: `Chap ${lastChapter.attributes.chapter} ${lastChapter.attributes.title}`,
+            link: `https://mangadex.org/chapter/${lastChapter.id}/1`,
+          }
+        : {
+            name: "No chap",
+            link: "https://mangadex.org/",
+          };
 
       return new OmnisearchScanlationMangaResult({
         site: "MangaDex",
@@ -52,11 +62,8 @@ async function search(term, topN) {
         isCompleted: rawManga.attributes.status === "completed",
         authors: extractAuthors(rawManga),
         totalChapters: chapters.total,
-        lastReleased: lastChapter.attributes.publishAt,
-        latestChapter: {
-          name: `Chap ${lastChapter.attributes.chapter} ${lastChapter.attributes.title}`,
-          link: `https://mangadex.org/chapter/${lastChapter.id}/1`,
-        },
+        lastReleased,
+        latestChapter,
       });
     }),
   );
