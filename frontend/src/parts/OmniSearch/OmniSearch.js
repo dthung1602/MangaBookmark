@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { Dropdown } from "antd";
 
 import { Desktop, Mobile } from "../../components/ScreenSize";
+import { useFreezeBackground } from "../../hooks";
 import { useSearchAPI } from "./hooks";
 import OmniSearchResult from "./OmniSearchResult";
 import { buildSearchRoute } from "../../utils/route";
@@ -22,6 +23,8 @@ const OmniSearch = ({ onSearch }) => {
   const [prevSearchTerm, setPrevSearchTerm] = useState("");
 
   const searchContext = useSearchAPI(setSearchResultVisible, searchTerm);
+
+  useFreezeBackground(searchResultVisible);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -49,7 +52,7 @@ const OmniSearch = ({ onSearch }) => {
       setPrevSearchTerm(searchTerm.trim());
       setSearchTerm("");
       setSearchResultVisible(false);
-    }, 100);
+    }, 250);
   };
 
   const onFocusDesktop = () => {
