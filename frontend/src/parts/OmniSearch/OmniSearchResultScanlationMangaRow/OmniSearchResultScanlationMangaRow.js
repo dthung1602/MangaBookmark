@@ -57,7 +57,7 @@ const OmniSearchResultScanlationMangaRow = ({ result }) => {
               <MangaSiteLink mangaSiteName={result.attributes.site} />
             </span>
             <span>
-              <b>Status:</b> {result.isCompleted ? "Completed" : "On-going"}
+              <b>Status:</b> {result.attributes.isCompleted ? "Completed" : "On-going"}
             </span>
           </div>
           <Row className="omnisearch-long-description" gutter={[0, 4]}>
