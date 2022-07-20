@@ -1,4 +1,4 @@
-const { fetchAndLoad, extractAuthorsFromText } = require("../../scraping-service");
+const { fetchAndLoad, filterNodeWithHeader, extractAuthorsFromText } = require("../../scraping-service");
 const { OmnisearchScanlationMangaResult } = require("../../../models");
 
 function buildSearchURL(term) {
@@ -13,7 +13,7 @@ async function search(term) {
   return $(".panel-search-story .search-story-item")
     .map(function () {
       const mangaRootElement = $(this);
-      const release = $(mangaRootElement.find(".item-right > span")[1]);
+      const release = filterNodeWithHeader($, mangaRootElement.find(".item-right > span"), "Updated");
       const lastChap = $(mangaRootElement.find("a.item-chapter")[0]);
 
       return new OmnisearchScanlationMangaResult({

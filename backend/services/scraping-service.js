@@ -69,7 +69,11 @@ async function wait(ms) {
 }
 
 function findNodeWithHeader($, nodes, text) {
-  return $(nodes)
+  return filterNodeWithHeader($, $(nodes), text);
+}
+
+function filterNodeWithHeader($, nodes$, text) {
+  return nodes$
     .toArray()
     .map($)
     .filter((node) => node.text().toLowerCase().includes(text.toLowerCase()))[0];
@@ -225,6 +229,7 @@ module.exports = {
   removeMangaNamePrefix,
   wait,
   findNodeWithHeader,
+  filterNodeWithHeader,
   findNodeWithHeaderAndExtractNameFromText,
   findNodeWithHeaderAndExtractAuthorFromText,
   findNodeWithHeaderAndExtractTagsFromText,
