@@ -5,7 +5,7 @@ function buildSearchURL(term) {
   const searchParams = new URLSearchParams({
     q: term,
   });
-  return `http://truyenqqvip.com/tim-kiem.html?${searchParams}`;
+  return `http://truyenqqpro.com/tim-kiem.html?${searchParams}`;
 }
 
 // TODO refactor this
@@ -15,8 +15,8 @@ const headers = {
   "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:92.0) Gecko/20100101 Firefox/92.0",
   Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
   "Accept-Language": "en",
-  Host: "truyenqqvip.com",
-  Referer: "http://truyenqqvip.com/",
+  Host: "truyenqqpro.com",
+  Referer: "http://truyenqqpro.com/",
   DNT: "1",
   Connection: "keep-alive",
 };
