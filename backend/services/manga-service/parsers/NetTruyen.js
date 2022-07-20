@@ -5,7 +5,7 @@ const {
   extractNamesFromText,
 } = require("../../scraping-service");
 
-const URLRegex = /^https?:\/\/www\.nettruyenone\.com\/truyen-tranh\/.+$/;
+const URLRegex = /^https?:\/\/www\.nettruyenco\.com\/truyen-tranh\/.+$/;
 
 async function parseChapters($) {
   const rows = $("nav .chapter a");
@@ -114,10 +114,10 @@ const availableTags = [
 ];
 
 module.exports = {
-  active: true,
+  active: false,
   lang: "vi",
   site: "NetTruyen",
-  homepage: "http://www.nettruyenone.com/",
+  homepage: "http://www.nettruyenco.com/",
   URLRegex,
   parseManga,
   parseChapters,
