@@ -45,18 +45,18 @@ async function search(term) {
 
   const $ = await byPassCookieGuard(url);
 
-  return $(".story-list .story-item")
+  return $("#main_homepage li")
     .map(function () {
       const mangaRootElement = $(this);
-
       return new OmnisearchScanlationMangaResult({
         site: "TruyenQQ",
-        name: mangaRootElement.find(".title-book").text(),
-        link: mangaRootElement.find(".title-book a").attr("href"),
-        image: mangaRootElement.find("img").attr("src"),
+        name: mangaRootElement.find("h3").text(),
+        link: mangaRootElement.find("h3 a").attr("href"),
+        image: mangaRootElement.find(".book_avatar img").attr("src"),
+        isCompleted: mangaRootElement.find(".more-info").text().includes("Hoàn Thành"),
         latestChapter: {
-          name: mangaRootElement.find(".episode-book").text(),
-          link: mangaRootElement.find(".episode-book a").attr("href"),
+          name: mangaRootElement.find(".last_chapter").text(),
+          link: mangaRootElement.find(".last_chapter a").attr("href"),
         },
       });
     })
