@@ -51,7 +51,7 @@ async function search(term, topN) {
         site: "Manga4Life",
         name: rawManga.s,
         link: `https://manga4life.com/manga/${rawManga.i}`,
-        image: `https://cover.nep.li/cover/${rawManga.i}.jpg`,
+        image: `https://temp.compsci88.com/cover/${rawManga.i}.jpg`,
         isCompleted: rawManga.ss === "Complete",
         authors: rawManga.a,
         lastReleased: rawManga.ls,
