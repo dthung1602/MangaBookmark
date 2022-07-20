@@ -1,7 +1,5 @@
 const { fetchAndLoad, extractAuthorsFromText } = require("../../scraping-service");
 const { OmnisearchScanlationMangaResult } = require("../../../models");
-const { stripQuery } = require("../../utils");
-const { useImageProxy } = require("../../scraping-service");
 
 function buildSearchURL(term) {
   term = term.trim().toLowerCase().replaceAll(" ", "_");
@@ -22,7 +20,7 @@ async function search(term) {
         site: "Manganato",
         name: mangaRootElement.find("h3").text(),
         link: mangaRootElement.find("h3 a").attr("href"),
-        image: useImageProxy(stripQuery(mangaRootElement.find("img").attr("src"))),
+        image: mangaRootElement.find("img").attr("src"),
         authors: extractAuthorsFromText(mangaRootElement.find(".item-author").text(), ","),
         lastReleased: release.text().replace("Updated :", "").replaceAll("-", " "),
         latestChapter: {
