@@ -59,29 +59,29 @@ self.addEventListener("message", (event) => {
 // Any other custom service worker logic can go here.
 const MAX_TITLE_LENGTH = 40;
 
-function prepareNotificationBody(mangas) {
+function prepareNotificationBody(results) {
   let body = "";
 
-  mangas.forEach((manga) => {
-    if (manga.name.length <= MAX_TITLE_LENGTH) {
-      body += manga.name;
+  results.forEach((result) => {
+    if (result.data.name.length <= MAX_TITLE_LENGTH) {
+      body += result.data.name;
     } else {
-      body += manga.name.slice(0, MAX_TITLE_LENGTH + 1) + "...";
+      body += result.data.name.slice(0, MAX_TITLE_LENGTH + 1) + "...";
     }
-    body += `:    ${manga.newChapCount} new / ${manga.unreadChapCount} unread\n`;
+    body += `:    ${result.data.newChapCount} new\n`;
   });
 
   return body;
 }
 
-function prepareNotificationTitle(mangas) {
+function prepareNotificationTitle(results) {
   let totalChapCount = 0;
-  mangas.forEach((manga) => {
-    totalChapCount += manga.newChapCount;
+  results.forEach((result) => {
+    totalChapCount += result.data.newChapCount;
   });
 
-  let title = `${mangas.length} manga`;
-  if (mangas.length > 1) {
+  let title = `${results.length} manga`;
+  if (results.length > 1) {
     title += "s have";
   } else {
     title += " has";
@@ -94,10 +94,10 @@ function prepareNotificationTitle(mangas) {
 }
 
 self.addEventListener("push", (event) => {
-  const mangas = event.data.json();
-  const title = prepareNotificationTitle(mangas);
+  const results = event.data.json();
+  const title = prepareNotificationTitle(results);
   const option = {
-    body: prepareNotificationBody(mangas),
+    body: prepareNotificationBody(results),
     requireInteraction: true,
     icon: "/favicon.ico",
     actions: [

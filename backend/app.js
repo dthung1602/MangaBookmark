@@ -36,7 +36,7 @@ app.use(
     // Must be at least lax for google/facebook authentication to work
     // Must be none for browser extensions to make cross site requests
     // See https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
-    sameSite: "none",
+    sameSite: config.NODE_ENV === "production" ? "none" : "lax",
     secure: config.NODE_ENV === "production",
   }),
 );
