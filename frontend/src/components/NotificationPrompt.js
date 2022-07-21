@@ -7,11 +7,11 @@ import { askPermissionThenSubscribe, shouldSubscribe } from "../utils/subscripti
 
 const { confirm } = Modal;
 
-const Subscription = () => {
+const NotificationPrompt = () => {
   const [{ user }] = useContext(GlobalContext);
 
   const onCancel = () => {
-    document.cookie = "deniedPushNotification=true; path=/";
+    document.cookie = "deniedPushNotification=true; path=/; expires=Tue, 19 Jan 2038 04:14:07 GMT";
   };
 
   useEffect(() => {
@@ -39,4 +39,4 @@ const Subscription = () => {
   return <></>;
 };
 
-export default Subscription;
+export default NotificationPrompt;

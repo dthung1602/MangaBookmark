@@ -14,7 +14,7 @@ import {
   ROUTE_REGISTER,
 } from "./utils/constants";
 import { GlobalContextProvider } from "./components/GlobalContext";
-import { ErrorBoundary, PrivateRoute, FullScreenLoading, Subscription } from "./components";
+import { ErrorBoundary, PrivateRoute, FullScreenLoading, NotificationPrompt } from "./components";
 
 import Home from "./pages/Home"; // load home page eagerly for better UX
 const Account = lazy(() => import("./pages/Account"));
@@ -34,7 +34,7 @@ const App = () => {
         <QueryParamProvider ReactRouterRoute={Route}>
           <Suspense fallback={<FullScreenLoading />}>
             <GlobalContextProvider>
-              <Subscription />
+              <NotificationPrompt />
               <Switch>
                 <Route exact path={ROUTE_HOME} component={Home} />
                 <Route path={ROUTE_LEGAL_NOTICE} component={LegalNotice} />

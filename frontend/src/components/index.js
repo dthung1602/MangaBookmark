@@ -28,7 +28,7 @@ export { ScreenSize };
 import * as SocialNetworkButton from "./SocialNetworkButton";
 export { SocialNetworkButton };
 export { default as StartReadingButtons } from "./StartReadingButtons";
-export { default as Subscription } from "./Subscription";
+export { default as NotificationPrompt } from "./NotificationPrompt";
 export { default as UserNoteModal } from "./UserNoteModal";
 export { default as VerticalButtonGroup } from "./VerticalButtonGroup";
 export { default as WorkInProgress } from "./WorkInProgress";
