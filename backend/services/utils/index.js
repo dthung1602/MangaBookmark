@@ -111,6 +111,8 @@ function parseBoolean(value) {
   throw new Error("Invalid boolean value");
 }
 
+const protobuf = require("./protobuf");
+
 module.exports = {
   pickCopy,
   flattenObject,
@@ -120,4 +122,5 @@ module.exports = {
   stripQuery,
   normalizeDate,
   parseBoolean,
+  protobuf,
 };

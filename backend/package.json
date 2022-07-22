@@ -40,6 +40,7 @@
     "express-validator": "^6.9.2",
     "got": "^11.8.0",
     "helmet": "^4.4.1",
+    "jsbi": "^3.1.1",
     "lodash": "^4.17.20",
     "mongoose": "^5.10.11",
     "mongoose-fuzzy-searching": "^2.0.2",
