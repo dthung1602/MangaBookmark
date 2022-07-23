@@ -53,8 +53,6 @@ function load(url, response, raiseOnHostChanged = false) {
 
 async function fetchAndLoad(url, headers = {}, option = {}, raiseOnHostChanged = false) {
   const response = await fetch(url, headers, option);
-  const fs = require("fs");
-  fs.writeFileSync("foo.html", response.body);
   return load(url, response, raiseOnHostChanged);
 }
 

@@ -11,6 +11,7 @@ let availableTags = [];
 const excludedFiles = new Set(["utils", "index"]);
 
 fs.readdirSync(__dirname)
+  .filter((file) => file.endsWith(".js"))
   .map((file) => file.replace(".js", ""))
   .filter((file) => !excludedFiles.has(file))
   .forEach((file) => {
