@@ -34,7 +34,7 @@ function updateMangaShelf(manga, nextRereadChapterIdx) {
   if (nextRereadChapterIdx === -1) {
     manga.shelf = Manga.Shelf.READING;
   }
-  if (manga.isCompleted && manga.chapters.every((ch) => ch.isRead)) {
+  if (manga.isCompleted && manga.chapters.every((ch) => ch.isRead) && manga.nextRereadChapter === null) {
     manga.shelf = Manga.Shelf.FINISHED;
   }
 }

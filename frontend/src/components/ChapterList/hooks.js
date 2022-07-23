@@ -32,9 +32,9 @@ const usePagination = (manga, chapters) => {
 const filterDisplayChapters = (manga, showReadChapters) => {
   let { chapters, nextRereadChapter, shelf } = manga;
 
-  if (shelf === REREAD && nextRereadChapter) {
+  if (shelf === REREAD) {
     chapters = clonePlainObject(chapters);
-    let reachedNextRereadChapter = false;
+    let reachedNextRereadChapter = Boolean(nextRereadChapter);
     for (let chap of chapters) {
       chap.isRead = reachedNextRereadChapter; // remember, chapters are in reversed order!
       reachedNextRereadChapter = reachedNextRereadChapter || chap.link === nextRereadChapter.link;

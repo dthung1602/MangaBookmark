@@ -299,26 +299,6 @@ MangaSchema.index(
 
 MangaSchema.pre("save", function (next) {
   this.status = getMangaStatusCode(this);
-
-  if (this.shelf === Shelf.REREAD) {
-    if (!this.nextRereadChapter) {
-      this.nextRereadChapter = pick(this.chapters[this.chapters.length - 1], ["name", "link"]);
-    }
-    let nextChapIdx = this.chapters.findIndex((ch) => ch.link === this.nextRereadChapter.link);
-
-    if (nextChapIdx === -1) {
-      nextChapIdx = this.chapters.findIndex((ch) => ch.name === this.nextRereadChapter.name);
-    }
-
-    nextChapIdx = Math.max(0, nextChapIdx);
-
-    this.unreadChapCount = this.chapters.length - nextChapIdx;
-
-    next();
-    return;
-  }
-
-  this.nextRereadChapter = null;
   this.unreadChapCount = this.chapters.filter((ch) => !ch.isRead).length;
   next();
 });
