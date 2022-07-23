@@ -1,6 +1,6 @@
 const { fetchAndLoad } = require("../../scraping-service");
 
-const URLRegex = /^https?:\/\/truyenvn\.tv\/.+$/;
+const URLRegex = /^https?:\/\/truyenvn\.vip\/.+$/;
 
 async function parseChapters($) {
   const links = $("#chapterList a");
@@ -33,7 +33,7 @@ module.exports = {
   active: true,
   lang: "vi",
   site: "TruyenVN",
-  homepage: "https://truyenvn.tv/",
+  homepage: "https://truyenvn.vip/",
   URLRegex,
   parseManga,
   parseChapters,

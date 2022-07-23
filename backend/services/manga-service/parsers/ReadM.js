@@ -6,7 +6,7 @@ const {
   extractAuthorsFromNode,
 } = require("../../scraping-service");
 
-const URLRegex = /^https?:\/\/(www\.)?readm\.org\/manga\/[0-9]+\/?$/;
+const URLRegex = /^https?:\/\/(www\.)?readm\.org\/manga\/.+$/;
 const BaseURL = "https://www.readm.org";
 
 async function parseChapters($) {

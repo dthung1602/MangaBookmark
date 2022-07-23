@@ -5,7 +5,7 @@ const {
   extractTagsFromNode,
 } = require("../../scraping-service");
 
-const URLRegex = /^https?:\/\/(m|read)\.mangabat\.com\/read-.+$/;
+const URLRegex = /^https?:\/\/readmangabat\.com\/read-.+$/;
 
 async function parseChapters($) {
   const rows = $(".chapter-name");
@@ -89,7 +89,7 @@ module.exports = {
   active: true,
   lang: "en",
   site: "MangaBat",
-  homepage: "https://m.mangabat.com/m",
+  homepage: "https://m.mangabat.com",
   URLRegex,
   parseManga,
   parseChapters,
