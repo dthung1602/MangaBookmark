@@ -23,7 +23,7 @@
     "craco-less": "^1.17.1",
     "detect-browser": "^5.2.0",
     "lodash": "^4.17.21",
-    "moment": "^2.29.1",
+    "moment": "^2.29.4",
     "prop-types": "^15.7.2",
     "query-string": "^6.14.0",
     "react": "^17.0.1",
