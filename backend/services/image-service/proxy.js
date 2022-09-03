@@ -4,8 +4,8 @@ const got = require("got");
 
 const { getRandomUserAgent } = require("../scraping-service");
 const { getSiteByName } = require("../manga-service/parsers");
+const { getTmpFileName, ensureTmpDirExist } = require("../utils");
 
-const CACHE_DIR = "/tmp/mangabookmark/cache";
 const SUPPORTED_FORMAT = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 const ETAG_HASH_HEAD_TAIL_SIZE = 2048;
 
@@ -47,15 +47,11 @@ async function cacheImage(response) {
     throw Error("Unsupported image format");
   }
 
-  try {
-    await fs.access(CACHE_DIR);
-  } catch {
-    await fs.mkdir(CACHE_DIR, { recursive: true });
-  }
+  await ensureTmpDirExist("cache");
 
   const key = hash(url);
   const buffer = await response.buffer();
-  await fs.writeFile(`${CACHE_DIR}/${key}`, buffer);
+  await fs.writeFile(getTmpFileName("cache", key), buffer);
 
   const etag = `"${hashImage(buffer)}"`;
   contentTypeMapping.set(key, contentType);
@@ -67,7 +63,7 @@ async function cacheImage(response) {
 async function getImageFromCache(url) {
   try {
     const key = hash(url);
-    const buffer = await fs.readFile(`${CACHE_DIR}/${key}`);
+    const buffer = await fs.readFile(getTmpFileName("cache", key));
     const contentType = contentTypeMapping.get(key);
     const etag = eTagMapping.get(key);
     return { buffer, contentType, etag };

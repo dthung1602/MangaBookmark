@@ -1,3 +1,4 @@
+const fs = require("fs/promises");
 const { pick, omitBy, isNil } = require("lodash");
 
 function pickCopy(target, source, props, skipNil = false) {
@@ -113,6 +114,23 @@ function parseBoolean(value) {
 
 const protobuf = require("./protobuf");
 
+const BASE_TMP_DIR = "/tmp/mangabookmark/";
+
+async function ensureTmpDirExist(subDir = "") {
+  const path = BASE_TMP_DIR + subDir;
+  try {
+    await fs.stat(path);
+  } catch (e) {
+    if (e.code === "ENOENT") {
+      await fs.mkdir(path, { recursive: true });
+    }
+  }
+}
+
+function getTmpFileName(...paths) {
+  return BASE_TMP_DIR + paths.join("/");
+}
+
 module.exports = {
   pickCopy,
   flattenObject,
@@ -122,5 +140,7 @@ module.exports = {
   stripQuery,
   normalizeDate,
   parseBoolean,
+  ensureTmpDirExist,
+  getTmpFileName,
   protobuf,
 };

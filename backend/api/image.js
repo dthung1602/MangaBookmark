@@ -1,4 +1,3 @@
-const fs = require("fs").promises;
 const { Router } = require("@awaitjs/express");
 const multer = require("multer");
 
@@ -7,6 +6,7 @@ const router = Router();
 const { ImageProxyValidator } = require("../services/validation-service");
 const { ImageProxyErrorHandlerMiddleware } = require("../errors");
 const { proxy, uploadAvatar } = require("../services/image-service");
+const { ensureTmpDirExist } = require("../services/utils");
 
 //----------------------------------------
 //  Image proxy with spoofed referer
@@ -116,20 +116,10 @@ router.use("/proxy", ImageProxyErrorHandlerMiddleware);
  *                    type: string
  */
 
-const ensureDirectoryExist = async (path) => {
-  try {
-    await fs.stat(path);
-  } catch (e) {
-    if (e.code === "ENOENT") {
-      await fs.mkdir(path, { recursive: true });
-    }
-  }
-};
-
 const uploadStorage = multer.diskStorage({
   destination: function (req, file, cb) {
     const path = "upload/avatar";
-    ensureDirectoryExist(path)
+    ensureTmpDirExist(path)
       .then(() => cb(null, path))
       .catch((e) => cb(e, null));
   },
