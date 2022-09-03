@@ -1,9 +1,9 @@
 steps:
-- name: node:16
-  entrypoint: yarn
+- name: "node:16"
+  entrypoint: "yarn"
   args: ["install", "--production=false"]
-- name: node:16
-  entrypoint: yarn
+- name: "node:16"
+  entrypoint: "yarn"
   args: ["run", "build"]
   env:
   - 'AMQP_URL'=${_AMQP_URL}
