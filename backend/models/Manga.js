@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const FuzzySearching = require("mongoose-fuzzy-searching");
-const { pick } = require("lodash");
 
 const { AdvanceQuery } = require("./plugins");
 

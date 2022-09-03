@@ -1,7 +1,8 @@
 const passport = require("passport");
 
 const { AuthenticationError } = require("../../errors");
-const { noLoginPaths } = require("./authenticate.config");
+const { noLoginPaths, basicAuthPaths } = require("./authenticate.config");
+const { SERVICE_API_TOKEN } = require("../../config");
 require("./ThirdParty");
 require("./Local");
 
@@ -13,7 +14,7 @@ passport.deserializeUser((userId, done) => {
   done(null, { id: userId });
 });
 
-const requireLogin = (path, method) => {
+const requireNormalLogin = (path, method) => {
   for (let [pathRegex, methodRegex] of noLoginPaths) {
     if (path.match(pathRegex) && method.match(methodRegex)) {
       return false;
@@ -22,9 +23,31 @@ const requireLogin = (path, method) => {
   return true;
 };
 
+const requireBasicAuth = (path, method) => {
+  for (let [pathRegex, methodRegex] of basicAuthPaths) {
+    if (path.match(pathRegex) && method.match(methodRegex)) {
+      return true;
+    }
+  }
+  return false;
+};
+
+const validBasicAuth = (req) => {
+  return req.headers.authorization === SERVICE_API_TOKEN;
+};
+
 const AuthenticateMiddleware = (req, res, next) => {
   const path = req.baseUrl + req.path; // https://stackoverflow.com/a/56380963/7342188
-  if (!req.user && requireLogin(path, req.method)) {
+  const method = req.method;
+
+  if (requireBasicAuth(path, method)) {
+    if (validBasicAuth(req)) {
+      return next();
+    }
+    throw new AuthenticationError({ user: { msg: "Invalid basic auth token" } });
+  }
+
+  if (!req.user && requireNormalLogin(path, method)) {
     throw new AuthenticationError({ user: { msg: "Authentication required" } });
   } else {
     next();
