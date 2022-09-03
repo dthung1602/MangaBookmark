@@ -1,0 +1,23 @@
+steps:
+  - name: node:16
+    entrypoint: yarn
+    args: ["install", "--production=false"]
+  - name: node:16
+    entrypoint: yarn
+    args: ["run", "build"]
+    env:
+      - 'AMQP_URL'=${_AMQP_URL}
+      - 'CLOUDINARY_URL'=${_CLOUDINARY_URL}
+      - 'DB_URL'=${_DB_URL}
+      - 'FACEBOOK_AUTH_ID'=${_FACEBOOK_AUTH_ID}
+      - 'FACEBOOK_AUTH_PASSWORD'=${_FACEBOOK_AUTH_PASSWORD}
+      - 'GOOGLE_AUTH_ID'=${_GOOGLE_AUTH_ID}
+      - 'GOOGLE_AUTH_PASSWORD'=${_GOOGLE_AUTH_PASSWORD}
+      - 'NODE_ENV'=${_NODE_ENV}
+      - 'REACT_APP_VAPID_PRIVATE_KEY'=${_REACT_APP_VAPID_PRIVATE_KEY}
+      - 'REACT_APP_VAPID_PUBLIC_KEY'=${_REACT_APP_VAPID_PUBLIC_KEY}
+      - 'REDIS_URL'=${_REDIS_URL}
+      - 'WEB_PUSH_CONTACT'=${_WEB_PUSH_CONTACT}
+  - name: "gcr.io/cloud-builders/gcloud"
+    args: ["app", "deploy"]
+timeout: "1200s"

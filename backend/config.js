@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const { parseBoolean } = require("./services/utils");
 
 function getEnv(envName, defaultValue = undefined, converter = (x) => x) {
