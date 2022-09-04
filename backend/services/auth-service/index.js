@@ -33,6 +33,10 @@ const requireBasicAuth = (path, method) => {
 };
 
 const validBasicAuth = (req) => {
+  console.log(">>> " + JSON.stringify(req.headers));
+  console.log(">>> " + req.headers.authorization);
+  console.log(">>> " + req.headers["authorization"]);
+  console.log(">>> " + req.headers["Authorization"]);
   return req.headers.authorization === SERVICE_API_TOKEN;
 };
 
