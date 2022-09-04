@@ -5,5 +5,5 @@ module.exports = {
     [/^\/api\/user(\/)?$/, /(GET|POST)/],
     [/^\/api\/meta.*/, /.*/],
   ],
-  basicAuthPaths: [[/^\/api\/_service.*/, /.*/]],
+  requireAuthViaTokenPaths: [[/^\/api\/_service.*/, /.*/]],
 };

@@ -17,8 +17,6 @@ if [ "${NODE_ENV}" = "production" ]
 then
   # write environment variables to .env
   printenv > .env
-  # TODO debug
-  cat .env
 
   # move build to backend
   echo "Moving frontend build directory to backend ..."

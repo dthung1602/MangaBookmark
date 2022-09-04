@@ -1,7 +1,7 @@
 const passport = require("passport");
 
 const { AuthenticationError } = require("../../errors");
-const { noLoginPaths, basicAuthPaths } = require("./authenticate.config");
+const { noLoginPaths, requireAuthViaTokenPaths } = require("./authenticate.config");
 const { SERVICE_API_TOKEN } = require("../../config");
 require("./ThirdParty");
 require("./Local");
@@ -23,8 +23,8 @@ const requireNormalLogin = (path, method) => {
   return true;
 };
 
-const requireBasicAuth = (path, method) => {
-  for (let [pathRegex, methodRegex] of basicAuthPaths) {
+const requireAuthViaToken = (path, method) => {
+  for (let [pathRegex, methodRegex] of requireAuthViaTokenPaths) {
     if (path.match(pathRegex) && method.match(methodRegex)) {
       return true;
     }
@@ -32,23 +32,15 @@ const requireBasicAuth = (path, method) => {
   return false;
 };
 
-const validBasicAuth = (req) => {
-  console.error(">>> " + JSON.stringify(req.headers));
-  console.error(">>> " + req.headers.authorization);
-  console.error(">>> " + req.headers["authorization"]);
-  console.error(">>> " + req.headers["Authorization"]);
+const validToken = (req) => {
   return req.headers["x-service-api-token"] === SERVICE_API_TOKEN;
 };
 
 const AuthenticateMiddleware = (req, res, next) => {
   const path = req.baseUrl + req.path; // https://stackoverflow.com/a/56380963/7342188
   const method = req.method;
-  console.error("AuthenticateMiddleware");
-  console.error("<< " + JSON.stringify(req.headers));
-  console.error("<< SERVICE_API_TOKEN " + SERVICE_API_TOKEN);
-  if (requireBasicAuth(path, method)) {
-    console.error("requireBasicAuth");
-    if (validBasicAuth(req)) {
+  if (requireAuthViaToken(path, method)) {
+    if (validToken(req)) {
       return next();
     }
     throw new AuthenticationError({ user: { msg: "Invalid basic auth token" } });
