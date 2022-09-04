@@ -37,17 +37,17 @@ const validBasicAuth = (req) => {
   console.error(">>> " + req.headers.authorization);
   console.error(">>> " + req.headers["authorization"]);
   console.error(">>> " + req.headers["Authorization"]);
-  return req.headers.authorization === SERVICE_API_TOKEN;
+  return req.headers["x-service-api-token"] === SERVICE_API_TOKEN;
 };
 
 const AuthenticateMiddleware = (req, res, next) => {
   const path = req.baseUrl + req.path; // https://stackoverflow.com/a/56380963/7342188
   const method = req.method;
   console.error("AuthenticateMiddleware");
+  console.error("<< " + JSON.stringify(req.headers));
+  console.error("<< SERVICE_API_TOKEN " + SERVICE_API_TOKEN);
   if (requireBasicAuth(path, method)) {
     console.error("requireBasicAuth");
-    console.error("<< " + JSON.stringify(req.headers));
-    console.error("<< SERVICE_API_TOKEN " + SERVICE_API_TOKEN);
     if (validBasicAuth(req)) {
       return next();
     }
