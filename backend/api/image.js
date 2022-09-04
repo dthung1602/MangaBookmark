@@ -6,7 +6,7 @@ const router = Router();
 const { ImageProxyValidator } = require("../services/validation-service");
 const { ImageProxyErrorHandlerMiddleware } = require("../errors");
 const { proxy, uploadAvatar } = require("../services/image-service");
-const { ensureTmpDirExist } = require("../services/utils");
+const { ensureTmpDirExist, getTmpFileName } = require("../services/utils");
 
 //----------------------------------------
 //  Image proxy with spoofed referer
@@ -120,7 +120,7 @@ const uploadStorage = multer.diskStorage({
   destination: function (req, file, cb) {
     const path = "upload/avatar";
     ensureTmpDirExist(path)
-      .then(() => cb(null, path))
+      .then(() => cb(null, getTmpFileName(path)))
       .catch((e) => cb(e, null));
   },
   filename: function (req, file, cb) {
