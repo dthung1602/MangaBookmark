@@ -10,13 +10,13 @@ const { startBackupProcess, startUpdateMangaProcess } = require("../services/bac
  * @swagger
  *
  * /api/_service/update-mangas:
- *   get:
+ *   post:
  *     description: Trigger update manga script
  *     responses:
  *       200:
  *         description: Update process started
  */
-router.getAsync("/update-mangas", async (req, res) => {
+router.postAsync("/update-mangas", async (req, res) => {
   startUpdateMangaProcess();
   res.sendStatus(200);
 });
@@ -28,13 +28,13 @@ router.getAsync("/update-mangas", async (req, res) => {
  * @swagger
  *
  * /api/_service/backup-db:
- *   get:
+ *   post:
  *     description: Trigger backup database script
  *     responses:
  *       200:
  *         description: Backup process started
  */
-router.getAsync("/backup-db", async (req, res) => {
+router.postAsync("/backup-db", async (req, res) => {
   startBackupProcess();
   res.sendStatus(200);
 });

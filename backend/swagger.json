@@ -1393,7 +1393,7 @@
       }
     },
     "/api/_service/update-mangas": {
-      "get": {
+      "post": {
         "description": "Trigger update manga script",
         "responses": {
           "200": {
@@ -1403,7 +1403,7 @@
       }
     },
     "/api/_service/backup-db": {
-      "get": {
+      "post": {
         "description": "Trigger backup database script",
         "responses": {
           "200": {
