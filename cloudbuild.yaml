@@ -18,6 +18,7 @@ steps:
   - 'REACT_APP_VAPID_PUBLIC_KEY=${_REACT_APP_VAPID_PUBLIC_KEY}'
   - 'REDIS_URL=${_REDIS_URL}'
   - 'WEB_PUSH_CONTACT=${_WEB_PUSH_CONTACT}'
+  - 'SERVICE_API_TOKEN=${_SERVICE_API_TOKEN}'
 - name: "gcr.io/cloud-builders/gcloud"
   args: ["app", "deploy"]
 timeout: "1200s"
