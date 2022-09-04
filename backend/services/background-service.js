@@ -8,8 +8,7 @@ function startUpdateMangaProcess() {
 }
 
 function startBackupProcess() {
-  // FIXME cannot download to current working dir
-  startBackgroundScript("bash", [`${BIN_DIR}/backup_db.bash`]);
+  startBackgroundScript("bash", [`${BIN_DIR}/backup_db.bash`, "--install-mongo-tool"]);
 }
 
 function startBackgroundScript(entrypoint, args) {

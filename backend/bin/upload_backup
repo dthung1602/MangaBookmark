@@ -22,7 +22,7 @@ async function main() {
 
   let redirectUrl;
   if (NODE_ENV === "production") {
-    redirectUrl = `https://${process.env.HEROKU_APP_NAME}.herokuapp.com`;
+    redirectUrl = `https://manga--bookmark.appspot.com`;
   } else {
     redirectUrl = "http://localhost:3000/";
   }
@@ -53,10 +53,11 @@ async function main() {
   console.log(`Using folder id=${backupDirId} to store backup`);
 
   const fileSize = fs.statSync(fileToBackup).size;
+  const fileName = fileToBackup.split("/").pop();
   await drive.files.create(
     {
       requestBody: {
-        name: fileToBackup,
+        name: fileName,
         parents: [backupDirId]
       },
       media: {
@@ -140,7 +141,7 @@ async function generateNewAccessToken(oAuth2Client) {
 
 async function getBackupFolderId(drive) {
   const { data } = await drive.files.list({
-    pageSize: 10,
+    pageSize: 100,
     fields: "nextPageToken, files(id, name)"
   });
   const backupDir = data.files.find((d) => d.name === "mangabookmark-backup");
