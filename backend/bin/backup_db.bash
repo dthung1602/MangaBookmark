@@ -18,6 +18,7 @@ then
 
   echo ">> Extracting mongodb tools"
   tar -zxvf ${MONGO_TOOL_VERSION}.tgz
+  rm -f ${MONGO_TOOL_VERSION}.tgz
   export PATH="./${MONGO_TOOL_VERSION}/bin":${PATH}
 fi
 
@@ -26,10 +27,13 @@ mkdir dump
 echo mongodump --uri="${DB_URL}" --out=dump
 mongodump --uri="${DB_URL}" --out=dump
 
+if [[ -e "./${MONGO_TOOL_VERSION}" ]]; then rm -rf "./${MONGO_TOOL_VERSION}"; fi
+
 echo ">> Compressing data"
 TODAY=$(date +'%Y-%m-%d')
 echo tar -czvf "${TODAY}.tar.gz" dump
 tar -czvf "${TODAY}.tar.gz" dump
+rm -rf dump
 
 # cd to backend directory
 echo ">> Uploading data"
