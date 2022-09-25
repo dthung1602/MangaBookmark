@@ -22,10 +22,18 @@ class RedisBase {
 }
 
 class ResultCache extends RedisBase {
-  async addOne(key, message, encoder = JSON.stringify) {
+  DEAULT_TTL = 60 * 60;
+
+  async addOne(key, message, encoder = JSON.stringify, expireInSeconds = null) {
     this.connect();
     message = encoder(message);
-    return client.rpush("result:" + this.name + ":" + key, message);
+    key = "result:" + this.name + ":" + key;
+    const result = await client.rpush(key, message);
+    if (expireInSeconds !== undefined) {
+      expireInSeconds = expireInSeconds || this.DEAULT_TTL;
+      await client.expire(key, expireInSeconds);
+    }
+    return result;
   }
 
   async retrieveAll(key, decoder = JSON.parse) {
@@ -34,28 +42,6 @@ class ResultCache extends RedisBase {
     const messages = await client.lrange(key, 0, -1);
     await client.del(key);
     return messages.map(decoder);
-  }
-}
-
-class Counter extends RedisBase {
-  async inc(key) {
-    this.connect();
-    return client.incr("counter:" + this.name + ":" + key);
-  }
-
-  async dec(key) {
-    this.connect();
-    return client.decr("counter:" + this.name + ":" + key);
-  }
-
-  async set(key) {
-    this.connect();
-    return client.set("counter:" + this.name + ":" + key);
-  }
-
-  async get(key) {
-    this.connect();
-    return client.get("counter:" + this.name + ":" + key);
   }
 }
 
@@ -79,6 +65,5 @@ class Memo extends RedisBase {
 
 module.exports = {
   ResultCache,
-  Counter,
   Memo,
 };

@@ -13,14 +13,16 @@ const connectionPromise = amqplib
   .catch(logError);
 
 class Queue {
-  constructor(name) {
+  DEFAULT_OPTIONS = { messageTtl: 60 * 60 * 1000 };
+
+  constructor(name, options = {}) {
     this.name = name;
     this.channel = null;
     this.channelPromise = connectionPromise
       .then(() => connection.createChannel())
       .then((ch) => {
         this.channel = ch;
-        return ch.assertQueue(this.name);
+        return ch.assertQueue(this.name, { ...this.DEFAULT_OPTIONS, ...options });
       })
       .catch(logError);
   }

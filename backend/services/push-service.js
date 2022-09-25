@@ -57,7 +57,7 @@ async function pushNotificationsToUser(user, summaries, verbose = false) {
             });
           }
           if (err.statusCode === 404 || err.statusCode === 410) {
-            subscription.delete();
+            return subscription.delete();
           }
         }),
     ),
