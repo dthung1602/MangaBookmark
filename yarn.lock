@@ -1225,6 +1225,13 @@
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
 
+"@googleapis/drive@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@googleapis/drive/-/drive-3.0.1.tgz#82084d223dafbf8bf977396515052f5ea0a34395"
+  integrity sha512-/SSx3VR7p/IvHWyZcdx9Uw5UjFJcl6oHYr7j7OAw+YHS+dm55iKHGjQKtnrlHY0kuzZc7seY98nf7ko3ct9yjA==
+  dependencies:
+    googleapis-common "^5.0.1"
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"
@@ -6653,7 +6660,7 @@ good-listener@^1.2.2:
   dependencies:
     delegate "^3.1.2"
 
-google-auth-library@^7.0.2, google-auth-library@^7.14.0:
+google-auth-library@^7.14.0:
   version "7.14.1"
   resolved "https://registry.yarnpkg.com/google-auth-library/-/google-auth-library-7.14.1.tgz#e3483034162f24cc71b95c8a55a210008826213c"
   integrity sha512-5Rk7iLNDFhFeBYc3s8l1CqzbEBcdhwR193RlD4vSNFajIcINKI8W8P0JLmBpwymHqqWbX34pJDQu39cSy/6RsA==
@@ -6675,7 +6682,7 @@ google-p12-pem@^3.1.3:
   dependencies:
     node-forge "^1.3.1"
 
-googleapis-common@^5.0.2:
+googleapis-common@^5.0.1:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/googleapis-common/-/googleapis-common-5.1.0.tgz#845a79471c787e522e03c50d415467140e9e356a"
   integrity sha512-RXrif+Gzhq1QAzfjxulbGvAY3FPj8zq/CYcvgjzDbaBNCD6bUl+86I7mUs4DKWHGruuK26ijjR/eDpWIDgNROA==
@@ -6686,14 +6693,6 @@ googleapis-common@^5.0.2:
     qs "^6.7.0"
     url-template "^2.0.8"
     uuid "^8.0.0"
-
-googleapis@^89.0.0:
-  version "89.0.0"
-  resolved "https://registry.yarnpkg.com/googleapis/-/googleapis-89.0.0.tgz#03de7b1467c066d48b989f6a8384857ef6971e69"
-  integrity sha512-eH91BN+6R/Mp5uulrhKWGwKAbibfDNOIu1Oq8n12aFTiqb23/A9kVdRhituYVqhRqSWLr/kv1dpFbd6n+uN+7Q==
-  dependencies:
-    google-auth-library "^7.0.2"
-    googleapis-common "^5.0.2"
 
 got@^11.8.5:
   version "11.8.5"

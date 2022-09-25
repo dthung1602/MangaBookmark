@@ -27,7 +27,7 @@ mkdir dump
 echo mongodump --uri="${DB_URL}" --out=dump
 mongodump --uri="${DB_URL}" --out=dump
 
-if [[ -e "./${MONGO_TOOL_VERSION}" ]]; then rm -rf "./${MONGO_TOOL_VERSION}"; fi
+if [[ $1 = "--install-mongo-tool" ]]; then rm -rf "./${MONGO_TOOL_VERSION}"; fi
 
 echo ">> Compressing data"
 TODAY=$(date +'%Y-%m-%d')

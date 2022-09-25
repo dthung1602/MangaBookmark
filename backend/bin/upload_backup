@@ -3,7 +3,7 @@
 const fs = require("fs");
 const readline = require("readline");
 
-const { google } = require("googleapis");
+const google = require("@googleapis/drive");
 const mongoose = require("mongoose");
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useFindAndModify", false);
