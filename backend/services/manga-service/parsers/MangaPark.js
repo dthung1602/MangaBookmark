@@ -1,22 +1,80 @@
 const { fetchAndLoad } = require("../../scraping-service");
-
+const got = require("got");
 const URLRegex = /^https?:\/\/mangapark\.net\/title\/.+$/;
 const baseURL = "https://mangapark.net";
 
-async function parseChapters($) {
-  // TODO call GQL
-  const rows = $(".file-list-by-serial").find(".space-x-1 a");
-
-  const chapters = [];
-  for (let i = 0; i < rows.length; i++) {
-    const row = $(rows[i]);
-    chapters.push({
-      name: row.text().trim().slice(2).replaceAll("\n", "").replaceAll("  ", " ").trim(),
-      link: baseURL + row.attr("href"),
-    });
+const query = `
+query get_content_comicChapterRangeList(
+  $select: Content_ComicChapterRangeList_Select
+) {
+  get_content_comicChapterRangeList(select: $select) {
+    pager {
+      x
+      y
+    }
+    items {
+      chapterNodes {
+        data {
+          lang
+          title
+          urlPath
+        }
+      }
+    }
   }
+}
+`;
 
-  return chapters;
+function getGQLBody(comicId, range = null) {
+  return {
+    operationName: "get_content_comicChapterRangeList",
+    query: query,
+    variables: {
+      select: {
+        comicId: comicId,
+        isAsc: false,
+        range: range,
+      },
+    },
+  };
+}
+
+function comicIdFromUrl(url) {
+  if (url.endsWith("/")) {
+    url = url.slice(0, url.length - 1);
+  }
+  return url.split("/").pop().split("_")[0];
+}
+
+async function parseChapters(url) {
+  const res = await got
+    .post("https://mangapark.net/apo/", {
+      json: getGQLBody(comicIdFromUrl(url)),
+    })
+    .json();
+  let { pager, items } = res.data.get_content_comicChapterRangeList;
+  pager = pager.slice(1);
+
+  const additional = await Promise.all(
+    pager.map((range) =>
+      got
+        .post("https://mangapark.net/apo/", {
+          json: getGQLBody(comicIdFromUrl(url), range),
+        })
+        .json(),
+    ),
+  );
+  additional
+    .map((res) => res.data.get_content_comicChapterRangeList.items)
+    .forEach((moreItems) => (items = [...items, ...moreItems]));
+
+  return items
+    .map((chap) => chap.chapterNodes.filter((n) => n.data.lang === "en")[0])
+    .filter(Boolean)
+    .map((chap) => ({
+      name: chap.data.title,
+      link: baseURL + chap.data.urlPath,
+    }));
 }
 
 async function parseManga(url) {
@@ -27,7 +85,7 @@ async function parseManga(url) {
     link: url,
     image: $("main img.w-full").attr("src"),
     isCompleted: $("[status='completed']").length >= 1,
-    chapters: await parseChapters($),
+    chapters: await parseChapters(url),
   };
 }
 
