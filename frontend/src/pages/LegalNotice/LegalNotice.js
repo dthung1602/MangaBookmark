@@ -40,6 +40,7 @@ const LegalNotice = () => {
                 <Link href="#collect-data" title={"Information Collection"} />
                 <Link href="#use-data" title={"Use of Data"} />
                 <Link href="#transfer-data" title={"Transfer Of Data"} />
+                <Link href="#deletion-data" title={"Deletion Of Data"} />
                 <Link href="#disclosure-data" title={"Disclosure Of Data"} />
                 <Link href="#security-data" title="Security Of Data" />
                 <Link href="#service" title={"Service Providers"} />
@@ -52,7 +53,7 @@ const LegalNotice = () => {
           <PageHeader
             title={<Title level={2}>Legal notice</Title>}
             ghost={false}
-            extra={<i>Last updated 2020-09-06</i>}
+            extra={<i>Last updated 2022-10-02</i>}
           />
           <div className="body">
             <Title level={3} id="tldr">
@@ -61,7 +62,7 @@ const LegalNotice = () => {
             <ul>
               <li>You can use this website however you want, free of charge. Yay!</li>
               <li>We do NOT own or host any mangas on our site. We simply provide the bookmarking service.</li>
-              <li>Your data will be used for this site only.</li>
+              <li>We handle your data with care share with no other third party.</li>
               <li>We are NOT responsible for your misusage of this website.</li>
               <li>We reserve the right to add/change/remove features of the website or close it entirety.</li>
             </ul>
@@ -324,8 +325,9 @@ const LegalNotice = () => {
               organization or a country unless there are adequate controls in place including the security of your data
               and other personal information.
             </p>
+            <h3 id="deletion-data">Deletion Of Data</h3>
+            <p>When you close your account, all of your data will be deleted. No copy shall be kept.</p>
             <h3 id="disclosure-data">Disclosure Of Data</h3>
-            <h5>Legal Requirements</h5>
             <p>
               MangaBookmark may disclose your Personal Data in the good faith belief that such action is necessary to:
             </p>
