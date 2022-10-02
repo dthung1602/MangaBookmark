@@ -49,7 +49,7 @@ async function pushNotificationsToUser(user, summaries, verbose = false) {
         .then(() => {
           successCount += 1;
         })
-        .catch((err) => {
+        .catch(async (err) => {
           if (verbose) {
             logger.error(WEBPUSH_FAILED, {
               error: "" + err,
@@ -57,7 +57,7 @@ async function pushNotificationsToUser(user, summaries, verbose = false) {
             });
           }
           if (err.statusCode === 404 || err.statusCode === 410) {
-            return subscription.delete();
+            await subscription.delete();
           }
         }),
     ),
