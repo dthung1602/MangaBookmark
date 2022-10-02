@@ -70,11 +70,12 @@ With this web app, you can add a manga to your collection by
 clicking the `+` button and paste the link of the manga detail page.
 
 `MangaBookmark` features include:
-- Organizing mangas by shelves (to read, reading, waiting, dropped, finished)
+- Organizing mangas by shelves (to read, reading, waiting, dropped, reread, finished)
 - Search, filter mangas by name, shelf, status, created date, etc.
 - Mark each chapter as read / unread
 - Receive web push notifications when a new chapter is released
 - Mobile friendly!
+- Progressive web app (can be installed just like a native app)
 
 ### Built With
 * [MongoDB](https://www.mongodb.com/)
