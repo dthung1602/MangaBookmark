@@ -266,8 +266,8 @@ const Home = () => {
               <Col xs={24} md={8}>
                 <a
                   style={{ backgroundImage: `url("${TECH_LOGO_SPRITE}")` }}
-                  className="img-heroku-logo"
-                  href="https://www.heroku.com/"
+                  className="img-google-app-engine-logo"
+                  href="https://cloud.google.com/appengine"
                   rel="noopener noreferrer"
                   target="_blank"
                 />

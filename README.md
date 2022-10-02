@@ -19,7 +19,7 @@
   <p align="center">
     A web app that allow users to bookmark mangas from scanlation sites.
     <br />
-    <a href="https://mangabookmark.herokuapp.com/"><strong>Visit the website »</strong></a>
+    <a href="https://manga--bookmark.appspot.com/"><strong>Visit the website »</strong></a>
     <br />
     <br />
     <a href="https://github.com/dthung1602/MangaBookmark/issues">Report Bug</a>

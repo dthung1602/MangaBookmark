@@ -26,7 +26,13 @@ const { Footer: AntFooter } = Layout;
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const logos = ["img-ant-design-logo", "img-express-js-logo", "img-mongodb-logo", "img-looka-logo", "img-heroku-logo"];
+  const logos = {
+    "img-ant-design-logo": "https://ant.design",
+    "img-express-js-logo": "https://expressjs.com/",
+    "img-mongodb-logo": "https://www.mongodb.com/",
+    "img-looka-logo": "https://looka.com",
+    "img-google-app-engine-logo-light": "https://cloud.google.com/appengine",
+  };
   return (
     <AntFooter className="footer">
       <Row className="footer-upper">
@@ -65,12 +71,12 @@ const Footer = () => {
         </Col>
         <Col xs={24} sm={8} lg={4} className="footer-power-by">
           <div className="footer-row-head">Powered by</div>
-          {logos.map((logo) => (
+          {Object.entries(logos).map(([logo, link]) => (
             <div key={logo}>
               <a
                 style={{ backgroundImage: `url("${TECH_LOGO_SPRITE}")` }}
                 className={logo}
-                href="https://ant.design"
+                href={link}
                 rel="noopener noreferrer"
                 target="_blank"
               />
