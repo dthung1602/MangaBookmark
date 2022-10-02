@@ -106,9 +106,9 @@ Make sure you have the API key and secret.
     ```sh
     yarn install
     ```
-4. Copy file `.env.example` to `.env` and add your API keys
+4. In `backend` directory, copy file `.env.example` to `.env` and add your API keys
     ```sh
-    cp .env.example .env
+    cp backend/.env.example backend/.env
     ```
 
 ### Start the development server
