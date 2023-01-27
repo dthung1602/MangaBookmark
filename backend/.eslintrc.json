@@ -6,10 +6,11 @@
     "jest/globals": true
   },
   "plugins": ["jest"],
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaVersion": 2018,
-    "Type": "module"
+    "Type": "module",
+    "requireConfigFile": false
   },
   "ignorePatterns": ["/node_modules/**", "/coverage/**", "/frontend-build/**", "/upload/**", "/cache/**", "dump/**"],
   "extends": [

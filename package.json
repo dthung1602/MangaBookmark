@@ -11,10 +11,10 @@
     "frontend"
   ],
   "engines": {
-    "node": "^16.13.1"
+    "node": "~18.12.1"
   },
   "scripts": {
-    "start": "node backend/bin/www",
+    "start": "node backend/bin/www.js",
     "build": "chmod +x ./build.sh && ./build.sh",
     "clear-build": "rm -rf frontend/build backend/frontend-build",
     "lint-fe": "frontend/node_modules/.bin/eslint frontend --fix",
