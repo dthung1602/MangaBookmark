@@ -64,7 +64,7 @@ const FAB = ({ config }) => {
         <Tooltip
           key={title}
           placement="left"
-          visible={showExpandBtns}
+          open={showExpandBtns}
           title={title}
           overlayClassName="fab-tooltip-overlay"
         >

@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { UserAPI } from "../api";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "../components/GlobalContext";
 import { notifyError } from "../utils/error-handler";
 
 const useLogoutAPI = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [globalContext, setGlobalContext] = useContext(GlobalContext);
   const { user } = globalContext;
 
@@ -16,7 +16,7 @@ const useLogoutAPI = () => {
           ...globalContext,
           user: null,
         });
-        history.push("/");
+        navigate("/");
       })
       .catch(notifyError);
   };

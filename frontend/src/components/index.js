@@ -22,7 +22,7 @@ export { default as MangaStatus } from "./MangaStatus";
 export { default as MangaTabs } from "./MangaTabs";
 export { default as MangaUrlInput } from "./MangaUrlInput";
 export { default as MangaUserInputProps } from "./MangaUserInputProps";
-export { default as PrivateRoute } from "./PrivateRoute";
+export { default as RequireLogin } from "./RequireLogin";
 import * as ScreenSize from "./ScreenSize";
 export { ScreenSize };
 import * as SocialNetworkButton from "./SocialNetworkButton";

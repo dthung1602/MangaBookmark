@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes as Switch } from "react-router-dom";
 import { QueryParamProvider } from "use-query-params";
 
 import {
@@ -14,7 +14,7 @@ import {
   ROUTE_REGISTER,
 } from "./utils/constants";
 import { GlobalContextProvider } from "./components/GlobalContext";
-import { ErrorBoundary, PrivateRoute, FullScreenLoading, NotificationPrompt } from "./components";
+import { ErrorBoundary, RequireLogin, FullScreenLoading, NotificationPrompt } from "./components";
 
 import Home from "./pages/Home"; // load home page eagerly for better UX
 const Account = lazy(() => import("./pages/Account"));
@@ -40,11 +40,20 @@ const App = () => {
                 <Route path={ROUTE_LEGAL_NOTICE} component={LegalNotice} />
                 <Route path={ROUTE_LOGIN} component={Login} />
                 <Route path={ROUTE_REGISTER} component={Register} />
-                <PrivateRoute path={ROUTE_ACCOUNT} component={Account} />
-                <PrivateRoute path={ROUTE_ALL_MANGAS} component={AllMangas} />
-                <PrivateRoute path={ROUTE_QUICK_ACCESS} component={QuickAccess} />
-                <PrivateRoute path={ROUTE_MANGA_DETAIL} component={MangaDetail} />
-                <PrivateRoute path={ROUTE_SEARCH} component={Search} />
+                <Route path={ROUTE_ACCOUNT} element={<RequireLogin path={ROUTE_ACCOUNT} component={Account} />} />
+                <Route
+                  path={ROUTE_ALL_MANGAS}
+                  element={<RequireLogin path={ROUTE_ALL_MANGAS} component={AllMangas} />}
+                />
+                <Route
+                  path={ROUTE_QUICK_ACCESS}
+                  element={<RequireLogin path={ROUTE_QUICK_ACCESS} component={QuickAccess} />}
+                />
+                <Route
+                  path={ROUTE_MANGA_DETAIL}
+                  element={<RequireLogin path={ROUTE_MANGA_DETAIL} component={MangaDetail} />}
+                />
+                <Route path={ROUTE_SEARCH} element={<RequireLogin path={ROUTE_SEARCH} component={Search} />} />
                 <Route path="*" component={NotFound} />
               </Switch>
             </GlobalContextProvider>

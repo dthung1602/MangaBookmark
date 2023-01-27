@@ -1,14 +1,14 @@
 import { Button } from "antd";
 import { HomeOutlined } from "@ant-design/icons";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import DefaultLayout from "../DefaultLayout";
 import { ROUTE_HOME } from "../../utils/constants";
 import ERROR_IMG from "../../assets/error.webp";
 
 const NotFound = () => {
-  const history = useHistory();
-  const backHome = () => history.push(ROUTE_HOME);
+  const navigate = useNavigate();
+  const backHome = () => navigate(ROUTE_HOME);
 
   document.title = "Not found | MangaBookmark";
 

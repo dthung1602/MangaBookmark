@@ -125,7 +125,7 @@ const Home = () => {
               <iframe
                 className="iframe"
                 title="demo-video"
-                src={`https://www.youtube.com/embed/${EMBED_DEMO_VIDEO_ID}?autoplay=1`}
+                src={`https://www.js.youtube.com/embed/${EMBED_DEMO_VIDEO_ID}?autoplay=1`}
                 frameBorder="0"
                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen

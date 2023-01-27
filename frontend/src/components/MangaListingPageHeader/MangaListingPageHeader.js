@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
-import { Button, PageHeader as AntPageHeader, Grid } from "antd";
+import { PageHeader as AntPageHeader } from "@ant-design/pro-layout";
+import { Button, Grid } from "antd";
 import { PlusOutlined, ReloadOutlined, FileTextOutlined } from "@ant-design/icons";
 
 import "./MangaListingPageHeader.less";

@@ -13,7 +13,7 @@ const MangaTableMobile = () => {
       {dataSource.map((manga) => {
         if (manga.isSkeleton) {
           return (
-            <Card>
+            <Card key={manga._id}>
               <Skeleton active key={manga._id} />
             </Card>
           );

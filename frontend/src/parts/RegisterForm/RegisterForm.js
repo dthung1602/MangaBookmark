@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button, Form, Input } from "antd";
 import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 
@@ -9,7 +9,7 @@ import { throwOnCriticalErrors, formatErrors, notifyError } from "../../utils/er
 import { UserAPI } from "../../api";
 
 const RegisterForm = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   // eslint-disable-next-line no-unused-vars
   const [globalState, updateGlobalState] = useContext(GlobalContext);
   const [form] = Form.useForm();
@@ -23,7 +23,7 @@ const RegisterForm = () => {
 
       if (response.ok) {
         updateGlobalState({ user: data });
-        history.push(ROUTE_ALL_MANGAS);
+        navigate(ROUTE_ALL_MANGAS);
       } else {
         form.setFields(formatErrors(data.errors));
       }

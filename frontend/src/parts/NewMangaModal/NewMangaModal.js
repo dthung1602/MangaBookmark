@@ -23,7 +23,7 @@ const NewMangaModal = ({ open, onCancel, addMangaDone }) => {
   return (
     <MangaContext.Provider value={mangaContext}>
       <Modal
-        visible={open}
+        open={open}
         onCancel={wrappedOnCancel}
         width={650}
         title="Add new manga"

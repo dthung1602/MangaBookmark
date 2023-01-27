@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { useHistory, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button, Form, Input } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 
@@ -11,7 +11,7 @@ import { UserAPI } from "../../api";
 import "./LoginForm.less";
 
 const LoginForm = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   // eslint-disable-next-line no-unused-vars
   const [globalState, updateGlobalState] = useContext(GlobalContext);
@@ -25,7 +25,7 @@ const LoginForm = () => {
 
       if (response.ok) {
         updateGlobalState({ user: data });
-        history.push(location?.state?.next || ROUTE_QUICK_ACCESS);
+        navigate(location?.state?.next || ROUTE_QUICK_ACCESS);
       } else {
         form.setFields(formatErrors(data.errors));
       }

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button, Space, Grid } from "antd";
 import { HomeOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 
@@ -13,9 +13,9 @@ import "./WorkInProgress.less";
 const { useBreakpoint } = Grid;
 
 const WorkInProgress = () => {
-  const history = useHistory();
-  const backHome = () => history.push(ROUTE_HOME);
-  const back = () => history.goBack();
+  const navigate = useNavigate();
+  const backHome = () => navigate(ROUTE_HOME);
+  const back = () => navigate(-1);
 
   const imgSrc = useBreakpoint().lg ? workInProgressImageLong : workInProgressImageFull;
 
@@ -26,7 +26,7 @@ const WorkInProgress = () => {
 
   return (
     <div className="work-in-progress">
-      <img src={imgSrc} />
+      <img alt="Work in progress" src={imgSrc} />
       <CornerImageSource name="CargoCollective" url="http://cargocollective.com/pedrov/filter/bcp/Work-In-Progress" />
       <div className="work-in-progress-buttons">
         <Space size="middle">

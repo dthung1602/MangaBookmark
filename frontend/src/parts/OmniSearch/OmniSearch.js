@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Dropdown } from "antd";
 
 import { Desktop, Mobile } from "../../components/ScreenSize";
@@ -15,7 +15,7 @@ import "./OmniSearch.less";
 // const { Desktop, Mobile } = ScreenSize;
 
 const OmniSearch = ({ onSearch }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [searchResultVisible, setSearchResultVisible] = useState(false);
 
@@ -34,7 +34,7 @@ const OmniSearch = ({ onSearch }) => {
     const term = searchTerm.trim();
     if (event.key === "Enter" && term) {
       onSearch(event);
-      history.push(buildSearchRoute(term));
+      navigate(buildSearchRoute(term));
     }
   };
 
@@ -68,7 +68,7 @@ const OmniSearch = ({ onSearch }) => {
         render={() => (
           <Dropdown
             placement="bottomRight"
-            visible={searchResultVisible}
+            open={searchResultVisible}
             trigger={[]}
             overlay={<OmniSearchResult searchContext={searchContext} />}
           >

@@ -38,7 +38,7 @@ const UserNoteModal = ({ open, onCancel }) => {
   );
 
   return (
-    <Modal visible={open} width={650} onCancel={onCancel} title="Note" footer={footer}>
+    <Modal open={open} width={650} onCancel={onCancel} title="Note" footer={footer}>
       <Input.TextArea rows={7} disabled={isLoading} value={note} onChange={(event) => setNote(event.target.value)} />
     </Modal>
   );

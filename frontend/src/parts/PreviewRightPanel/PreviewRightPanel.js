@@ -1,6 +1,6 @@
 import { useContext, useCallback } from "react";
 
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Empty, Spin, Typography, Popconfirm } from "antd";
 import { FullscreenOutlined, SyncOutlined, DeleteOutlined } from "@ant-design/icons";
 
@@ -21,9 +21,9 @@ const { Title } = Typography;
 
 const PreviewRightPanel = () => {
   const { manga, isLoading, isMarkingChapters, updateManga, deleteManga } = useContext(MangaContext);
-  const history = useHistory();
+  const navigate = useNavigate();
 
-  const viewDetail = useCallback(() => history.push(buildMangaDetailRoute(manga._id)), [manga, history]);
+  const viewDetail = useCallback(() => navigate(buildMangaDetailRoute(manga._id)), [manga, navigate]);
 
   if (manga === null) {
     return (

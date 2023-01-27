@@ -1,4 +1,5 @@
-import { Anchor, Grid, Layout, PageHeader, Typography, Divider, Button } from "antd";
+import { PageHeader } from "@ant-design/pro-layout";
+import { Anchor, Grid, Layout, Typography, Divider, Button } from "antd";
 import { GithubOutlined, LinkedinOutlined, MailOutlined, ArrowUpOutlined } from "@ant-design/icons";
 
 import { NavBar, Footer } from "../../parts";

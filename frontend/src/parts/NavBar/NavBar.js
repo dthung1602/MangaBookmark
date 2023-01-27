@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 import PropTypes from "prop-types";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Badge, Drawer, Layout, Menu } from "antd";
 import { BookOutlined, MenuOutlined, SearchOutlined, StarOutlined } from "@ant-design/icons";
 
@@ -18,15 +18,13 @@ const { Header } = Layout;
 const { Item, SubMenu } = Menu;
 
 const NavBar = ({ hideLogo = false }) => {
-  const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
-    return history.listen((location) => {
-      if (!location.hash) {
-        setTimeout(scrollToTop, 300);
-      }
-    });
-  }, [history]);
+    if (!location.hash) {
+      setTimeout(scrollToTop, 300);
+    }
+  }, [location]);
 
   const { mobileMenuVisible, showMenu, closeMenu } = useMobileMenuVisibility();
 
@@ -85,7 +83,7 @@ const NavBar = ({ hideLogo = false }) => {
               width={""}
               closable={true}
               onClose={closeMenu}
-              visible={mobileMenuVisible}
+              open={mobileMenuVisible}
             >
               <Menu mode="inline" onClick={closeMenu}>
                 {userIndependentMenu}

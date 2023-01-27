@@ -2,7 +2,7 @@ import { useContext } from "react";
 
 import { Button, Dropdown, Menu } from "antd";
 import { DeleteOutlined, FullscreenOutlined, MoreOutlined, RetweetOutlined } from "@ant-design/icons";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { buildMangaDetailRoute } from "../../../utils/route";
 import { MangaContext } from "../../../contexts";
@@ -10,8 +10,8 @@ import "./MangaMenu.less";
 
 const MangaMenu = () => {
   const { manga, updateManga, deleteManga } = useContext(MangaContext);
-  const history = useHistory();
-  const showDetail = () => history.push(buildMangaDetailRoute(manga._id));
+  const navigate = useNavigate();
+  const showDetail = () => navigate(buildMangaDetailRoute(manga._id));
 
   return (
     <Dropdown
