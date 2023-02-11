@@ -1,6 +1,6 @@
-const { pickCopy } = require("../utils");
+import { pickCopy } from "../utils/index.js";
 
-module.exports = async function (user, data) {
+export default async function (user, data) {
   pickCopy(user, data, ["username", "email", "avatar", "note"], true);
   return user.save();
-};
+}

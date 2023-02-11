@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-const FuzzySearching = require("mongoose-fuzzy-searching");
+import mongoose from "mongoose";
+import FuzzySearching from "mongoose-fuzzy-searching";
 
-const { AdvanceQuery } = require("./plugins");
+import { AdvanceQuery } from "./plugins/index.js";
 
 /**
  * @swagger
@@ -313,4 +313,4 @@ Object.assign(MangaSchema.statics, {
 
 let Manga = mongoose.model("Manga", MangaSchema);
 
-module.exports = Manga;
+export default Manga;

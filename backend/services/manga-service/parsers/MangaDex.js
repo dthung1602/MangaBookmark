@@ -1,6 +1,7 @@
-const { uniq, uniqBy, flatten } = require("lodash");
+import lodash from "lodash";
+import { fetch } from "../../scraping-service.js";
 
-const { fetch } = require("../../scraping-service");
+const { uniq, uniqBy, flatten } = lodash;
 const URLRegex = /^https?:\/\/mangadex\.org\/title\/([^/]+)(\/.*)?/;
 
 async function parseChapters(id) {
@@ -135,7 +136,7 @@ const availableTags = [
   "Zombies",
 ];
 
-module.exports = {
+export default {
   active: true,
   lang: "en",
   site: "MangaDex",

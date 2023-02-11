@@ -1,5 +1,5 @@
-const { fetchAndLoad, filterNodeWithHeader, extractAuthorsFromText } = require("../../scraping-service");
-const { OmnisearchScanlationMangaResult } = require("../../../models");
+import { fetchAndLoad, filterNodeWithHeader, extractAuthorsFromText } from "../../scraping-service.js";
+import { OmnisearchScanlationMangaResult } from "../../../models/index.js";
 
 function buildSearchURL(term) {
   term = term.trim().toLowerCase().replaceAll(" ", "_");
@@ -32,7 +32,7 @@ async function search(term) {
     .toArray();
 }
 
-module.exports = {
+export default {
   site: "Manganato",
   search,
 };

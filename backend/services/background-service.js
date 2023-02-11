@@ -1,4 +1,9 @@
-const { spawn } = require("child_process");
+import { spawn } from "child_process";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const BIN_DIR = `${__dirname}/../bin`;
 
@@ -23,4 +28,8 @@ function startBackgroundScript(entrypoint, args) {
   child.stderr.on("data", console.error);
 }
 
-module.exports = { startUpdateMangaProcess, startBackupProcess };
+export { startUpdateMangaProcess, startBackupProcess };
+export default {
+  startUpdateMangaProcess,
+  startBackupProcess,
+};

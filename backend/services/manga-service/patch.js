@@ -1,10 +1,11 @@
-const { pick } = require("lodash");
+import lodash from "lodash";
 
-const { Manga } = require("../../models");
+const { pick } = lodash;
+import { Manga } from "../../models/index.js";
 const fields = ["shelf", "note", "isCompleted", "hidden"];
 const nextRereadChapterFields = ["name", "link"];
 
-module.exports = async function (manga, data) {
+export default async function (manga, data) {
   Object.assign(manga, pick(data, fields));
 
   if (manga.shelf === Manga.Shelf.FINISHED) {
@@ -26,4 +27,4 @@ module.exports = async function (manga, data) {
   }
 
   return manga.save();
-};
+}

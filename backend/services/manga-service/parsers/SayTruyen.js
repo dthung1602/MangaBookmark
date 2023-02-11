@@ -1,4 +1,4 @@
-const { fetchAndLoad } = require("../../scraping-service");
+import { fetchAndLoad } from "../../scraping-service.js";
 
 const URLRegex = /^https?:\/\/saytruyen\.(net|com)\/truyen-.+$/;
 
@@ -29,7 +29,7 @@ async function parseManga(url) {
   };
 }
 
-module.exports = {
+export default {
   active: false,
   lang: "vi",
   site: "SayTruyen",

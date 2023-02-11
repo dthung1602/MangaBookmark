@@ -1,10 +1,11 @@
-const { Router } = require("@awaitjs/express");
-const router = Router({ mergeParams: true });
-const passport = require("passport");
+import { Router } from "@awaitjs/express";
+import * as passport from "passport";
 
-const { removePassword } = require("./utils");
-const UserService = require("../services/user-service");
-const { UserUnlinkAccountValidator, UserThirdPartyAuthValidator } = require("../services/validation-service");
+import { removePassword } from "./utils.js";
+import UserService from "../services/user-service/index.js";
+import { UserUnlinkAccountValidator, UserThirdPartyAuthValidator } from "../services/validation-service/index.js";
+
+const router = Router({ mergeParams: true });
 
 //-----------------------------------
 //  Authentication with third party
@@ -101,4 +102,4 @@ router.deleteAsync("/", UserUnlinkAccountValidator, async (req, res) => {
   res.json(removePassword(user));
 });
 
-module.exports = router;
+export default router;

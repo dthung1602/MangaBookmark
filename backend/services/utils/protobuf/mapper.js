@@ -1,5 +1,8 @@
-const { TYPES } = require("./decoder");
-const { isString } = require("lodash");
+import lodash from "lodash";
+
+import { TYPES } from "./decoder.js";
+
+const { isString } = lodash;
 
 /**
  * Expected schema format:
@@ -53,4 +56,7 @@ function mapProtoToSchema(proto, schema, skipUndefined = true) {
   return obj;
 }
 
-module.exports = { mapProtoToSchema };
+export { mapProtoToSchema };
+export default {
+  mapProtoToSchema,
+};

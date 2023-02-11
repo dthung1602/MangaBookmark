@@ -1,13 +1,11 @@
-const mongoose = require("mongoose");
-
-const { DB_URL } = require("../config");
+import mongoose from "mongoose";
+import { DB_URL } from "../config.js";
 
 const DB_DEFAULT_OPTIONS = {
   useNewUrlParser: true,
-  useFindAndModify: false,
-  useCreateIndex: true,
   useUnifiedTopology: true,
 };
+mongoose.set("strictQuery", true);
 
 async function ensureDBConnection(url = DB_URL, options = {}) {
   const state = mongoose.connection.readyState;
@@ -27,7 +25,8 @@ const DBConnectionMiddleware = async (req, res, next) => {
   next();
 };
 
-module.exports = {
+export { ensureDBConnection, closeDBConnection, DBConnectionMiddleware, DB_DEFAULT_OPTIONS };
+export default {
   ensureDBConnection,
   closeDBConnection,
   DBConnectionMiddleware,

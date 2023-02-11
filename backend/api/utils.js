@@ -20,4 +20,11 @@ function removePassword(user) {
   return user;
 }
 
-module.exports = { redirectHome, removeUndefinedAttrs, removePassword };
+export { redirectHome };
+export { removeUndefinedAttrs };
+export { removePassword };
+export default {
+  redirectHome,
+  removeUndefinedAttrs,
+  removePassword,
+};

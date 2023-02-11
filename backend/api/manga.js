@@ -1,11 +1,9 @@
-const { Router } = require("@awaitjs/express");
-const { pick, cloneDeep, omit } = require("lodash");
-const router = Router();
+import { Router } from "@awaitjs/express";
+import lodash from "lodash";
 
-const { removeUndefinedAttrs } = require("./utils");
-const MangaService = require("../services/manga-service");
-
-const {
+import { removeUndefinedAttrs } from "./utils.js";
+import MangaService from "../services/manga-service/index.js";
+import {
   MANGA_FILTER_FIELDS,
   MangaFilterValidator,
   MarkChapterValidator,
@@ -15,7 +13,11 @@ const {
   MangaPatchValidator,
   MangaUpdateMultipleValidator,
   MangaPermissionValidator,
-} = require("../services/validation-service");
+} from "../services/validation-service/index.js";
+
+const { pick, cloneDeep, omit } = lodash;
+
+const router = Router();
 
 function handleMangaParsingError(res, e) {
   res.status(400).json({
@@ -642,4 +644,4 @@ router.postAsync("/update-multiple/pop-result", async (req, res) => {
   res.json({ status, result });
 });
 
-module.exports = router;
+export default router;

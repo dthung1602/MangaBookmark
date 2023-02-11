@@ -1,28 +1,36 @@
-const fs = require("fs");
-const { isString, uniqBy, uniq } = require("lodash");
+import fs from "fs";
+import lodash from "lodash";
+import path from "path";
 
-const { MangaSiteRedirectedException } = require("../../scraping-service");
+import { MangaSiteRedirectedException } from "../../scraping-service.js";
+
+import { fileURLToPath } from "url";
+const { isString, uniqBy, uniq } = lodash;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const parsers = [];
 const parserRegexMapping = {};
 let supportedSites = [];
 let availableTags = [];
 
-const excludedFiles = new Set(["utils", "index"]);
+const excludedFiles = new Set(["mangaplus.schema.js", "index.js"]);
 
 fs.readdirSync(__dirname)
   .filter((file) => file.endsWith(".js"))
-  .map((file) => file.replace(".js", ""))
   .filter((file) => !excludedFiles.has(file))
-  .forEach((file) => {
-    const parserModule = require("./" + file);
+  .forEach(async (file) => {
+    const parserModule = (await import("./" + file)).default;
     supportedSites.push({
       name: file,
       homepage: parserModule.homepage,
       lang: parserModule.lang,
       active: parserModule.active,
     });
-    availableTags = availableTags.concat(parserModule.availableTags);
+    if (parserModule.availableTags) {
+      availableTags = availableTags.concat(parserModule.availableTags);
+    }
     parsers.push(parserModule);
     parserRegexMapping[file] = parserModule.URLRegex;
   });
@@ -91,7 +99,9 @@ function postProcessManga(manga) {
   }
 }
 
-module.exports = {
+export { parsers, supportedSites, availableTags, parserRegexMapping, getParser, getSiteByName, parseManga };
+
+export default {
   parsers,
   supportedSites,
   availableTags,

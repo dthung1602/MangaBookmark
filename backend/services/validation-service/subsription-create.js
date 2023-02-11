@@ -1,10 +1,11 @@
-const { check } = require("express-validator");
+import * as expressValidator from "express-validator";
+import { Subscription } from "../../models/index.js";
+import { ErrorFormatter } from "./mixins/index.js";
 
-const { Subscription } = require("../../models");
+const { check } = expressValidator;
 const { OSs, Browsers } = Subscription;
-const { ErrorFormatter } = require("./mixins");
 
-module.exports = [
+export default [
   check("os").exists().isIn(Object.values(OSs)),
   check("browser").exists().isIn(Object.values(Browsers)),
   check("endpoint")

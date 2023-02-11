@@ -1,5 +1,6 @@
-const { pick } = require("lodash");
+import lodash from "lodash";
 
+const { pick } = lodash;
 const summaryFields = ["_id", "name", "site", "link", "newChapCount"];
 
 const Statuses = Object.freeze({
@@ -47,4 +48,4 @@ class MangaUpdateSummary {
   }
 }
 
-module.exports = MangaUpdateSummary;
+export default MangaUpdateSummary;

@@ -1,11 +1,11 @@
-const {
+import {
   load,
   fetch,
   fetchAndLoad,
   extractNamesFromText,
   extractTagsFromNode,
   extractAuthorsFromText,
-} = require("../../scraping-service");
+} from "../../scraping-service.js";
 
 const URLRegex = /^https?:\/\/truyenqq(top|vip|pro)\.com\/truyen-tranh\/.+$/;
 
@@ -78,7 +78,7 @@ async function parseManga(url) {
   };
 }
 
-module.exports = {
+export default {
   active: true,
   lang: "vi",
   site: "TruyenQQ",

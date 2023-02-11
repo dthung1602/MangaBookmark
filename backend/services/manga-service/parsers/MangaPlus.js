@@ -1,9 +1,10 @@
-const { fetch, extractNamesFromText } = require("../../scraping-service");
-const { protobuf } = require("../../utils");
+import { fetch, extractNamesFromText } from "../../scraping-service.js";
+import { protobuf } from "../../utils/index.js";
+
+import schema from "./mangaplus.schema.js";
 
 const URLRegex = /^https?:\/\/mangaplus\.shueisha\.co\.jp\/titles\/\d+/;
 const BaseURL = "https://mangaplus.shueisha.co.jp";
-const schema = require("./mangaplus.schema.json");
 
 function parseChapters(chapterListGroup) {
   return chapterListGroup.map((ch) => ({
@@ -51,7 +52,7 @@ async function parseManga(url) {
   };
 }
 
-module.exports = {
+export default {
   active: true,
   lang: "en",
   site: "MangaPlus",

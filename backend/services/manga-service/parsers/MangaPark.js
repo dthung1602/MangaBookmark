@@ -1,5 +1,6 @@
-const { fetchAndLoad } = require("../../scraping-service");
-const got = require("got");
+import { fetchAndLoad } from "../../scraping-service.js";
+import got from "got";
+
 const URLRegex = /^https?:\/\/mangapark\.net\/title\/.+$/;
 const baseURL = "https://mangapark.net";
 
@@ -89,7 +90,7 @@ async function parseManga(url) {
   };
 }
 
-module.exports = {
+export default {
   active: true,
   lang: "en",
   site: "MangaPark",

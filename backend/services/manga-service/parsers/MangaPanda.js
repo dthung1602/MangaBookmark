@@ -1,4 +1,4 @@
-const { fetchAndLoad } = require("../../scraping-service");
+import { fetchAndLoad } from "../../scraping-service.js";
 
 const URLRegex = /^https?:\/\/www\.mangapanda\.com\/.+$/;
 const baseURL = "http://www.mangapanda.com";
@@ -29,7 +29,7 @@ async function parseManga(url) {
   };
 }
 
-module.exports = {
+export default {
   active: false,
   lang: "en",
   site: "MangaPanda",

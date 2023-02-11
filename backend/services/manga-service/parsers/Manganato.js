@@ -1,10 +1,10 @@
-const { fetchAndLoad } = require("../../scraping-service");
-const {
+import { fetchAndLoad } from "../../scraping-service.js";
+import {
   extractAuthorsFromNode,
   extractTagsFromNode,
   extractNamesFromText,
   cleanText,
-} = require("../../scraping-service");
+} from "../../scraping-service.js";
 
 const URLRegex = /^https?:\/\/(read)?manganato\.com\/manga.+$/;
 
@@ -92,7 +92,7 @@ const availableTags = [
   "Yuri",
 ];
 
-module.exports = {
+export default {
   active: true,
   lang: "en",
   site: "Manganato",

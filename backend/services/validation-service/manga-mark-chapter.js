@@ -1,9 +1,10 @@
-const { check } = require("express-validator");
+import * as expressValidator from "express-validator";
+import MangaPermissionValidator from "./manga-permission.js";
+import { ErrorFormatter } from "./mixins/index.js";
 
-const MangaPermissionValidator = require("./manga-permission");
-const { ErrorFormatter } = require("./mixins");
+const { check } = expressValidator;
 
-module.exports = [
+export default [
   check("isRead").exists().isBoolean().toBoolean(),
   check("chapters").exists().isArray(),
   MangaPermissionValidator,

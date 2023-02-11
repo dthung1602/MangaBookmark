@@ -1,9 +1,11 @@
-const { Router } = require("@awaitjs/express");
-const router = Router();
+import { Router } from "@awaitjs/express";
 
-const { version } = require("../swaggerDef").info;
-const { supportedSites, availableTags } = require("../services/manga-service/parsers");
-const { supportedSites: supportedSearchSites } = require("../services/scanlation-site-searching-service");
+import { info } from "../swaggerDef.js";
+import { supportedSites, availableTags } from "../services/manga-service/parsers/index.js";
+import { supportedSites as supportedSearchSites } from "../services/scanlation-site-searching-service/index.js";
+
+const router = Router();
+const { version } = info;
 
 //---------------------------------------
 //  Get global meta data of this site
@@ -41,4 +43,4 @@ router.getAsync("/", async (req, res) => {
   res.json({ version, supportedSites, supportedSearchSites, availableTags });
 });
 
-module.exports = router;
+export default router;

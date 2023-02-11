@@ -1,4 +1,4 @@
-const { Manga } = require("../../models");
+import { Manga } from "../../models/index.js";
 
 async function markChapters(manga, isRead, chapterLinks) {
   for (let i = 0; i < chapterLinks.length; i++) {
@@ -16,4 +16,4 @@ async function markChapters(manga, isRead, chapterLinks) {
   return manga.save();
 }
 
-module.exports = markChapters;
+export default markChapters;

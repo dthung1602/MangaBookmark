@@ -1,5 +1,6 @@
-const Queue = require("./queue");
-const { ResultCache, Counter, Memo } = require("./redis");
+import Queue from "./queue.js";
+import redis from "./redis.js";
+const { ResultCache, Counter, Memo } = redis;
 
 function closeAllConnections() {
   return Promise.allSettled([Queue.closeConnection(), ResultCache.closeConnection()]);
@@ -17,7 +18,17 @@ function getMangaUpdateStatusMemo() {
   return new Memo("manga-update-status");
 }
 
-module.exports = {
+export {
+  Queue,
+  ResultCache,
+  Counter,
+  Memo,
+  getMangaUpdateQueue,
+  getMangaUpdateResultCache,
+  getMangaUpdateStatusMemo,
+  closeAllConnections,
+};
+export default {
   Queue,
   ResultCache,
   Counter,

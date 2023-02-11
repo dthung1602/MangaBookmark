@@ -1,10 +1,10 @@
-const {
+import {
   fetchAndLoad,
   removeMangaNamePrefix,
   findNodeWithHeaderAndExtractNameFromText,
   findNodeWithHeaderAndExtractTagsFromText,
   findNodeWithHeaderAndExtractAuthorFromText,
-} = require("../../scraping-service");
+} from "../../scraping-service.js";
 
 const URLRegex = /^https?:\/\/kissmanga\.org\/manga\/.+$/;
 const BaseURL = "https://kissmanga.org";
@@ -85,7 +85,7 @@ const availableTags = [
   "Yuri manga",
 ];
 
-module.exports = {
+export default {
   active: false,
   lang: "en",
   site: "KissManga",

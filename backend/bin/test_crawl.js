@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-const readline = require("readline");
+import readline from "readline";
 
-const { Manga } = require("../models");
-const db = require("../services/db-service");
-const MangaService = require("../services/manga-service");
+import { Manga } from "../models";
+import db from "../services/db-service";
+import MangaService from "../services/manga-service";
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 
@@ -17,13 +17,10 @@ function readLine(questionText) {
 async function main() {
   const action = process.argv[2] || (await readLine("Action: "));
   const url = process.argv[3] || (await readLine("URL: "));
-
   if (action !== "create" && action !== "update") {
     throw "Invalid action";
   }
-
   await db.ensureDBConnection();
-
   if (action === "create") {
     await MangaService.create({ link: url });
   } else {
@@ -31,7 +28,6 @@ async function main() {
     await MangaService.update(manga);
     await manga.save();
   }
-
   db.closeDBConnection();
   rl.close();
 }

@@ -1,9 +1,9 @@
-const { getLogger, SEARCH_MANGA_FAILED } = require("../log-service");
-const searchOneSite = require("./search-one-site");
+import { getLogger, SEARCH_MANGA_FAILED } from "../log-service.js";
+import searchOneSite from "./search-one-site.js";
 
 const logger = getLogger("search-multiple-scanlation-sites");
 
-module.exports = async function (sites, term, topN = 3) {
+export default async function (sites, term, topN = 3) {
   const results = await Promise.allSettled(sites.map((site) => searchOneSite(site, term, topN)));
 
   let successes = [];
@@ -21,4 +21,4 @@ module.exports = async function (sites, term, topN = 3) {
   });
 
   return successes;
-};
+}

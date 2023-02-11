@@ -1,5 +1,8 @@
-const fs = require("fs/promises");
-const { pick, omitBy, isNil } = require("lodash");
+import fs from "fs/promises";
+import lodash from "lodash";
+import protobuf from "./protobuf/index.js";
+
+const { pick, omitBy, isNil } = lodash;
 
 function pickCopy(target, source, props, skipNil = false) {
   let obj = pick(source, props);
@@ -112,8 +115,6 @@ function parseBoolean(value) {
   throw new Error("Invalid boolean value");
 }
 
-const protobuf = require("./protobuf");
-
 const BASE_TMP_DIR = "/tmp/mangabookmark/";
 
 async function ensureTmpDirExist(subDir = "") {
@@ -131,7 +132,20 @@ function getTmpFileName(...paths) {
   return BASE_TMP_DIR + paths.join("/");
 }
 
-module.exports = {
+export {
+  pickCopy,
+  flattenObject,
+  ensureIsArray,
+  trimExtra,
+  normalizeURL,
+  stripQuery,
+  normalizeDate,
+  parseBoolean,
+  ensureTmpDirExist,
+  getTmpFileName,
+  protobuf,
+};
+export default {
   pickCopy,
   flattenObject,
   ensureIsArray,

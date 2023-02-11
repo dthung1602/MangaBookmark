@@ -1,10 +1,10 @@
-const passport = require("passport");
+import passport from "passport";
 
-const { AuthenticationError } = require("../../errors");
-const { noLoginPaths, requireAuthViaTokenPaths } = require("./authenticate.config");
-const { SERVICE_API_TOKEN } = require("../../config");
-require("./ThirdParty");
-require("./Local");
+import { AuthenticationError } from "../../errors.js";
+import { noLoginPaths, requireAuthViaTokenPaths } from "./authenticate-config.js";
+import { SERVICE_API_TOKEN } from "../../config.js";
+import "./third-party.js";
+import "./local.js";
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -53,4 +53,7 @@ const AuthenticateMiddleware = (req, res, next) => {
   }
 };
 
-module.exports = { AuthenticateMiddleware };
+export { AuthenticateMiddleware };
+export default {
+  AuthenticateMiddleware,
+};

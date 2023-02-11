@@ -1,7 +1,8 @@
-const { validationResult } = require("express-validator");
-const { ValidationError, PermissionError, NotFoundError } = require("../../../errors");
+import * as expressValidator from "express-validator";
+import { ValidationError, PermissionError, NotFoundError } from "../../../errors.js";
+const { validationResult } = expressValidator;
 
-module.exports = function (req, res, next) {
+export default function (req, res, next) {
   let errors = validationResult(req);
   if (!errors.isEmpty()) {
     errors = errors.mapped();
@@ -18,4 +19,4 @@ module.exports = function (req, res, next) {
     throw new ValidationError(errors);
   }
   next();
-};
+}

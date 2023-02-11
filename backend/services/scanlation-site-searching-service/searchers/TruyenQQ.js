@@ -1,5 +1,5 @@
-const { fetchAndLoad, fetch, load } = require("../../scraping-service");
-const { OmnisearchScanlationMangaResult } = require("../../../models");
+import { fetchAndLoad, fetch, load } from "../../scraping-service.js";
+import { OmnisearchScanlationMangaResult } from "../../../models/index.js";
 
 function buildSearchURL(term) {
   const searchParams = new URLSearchParams({
@@ -63,7 +63,7 @@ async function search(term) {
     .toArray();
 }
 
-module.exports = {
+export default {
   site: "TruyenQQ",
   search,
 };

@@ -1,8 +1,8 @@
-const { pickCopy } = require("../utils");
-const MangaParserService = require("./parsers");
+import { pickCopy } from "../utils/index.js";
+import MangaParserService from "./parsers/index.js";
 
-module.exports = async function (link, parser) {
+export default async function (link, parser) {
   const { manga } = await MangaParserService.parseManga(link, parser);
   pickCopy(manga, parser, ["site", "lang"]);
   return manga;
-};
+}

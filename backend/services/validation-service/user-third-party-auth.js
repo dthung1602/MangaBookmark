@@ -1,5 +1,6 @@
-const { query } = require("express-validator");
+import * as expressValidator from "express-validator";
+import { ErrorFormatter } from "./mixins/index.js";
 
-const { ErrorFormatter } = require("./mixins");
+const { query } = expressValidator;
 
-module.exports = [query("action").exists().isIn(["register", "login", "link"]), ErrorFormatter];
+export default [query("action").exists().isIn(["register", "login", "link"]), ErrorFormatter];

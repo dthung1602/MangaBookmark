@@ -47,7 +47,7 @@ describe("User API", () => {
   it("should return current user profile", async function () {
     const response = await request(app).get("/api/user");
 
-    expect(response.status).toEqual(200);
+    expect(response.status).toBe(200);
     expect(response.body).toEqual({
       _id: "111aaaaaaaaaaaaaaaaaa111",
       username: "user1",
@@ -68,7 +68,7 @@ describe("User API", () => {
     try {
       loginAs(null);
       const response = await request(app).get("/api/user");
-      expect(response.status).toEqual(200);
+      expect(response.status).toBe(200);
       expect(response.body).toBeNull();
     } finally {
       resetLogin();
@@ -83,7 +83,7 @@ describe("User API", () => {
     };
 
     const response = await request(app).post("/api/user").send(userInfo);
-    expect(response.status).toEqual(201);
+    expect(response.status).toBe(201);
 
     expect(response.body).toEqual(
       expect.objectContaining({
@@ -91,18 +91,18 @@ describe("User API", () => {
         password: true,
       }),
     );
-    expect(response.body._id).not.toBeUndefined();
+    expect(response.body._id).toBeDefined();
   });
 
   it.each(INVALID_NEW_USER)("should validate input when creating local user", async function (user, expectErrs) {
     const response = await request(app).post("/api/user").send(user);
-    expect(response.status).toEqual(400);
+    expect(response.status).toBe(400);
     expectErrors(expectErrs, response.body.errors);
   });
 
   it("should delete user", async function () {
     let response = await request(app).delete("/api/user");
-    expect(response.status).toEqual(204);
+    expect(response.status).toBe(204);
 
     const user = await User.findById("111aaaaaaaaaaaaaaaaaa111");
     expect(user).toBeFalsy();
@@ -116,7 +116,7 @@ describe("User API", () => {
     };
 
     const response = await request(app).patch("/api/user").send(userInfo);
-    expect(response.status).toEqual(200);
+    expect(response.status).toBe(200);
 
     expect(response.body).toEqual(
       expect.objectContaining({
@@ -129,7 +129,7 @@ describe("User API", () => {
 
   it.each(INVALID_PATCH_USER)("should validate input when editing user profile", async function (user, expectedErrs) {
     const response = await request(app).patch("/api/user").send(user);
-    expect(response.status).toEqual(400);
+    expect(response.status).toBe(400);
     expectErrors(expectedErrs, response.body.errors);
   });
 
@@ -140,7 +140,7 @@ describe("User API", () => {
     };
 
     const response = await request(app).patch("/api/user/change-password").send(requestBody);
-    expect(response.status).toEqual(204);
+    expect(response.status).toBe(204);
 
     const user = await User.findById("111aaaaaaaaaaaaaaaaaa111");
     expect(user.validPassword(requestBody.password)).toBeTruthy();
@@ -148,13 +148,13 @@ describe("User API", () => {
 
   it.each(INVALID_PASSWORD)("should validate input when changing password", async function (password, expectedErrs) {
     const response = await request(app).patch("/api/user/change-password").send(password);
-    expect(response.status).toEqual(400);
+    expect(response.status).toBe(400);
     expectErrors(expectedErrs, response.body.errors);
   });
 
   it("should unlink social network accounts", async function () {
     const response = await request(app).delete("/api/user/google");
-    expect(response.status).toEqual(200);
+    expect(response.status).toBe(200);
 
     expect(response.body).toEqual(
       expect.objectContaining({

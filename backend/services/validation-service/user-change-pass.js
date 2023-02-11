@@ -1,8 +1,9 @@
-const { check } = require("express-validator");
+import * as expressValidator from "express-validator";
+import { ErrorFormatter, FindUser } from "./mixins/index.js";
 
-const { ErrorFormatter, FindUser } = require("./mixins");
+const { check } = expressValidator;
 
-module.exports = [
+export default [
   check("password").exists().isLength({ min: 8 }),
   FindUser,
   check("currentPassword")

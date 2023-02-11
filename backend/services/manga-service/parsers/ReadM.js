@@ -1,10 +1,10 @@
-const {
+import {
   fetchAndLoad,
   cleanText,
   extractNamesFromText,
   extractTagsFromNode,
   extractAuthorsFromNode,
-} = require("../../scraping-service");
+} from "../../scraping-service.js";
 
 const URLRegex = /^https?:\/\/(www\.)?readm\.org\/manga\/.+$/;
 const BaseURL = "https://www.readm.org";
@@ -46,7 +46,7 @@ async function parseManga(url) {
 
 const availableTags = [];
 
-module.exports = {
+export default {
   active: true,
   lang: "en",
   site: "ReadM",

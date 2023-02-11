@@ -1,5 +1,5 @@
-const { Manga } = require("../../models");
+import { Manga } from "../../models/index.js";
 
-module.exports = async function (mangaID) {
+export default async function (mangaID) {
   return Manga.findById(mangaID);
-};
+}

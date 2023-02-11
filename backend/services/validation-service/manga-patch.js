@@ -1,11 +1,12 @@
-const { check } = require("express-validator");
+import * as expressValidator from "express-validator";
+import { Manga } from "../../models/index.js";
+import MangaPermissionValidator from "./manga-permission.js";
+import { ErrorFormatter } from "./mixins/index.js";
 
-const { Manga } = require("../../models");
+const { check } = expressValidator;
 const { Shelf } = Manga;
-const MangaPermissionValidator = require("./manga-permission");
-const { ErrorFormatter } = require("./mixins");
 
-module.exports = [
+export default [
   check("shelf").optional().isIn(Object.values(Shelf)),
   check("note").optional().trim(),
   check("isCompleted").optional().isBoolean().toBoolean(),

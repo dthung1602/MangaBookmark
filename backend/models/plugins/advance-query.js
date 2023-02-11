@@ -21,8 +21,11 @@
  *    const result = await MySchema.advanceSearch(filters, textSearch, sort, page, perPage);
  */
 
-const { ObjectId } = require("mongoose").Types;
-const { isString, cloneDeep } = require("lodash");
+import mongoose from "mongoose";
+import lodash from "lodash";
+
+const { ObjectId } = mongoose.Types;
+const { isString, cloneDeep } = lodash;
 
 /**
  * Convert range fields to proper mongoose query
@@ -82,15 +85,7 @@ function convertSort(sort) {
   return sort;
 }
 
-/**
- * @param Schema
- * @param options: an object with the following fields:
- *    - rangeFields: Array of objects with type { field: String, isDate: Boolean}
- *    - matchAnyFields: Array of multivalued fields names
- *    - objectIdFields: Array of names of fields that are ObjectId
- *    - defaultPageSize
- */
-module.exports = function (Schema, options = {}) {
+export default function (Schema, options = {}) {
   const rangeFields = options.rangeFields || [];
   const matchAnyFields = options.matchAnyFields || [];
   const matchAllFields = options.matchAllFields || [];
@@ -174,4 +169,4 @@ module.exports = function (Schema, options = {}) {
 
     return { data, page, totalItem, totalPage, isLastPage };
   };
-};
+}

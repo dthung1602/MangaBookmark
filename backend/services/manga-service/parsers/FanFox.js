@@ -1,5 +1,5 @@
-const { fetchAndLoad, extractTagsFromNode, extractAuthorsFromNode } = require("../../scraping-service");
-const { stripQuery } = require("../../utils");
+import { fetchAndLoad, extractTagsFromNode, extractAuthorsFromNode } from "../../scraping-service.js";
+import { stripQuery } from "../../utils/index.js";
 
 const URLRegex = /^https?:\/\/fanfox\.net\/manga\/.+/;
 const BaseURL = "http://fanfox.net";
@@ -81,7 +81,7 @@ const availableTags = [
   "Shotacon",
 ];
 
-module.exports = {
+export default {
   active: true,
   lang: "en",
   site: "FanFox",

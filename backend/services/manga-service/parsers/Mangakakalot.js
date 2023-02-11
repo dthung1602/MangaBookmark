@@ -1,10 +1,10 @@
-const {
+import {
   fetchAndLoad,
   extractNamesFromText,
   extractAuthorsFromNode,
   extractTagsFromNode,
   MangaSiteRedirectedException,
-} = require("../../scraping-service");
+} from "../../scraping-service.js";
 
 const URLRegex = /^https?:\/\/mangakakalot\.com\/(read-|manga\/).+$/;
 
@@ -98,7 +98,7 @@ const availableTags = [
   "Yuri",
 ];
 
-module.exports = {
+export default {
   active: true,
   lang: "en",
   site: "Mangakakalot",

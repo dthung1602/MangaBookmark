@@ -1,6 +1,7 @@
-const { check } = require("express-validator");
+import * as expressValidator from "express-validator";
+const { check } = expressValidator;
 
-module.exports = [
+export default [
   check("sort.*")
     .optional()
     .matches(/^-?[0-9a-zA-Z]+$/),

@@ -1,11 +1,14 @@
 #!/usr/bin/env node
 
-const { Manga } = require("../models");
+import { Manga } from "../models/index.js";
+import db from "../services/db-service.js";
+import datasource from "../datasource/index.js";
+import { pushAllMangaNotifications } from "../services/push-service.js";
+import { updateMultiple } from "../services/manga-service/index.js";
 const { TO_READ, READING, WAITING, REREAD } = Manga.Shelf;
-const db = require("../services/db-service");
-const datasource = require("../datasource")
-const { pushAllMangaNotifications } = require("../services/push-service");
-const { updateMultiple: {pushToQueue, consumeFromQueue, QueueTypes} } = require("../services/manga-service");
+const {
+  updateMultiple: { pushToQueue, consumeFromQueue, QueueTypes },
+} = { updateMultiple };
 
 async function main() {
   console.log("Connecting to database");
@@ -16,7 +19,6 @@ async function main() {
     shelf: { $in: [TO_READ, READING, WAITING, REREAD] },
     isCompleted: false,
   };
-
   await pushToQueue(QueueTypes.SCHEDULED, filters, true);
   await consumeFromQueue(QueueTypes.SCHEDULED, true, true);
   await pushAllMangaNotifications(true);

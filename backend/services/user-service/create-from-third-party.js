@@ -1,8 +1,8 @@
-const { User } = require("../../models");
-const { ValidationError } = require("../../errors");
-const linkUserToThirdPartyAuthService = require("./link");
+import { User } from "../../models/index.js";
+import { ValidationError } from "../../errors.js";
+import linkUserToThirdPartyAuthService from "./link.js";
 
-module.exports = async function (authProvider, profile) {
+export default async function (authProvider, profile) {
   const authProviderId = `${authProvider}Id`;
   const duplicatedUser = await User.findOne({ [authProviderId]: profile.id });
   if (duplicatedUser) {
@@ -10,4 +10,4 @@ module.exports = async function (authProvider, profile) {
   }
 
   return linkUserToThirdPartyAuthService(new User(), authProvider, profile);
-};
+}

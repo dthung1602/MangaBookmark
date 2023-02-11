@@ -1,9 +1,10 @@
-const { isString } = require("lodash");
+import lodash from "lodash";
 
-const { Manga } = require("../../models");
-const { PAGE_SIZE } = require("../../config");
+import { Manga } from "../../models/index.js";
+import { PAGE_SIZE } from "../../config.js";
+const { isString } = lodash;
 
-module.exports = async function (filters = {}, search = undefined, sort = undefined, page = 1, perPage = PAGE_SIZE) {
+export default async function (filters = {}, search = undefined, sort = undefined, page = 1, perPage = PAGE_SIZE) {
   // bug in express validator
   // the validator fails to convert wildcard field to int
   if (isString(filters.status)) {
@@ -11,4 +12,4 @@ module.exports = async function (filters = {}, search = undefined, sort = undefi
   }
 
   return Manga.advanceQuery(filters, search, sort, page, perPage);
-};
+}

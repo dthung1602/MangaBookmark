@@ -100,7 +100,7 @@ describe("Manga API", () => {
       expectedIsLastPage = undefined,
     ) {
       const response = await request(app).get("/api/mangas").query(filters);
-      expect(response.status).toEqual(200);
+      expect(response.status).toBe(200);
       expect(response.body.page).toEqual(expectPage);
       expect(response.body.totalItem).toEqual(expectedTotalItem);
       expect(response.body.totalPage).toEqual(expectedTotalPage);
@@ -119,7 +119,7 @@ describe("Manga API", () => {
 
   it("should return manga", async function () {
     const response = await request(app).get("/api/mangas/111eeeeeeeeeeeeeeeeee111");
-    expect(response.status).toEqual(200);
+    expect(response.status).toBe(200);
     expect(response.body).toEqual(
       expect.objectContaining({
         _id: "111eeeeeeeeeeeeeeeeee111",
@@ -154,7 +154,7 @@ describe("Manga API", () => {
     };
 
     const response = await request(app).post("/api/mangas").send(submittedManga);
-    expect(response.status).toEqual(201);
+    expect(response.status).toBe(201);
 
     const expectedManga = expect.objectContaining({
       ...pick(submittedManga, ["link", "note", "isCompleted", "hidden", "shelf"]),
@@ -192,7 +192,7 @@ describe("Manga API", () => {
     });
 
     const response = await request(app).post("/api/mangas").send(payload);
-    expect(response.status).toEqual(400);
+    expect(response.status).toBe(400);
     expectErrors(expectedErrs, response.body.errors);
   });
 
@@ -208,7 +208,7 @@ describe("Manga API", () => {
 
     const response = await request(app).patch(`/api/mangas/${mangaId}`).send(editContent);
     delete editContent.manga;
-    expect(response.status).toEqual(200);
+    expect(response.status).toBe(200);
     expect(response.body).toEqual(expect.objectContaining(editContent));
 
     const manga = await Manga.findById(mangaId);
@@ -228,7 +228,7 @@ describe("Manga API", () => {
     const mangaId = "111eeeeeeeeeeeeeeeeee111";
 
     const response = await request(app).delete(`/api/mangas/${mangaId}`);
-    expect(response.status).toEqual(204);
+    expect(response.status).toBe(204);
 
     const nothing = await Manga.findById(mangaId);
     expect(nothing).toBeFalsy();
@@ -237,14 +237,14 @@ describe("Manga API", () => {
   it("should not delete other user manga", async function () {
     const mangaId = "222eeeeeeeeeeeeeeeeee222";
     const response = await request(app).delete(`/api/mangas/${mangaId}`);
-    expect(response.status).toEqual(403);
+    expect(response.status).toBe(403);
     expectErrors({ manga: "Permission denied" }, response.body.errors);
   });
 
   it("should not delete non exist manga", async function () {
     const mangaId = "222eedddddeeeeeeeeeee222";
     const response = await request(app).delete(`/api/mangas/${mangaId}`);
-    expect(response.status).toEqual(404);
+    expect(response.status).toBe(404);
     expectErrors({ manga: "Not found" }, response.body.errors);
   });
 
@@ -265,7 +265,7 @@ describe("Manga API", () => {
     );
 
     const response = await request(app).get("/api/mangas/info").query({ link: "https://example.com" });
-    expect(response.status).toEqual(200);
+    expect(response.status).toBe(200);
     expect(response.body).toEqual(mockParsedManga);
   });
 
@@ -274,14 +274,14 @@ describe("Manga API", () => {
       throw new Error("Unsupported manga site");
     });
     let response = await request(app).get("/api/mangas/info").query({ link: "https://example.com" });
-    expect(response.status).toEqual(400);
+    expect(response.status).toBe(400);
     expectErrors({ link: "Unsupported manga site" }, response.body.errors);
 
     getParser.mockImplementation(() => {
       throw new Error("Site no longer active");
     });
     response = await request(app).get("/api/mangas/info").query({ link: "https://example.com" });
-    expect(response.status).toEqual(400);
+    expect(response.status).toBe(400);
     expectErrors({ link: "Site no longer active" }, response.body.errors);
   });
 
@@ -293,7 +293,7 @@ describe("Manga API", () => {
     };
 
     const response = await request(app).post(`/api/mangas/${mangaId}/mark-chapters`).send(requestContent);
-    expect(response.status).toEqual(200);
+    expect(response.status).toBe(200);
     expect(map(response.body.chapters, "isRead")).toEqual(expectedIsReads);
 
     let manga = await Manga.findById(mangaId);
@@ -324,7 +324,7 @@ describe("Manga API", () => {
     );
 
     const response = await request(app).post(`/api/mangas/${mangaId}/update`);
-    expect(response.status).toEqual(200);
+    expect(response.status).toBe(200);
 
     const expectedManga = expect.objectContaining({
       image: mockParsedManga.image,
@@ -341,14 +341,14 @@ describe("Manga API", () => {
   it("should not update non exist manga", async function () {
     const mangaId = "222eedddddeeeeeeeeeee222";
     const response = await request(app).post(`/api/mangas/${mangaId}/update`);
-    expect(response.status).toEqual(404);
+    expect(response.status).toBe(404);
     expectErrors({ manga: "Not found" }, response.body.errors);
   });
 
   it("should not update other user manga", async function () {
     const mangaId = "222eeeeeeeeeeeeeeeeee222";
     const response = await request(app).post(`/api/mangas/${mangaId}/update`);
-    expect(response.status).toEqual(403);
+    expect(response.status).toBe(403);
     expectErrors({ manga: "Permission denied" }, response.body.errors);
   });
 
@@ -411,8 +411,8 @@ describe("Manga API", () => {
     const response = await request(app).post("/api/mangas/update-multiple").send();
     await waitAsync(1); // ensure that the update process in backend has finished
 
-    expect(response.status).toEqual(202);
-    expect(response.body.pushedToQueue).toEqual(3);
+    expect(response.status).toBe(202);
+    expect(response.body.pushedToQueue).toBe(3);
 
     expect(enqueuedMangaIds).toEqual(
       new Set(["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444", "555eeeeeeeeeeeeeeeeee555"]),
@@ -425,7 +425,7 @@ describe("Manga API", () => {
       if (result.status === "success") {
         expect(["111eeeeeeeeeeeeeeeeee111", "444eeeeeeeeeeeeeeeeee444"]).toContain(result.data._id.toString());
       } else {
-        expect(result.error).toEqual("Error: Cannot parse manga");
+        expect(result.error).toBe("Error: Cannot parse manga");
       }
     }
   });
@@ -457,14 +457,14 @@ describe("Manga API", () => {
     }));
 
     let response = await request(app).post(`/api/mangas/update-multiple/pop-result`);
-    expect(response.status).toEqual(200);
+    expect(response.status).toBe(200);
     expect(response.body).toEqual({
       status: "processing",
       result: [],
     });
 
     response = await request(app).post(`/api/mangas/update-multiple/pop-result`);
-    expect(response.status).toEqual(200);
+    expect(response.status).toBe(200);
     expect(response.body).toEqual({
       status: "done",
       result: resultFromCache,

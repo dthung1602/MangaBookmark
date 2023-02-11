@@ -68,7 +68,7 @@ async function pushNotificationsToUser(user, summaries, verbose = false) {
   }
 }
 
-module.exports = {
+export default {
   pushNotificationsToUser,
   pushAllMangaNotifications,
 };

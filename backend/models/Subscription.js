@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const Browsers = Object.freeze({
   OP: "Opera",
@@ -91,4 +91,4 @@ Object.assign(SubscriptionSchema.statics, {
 
 let Subscription = mongoose.model("Subscription", SubscriptionSchema);
 
-module.exports = Subscription;
+export default Subscription;

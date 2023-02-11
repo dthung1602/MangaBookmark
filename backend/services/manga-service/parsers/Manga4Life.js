@@ -1,11 +1,11 @@
-const {
+import {
   cleanText,
   fetchAndLoad,
   findNodeWithHeader,
   findNodeWithHeaderAndExtractNameFromText,
   findNodeWithHeaderAndExtractTagsFromText,
   findNodeWithHeaderAndExtractAuthorFromText,
-} = require("../../scraping-service");
+} from "../../scraping-service.js";
 
 const URLRegex = /^https?:\/\/manga4life\.com\/manga\/.+$/;
 
@@ -123,7 +123,7 @@ const availableTags = [
   "yuri",
 ];
 
-module.exports = {
+export default {
   active: true,
   lang: "en",
   site: "Manga4Life",

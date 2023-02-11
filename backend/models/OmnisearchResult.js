@@ -1,7 +1,8 @@
-const { pick, cloneDeep, get, set } = require("lodash");
+import lodash from "lodash";
 
-const { trimExtra, normalizeURL, normalizeDate, parseBoolean } = require("../services/utils");
+import { trimExtra, normalizeURL, normalizeDate, parseBoolean } from "../services/utils/index.js";
 
+const { pick, cloneDeep, get, set } = lodash;
 const resultFields = ["name", "image"];
 
 /**
@@ -101,7 +102,8 @@ class OmnisearchScanlationMangaResult extends OmnisearchResult {
   }
 }
 
-module.exports = {
+export { OmnisearchUserMangaResult, OmnisearchScanlationMangaResult };
+export default {
   OmnisearchUserMangaResult,
   OmnisearchScanlationMangaResult,
 };

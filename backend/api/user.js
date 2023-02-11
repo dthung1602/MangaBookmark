@@ -1,16 +1,17 @@
-const { Router } = require("@awaitjs/express");
-const passport = require("passport");
-const router = Router();
+import { Router } from "@awaitjs/express";
+import * as passport from "passport";
 
-const ThirdPartyAuthRouter = require("./third-party-auth");
-const { User } = require("../models");
-const { removePassword } = require("./utils");
-const UserService = require("../services/user-service");
-const {
+import ThirdPartyAuthRouter from "./third-party-auth.js";
+import { User } from "../models/index.js";
+import { removePassword } from "./utils.js";
+import UserService from "../services/user-service/index.js";
+import {
   UserPassValidator,
   UserPatchValidator,
   UserLocalRegistrationValidator,
-} = require("../services/validation-service");
+} from "../services/validation-service/index.js";
+
+const router = Router();
 
 //-----------------------------------
 //  Resister new user
@@ -237,5 +238,4 @@ router.patchAsync("/change-password", UserPassValidator, async (req, res) => {
 //  Authentication by third-party
 //-------------------------------------------------
 router.use("/:authProvider(google|facebook)", ThirdPartyAuthRouter);
-
-module.exports = router;
+export default router;

@@ -1,12 +1,12 @@
-const { Router } = require("@awaitjs/express");
-const multer = require("multer");
+import { Router } from "@awaitjs/express";
+import multer from "multer";
+
+import { ImageProxyValidator } from "../services/validation-service/index.js";
+import { ImageProxyErrorHandlerMiddleware } from "../errors.js";
+import { proxy, uploadAvatar } from "../services/image-service/index.js";
+import { ensureTmpDirExist, getTmpFileName } from "../services/utils/index.js";
 
 const router = Router();
-
-const { ImageProxyValidator } = require("../services/validation-service");
-const { ImageProxyErrorHandlerMiddleware } = require("../errors");
-const { proxy, uploadAvatar } = require("../services/image-service");
-const { ensureTmpDirExist, getTmpFileName } = require("../services/utils");
 
 //----------------------------------------
 //  Image proxy with spoofed referer
@@ -142,4 +142,4 @@ router.post("/avatar", upload.single("file"), (req, res, next) => {
     });
 });
 
-module.exports = router;
+export default router;

@@ -1,12 +1,14 @@
-const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20/lib").Strategy;
-const FacebookStrategy = require("passport-facebook").Strategy;
-const { capitalize } = require("lodash");
+import passport from "passport";
+import lodash from "lodash";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import { Strategy as FacebookStrategy } from "passport-facebook";
 
-const { User } = require("../../models");
-const { PermissionError } = require("../../errors");
-const UserService = require("../user-service");
-const config = require("../../config");
+import { User } from "../../models/index.js";
+import { PermissionError } from "../../errors.js";
+import UserService from "../user-service/index.js";
+import config from "../../config.js";
+
+const { capitalize } = lodash;
 
 const handler = (authProvider) => async (req, accessToken, refreshToken, profile, done) => {
   const authProviderName = capitalize(authProvider);
@@ -49,6 +51,7 @@ const handler = (authProvider) => async (req, accessToken, refreshToken, profile
 };
 
 passport.use(
+  "google",
   new GoogleStrategy(
     {
       clientID: config.GOOGLE_AUTH_ID,
@@ -61,6 +64,7 @@ passport.use(
 );
 
 passport.use(
+  "facebook",
   new FacebookStrategy(
     {
       clientID: config.FACEBOOK_AUTH_ID,

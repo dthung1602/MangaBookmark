@@ -1,4 +1,4 @@
-const { Manga } = require("../../models");
+import { Manga } from "../../models/index.js";
 
 async function updateRereadProgress(manga, nextRereadChapterLink) {
   const nextRereadChapterIdx = manga.chapters.findIndex((ch) => ch.link === nextRereadChapterLink);
@@ -39,4 +39,4 @@ function updateMangaShelf(manga, nextRereadChapterIdx) {
   }
 }
 
-module.exports = updateRereadProgress;
+export default updateRereadProgress;

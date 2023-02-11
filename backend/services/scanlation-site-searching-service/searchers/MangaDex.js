@@ -1,7 +1,9 @@
-const { uniq } = require("lodash");
+import lodash from "lodash";
 
-const { fetch } = require("../../scraping-service");
-const { OmnisearchScanlationMangaResult } = require("../../../models");
+import { fetch } from "../../scraping-service.js";
+import { OmnisearchScanlationMangaResult } from "../../../models/index.js";
+
+const { uniq } = lodash;
 
 function buildSearchURL(term, topN) {
   const searchParams = new URLSearchParams({
@@ -69,7 +71,7 @@ async function search(term, topN) {
   );
 }
 
-module.exports = {
+export default {
   site: "MangaDex",
   search,
 };

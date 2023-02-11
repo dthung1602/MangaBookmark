@@ -1,7 +1,6 @@
-const { fetchAndLoad, extractAuthorsFromNode } = require("../../scraping-service");
-const { OmnisearchScanlationMangaResult } = require("../../../models");
-const { useImageProxy } = require("../../scraping-service");
-const { stripQuery } = require("../../utils");
+import { fetchAndLoad, extractAuthorsFromNode, useImageProxy } from "../../scraping-service.js";
+import { OmnisearchScanlationMangaResult } from "../../../models/index.js";
+import { stripQuery } from "../../utils/index.js";
 
 function buildSearchURL(term, page) {
   const searchParams = new URLSearchParams({
@@ -48,7 +47,7 @@ async function search(term, topN) {
   return finalResult;
 }
 
-module.exports = {
+export default {
   site: "FanFox",
   search,
 };

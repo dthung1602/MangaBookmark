@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 let Keys = Object.freeze({
   DB_VERSION: "DB_VERSION",
@@ -45,5 +45,4 @@ Object.assign(ApplicationMetaSchema.statics, {
 });
 
 let ApplicationMeta = mongoose.model("ApplicationMeta", ApplicationMetaSchema);
-
-module.exports = ApplicationMeta;
+export default ApplicationMeta;

@@ -1,8 +1,12 @@
-const { supportedSites, getSearcher } = require("./searchers");
+import { supportedSites, getSearcher } from "./searchers/index.js";
+import searchOneSite from "./search-one-site.js";
+import searchMultipleSites from "./search-multiple-sites.js";
 
-module.exports = {
-  searchOneSite: require("./search-one-site"),
-  searchMultipleSites: require("./search-multiple-sites"),
+export { searchOneSite, searchMultipleSites, supportedSites, getSearcher };
+
+export default {
+  searchOneSite,
+  searchMultipleSites,
   supportedSites,
   getSearcher,
 };

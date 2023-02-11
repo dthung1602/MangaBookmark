@@ -1,5 +1,5 @@
-const { Subscription } = require("../../models");
+import { Subscription } from "../../models/index.js";
 
-module.exports = async function (subscription) {
+export default async function (subscription) {
   await Subscription.findByIdAndDelete(subscription.id);
-};
+}

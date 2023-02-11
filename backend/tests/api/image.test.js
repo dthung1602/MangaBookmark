@@ -63,7 +63,7 @@ describe("Image API", () => {
     const etag = "1234567890";
     getEtag.mockImplementation(() => etag);
     const response = await request(app).get(url).set("if-none-match", etag);
-    expect(response.status).toEqual(304);
+    expect(response.status).toBe(304);
   });
 
   it("should send status 304 when etag matches and cache missed", async function () {
@@ -72,7 +72,7 @@ describe("Image API", () => {
     getEtag.mockImplementation(() => null);
     getImage.mockImplementation(() => ({ etag }));
     const response = await request(app).get(url).set("if-none-match", etag);
-    expect(response.status).toEqual(304);
+    expect(response.status).toBe(304);
   });
 
   it("should fetch image", async function () {
@@ -84,9 +84,9 @@ describe("Image API", () => {
       buffer: Buffer.from("a string"),
     }));
     const response = await request(app).get(url);
-    expect(response.status).toEqual(200);
-    expect(response.headers["etag"]).toEqual("mock etag");
-    expect(response.headers["content-type"]).toEqual("image/png");
+    expect(response.status).toBe(200);
+    expect(response.headers["etag"]).toBe("mock etag");
+    expect(response.headers["content-type"]).toBe("image/png");
     expect(response.body).toEqual(Buffer.from("a string"));
   });
 
@@ -95,7 +95,7 @@ describe("Image API", () => {
     uploadToCloudinary.mockImplementation((f, o, callback) => callback(null, { secure_url: imageUrl }));
 
     const response = await request(app).post("/api/image/avatar");
-    expect(response.status).toEqual(200);
+    expect(response.status).toBe(200);
     expect(response.body).toEqual({
       status: "success",
       url: imageUrl,

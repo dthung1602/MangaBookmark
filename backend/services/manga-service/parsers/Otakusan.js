@@ -1,12 +1,13 @@
-const { uniq } = require("lodash");
+import lodash from "lodash";
 
-const {
+import {
   fetchAndLoad,
   extractNamesFromText,
   extractAuthorsFromNode,
   extractTagsFromNode,
-} = require("../../scraping-service");
+} from "../../scraping-service.js";
 
+const { uniq } = lodash;
 const URLRegex = /^https?:\/\/otakusan\.net\/(MangaDetail|manga-detail)\/[0-9]+\/.+$/;
 
 function extractName($) {
@@ -98,7 +99,7 @@ const availableTags = [
   "Yuri",
 ];
 
-module.exports = {
+export default {
   active: true,
   lang: "vi",
   site: "Otakusan",

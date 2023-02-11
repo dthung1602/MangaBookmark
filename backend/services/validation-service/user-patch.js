@@ -1,9 +1,10 @@
-const { check } = require("express-validator");
+import * as expressValidator from "express-validator";
+import { User } from "../../models/index.js";
+import { ErrorFormatter, FindUser } from "./mixins/index.js";
 
-const { User } = require("../../models");
-const { ErrorFormatter, FindUser } = require("./mixins");
+const { check } = expressValidator;
 
-module.exports = [
+export default [
   FindUser,
   check("username")
     .optional()

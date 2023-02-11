@@ -1,4 +1,10 @@
-const { decodeProto, typeToString } = require("./decoder");
-const { mapProtoToSchema } = require("./mapper");
+import { decodeProto, typeToString } from "./decoder.js";
+import { mapProtoToSchema } from "./mapper.js";
 
-module.exports = { decodeProto, typeToString, mapProtoToSchema };
+export { decodeProto, typeToString, mapProtoToSchema };
+
+export default {
+  decodeProto,
+  typeToString,
+  mapProtoToSchema,
+};

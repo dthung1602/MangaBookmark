@@ -1,9 +1,10 @@
-const { check } = require("express-validator");
+import * as expressValidator from "express-validator";
+import { getSearcher } from "../scanlation-site-searching-service/index.js";
+import { ErrorFormatter } from "./mixins/index.js";
 
-const { getSearcher } = require("../scanlation-site-searching-service");
-const { ErrorFormatter } = require("./mixins");
+const { check } = expressValidator;
 
-module.exports = [
+export default [
   check("search").exists(),
   check("topN").exists().isInt({ min: 1 }).toInt(),
   check("sites.*")

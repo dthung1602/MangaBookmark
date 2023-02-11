@@ -1,9 +1,9 @@
-const {
+import {
   fetchAndLoad,
   extractNamesFromText,
   extractAuthorsFromNode,
   extractTagsFromNode,
-} = require("../../scraping-service");
+} from "../../scraping-service.js";
 
 const URLRegex = /^https?:\/\/(read|h\.)mangabat\.com\/read-.+$/;
 
@@ -85,7 +85,7 @@ const availableTags = [
   "Yuri",
 ];
 
-module.exports = {
+export default {
   active: true,
   lang: "en",
   site: "MangaBat",

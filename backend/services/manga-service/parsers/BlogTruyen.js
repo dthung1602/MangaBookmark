@@ -1,9 +1,9 @@
-const {
+import {
   fetchAndLoad,
   findNodeWithHeaderAndExtractNameFromText,
   extractTagsFromNode,
   extractAuthorsFromNode,
-} = require("../../scraping-service");
+} from "../../scraping-service.js";
 
 const URLRegex = /^https?:\/\/blogtruyen\.vn\/[0-9]+\/.+/;
 
@@ -106,7 +106,7 @@ const availableTags = [
   "truyện full",
 ];
 
-module.exports = {
+export default {
   active: true,
   lang: "vi",
   site: "BlogTruyen",

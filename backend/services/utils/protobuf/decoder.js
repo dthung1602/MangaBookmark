@@ -1,12 +1,5 @@
-/**
- * A dead-simple protobuf decoder without schema
- * Adapted from https://github.com/pawitp/protobuf-decoder
- */
-
-const JSBI = require("jsbi");
-
-const { decodeFixed32, decodeFixed64, decodeVarintParts } = require("./part-decoder");
-
+import JSBI from "jsbi";
+import { decodeFixed32, decodeFixed64, decodeVarintParts } from "./part-decoder.js";
 const BIGINT_2 = JSBI.BigInt(2);
 
 function decodeVarint(buffer, offset) {
@@ -162,7 +155,8 @@ function typeToString(type) {
   }
 }
 
-module.exports = {
+export { TYPES, decodeProto, typeToString };
+export default {
   TYPES,
   decodeProto,
   typeToString,

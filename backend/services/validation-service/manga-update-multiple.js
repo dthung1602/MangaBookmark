@@ -1,16 +1,14 @@
-const { MangaFilterValidator } = require("./manga-filter");
-const { getMangaUpdateStatusMemo } = require("../../datasource");
-const { ValidationError } = require("../../errors");
-const {
-  updateMultiple: { ProcessStatuses },
-} = require("../manga-service");
+import { MangaFilterValidator } from "./manga-filter.js";
+import { getMangaUpdateStatusMemo } from "../../datasource/index.js";
+import { ValidationError } from "../../errors.js";
+import { updateMultiple } from "../manga-service/index.js";
 
-module.exports = [
+export default [
   (req, res, next) => {
     getMangaUpdateStatusMemo()
       .get(req.user.id)
       .then((status) => {
-        if (status === ProcessStatuses.PROCESSING) {
+        if (status === updateMultiple.ProcessStatuses.PROCESSING) {
           next(new ValidationError("Last update job has not finished yet"));
         } else {
           next();

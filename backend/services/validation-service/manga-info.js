@@ -1,9 +1,10 @@
-const { check } = require("express-validator");
+import * as expressValidator from "express-validator";
+import MangaService from "../manga-service/index.js";
+import { ErrorFormatter } from "./mixins/index.js";
 
-const MangaService = require("../manga-service");
-const { ErrorFormatter } = require("./mixins");
+const { check } = expressValidator;
 
-module.exports = [
+export default [
   check("link")
     .exists()
     .custom(async (link, { req }) => {

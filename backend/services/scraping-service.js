@@ -1,9 +1,10 @@
-const got = require("got");
-const tunnel = require("tunnel");
-const cheerio = require("cheerio");
-const { startCase } = require("lodash");
+import got from "got";
+import * as tunnel from "tunnel";
+import { load as cheerioLoad } from "cheerio";
+import lodash from "lodash";
+import { PROXY_HOST, PROXY_PORT, PROXY_ENABLED, BASE_URL } from "../config.js";
 
-const { PROXY_HOST, PROXY_PORT, PROXY_ENABLED, BASE_URL } = require("../config");
+const { startCase } = lodash;
 
 function getDefaultHeaders() {
   return {
@@ -48,7 +49,7 @@ function load(url, response, raiseOnHostChanged = false) {
   if (raiseOnHostChanged && !isSameHost(url, response.url)) {
     throw new MangaSiteRedirectedException(response.url);
   }
-  return cheerio.load(response.body);
+  return cheerioLoad(response.body);
 }
 
 async function fetchAndLoad(url, headers = {}, option = {}, raiseOnHostChanged = false) {
@@ -219,7 +220,29 @@ function getRandomUserAgent() {
   return UAs[Math.floor(Math.random() * UAs.length)];
 }
 
-module.exports = {
+export {
+  fetch,
+  load,
+  fetchAndLoad,
+  getDefaultHeaders,
+  removeMangaNamePrefix,
+  wait,
+  findNodeWithHeader,
+  filterNodeWithHeader,
+  findNodeWithHeaderAndExtractNameFromText,
+  findNodeWithHeaderAndExtractAuthorFromText,
+  findNodeWithHeaderAndExtractTagsFromText,
+  extractAuthorsFromNode,
+  extractTagsFromNode,
+  extractAuthorsFromText,
+  extractTagsFromText,
+  extractNamesFromText,
+  cleanText,
+  useImageProxy,
+  getRandomUserAgent,
+  MangaSiteRedirectedException,
+};
+export default {
   fetch,
   load,
   fetchAndLoad,

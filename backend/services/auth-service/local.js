@@ -1,10 +1,10 @@
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-
-const { User } = require("../../models");
+import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
+import { User } from "../../models/index.js";
 
 passport.use(
-  new LocalStrategy(async (username, password, done) => {
+  "local",
+  new LocalStrategy({}, async (username, password, done) => {
     User.findOne({ username: username }, (err, user) => {
       if (err) {
         return done(err, false);

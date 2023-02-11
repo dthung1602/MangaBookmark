@@ -1,10 +1,11 @@
-const { uniqBy } = require("lodash");
-const { parseManga } = require("./parsers");
-const { pickCopy } = require("../utils");
+import lodash from "lodash";
 
+const { uniqBy } = lodash;
+import { parseManga } from "./parsers/index.js";
+import { pickCopy } from "../utils/index.js";
 const additionalFields = ["authors", "description", "alternativeNames", "tags"];
 
-module.exports = async function (manga, additionalUpdate = false) {
+export default async function (manga, additionalUpdate = false) {
   const result = await parseManga(manga.link);
   const crawledManga = result.manga;
   const crawledChapters = crawledManga.chapters;
@@ -51,4 +52,4 @@ module.exports = async function (manga, additionalUpdate = false) {
   }
 
   return await manga.save();
-};
+}

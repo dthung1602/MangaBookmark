@@ -1,8 +1,8 @@
-const { check } = require("express-validator");
+import * as expressValidator from "express-validator";
+import { supportedSites } from "../manga-service/parsers/index.js";
+import { ErrorFormatter } from "./mixins/index.js";
 
-const { supportedSites } = require("../manga-service/parsers");
-const { ErrorFormatter } = require("./mixins");
-
+const { check } = expressValidator;
 const mangaSites = supportedSites.map((s) => s.name);
 
 const ImageProxyValidator = [
@@ -11,4 +11,4 @@ const ImageProxyValidator = [
   ErrorFormatter,
 ];
 
-module.exports = ImageProxyValidator;
+export default ImageProxyValidator;

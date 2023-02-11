@@ -1,8 +1,10 @@
 const URLRegex = /^https?:\/\/(ww[12]\.)?mangakakalots\.com\/manga\/.+$/;
 const baseURL = "https://ww2.mangakakalots.com";
 
-const { fetchAndLoad } = require("../../scraping-service");
-const { parseAdditionalInfo, availableTags } = require("./Mangakakalot");
+import { fetchAndLoad } from "../../scraping-service.js";
+import Mangakakalot from "./Mangakakalot.js";
+
+const { parseAdditionalInfo, availableTags } = Mangakakalot;
 
 async function parseChapters($) {
   const rows = $(".chapter-list a");
@@ -31,7 +33,7 @@ async function parseManga(url) {
   };
 }
 
-module.exports = {
+export default {
   active: false,
   lang: "en",
   site: "MangakakalotS",

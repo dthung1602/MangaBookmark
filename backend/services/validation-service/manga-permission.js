@@ -1,10 +1,11 @@
-const { check } = require("express-validator");
+import * as expressValidator from "express-validator";
+import MangaService from "../manga-service/index.js";
+import { NotFoundError, PermissionError } from "../../errors.js";
+import { ErrorFormatter } from "./mixins/index.js";
 
-const MangaService = require("../manga-service");
-const { NotFoundError, PermissionError } = require("../../errors");
-const { ErrorFormatter } = require("./mixins");
+const { check } = expressValidator;
 
-module.exports = [
+export default [
   check("manga", "Invalid manga ID")
     .exists()
     .custom(async (mangaID, { req }) => {

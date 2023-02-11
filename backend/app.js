@@ -1,19 +1,34 @@
-const express = require("express");
-const { Router } = express;
-const path = require("path");
-const passport = require("passport");
-const cookieSession = require("cookie-session");
-const cookieParser = require("cookie-parser");
-const cors = require("cors");
-const helmet = require("helmet");
-const staticGZIP = require("express-static-gzip");
-const dynamicGZIP = require("compression");
-const swaggerUi = require("swagger-ui-express");
-const enforceSSL = require("express-enforces-ssl");
-const { addAsync } = require("@awaitjs/express");
+import express from "express";
+import path from "path";
+import passport from "passport";
+import cookieSession from "cookie-session";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import helmet from "helmet";
+import staticGZIP from "express-static-gzip";
+import dynamicGZIP from "compression";
+import swaggerUi from "swagger-ui-express";
+import enforceSSL from "express-enforces-ssl";
+import { addAsync } from "@awaitjs/express";
+import swaggerDocument from "./swagger.js";
+import config from "./config.js";
+import MangaRouter from "./api/manga.js";
+import UserRouter from "./api/user.js";
+import SubscriptionRouter from "./api/subscription.js";
+import MetaRouter from "./api/meta.js";
+import ImageRouter from "./api/image.js";
+import OmnisearchRouter from "./api/omnisearch.js";
+import ServiceRouter from "./api/service.js";
+import { AuthenticateMiddleware } from "./services/auth-service/index.js";
+import { DBConnectionMiddleware } from "./services/db-service.js";
+import { ErrorHandlerMiddleware, NotFoundError } from "./errors.js";
+import { fileURLToPath } from "url";
 
-const swaggerDocument = require("./swagger.json");
-const config = require("./config");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const { Router } = express;
+
 const app = addAsync(express());
 
 app.enable("trust proxy"); // let Google & Facebook use https
@@ -42,17 +57,6 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-
-const MangaRouter = require("./api/manga");
-const UserRouter = require("./api/user");
-const SubscriptionRouter = require("./api/subscription");
-const MetaRouter = require("./api/meta");
-const ImageRouter = require("./api/image");
-const OmnisearchRouter = require("./api/omnisearch");
-const ServiceRouter = require("./api/service");
-const { AuthenticateMiddleware } = require("./services/auth-service");
-const { DBConnectionMiddleware } = require("./services/db-service");
-const { ErrorHandlerMiddleware, NotFoundError } = require("./errors");
 
 // API
 const apiRouter = Router();
@@ -84,4 +88,4 @@ app.get("*", (req, res) => {
   res.sendFile(frontendBuildIndex);
 });
 
-module.exports = app;
+export default app;

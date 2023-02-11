@@ -1,6 +1,8 @@
-const { get } = require("lodash");
+import lodash from "lodash";
 
-module.exports = async function (user, authProvider, profile) {
+const { get } = lodash;
+
+export default async function (user, authProvider, profile) {
   if (authProvider !== "facebook" && authProvider !== "google") {
     throw new Error(`Invalid auth provider '${authProvider}'`);
   }
@@ -11,4 +13,4 @@ module.exports = async function (user, authProvider, profile) {
   user.avatar = user.avatar || user[`${authProvider}Pic`];
   user.username = user.username || user[`${authProvider}Name`];
   return user.save();
-};
+}

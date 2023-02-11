@@ -1,11 +1,15 @@
-const { Router } = require("@awaitjs/express");
-const router = Router();
+import { Router } from "@awaitjs/express";
 
-const { OmnisearchUserMangaResult } = require("../models");
-const { OmnisearchUserMangaValidator, OmnisearchScanlationMangaValidator } = require("../services/validation-service");
-const { ensureIsArray } = require("../services/utils");
-const MangaService = require("../services/manga-service");
-const ScanlationSiteService = require("../services/scanlation-site-searching-service");
+import { OmnisearchUserMangaResult } from "../models/index.js";
+import {
+  OmnisearchUserMangaValidator,
+  OmnisearchScanlationMangaValidator,
+} from "../services/validation-service/index.js";
+import { ensureIsArray } from "../services/utils/index.js";
+import MangaService from "../services/manga-service/index.js";
+import ScanlationSiteService from "../services/scanlation-site-searching-service/index.js";
+
+const router = Router();
 
 //---------------------------------------
 //  Search in user mangas
@@ -96,4 +100,4 @@ router.getAsync("/scanlation-manga", OmnisearchScanlationMangaValidator, async (
   res.json(result);
 });
 
-module.exports = router;
+export default router;

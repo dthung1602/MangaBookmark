@@ -1,13 +1,14 @@
-const { pick } = require("lodash");
+import lodash from "lodash";
 
-const { Manga } = require("../../models");
-const { parseManga } = require("../../services/manga-service/parsers");
-const { pickCopy } = require("../utils");
+import { Manga } from "../../models/index.js";
+import { parseManga } from "./parsers/index.js";
+import { pickCopy } from "../utils/index.js";
 
-const fields = ["link", "user", "isCompleted", "shelf", "readChapters", "nextRereadChapterLink", "note", "hidden"];
+const { pick } = lodash;
 const { Shelf } = Manga;
+const fields = ["link", "user", "isCompleted", "shelf", "readChapters", "nextRereadChapterLink", "note", "hidden"];
 
-module.exports = async function (userInput, parser = null) {
+export default async function (userInput, parser = null) {
   const defaultData = {
     isCompleted: false,
     shelf: "reading",
@@ -35,4 +36,4 @@ module.exports = async function (userInput, parser = null) {
   pickCopy(manga, userInput, ["user", "shelf", "note", "hidden", "isCompleted"]);
 
   return new Manga(manga).save();
-};
+}

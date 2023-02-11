@@ -1,5 +1,6 @@
-const { check } = require("express-validator");
+import * as expressValidator from "express-validator";
+import { ErrorFormatter } from "./mixins/index.js";
 
-const { ErrorFormatter } = require("./mixins");
+const { check } = expressValidator;
 
-module.exports = [check("search").exists(), check("topN").exists().isInt({ min: 1 }).toInt(), ErrorFormatter];
+export default [check("search").exists(), check("topN").exists().isInt({ min: 1 }).toInt(), ErrorFormatter];

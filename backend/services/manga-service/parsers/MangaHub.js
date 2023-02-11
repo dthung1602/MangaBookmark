@@ -1,4 +1,4 @@
-const { fetchAndLoad, removeMangaNamePrefix } = require("../../scraping-service");
+import { fetchAndLoad, removeMangaNamePrefix } from "../../scraping-service.js";
 
 const URLRegex = /^https?:\/\/mangahub\.io\/manga\/.+$/;
 
@@ -29,7 +29,7 @@ async function parseManga(url) {
   };
 }
 
-module.exports = {
+export default {
   active: false,
   lang: "en",
   site: "MangaHub",

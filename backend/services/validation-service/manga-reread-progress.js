@@ -1,11 +1,12 @@
-const { check } = require("express-validator");
+import * as expressValidator from "express-validator";
+import { Manga } from "../../models/index.js";
+import MangaPermissionValidator from "./manga-permission.js";
+import { ErrorFormatter } from "./mixins/index.js";
+import { ValidationError } from "../../errors.js";
 
-const { Manga } = require("../../models");
-const MangaPermissionValidator = require("./manga-permission");
-const { ErrorFormatter } = require("./mixins");
-const { ValidationError } = require("../../errors");
+const { check } = expressValidator;
 
-module.exports = [
+export default [
   MangaPermissionValidator,
   (req, res, next) => {
     if (req.manga.shelf === Manga.Shelf.REREAD) {

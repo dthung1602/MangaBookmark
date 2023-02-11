@@ -1,6 +1,6 @@
-const asyncRedis = require("async-redis");
+import asyncRedis from "async-redis";
 
-const { REDIS_URL } = require("../config");
+import { REDIS_URL } from "../config.js";
 
 let client = null;
 
@@ -22,15 +22,14 @@ class RedisBase {
 }
 
 class ResultCache extends RedisBase {
-  DEAULT_TTL = 60 * 60;
-
+  DEFAULT_TTL = 60 * 60;
   async addOne(key, message, encoder = JSON.stringify, expireInSeconds = null) {
     this.connect();
     message = encoder(message);
     key = "result:" + this.name + ":" + key;
     const result = await client.rpush(key, message);
     if (expireInSeconds !== undefined) {
-      expireInSeconds = expireInSeconds || this.DEAULT_TTL;
+      expireInSeconds = expireInSeconds || this.DEFAULT_TTL;
       await client.expire(key, expireInSeconds);
     }
     return result;
@@ -63,7 +62,8 @@ class Memo extends RedisBase {
   }
 }
 
-module.exports = {
+export { ResultCache, Memo };
+export default {
   ResultCache,
   Memo,
 };

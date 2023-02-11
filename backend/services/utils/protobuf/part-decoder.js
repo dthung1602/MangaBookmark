@@ -1,10 +1,4 @@
-/**
- * A dead-simple protobuf decoder without schema
- * Adapted from https://github.com/pawitp/protobuf-decoder
- */
-
-const JSBI = require("jsbi");
-
+import JSBI from "jsbi";
 const BIGINT_1 = JSBI.BigInt(1);
 const BIGINT_2 = JSBI.BigInt(2);
 
@@ -91,7 +85,8 @@ function twoComplements(uintValue) {
   }
 }
 
-module.exports = {
+export { decodeFixed32, decodeFixed64, decodeVarintParts };
+export default {
   decodeFixed32,
   decodeFixed64,
   decodeVarintParts,

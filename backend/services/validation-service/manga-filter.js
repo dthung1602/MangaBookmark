@@ -1,9 +1,8 @@
-const { check } = require("express-validator");
-
-const { Manga } = require("../../models");
-const { PaginationMixin, SortMixin } = require("./mixins");
-const { ErrorFormatter } = require("./mixins");
-
+import * as expressValidator from "express-validator";
+import { Manga } from "../../models/index.js";
+import { PaginationMixin, SortMixin } from "./mixins/index.js";
+import { ErrorFormatter } from "./mixins/index.js";
+const { check } = expressValidator;
 const MangaFilterValidator = [
   check("search").optional().trim(),
   check("shelf.*").optional().isIn(Object.values(Manga.Shelf)),
@@ -42,4 +41,8 @@ const MANGA_FILTER_FIELDS = [
   "chapters.link",
 ];
 
-module.exports = { MangaFilterValidator, MANGA_FILTER_FIELDS };
+export { MangaFilterValidator, MANGA_FILTER_FIELDS };
+export default {
+  MangaFilterValidator,
+  MANGA_FILTER_FIELDS,
+};

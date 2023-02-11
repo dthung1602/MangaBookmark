@@ -1,6 +1,6 @@
-const { getSearcher } = require("./searchers");
+import { getSearcher } from "./searchers/index.js";
 
-module.exports = async function (site, term, topN = 3) {
+export default async function (site, term, topN = 3) {
   const searcher = getSearcher(site);
   return (await searcher.search(term, topN)).slice(0, topN);
-};
+}

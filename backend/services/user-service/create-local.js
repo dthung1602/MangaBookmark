@@ -1,7 +1,7 @@
-const { User } = require("../../models");
+import { User } from "../../models/index.js";
 
-module.exports = async function ({ username, email, password }) {
+export default async function ({ username, email, password }) {
   const user = new User({ username, email, password });
   await user.save();
   return user;
-};
+}

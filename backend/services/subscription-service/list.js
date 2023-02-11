@@ -1,5 +1,5 @@
-const { Subscription } = require("../../models");
+import { Subscription } from "../../models/index.js";
 
-module.exports = async function (user) {
+export default async function (user) {
   return Subscription.find({ user: user.id });
-};
+}

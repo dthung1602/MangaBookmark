@@ -1,8 +1,9 @@
-const { Router } = require("@awaitjs/express");
-const router = Router();
+import { Router } from "@awaitjs/express";
 
-const SubscriptionService = require("../services/subscription-service");
-const { SubscriptionCreateValidator, SubscriptionDeleteValidator } = require("../services/validation-service");
+import SubscriptionService from "../services/subscription-service/index.js";
+import { SubscriptionCreateValidator, SubscriptionDeleteValidator } from "../services/validation-service/index.js";
+
+const router = Router();
 
 //-----------------------------------
 //  List all subscription of user
@@ -90,4 +91,4 @@ router.deleteAsync("/:subscription", SubscriptionDeleteValidator, async (req, re
   res.sendStatus(204);
 });
 
-module.exports = router;
+export default router;

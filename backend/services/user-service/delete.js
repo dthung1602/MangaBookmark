@@ -1,7 +1,7 @@
-const { User, Manga, Subscription } = require("../../models");
+import { User, Manga, Subscription } from "../../models/index.js";
 
-module.exports = async function (user) {
+export default async function (user) {
   await Manga.deleteMany({ user: user.id });
   await Subscription.deleteMany({ user: user.id });
   await User.findByIdAndDelete(user.id);
-};
+}

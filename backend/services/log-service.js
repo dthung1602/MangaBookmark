@@ -1,6 +1,7 @@
-const { isString } = require("lodash");
+import lodash from "lodash";
+import { flattenObject } from "./utils/index.js";
 
-const { flattenObject } = require("./utils");
+const { isString } = lodash;
 
 const TOTAL_MANGA_FOUND = "Total manga found";
 const TOTAL_MANGA_PUSHED_TO_QUEUE = "Total manga pushed to queue";
@@ -38,7 +39,20 @@ function getLogger(component) {
   };
 }
 
-module.exports = {
+export {
+  getLogger,
+  TOTAL_MANGA_FOUND,
+  TOTAL_MANGA_PUSHED_TO_QUEUE,
+  UPDATE_MANGA_SUCCEEDED,
+  UPDATE_MANGA_FAILED,
+  SEARCH_MANGA_FAILED,
+  WEBPUSH_FINISHED,
+  WEBPUSH_FAILED,
+  WEBPUSH_NO_UPDATE,
+  INTERNAL_SERVER_ERROR,
+  CONNECTION_ERROR,
+};
+export default {
   getLogger,
   TOTAL_MANGA_FOUND,
   TOTAL_MANGA_PUSHED_TO_QUEUE,

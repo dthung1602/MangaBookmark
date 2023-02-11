@@ -1,10 +1,10 @@
-const {
+import {
   fetchAndLoad,
   extractNamesFromText,
   extractTagsFromText,
   extractAuthorsFromText,
   useImageProxy,
-} = require("../../scraping-service");
+} from "../../scraping-service.js";
 
 const URLRegex = /^https?:\/\/mangahasu\.se\/.+/;
 
@@ -173,7 +173,7 @@ const availableTags = [
   "zombies",
 ];
 
-module.exports = {
+export default {
   active: true,
   lang: "en",
   site: "MangaHasu",

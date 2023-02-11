@@ -1,7 +1,7 @@
-const { Router } = require("@awaitjs/express");
-const router = Router();
+import { Router } from "@awaitjs/express";
+import { startBackupProcess, startUpdateMangaProcess } from "../services/background-service.js";
 
-const { startBackupProcess, startUpdateMangaProcess } = require("../services/background-service");
+const router = Router();
 
 //---------------------------------------
 //  Trigger update manga script
@@ -18,7 +18,7 @@ const { startBackupProcess, startUpdateMangaProcess } = require("../services/bac
  */
 router.postAsync("/update-mangas", async (req, res) => {
   startUpdateMangaProcess();
-  res.sendStatus(200);
+  await res.sendStatus(200);
 });
 
 //---------------------------------------
@@ -36,7 +36,7 @@ router.postAsync("/update-mangas", async (req, res) => {
  */
 router.postAsync("/backup-db", async (req, res) => {
   startBackupProcess();
-  res.sendStatus(200);
+  await res.sendStatus(200);
 });
 
-module.exports = router;
+export default router;

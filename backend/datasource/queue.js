@@ -1,7 +1,7 @@
-const amqplib = require("amqplib");
+import * as amqplib from "amqplib";
 
-const { getLogger, CONNECTION_ERROR } = require("../services/log-service");
-const { AMQP_URL } = require("../config");
+import { getLogger, CONNECTION_ERROR } from "../services/log-service.js";
+import { AMQP_URL } from "../config.js";
 
 const logger = getLogger("queue");
 const logError = (error) => logger.log(CONNECTION_ERROR, { error: error + "" });
@@ -47,4 +47,4 @@ class Queue {
   }
 }
 
-module.exports = Queue;
+export default Queue;

@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+import mongoose from "mongoose";
+import * as bcrypt from "bcrypt";
 
-const config = require("../config");
+import config from "../config.js";
 
 function setPassword(newPassword) {
   return bcrypt.hashSync(newPassword, config.LOCAL_AUTH_SALT_ROUND);
@@ -122,4 +122,4 @@ userSchema.index(
 
 let User = mongoose.model("User", userSchema);
 
-module.exports = User;
+export default User;

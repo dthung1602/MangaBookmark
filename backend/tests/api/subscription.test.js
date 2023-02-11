@@ -42,7 +42,7 @@ describe("Subscription API", () => {
 
   it("should return subscriptions of current user", async function () {
     const response = await request(app).get("/api/subscriptions");
-    expect(response.status).toEqual(200);
+    expect(response.status).toBe(200);
 
     const subIds = response.body.map((sub) => sub._id).sort();
     expect(subIds).toEqual(["111cccccccccccccccccc111", "222cccccccccccccccccc222"]);
@@ -58,10 +58,10 @@ describe("Subscription API", () => {
     };
 
     const response = await request(app).post("/api/subscriptions").send(sub);
-    expect(response.status).toEqual(201);
+    expect(response.status).toBe(201);
 
     expect(response.body).toEqual(expect.objectContaining(sub));
-    expect(response.body._id).not.toBeUndefined();
+    expect(response.body._id).toBeDefined();
   });
 
   it("should return error when create subscription", async function () {
@@ -77,13 +77,13 @@ describe("Subscription API", () => {
       p256dh: "Invalid value",
     };
     const response = await request(app).post("/api/subscriptions").send(sub);
-    expect(response.status).toEqual(400);
+    expect(response.status).toBe(400);
     expectErrors(expectedErrors, response.body.errors);
   });
 
   it("should delete subscription", async function () {
     let response = await request(app).delete("/api/subscriptions/111cccccccccccccccccc111");
-    expect(response.status).toEqual(204);
+    expect(response.status).toBe(204);
 
     response = await request(app).get("/api/subscriptions");
     const subIds = response.body.map((sub) => sub._id);
@@ -93,14 +93,14 @@ describe("Subscription API", () => {
   it("should not delete other user subscription", async function () {
     const subId = "333cccccccccccccccccc333";
     let response = await request(app).delete(`/api/subscriptions/${subId}`);
-    expect(response.status).toEqual(403);
+    expect(response.status).toBe(403);
     expectErrors({ subscription: "Permission denied" }, response.body.errors);
   });
 
   it("should not delete non existent subscription", async function () {
     const subId = "333ddcccccccccdddcccc333";
     let response = await request(app).delete(`/api/subscriptions/${subId}`);
-    expect(response.status).toEqual(404);
+    expect(response.status).toBe(404);
     expectErrors({ subscription: "Not found" }, response.body.errors);
   });
 });

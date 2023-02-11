@@ -1,14 +1,14 @@
-const updateSingleManga = require("./update");
-const {
+import updateSingleManga from "./update.js";
+import {
   getLogger,
   TOTAL_MANGA_FOUND,
   TOTAL_MANGA_PUSHED_TO_QUEUE,
   UPDATE_MANGA_SUCCEEDED,
   UPDATE_MANGA_FAILED,
-} = require("../log-service");
-const { Manga, MangaUpdateSummary } = require("../../models");
-const { getMangaUpdateQueue, getMangaUpdateResultCache, getMangaUpdateStatusMemo } = require("../../datasource");
-const { CRAWL_CONCURRENCY } = require("../../config");
+} from "../log-service.js";
+import { Manga, MangaUpdateSummary } from "../../models/index.js";
+import { getMangaUpdateQueue, getMangaUpdateResultCache, getMangaUpdateStatusMemo } from "../../datasource/index.js";
+import { CRAWL_CONCURRENCY } from "../../config.js";
 
 const logger = getLogger("update-multiple-service");
 
@@ -118,7 +118,8 @@ async function popResult(user) {
   return await resultCache.retrieveAll(user.id);
 }
 
-module.exports = {
+export { pushToQueue, consumeFromQueue, setUpdateStatus, getUpdateStatus, popResult, ProcessStatuses, QueueTypes };
+export default {
   pushToQueue,
   consumeFromQueue,
   setUpdateStatus,
