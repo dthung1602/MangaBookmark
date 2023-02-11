@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import PropTypes from "prop-types";
 
-import moment from "moment";
+import dayjs from "dayjs";
 import { Button, Checkbox, Spin, Table, Typography } from "antd";
 import { CheckOutlined, ClockCircleOutlined, DoubleLeftOutlined } from "@ant-design/icons";
 
@@ -64,7 +64,7 @@ function ChapterList({ type = "scroll", height = "medium", showDate = true, maxC
             <Column
               dataIndex="createdAt"
               key="createdAt"
-              render={(text, chapter) => <i>{moment.utc(chapter.createdAt).fromNow()}</i>}
+              render={(text, chapter) => <i>{dayjs.utc(chapter.createdAt).fromNow()}</i>}
             />
           ) : null}
           <Column

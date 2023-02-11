@@ -53,12 +53,16 @@ const NavBar = ({ hideLogo = false }) => {
                 <Badge count={FRONTEND_VERSION} className="navbar-version-badge" />
               </Link>
             )}
-            <Menu mode="horizontal" className="justify-right navbar-menu">
-              {userIndependentMenu}
-              <SubMenu key="user" title={<User />}>
-                {userDependentMenu}
-              </SubMenu>
-            </Menu>
+            <Menu
+              mode="horizontal"
+              className="justify-right navbar-menu"
+              items={[
+                ...userIndependentMenu,
+                <SubMenu key="user" title={<User />}>
+                  {userDependentMenu}
+                </SubMenu>,
+              ]}
+            />
           </Header>
         )}
       />
@@ -85,10 +89,8 @@ const NavBar = ({ hideLogo = false }) => {
               onClose={closeMenu}
               open={mobileMenuVisible}
             >
-              <Menu mode="inline" onClick={closeMenu}>
-                {userIndependentMenu}
-                {userDependentMenu}
-              </Menu>
+              {/*FIXME*/}
+              <Menu mode="inline" onClick={closeMenu} items={[...userIndependentMenu, ...userDependentMenu]} />
             </Drawer>
           </>
         )}

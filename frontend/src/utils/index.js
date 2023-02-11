@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 
 /**
  * Ref: https://stackoverflow.com/a/1997811/7342188
@@ -68,7 +68,7 @@ export const formatDate = (dateString, relative = false) => {
   if (!dateString) {
     return "n/a";
   }
-  const date = moment.utc(dateString);
+  const date = dayjs.utc(dateString);
   return relative ? date.fromNow() : date.format("DD-MM-YYYY");
 };
 

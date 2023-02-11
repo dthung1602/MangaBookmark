@@ -25,18 +25,20 @@ const DropDownFilter = ({
     options = obj;
   }
 
+  const menuItems = [
+    ...(showAnyOption ? [<Menu.Item key={anyOptionValue}>{anyText}</Menu.Item>] : []),
+    ...Object.entries(options).map(([key, value]) => (
+      <Menu.Item key={key} className={size}>
+        {value}
+      </Menu.Item>
+    )),
+  ];
+
   return (
     <Dropdown
-      overlay={
+      menu={
         <div className="filter-dropdown-menu">
-          <Menu onSelect={onSelectWrapper} selectedKeys={[selected]}>
-            {showAnyOption ? <Menu.Item key={anyOptionValue}>{anyText}</Menu.Item> : null}
-            {Object.entries(options).map(([key, value]) => (
-              <Menu.Item key={key} className={size}>
-                {value}
-              </Menu.Item>
-            ))}
-          </Menu>
+          <Menu onSelect={onSelectWrapper} selectedKeys={[selected]} items={menuItems} />
         </div>
       }
       trigger={["hover", "click"]}
