@@ -14,6 +14,7 @@ const MangaMenu = () => {
   const showDetail = () => navigate(buildMangaDetailRoute(manga._id));
 
   return (
+    // FIXME
     <Dropdown
       overlay={
         <Menu>

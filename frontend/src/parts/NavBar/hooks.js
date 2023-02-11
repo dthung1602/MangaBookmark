@@ -14,27 +14,37 @@ const useBuildUserDependentMenu = () => {
   let userDependentMenu;
   if (user) {
     userDependentMenu = [
-      <Item key="account" icon={<UserOutlined />}>
-        <Link to={ROUTE_ACCOUNT}>Account</Link>
-      </Item>,
-      <Item key="logout" icon={<LogoutOutlined />} onClick={logout}>
-        Logout
-      </Item>,
+      {
+        key: "account",
+        icon: <UserOutlined />,
+        label: <Link to={ROUTE_ACCOUNT}>Account</Link>,
+      },
+      {
+        key: "logout",
+        icon: <LogoutOutlined />,
+        label: <span onClick={logout}>Logout</span>,
+      },
     ];
   } else {
     userDependentMenu = [
-      <Item key="login" icon={<LoginOutlined />}>
-        <Link to={ROUTE_LOGIN}>Login</Link>
-      </Item>,
+      {
+        key: "login",
+        icon: <LoginOutlined />,
+        label: <Link to={ROUTE_LOGIN}>Login</Link>,
+      },
     ];
   }
   userDependentMenu = userDependentMenu.concat([
-    <Item key="register" icon={<FormOutlined />}>
-      <Link to={ROUTE_REGISTER}>Register</Link>
-    </Item>,
-    <Item key="legal" icon={<AuditOutlined />}>
-      <Link to={ROUTE_LEGAL_NOTICE}>Legal notice</Link>
-    </Item>,
+    {
+      key: "register",
+      icon: <FormOutlined />,
+      label: <Link to={ROUTE_REGISTER}>Register</Link>,
+    },
+    {
+      key: "legal",
+      icon: <AuditOutlined />,
+      label: <Link to={ROUTE_LEGAL_NOTICE}>Legal notice</Link>,
+    },
   ]);
   return userDependentMenu;
 };

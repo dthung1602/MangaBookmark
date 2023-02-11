@@ -31,15 +31,21 @@ const NavBar = ({ hideLogo = false }) => {
   const userDependentMenu = useBuildUserDependentMenu();
 
   const userIndependentMenu = [
-    <Item key="search" icon={<SearchOutlined />}>
-      <OmniSearch onSearch={closeMenu} />
-    </Item>,
-    <Item key="quick" icon={<StarOutlined />}>
-      <Link to={ROUTE_QUICK_ACCESS}>Quick access</Link>
-    </Item>,
-    <Item key="mangas" icon={<BookOutlined />}>
-      <Link to={ROUTE_ALL_MANGAS}>All mangas</Link>
-    </Item>,
+    {
+      key: "search",
+      icon: <SearchOutlined />,
+      label: <OmniSearch onSearch={closeMenu} />
+    },
+    {
+      key: "quick",
+      icon: <StarOutlined />,
+      label: <Link to={ROUTE_QUICK_ACCESS}>Quick access</Link>
+    },
+    {
+      key: "mangas",
+      icon: <BookOutlined />,
+      label: <Link to={ROUTE_ALL_MANGAS}>All mangas</Link>
+    },
   ];
 
   return (
@@ -58,9 +64,11 @@ const NavBar = ({ hideLogo = false }) => {
               className="justify-right navbar-menu"
               items={[
                 ...userIndependentMenu,
-                <SubMenu key="user" title={<User />}>
-                  {userDependentMenu}
-                </SubMenu>,
+                {
+                  key: "user",
+                  label: <User />,
+                  children: userDependentMenu,
+                },
               ]}
             />
           </Header>

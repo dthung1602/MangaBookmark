@@ -7,7 +7,7 @@ import "./DateFilter.less";
 const { RangePicker } = DatePicker;
 
 const DateFilter = ({ displayName, value, onSelect }) => {
-  value = [value[0] ? dayjs.utc(value[0]) : value[0], value[1] ? moment.utc(value[1]) : value[1]];
+  value = [value[0] ? dayjs.utc(value[0]) : value[0], value[1] ? dayjs.utc(value[1]) : value[1]];
 
   return (
     <div className="ant-btn date-picker">

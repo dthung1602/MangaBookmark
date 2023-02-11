@@ -53,14 +53,19 @@ const {
 console.log("> Pre-compressing static files with brotli");
 
 const getFileInDir = (dirName, extensions = null) => {
-  if (!dirName.endsWith("/")) {
-    dirName += "/";
+  try {
+    if (!dirName.endsWith("/")) {
+      dirName += "/";
+    }
+    let files = fs.readdirSync(dirName).map((f) => dirName + f);
+    if (extensions) {
+      files = files.filter((f) => extensions.includes(f.split(".").pop()));
+    }
+    return files;
+  } catch (e) {
+    console.log(`- Skip ${dirName}`);
+    return [];
   }
-  let files = fs.readdirSync(dirName).map((f) => dirName + f);
-  if (extensions) {
-    files = files.filter((f) => extensions.includes(f.split(".").pop()));
-  }
-  return files;
 };
 
 const filesToCompress = [

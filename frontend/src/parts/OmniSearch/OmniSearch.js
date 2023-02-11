@@ -70,6 +70,7 @@ const OmniSearch = ({ onSearch }) => {
             placement="bottomRight"
             open={searchResultVisible}
             trigger={[]}
+            /* FIXME */
             overlay={<OmniSearchResult searchContext={searchContext} />}
           >
             <input
