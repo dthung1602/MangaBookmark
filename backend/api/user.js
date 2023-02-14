@@ -1,5 +1,5 @@
 import { Router } from "@awaitjs/express";
-import * as passport from "passport";
+import passport from "passport";
 
 import ThirdPartyAuthRouter from "./third-party-auth.js";
 import { User } from "../models/index.js";

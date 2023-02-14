@@ -1,28 +1,23 @@
-import express from "express";
 import path from "path";
-import passport from "passport";
+import { fileURLToPath } from "url";
+
+import express from "express";
+import { addAsync } from "@awaitjs/express";
+
+import passport from "passport"; // keep at version 0.5 https://stackoverflow.com/a/72519018/7342188
 import cookieSession from "cookie-session";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import enforceSSL from "express-enforces-ssl";
 import helmet from "helmet";
+
 import staticGZIP from "express-static-gzip";
 import dynamicGZIP from "compression";
+
 import swaggerUi from "swagger-ui-express";
-import enforceSSL from "express-enforces-ssl";
-import { addAsync } from "@awaitjs/express";
 import swaggerDocument from "./swagger.js";
+
 import config from "./config.js";
-import MangaRouter from "./api/manga.js";
-import UserRouter from "./api/user.js";
-import SubscriptionRouter from "./api/subscription.js";
-import MetaRouter from "./api/meta.js";
-import ImageRouter from "./api/image.js";
-import OmnisearchRouter from "./api/omnisearch.js";
-import ServiceRouter from "./api/service.js";
-import { AuthenticateMiddleware } from "./services/auth-service/index.js";
-import { DBConnectionMiddleware } from "./services/db-service.js";
-import { ErrorHandlerMiddleware, NotFoundError } from "./errors.js";
-import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -57,6 +52,17 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+
+import MangaRouter from "./api/manga.js";
+import UserRouter from "./api/user.js";
+import SubscriptionRouter from "./api/subscription.js";
+import MetaRouter from "./api/meta.js";
+import ImageRouter from "./api/image.js";
+import OmnisearchRouter from "./api/omnisearch.js";
+import ServiceRouter from "./api/service.js";
+import { AuthenticateMiddleware } from "./services/auth-service/index.js";
+import { DBConnectionMiddleware } from "./services/db-service.js";
+import { ErrorHandlerMiddleware, NotFoundError } from "./errors.js";
 
 // API
 const apiRouter = Router();
