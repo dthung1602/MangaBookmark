@@ -70,8 +70,14 @@ const OmniSearch = ({ onSearch }) => {
             placement="bottomRight"
             open={searchResultVisible}
             trigger={[]}
-            /* FIXME */
-            overlay={<OmniSearchResult searchContext={searchContext} />}
+            menu={{
+              items: [
+                {
+                  key: "omnisearch",
+                  label: <OmniSearchResult searchContext={searchContext} />,
+                },
+              ],
+            }}
           >
             <input
               className="omnisearch"

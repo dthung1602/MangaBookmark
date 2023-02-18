@@ -119,9 +119,17 @@
         color: @semi-transparent;
       }
       &.ant-menu-item-active a,
-      &.ant-menu-item-selected a {
+      &.ant-menu-item-active .ant-menu-item-icon,
+      &.ant-menu-item-active > *,
+      &.ant-menu-item-selected a,
+      &.ant-menu-item-selected .ant-menu-item-icon,
+      &.ant-menu-item-selected > * {
         color: @primary-color;
       }
+    }
+
+    .ant-menu-submenu.ant-menu-submenu-active .ant-menu-submenu-title {
+      color: @primary-color !important;
     }
   }
 }

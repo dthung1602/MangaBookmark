@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 import { QueryParamProvider } from "use-query-params";
 import { ConfigProvider } from "antd";
 
@@ -31,11 +32,11 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 
 const App = () => {
   return (
-    <ErrorBoundary>
-      <Router>
-        <QueryParamProvider ReactRouterRoute={Route}>
-          <Suspense fallback={<FullScreenLoading />}>
-            <ConfigProvider theme={theme}>
+    <ConfigProvider theme={theme}>
+      <ErrorBoundary>
+        <Router>
+          <QueryParamProvider adapter={ReactRouter6Adapter}>
+            <Suspense fallback={<FullScreenLoading />}>
               <GlobalContextProvider>
                 <NotificationPrompt />
                 <Routes>
@@ -60,11 +61,11 @@ const App = () => {
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </GlobalContextProvider>
-            </ConfigProvider>
-          </Suspense>
-        </QueryParamProvider>
-      </Router>
-    </ErrorBoundary>
+            </Suspense>
+          </QueryParamProvider>
+        </Router>
+      </ErrorBoundary>
+    </ConfigProvider>
   );
 };
 

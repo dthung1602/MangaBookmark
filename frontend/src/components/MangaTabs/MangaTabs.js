@@ -7,8 +7,6 @@ import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import { MangaListContext } from "../../contexts";
 import "./MangaTabs.less";
 
-const { TabPane } = Tabs;
-
 const MangaTabs = ({ tab, setTab, tabMappings }) => {
   const mangaListContext = useContext(MangaListContext);
 
@@ -32,18 +30,16 @@ const MangaTabs = ({ tab, setTab, tabMappings }) => {
             />
           </Tooltip>
         }
-      >
-        {Object.entries(tabMappings).map(([tab, { displayName, description }]) => (
-          <TabPane
-            key={tab}
-            tab={
-              <Tooltip title={description} placement="bottomLeft">
-                {displayName}
-              </Tooltip>
-            }
-          />
-        ))}
-      </Tabs>
+        items={Object.entries(tabMappings).map(([tab, { displayName, description }]) => ({
+          key: tab,
+          label: (
+            <Tooltip title={description} placement="bottomLeft">
+              {displayName}
+            </Tooltip>
+          ),
+          children: null,
+        }))}
+      />
     </Affix>
   );
 };

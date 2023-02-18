@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { Button, Dropdown, Menu } from "antd";
+import { Button, Dropdown } from "antd";
 import { DeleteOutlined, FullscreenOutlined, MoreOutlined, RetweetOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
@@ -13,24 +13,37 @@ const MangaMenu = () => {
   const navigate = useNavigate();
   const showDetail = () => navigate(buildMangaDetailRoute(manga._id));
 
+  const items = [
+    {
+      label: "Details",
+      key: "detail",
+      icon: <FullscreenOutlined />,
+    },
+    {
+      label: "Update",
+      key: "update",
+      icon: <RetweetOutlined />,
+    },
+    {
+      label: "Delete",
+      key: "delete",
+      icon: <DeleteOutlined />,
+    },
+  ];
+
+  const handleMenuClicked = (e) => {
+    switch (e.key) {
+      case "detail":
+        return showDetail();
+      case "update":
+        return updateManga();
+      case "delete":
+        return deleteManga();
+    }
+  };
+
   return (
-    // FIXME
-    <Dropdown
-      overlay={
-        <Menu>
-          <Menu.Item icon={<FullscreenOutlined />} onClick={showDetail}>
-            Details
-          </Menu.Item>
-          <Menu.Item icon={<RetweetOutlined />} onClick={updateManga}>
-            Update
-          </Menu.Item>
-          <Menu.Item danger icon={<DeleteOutlined />} onClick={deleteManga}>
-            Delete
-          </Menu.Item>
-        </Menu>
-      }
-      trigger={["click", "hover"]}
-    >
+    <Dropdown menu={{ items, onClick: handleMenuClicked }} trigger={["click", "hover"]}>
       <Button type="text" shape="circle" icon={<MoreOutlined />} />
     </Dropdown>
   );

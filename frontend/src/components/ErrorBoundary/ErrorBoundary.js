@@ -4,8 +4,9 @@ import PropTypes from "prop-types";
 import { Button } from "antd";
 import { ReloadOutlined, BugOutlined, FundOutlined, HomeOutlined } from "@ant-design/icons";
 
-import { LINK_ISSUE_TRACKER, ROUTE_HOME } from "../utils/constants";
-import ERROR_IMG from "../assets/error.webp";
+import { LINK_ISSUE_TRACKER, ROUTE_HOME } from "../../utils/constants";
+import ERROR_IMG from "../../assets/error.webp";
+import "./ErrorBoundary.less";
 
 class ErrorBoundary extends Component {
   constructor(props) {

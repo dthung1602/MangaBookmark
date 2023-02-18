@@ -23,7 +23,7 @@ const MangaFilters = ({ filters, updateFilters, resetFilters }) => {
   const selectDateRange = (field) => (dates, dateStrings) => {
     updateFilters({
       [field + "GTE"]: dateStrings[0],
-      [field + "LTE"]: dateStrings[1],
+      [field + "LTE"]: dateStrings[1]
     });
   };
 
@@ -139,7 +139,7 @@ const MangaFilters = ({ filters, updateFilters, resetFilters }) => {
       languageFilter,
       tagsFilter,
       createdAtFilter,
-      lastReleasedFilter,
+      lastReleasedFilter
     ];
   } else if (breakpoints.sm) {
     basicFilters = [shelfFilter, statusFilter, search];
@@ -151,7 +151,7 @@ const MangaFilters = ({ filters, updateFilters, resetFilters }) => {
       languageFilter,
       tagsFilter,
       createdAtFilter,
-      lastReleasedFilter,
+      lastReleasedFilter
     ];
   } else {
     basicFilters = [shelfFilter];
@@ -165,35 +165,37 @@ const MangaFilters = ({ filters, updateFilters, resetFilters }) => {
       tagsFilter,
       createdAtFilter,
       lastReleasedFilter,
-      search,
+      search
     ];
   }
 
   return (
     <Affix className="affix-container">
-      <div className="manga-filter-basic">
-        <Space>{basicFilters}</Space>
-        &nbsp;&nbsp;
-        <div className="flex-1" />
-        <Space>
-          <Button className="clear-btn" type="text" icon={<ClearOutlined />} onClick={resetFilters}>
-            Clear
-          </Button>
-          <Button
-            className="advance-btn"
-            icon={open ? <CaretUpOutlined /> : <CaretDownOutlined />}
-            onClick={() => setOpen(!open)}
-          >
-            {open ? "Simple" : "Advance"}
-          </Button>
-        </Space>
-      </div>
+      <div>
+        <div className="manga-filter-basic">
+          <Space>{basicFilters}</Space>
+          &nbsp;&nbsp;
+          <div className="flex-1" />
+          <Space>
+            <Button className="clear-btn" type="text" icon={<ClearOutlined />} onClick={resetFilters}>
+              Clear
+            </Button>
+            <Button
+              className="advance-btn"
+              icon={open ? <CaretUpOutlined /> : <CaretDownOutlined />}
+              onClick={() => setOpen(!open)}
+            >
+              {open ? "Simple" : "Advance"}
+            </Button>
+          </Space>
+        </div>
 
-      <Collapse bordered={false} activeKey={open ? 1 : undefined}>
-        <Panel header={""} key="1" showArrow={false} className="manga-filter-advance">
-          <Space wrap>{advanceFilters}</Space>
-        </Panel>
-      </Collapse>
+        <Collapse bordered={false} activeKey={open ? 1 : undefined}>
+          <Panel header={""} key="1" showArrow={false} className="manga-filter-advance">
+            <Space wrap>{advanceFilters}</Space>
+          </Panel>
+        </Collapse>
+      </div>
     </Affix>
   );
 };
@@ -201,7 +203,7 @@ const MangaFilters = ({ filters, updateFilters, resetFilters }) => {
 MangaFilters.propTypes = {
   filters: PropTypes.object.isRequired,
   updateFilters: PropTypes.func.isRequired,
-  resetFilters: PropTypes.func.isRequired,
+  resetFilters: PropTypes.func.isRequired
 };
 
 export default MangaFilters;

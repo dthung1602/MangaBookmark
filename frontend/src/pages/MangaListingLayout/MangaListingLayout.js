@@ -80,7 +80,10 @@ const MangaListingLayout = ({
   );
 
   const endOfList = (
-    <EndOfList onReached={onReachedEndOfList} disabled={mangaListContext.isLoading || mangaListContext.allLoaded} />
+    <EndOfList
+      onReached={onReachedEndOfList}
+      disabled={Boolean(mangaListContext.isLoading) || mangaListContext.allLoaded}
+    />
   );
 
   // TODO avoid rerender manga table when select right review

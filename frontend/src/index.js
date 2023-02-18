@@ -10,6 +10,13 @@ if (process.env["NODE_ENV"] !== "PRODUCTION") {
   addDebugObjectId();
 }
 
+// init dayjs
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(utc);
+dayjs.extend(relativeTime);
+
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>

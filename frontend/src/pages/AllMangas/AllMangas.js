@@ -11,6 +11,7 @@ import { removeEmptyStringAttrs, removeUndefinedAttrs } from "../../utils";
 const AllMangas = () => {
   const [page, setPage] = useState(1);
 
+  // FIXME when scroll 2 fast + high res screen
   const increasePage = useCallback(() => setPage(page + 1), [page]);
   const loadMode = page === 1 ? "replace" : "append";
 

@@ -13,7 +13,7 @@ const DropDownFilter = ({
   anyOptionValue = ANY,
   anyText = "--",
   size = "default",
-  placement = "bottomCenter",
+  placement = "bottom",
   block = false,
 }) => {
   const onSelectWrapper = ({ key }) => onSelect(key);
@@ -26,21 +26,22 @@ const DropDownFilter = ({
   }
 
   const menuItems = [
-    ...(showAnyOption ? [<Menu.Item key={anyOptionValue}>{anyText}</Menu.Item>] : []),
-    ...Object.entries(options).map(([key, value]) => (
-      <Menu.Item key={key} className={size}>
-        {value}
-      </Menu.Item>
-    )),
+    ...(showAnyOption ? [{ key: anyOptionValue, label: anyText }] : []),
+    ...Object.entries(options).map(([key, value]) => ({ key, label: value })),
   ];
+
+  // const menuItems = [
+  //   ...(showAnyOption ? [<Menu.Item key={anyOptionValue}>{anyText}</Menu.Item>] : []),
+  //   ...Object.entries(options).map(([key, value]) => (
+  //     <Menu.Item key={key} className={size}>
+  //       {value}
+  //     </Menu.Item>
+  //   )),
+  // ];
 
   return (
     <Dropdown
-      menu={
-        <div className="filter-dropdown-menu">
-          <Menu onSelect={onSelectWrapper} selectedKeys={[selected]} items={menuItems} />
-        </div>
-      }
+      menu={{ items: menuItems, onClick: onSelectWrapper }}
       trigger={["hover", "click"]}
       overlayClassName="box-shadow"
       placement={placement}
@@ -63,7 +64,7 @@ DropDownFilter.propTypes = {
   anyOptionValue: PropTypes.any,
   anyText: PropTypes.node,
   size: PropTypes.oneOf(["small", "default", "large"]),
-  placement: PropTypes.oneOf(["bottomLeft", "bottomCenter", "bottomRight", "topLeft", "topCenter", "topRight"]),
+  placement: PropTypes.oneOf(["bottomLeft", "bottom", "bottomRight", "topLeft", "top", "topRight"]),
   block: PropTypes.bool,
 };
 

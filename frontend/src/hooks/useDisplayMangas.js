@@ -4,7 +4,13 @@ import { MANGA_PER_PAGE } from "../utils/constants";
 import { clonePlainObject } from "../utils";
 import { MangaListContext } from "../contexts";
 
-const skeletonData = Array(MANGA_PER_PAGE).fill({ isSkeleton: true });
+const skeletonData = [];
+for (let i = 0; i < MANGA_PER_PAGE; i++) {
+  skeletonData[i] = {
+    isSkeleton: true,
+    _id: i,
+  };
+}
 
 const useDisplayMangas = () => {
   const { isLoading, mangasToShow } = useContext(MangaListContext);
