@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo:4.4.19-rc2
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: MangaBookmark
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/mongo/:/data/db
+  redis:
+    image: redis:alpine3.17
+    restart: always
+    ports:
+      - "6379:6379"
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8081:8081"
+  rabbitmq:
+    image: rabbitmq:3.9.28-management-alpine
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"

@@ -89,18 +89,19 @@ clicking the `+` button and paste the link of the manga detail page.
 
 Make sure you have the following installed on your system:
 * `yarn` ^1.22.5
-* `node` ^14.15.4
-* `mongo` ^4.4
+* `node` ^18.12.1
+* `docker` ^23
 
 ### Installation
 
 1. Setup [Google Login](https://developers.google.com/identity/protocols/oauth2),
    [Facebook Login](https://developers.facebook.com/docs/facebook-login/),
-   [Cloudinary account](https://cloudinary.com/)
+   [Cloudinary account](https://cloudinary.com/).
 Make sure you have the API key and secret.
 2. Clone the repo
     ```sh
     git clone https://github.com/dthung1602/MangaBookmark
+    cd MangaBookmark
     ```
 3. Install NPM packages
     ```sh
@@ -132,6 +133,16 @@ yarn run dev-be &
 yarn run dev-fe &
 ```
 
+> **Note** 
+> 
+> The run backend command will spin up redis, mongodb & rabbitmq with docker
+> 
+> Redis commander is available at localhost:8081
+> 
+> Rabbitmq dashboard is at localhost:15672 (credential: guest/guest)
+> 
+> To shut down the containers: `cd backend && yarn run down`
+
 Now you can go to [http://localhost:3001](http://localhost:3001) to see the page.
 
 APIs are served both at `localhost:3000` and `localhost:3001` (which forwards to port 3000).
@@ -162,8 +173,10 @@ There's no test for FE (yet). `yarn test-be` would obviously run test for BE.
    - Copy `.env.development` to `.env`
    - Replace mock keys by your real API keys
    - Set `NOVE_ENV=production`
-   - Set `PORT` to the your app's desired working port
+   - Set `PORT` to your app's desired working port
 4. Run `build.sh`
+5. [Optional] Remove frontend folder and packages
+6. Start the server: `yarn run start`
 
 
 <!-- ROADMAP -->

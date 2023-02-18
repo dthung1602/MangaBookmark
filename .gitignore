@@ -12,3 +12,4 @@ foo.*
 .env.prod
 .env.qa
 coverage
+backend/data
