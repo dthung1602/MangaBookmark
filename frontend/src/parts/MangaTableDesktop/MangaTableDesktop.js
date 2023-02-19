@@ -49,7 +49,6 @@ const MangaTableDesktop = () => {
         dataIndex="_id"
         key="_id"
         render={(text, manga) => {
-          console.log(manga._id)
           if (manga.isSkeleton) {
             return <Skeleton active key={manga._id} />;
           }

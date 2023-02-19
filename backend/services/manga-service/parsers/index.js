@@ -23,7 +23,7 @@ fs.readdirSync(__dirname)
   .forEach(async (file) => {
     const parserModule = (await import("./" + file)).default;
     supportedSites.push({
-      name: file,
+      name: parserModule.site,
       homepage: parserModule.homepage,
       lang: parserModule.lang,
       active: parserModule.active,

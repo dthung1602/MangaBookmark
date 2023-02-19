@@ -12,7 +12,7 @@ const MangaDetailLeftPanel = () => {
   const { manga, isLoading, nextChapToRead, updateManga, deleteManga, markAll, disableMarkAll } =
     useContext(MangaContext);
 
-  if (isLoading) {
+  if (!manga || isLoading) {
     return (
       <Space direction="vertical" size="small" className="manga-detail-left-panel">
         <div className="ant-image" />

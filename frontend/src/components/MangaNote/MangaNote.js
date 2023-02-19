@@ -16,7 +16,7 @@ const MangaNote = () => {
   useEffect(() => setEditing(false), [note]);
 
   const edit = () => {
-    editMangaField("note")(textAreaRef.current.resizableTextArea.props.value).then(() => setEditing(false));
+    editMangaField("note")(textAreaRef.current.resizableTextArea.textArea.value).then(() => setEditing(false));
   };
 
   if (editing) {
