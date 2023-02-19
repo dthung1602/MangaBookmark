@@ -43,7 +43,7 @@ const User = () => {
         throwOnCriticalErrors(response);
         const newUser = await response.json();
         updateGlobalContext({ user: newUser });
-        message.success("AccountSettings saved");
+        message.success("Account settings saved");
       })
       .catch(notifyError)
       .finally(() => setIsLoading(false));

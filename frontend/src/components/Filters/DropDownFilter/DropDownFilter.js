@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Button, Dropdown, Menu } from "antd";
+import { Button, Dropdown } from "antd";
 
 import { ANY } from "../../../utils/constants";
 import "./DropDownFilter.less";
@@ -29,15 +29,6 @@ const DropDownFilter = ({
     ...(showAnyOption ? [{ key: anyOptionValue, label: anyText }] : []),
     ...Object.entries(options).map(([key, value]) => ({ key, label: value })),
   ];
-
-  // const menuItems = [
-  //   ...(showAnyOption ? [<Menu.Item key={anyOptionValue}>{anyText}</Menu.Item>] : []),
-  //   ...Object.entries(options).map(([key, value]) => (
-  //     <Menu.Item key={key} className={size}>
-  //       {value}
-  //     </Menu.Item>
-  //   )),
-  // ];
 
   return (
     <Dropdown

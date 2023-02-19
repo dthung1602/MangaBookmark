@@ -15,7 +15,6 @@ import LOGO from "../../assets/tech-logo/logo-invert.webp";
 import "./NavBar.less";
 
 const { Header } = Layout;
-const { Item, SubMenu } = Menu;
 
 const NavBar = ({ hideLogo = false }) => {
   const location = useLocation();
@@ -34,17 +33,17 @@ const NavBar = ({ hideLogo = false }) => {
     {
       key: "search",
       icon: <SearchOutlined />,
-      label: <OmniSearch onSearch={closeMenu} />
+      label: <OmniSearch onSearch={closeMenu} />,
     },
     {
       key: "quick",
       icon: <StarOutlined />,
-      label: <Link to={ROUTE_QUICK_ACCESS}>Quick access</Link>
+      label: <Link to={ROUTE_QUICK_ACCESS}>Quick access</Link>,
     },
     {
       key: "mangas",
       icon: <BookOutlined />,
-      label: <Link to={ROUTE_ALL_MANGAS}>All mangas</Link>
+      label: <Link to={ROUTE_ALL_MANGAS}>All mangas</Link>,
     },
   ];
 

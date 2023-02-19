@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
+import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
 import { QueryParamProvider } from "use-query-params";
 import { ConfigProvider } from "antd";
 

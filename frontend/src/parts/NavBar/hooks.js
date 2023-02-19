@@ -1,13 +1,10 @@
 import { useState } from "react";
 
 import { Link } from "react-router-dom";
-import { Menu } from "antd";
 import { AuditOutlined, FormOutlined, LoginOutlined, LogoutOutlined, UserOutlined } from "@ant-design/icons";
 
 import { useLogoutAPI } from "../../hooks";
 import { ROUTE_ACCOUNT, ROUTE_LEGAL_NOTICE, ROUTE_LOGIN, ROUTE_REGISTER } from "../../utils/constants";
-
-const { Item } = Menu;
 
 const useBuildUserDependentMenu = () => {
   const [logout, user] = useLogoutAPI();

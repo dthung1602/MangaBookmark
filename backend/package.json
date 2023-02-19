@@ -10,7 +10,7 @@
     "lint": "eslint --fix .",
     "test": "NODE_ENV=test jest --runInBand",
     "coverage": "NODE_ENV=test jest --runInBand --coverage=true",
-    "gendoc": "swagger-jsdoc -d swaggerDef.js"
+    "gendoc": "swagger-jsdoc -d swagger-def.cjs api/**/*.js models/**/*.js"
   },
   "jest": {
     "testEnvironment": "node",
@@ -28,6 +28,7 @@
   "dependencies": {
     "@awaitjs/express": "^0.9.0",
     "@babel/eslint-parser": "^7.19.1",
+    "@babel/plugin-syntax-import-assertions": "^7.20.0",
     "@googleapis/drive": "^4.0.1",
     "amqplib": "^0.10.3",
     "async-redis": "^2.0.0",

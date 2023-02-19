@@ -23,7 +23,7 @@ const MangaFilters = ({ filters, updateFilters, resetFilters }) => {
   const selectDateRange = (field) => (dates, dateStrings) => {
     updateFilters({
       [field + "GTE"]: dateStrings[0],
-      [field + "LTE"]: dateStrings[1]
+      [field + "LTE"]: dateStrings[1],
     });
   };
 
@@ -128,9 +128,17 @@ const MangaFilters = ({ filters, updateFilters, resetFilters }) => {
   );
 
   const breakpoints = useBreakpoint();
-  let basicFilters, advanceFilters;
+  let basicFilters,
+    advanceFilters,
+    advanceFiltersSecondRows = [];
 
-  if (breakpoints.md) {
+  console.log(breakpoints);
+
+  if (breakpoints.xl) {
+    basicFilters = [shelfFilter, statusFilter, sort, search];
+    advanceFilters = [isCompletedFilter, hiddenFilter, siteFilter, languageFilter, tagsFilter];
+    advanceFiltersSecondRows = [createdAtFilter, lastReleasedFilter];
+  } else if (breakpoints.md) {
     basicFilters = [shelfFilter, statusFilter, sort, search];
     advanceFilters = [
       isCompletedFilter,
@@ -139,7 +147,7 @@ const MangaFilters = ({ filters, updateFilters, resetFilters }) => {
       languageFilter,
       tagsFilter,
       createdAtFilter,
-      lastReleasedFilter
+      lastReleasedFilter,
     ];
   } else if (breakpoints.sm) {
     basicFilters = [shelfFilter, statusFilter, search];
@@ -151,7 +159,7 @@ const MangaFilters = ({ filters, updateFilters, resetFilters }) => {
       languageFilter,
       tagsFilter,
       createdAtFilter,
-      lastReleasedFilter
+      lastReleasedFilter,
     ];
   } else {
     basicFilters = [shelfFilter];
@@ -165,7 +173,7 @@ const MangaFilters = ({ filters, updateFilters, resetFilters }) => {
       tagsFilter,
       createdAtFilter,
       lastReleasedFilter,
-      search
+      search,
     ];
   }
 
@@ -193,6 +201,7 @@ const MangaFilters = ({ filters, updateFilters, resetFilters }) => {
         <Collapse bordered={false} activeKey={open ? 1 : undefined}>
           <Panel header={""} key="1" showArrow={false} className="manga-filter-advance">
             <Space wrap>{advanceFilters}</Space>
+            {advanceFiltersSecondRows ? <Space wrap>{advanceFiltersSecondRows}</Space> : null}
           </Panel>
         </Collapse>
       </div>
@@ -203,7 +212,7 @@ const MangaFilters = ({ filters, updateFilters, resetFilters }) => {
 MangaFilters.propTypes = {
   filters: PropTypes.object.isRequired,
   updateFilters: PropTypes.func.isRequired,
-  resetFilters: PropTypes.func.isRequired
+  resetFilters: PropTypes.func.isRequired,
 };
 
 export default MangaFilters;
