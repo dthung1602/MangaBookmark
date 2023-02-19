@@ -1,11 +1,10 @@
-export const openapi = "3.0.0";
-export const info = {
+const openapi = "3.0.0";
+const info = {
   title: "MangaBookmark API",
-  version: "4.3.0",
+  version: "4.4.0",
   description: "API for MangaBookmark client",
 };
-export const apis = ["api/**/*.js", "models/**/*.js"];
-export const components = {
+const components = {
   schemas: {
     Id: {
       type: "string",
@@ -90,9 +89,9 @@ export const components = {
     },
   },
 };
-export default {
+
+module.exports = {
   openapi,
   info,
-  apis,
   components,
 };

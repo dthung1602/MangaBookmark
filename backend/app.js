@@ -15,7 +15,7 @@ import staticGZIP from "express-static-gzip";
 import dynamicGZIP from "compression";
 
 import swaggerUi from "swagger-ui-express";
-import swaggerDocument from "./swagger.js";
+import swaggerDocument from "./swagger.json" assert { type: "json" };;
 
 import config from "./config.js";
 

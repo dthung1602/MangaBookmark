@@ -1,0 +1,1434 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "MangaBookmark API",
+    "version": "4.4.0",
+    "description": "API for MangaBookmark client"
+  },
+  "components": {
+    "schemas": {
+      "Id": {
+        "type": "string",
+        "minLength": 24,
+        "maxLength": 24,
+        "pattern": "^[0-9a-f]{24}$"
+      },
+      "MangaInfo": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string",
+            "format": "uri"
+          },
+          "image": {
+            "type": "string",
+            "format": "uri"
+          },
+          "isCompleted": {
+            "type": "boolean"
+          },
+          "chapters": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "link": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "description": {
+            "type": "string"
+          },
+          "lang": {
+            "type": "string",
+            "enum": [
+              "en",
+              "vi"
+            ]
+          },
+          "alternativeNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "authors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "MangaSite": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "homepage": {
+            "type": "string",
+            "format": "url"
+          },
+          "lang": {
+            "type": "string",
+            "enum": [
+              "en",
+              "vi"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/api/image/proxy": {
+      "get": {
+        "description": "Get image with spoofed referer to bypass security measures",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "url",
+            "description": "image url",
+            "schema": {
+              "type": "string",
+              "format": "uri",
+              "required": true
+            }
+          },
+          {
+            "in": "query",
+            "name": "mangaSite",
+            "description": "the manga site that host the image",
+            "schema": {
+              "type": "string",
+              "required": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved successfully",
+            "content": {
+              "image/jpeg": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/png": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/webp": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/gif": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/image/avatar": {
+      "post": {
+        "description": "Upload user avatar",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "filename": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Image uploaded successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "success",
+                        "fail"
+                      ]
+                    },
+                    "url": {
+                      "type": "string",
+                      "format": "url"
+                    },
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/mangas": {
+      "get": {
+        "description": "Search & filter mangas",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "description": "Search mangas by name",
+            "schema": {
+              "type": "string",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "shelf",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/MangaShelf"
+              },
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "isCompleted",
+            "schema": {
+              "type": "boolean",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 3
+              },
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "hidden",
+            "schema": {
+              "type": "boolean",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "site",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "lang",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "en",
+                  "vi"
+                ]
+              },
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "createdAtGTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "createdAtLTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "lastReleasedGTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "lastReleasedLTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "unreadChapCountGTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "unreadChapCountLTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "tags",
+            "schema": {
+              "type": "string",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "chapters.link",
+            "description": "Search mangas by chapter link",
+            "schema": {
+              "type": "string",
+              "format": "url",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "perPage",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "If set to 0, all pages are retrieved.",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "The field name to sort. Add - to sort desc. This field can be a string of one filed a string of multiple fields separated by space, or an array of string.",
+              "required": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Manga"
+                      }
+                    },
+                    "page": {
+                      "type": "integer"
+                    },
+                    "totalItem": {
+                      "type": "integer"
+                    },
+                    "totalPage": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Create new manga",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "link": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "readChapters": {
+                    "type": "array",
+                    "required": false,
+                    "items": {
+                      "type": "string",
+                      "format": "url"
+                    }
+                  },
+                  "nextRereadChapterLink": {
+                    "type": "string",
+                    "format": "uri",
+                    "required": false
+                  },
+                  "note": {
+                    "type": "string",
+                    "required": false
+                  },
+                  "isCompleted": {
+                    "type": "boolean",
+                    "required": false
+                  },
+                  "hidden": {
+                    "type": "boolean",
+                    "required": false
+                  },
+                  "shelf": {
+                    "$ref": "#/components/schemas/MangaShelf",
+                    "required": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Manga created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Manga"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/mangas/info": {
+      "get": {
+        "description": "Get live manga info. This manga might NOT be in the database.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "link",
+            "schema": {
+              "type": "string",
+              "format": "uri",
+              "required": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get info successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MangaInfo"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/mangas/{mangaId}": {
+      "get": {
+        "description": "Get manga info",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "mangaId",
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Manga"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "description": "Edit manga",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "mangaId",
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "note": {
+                    "type": "string",
+                    "required": false
+                  },
+                  "isCompleted": {
+                    "type": "boolean",
+                    "required": false
+                  },
+                  "hidden": {
+                    "type": "boolean",
+                    "required": false
+                  },
+                  "shelf": {
+                    "$ref": "#/components/schemas/MangaShelf",
+                    "required": false
+                  },
+                  "nextRereadChapter": {
+                    "type": "string",
+                    "format": "uri",
+                    "required": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Manga edited successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Manga"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete manga",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "mangaId",
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted successfully"
+          }
+        }
+      }
+    },
+    "/api/mangas/{mangaId}/mark-chapters": {
+      "post": {
+        "description": "Update chapter isRead status",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "isRead": {
+                    "type": "boolean",
+                    "required": true
+                  },
+                  "chapters": {
+                    "type": "array",
+                    "required": true,
+                    "items": {
+                      "type": "string",
+                      "format": "uri"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Chapters marked successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Manga"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/mangas/{mangaId}/reread-progress": {
+      "post": {
+        "description": "Update reread progress",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nextRereadChapterLink": {
+                    "required": true,
+                    "oneOf": [
+                      {
+                        "type": "string",
+                        "format": "uri"
+                      },
+                      {
+                        "type": "string",
+                        "maxLength": 0
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Reread progress updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Manga"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/mangas/{mangaId}/update": {
+      "post": {
+        "description": "Update this manga",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "mangaId",
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Manga"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/mangas/update-multiple": {
+      "post": {
+        "description": "Update mangas found by search & filters",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "search",
+            "description": "Search mangas by name",
+            "schema": {
+              "type": "string",
+              "required": false
+            }
+          },
+          {
+            "in": "body",
+            "name": "shelf",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/MangaShelf"
+              },
+              "required": false
+            }
+          },
+          {
+            "in": "body",
+            "name": "isCompleted",
+            "schema": {
+              "type": "boolean",
+              "required": false
+            }
+          },
+          {
+            "in": "body",
+            "name": "status",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 3
+              },
+              "required": false
+            }
+          },
+          {
+            "in": "body",
+            "name": "hidden",
+            "schema": {
+              "type": "boolean",
+              "required": false
+            }
+          },
+          {
+            "in": "body",
+            "name": "site",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "required": false
+            }
+          },
+          {
+            "in": "body",
+            "name": "lang",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "en",
+                  "vi"
+                ]
+              },
+              "required": false
+            }
+          },
+          {
+            "in": "body",
+            "name": "createdAtGTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "body",
+            "name": "createdAtLTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "body",
+            "name": "lastReleasedGTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "body",
+            "name": "lastReleasedLTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "body",
+            "name": "unreadChapCountGTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "body",
+            "name": "unreadChapCountLTE",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "required": false
+            }
+          },
+          {
+            "in": "body",
+            "name": "tags",
+            "schema": {
+              "type": "string",
+              "required": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update starting",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "pushedToQueue": {
+                      "type": "integer",
+                      "description": "number of manga pushed to queue for updating"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/mangas/update-multiple/pop-result": {
+      "post": {
+        "description": "Pop the status & result of the update manga job",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "none",
+                        "processing",
+                        "error",
+                        "done"
+                      ]
+                    },
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/MangaUpdateSummary"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/meta": {
+      "get": {
+        "description": "Get global meta data of this site",
+        "responses": {
+          "200": {
+            "description": "Retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "version": {
+                      "type": "string"
+                    },
+                    "supportedSites": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/MangaSite"
+                      }
+                    },
+                    "supportedSearchSites": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "availableTags": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/omnisearch/user-manga": {
+      "get": {
+        "description": "Search for user manga",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "description": "Search mangas by name",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "in": "query",
+            "name": "topN",
+            "description": "How many results to fetch",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "required": false,
+              "default": 3
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OmnisearchResult"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/omnisearch/scanlation-manga": {
+      "get": {
+        "description": "Search for mangas on scanlation sites",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "description": "Search mangas by name",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "in": "query",
+            "name": "topN",
+            "description": "How many results to fetch",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "required": false,
+              "default": 3
+            }
+          },
+          {
+            "in": "query",
+            "name": "sites",
+            "description": "scanlation sites to search",
+            "schema": {
+              "type": "array",
+              "required": false,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OmnisearchResult"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/_service/update-mangas": {
+      "post": {
+        "description": "Trigger update manga script",
+        "responses": {
+          "200": {
+            "description": "Update process started"
+          }
+        }
+      }
+    },
+    "/api/_service/backup-db": {
+      "post": {
+        "description": "Trigger backup database script",
+        "responses": {
+          "200": {
+            "description": "Backup process started"
+          }
+        }
+      }
+    },
+    "/api/subscriptions": {
+      "get": {
+        "description": "Get all subscriptions of the current user",
+        "responses": {
+          "200": {
+            "description": "Retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Subscription"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Subscribe this browser for web push notifications",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "browser": {
+                    "type": "string",
+                    "enum": [
+                      "Opera",
+                      "Chrome",
+                      "Safari",
+                      "Firefox",
+                      "Edge",
+                      "Samsung",
+                      "Unknown Browser"
+                    ]
+                  },
+                  "os": {
+                    "type": "string",
+                    "enum": [
+                      "Windows",
+                      "MacOS",
+                      "Linux",
+                      "Android",
+                      "iOS",
+                      "Unknown OS"
+                    ]
+                  },
+                  "endpoint": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "auth": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscription"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/subscriptions/{subId}": {
+      "delete": {
+        "description": "Unsubscribe this browser from web push notifications",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "subId",
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted successfully"
+          }
+        }
+      }
+    },
+    "/api/user/{authProvider}/auth": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "authProvider",
+            "description": "specifies which third party to use",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "google",
+                "facebook"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "action",
+            "description": "specifies which action to take",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "register",
+                "login",
+                "link"
+              ]
+            }
+          }
+        ],
+        "description": "Authentication using Google/Facebook OAuth2",
+        "responses": {
+          "302": {
+            "description": "Redirect to Google/Facebook authentication page"
+          }
+        }
+      }
+    },
+    "/api/user/{authProvider}/callback": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "authProvider",
+            "description": "specifies which third party to use",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "google",
+                "facebook"
+              ]
+            }
+          }
+        ],
+        "description": "Google/Facebook login/register/link callback.",
+        "responses": {
+          "302": {
+            "description": "Success - Redirect to quick access page. Failure - Redirect to login page"
+          }
+        }
+      }
+    },
+    "/api/user/{authProvider}": {
+      "delete": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "authProvider",
+            "description": "specifies which third party to use",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "google",
+                "facebook"
+              ]
+            }
+          }
+        ],
+        "description": "Remove Google/Facebook from current account",
+        "responses": {
+          "200": {
+            "description": "Account unlinked successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user": {
+      "post": {
+        "description": "Create new user with email & password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "Get current logged in user info",
+        "responses": {
+          "200": {
+            "description": "Retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "description": "Edit current user info",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "avatar": {
+                    "type": "string",
+                    "format": "url"
+                  },
+                  "note": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User info updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete current user",
+        "responses": {
+          "204": {
+            "description": "User deleted successfully"
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "description": "Log in to the application",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "logged in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "incorrect username/password"
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "description": "Log out of the application",
+        "responses": {
+          "302": {
+            "description": "logged out"
+          }
+        }
+      }
+    },
+    "/api/user/change-password": {
+      "patch": {
+        "description": "Change current user password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "currentPassword": {
+                    "type": "string",
+                    "format": "password"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Password changed successfully"
+          }
+        }
+      }
+    }
+  },
+  "tags": []
+}

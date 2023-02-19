@@ -7,7 +7,7 @@
  * Usage:
  *
  *    // in model definition file
- *    const AdvanceQuery = require("path/to/advance-query");
+ *    import { AdvanceQuery } from "path/to/advance-query.js";
  *    const MySchema = new mongoose.Schema(...);
  *    MySchema.plugin(AdvanceQuery, { <options> });
  *

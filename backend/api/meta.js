@@ -1,6 +1,6 @@
 import { Router } from "@awaitjs/express";
 
-import { info } from "../swaggerDef.js";
+import { info } from "../swagger-def.cjs";
 import { supportedSites, availableTags } from "../services/manga-service/parsers/index.js";
 import { supportedSites as supportedSearchSites } from "../services/scanlation-site-searching-service/index.js";
 
