@@ -1,18 +1,17 @@
-const webpush = require("web-push");
+import webpush from "web-push";
 
-const { Subscription, User } = require("../models");
-const { getMangaUpdateResultCache } = require("../datasource");
-const { getLogger, WEBPUSH_FINISHED, WEBPUSH_NO_UPDATE, WEBPUSH_FAILED } = require("./log-service");
-const {
-  updateMultiple: { QueueTypes },
-} = require("./manga-service");
-const { REACT_APP_VAPID_PUBLIC_KEY, REACT_APP_VAPID_PRIVATE_KEY, WEB_PUSH_CONTACT } = require("../config");
+import { Subscription, User } from "../models/index.js";
+import { getMangaUpdateResultCache } from "../datasource/index.js";
+import { getLogger, WEBPUSH_FINISHED, WEBPUSH_NO_UPDATE, WEBPUSH_FAILED } from "./log-service.js";
+import { updateMultiple } from "./manga-service/index.js";
+import { REACT_APP_VAPID_PUBLIC_KEY, REACT_APP_VAPID_PRIVATE_KEY, WEB_PUSH_CONTACT } from "../config.js";
 
 webpush.setVapidDetails(WEB_PUSH_CONTACT, REACT_APP_VAPID_PUBLIC_KEY, REACT_APP_VAPID_PRIVATE_KEY);
 
+const { QueueTypes } = updateMultiple;
 const logger = getLogger("web-push-service");
 
-async function pushAllMangaNotifications(verbose = false) {
+export async function pushAllMangaNotifications(verbose = false) {
   const resultCache = getMangaUpdateResultCache(QueueTypes.SCHEDULED);
 
   const promises = [];
@@ -28,7 +27,7 @@ async function pushAllMangaNotifications(verbose = false) {
   await Promise.allSettled(promises);
 }
 
-async function pushNotificationsToUser(user, summaries, verbose = false) {
+export async function pushNotificationsToUser(user, summaries, verbose = false) {
   summaries = summaries.filter((summary) => summary.status === "success" && summary.data.newChapCount > 0);
 
   if (summaries.length === 0) {

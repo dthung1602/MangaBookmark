@@ -67,8 +67,9 @@ const OmniSearch = ({ onSearch }) => {
       <Desktop
         render={() => (
           <Dropdown
-            placement="bottomRight"
+            placement="bottom"
             open={searchResultVisible}
+            overlayClassName="omnisearch-overlay"
             trigger={[]}
             menu={{
               items: [

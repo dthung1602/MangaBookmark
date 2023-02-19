@@ -1,5 +1,5 @@
-const { check } = require("express-validator");
+import { check } from "express-validator";
 
-const { ErrorFormatter } = require("./mixins");
+import { ErrorFormatter } from "./mixins";
 
 export default [check("authProvider").exists().isIn(["register", "login", "link"]), ErrorFormatter];
