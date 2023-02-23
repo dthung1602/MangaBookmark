@@ -1,5 +1,5 @@
 import { Router } from "@awaitjs/express";
-import * as passport from "passport";
+import passport from "passport";
 
 import { removePassword } from "./utils.js";
 import UserService from "../services/user-service/index.js";
