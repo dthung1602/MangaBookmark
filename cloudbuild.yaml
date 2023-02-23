@@ -1,8 +1,8 @@
 steps:
-- name: "node:16"
+- name: "node:18"
   entrypoint: "yarn"
   args: ["install", "--production=false"]
-- name: "node:16"
+- name: "node:18"
   entrypoint: "yarn"
   args: ["run", "build"]
   env:
