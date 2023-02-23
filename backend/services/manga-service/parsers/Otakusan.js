@@ -4,7 +4,7 @@ import {
   extractAuthorsFromNode,
   extractNamesFromText,
   extractTagsFromNode,
-  fetchAndLoad
+  fetchAndLoad,
 } from "../../scraping-service.js";
 
 const { uniq } = lodash;
@@ -43,7 +43,7 @@ async function parseManga(url) {
   const $ = await fetchAndLoad(url);
 
   const img = $(".manga-top-img img").attr("src");
-  const idxImgUrl = img.indexOf(":url(")
+  const idxImgUrl = img.indexOf(":url(");
 
   return {
     name: extractName($),

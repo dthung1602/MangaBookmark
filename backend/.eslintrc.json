@@ -12,7 +12,10 @@
     "Type": "module",
     "requireConfigFile": false
   },
-  "ignorePatterns": ["/node_modules/**", "/coverage/**", "/frontend-build/**", "/upload/**", "/cache/**", "dump/**"],
+  "ignorePatterns": [
+    "/node_modules/**", "/coverage/**", "/frontend-build/**",
+    "/upload/**", "/cache/**", "dump/**", "/data/**"
+  ],
   "extends": [
     "eslint:recommended",
     "plugin:prettier/recommended",

@@ -24,7 +24,7 @@ async function parseChapters($) {
 }
 
 function parseAdditionalInfo($) {
-  let description = $('.story-detail-info.detail-content').text().trim();
+  let description = $(".story-detail-info.detail-content").text().trim();
   const alternativeNames = extractNamesFromText($(".txt .othername h2").text(), ";", "Tên Khác:");
   const tags = extractTagsFromNode($, $(".list01 a"));
   const authors = extractAuthorsFromText($(".txt .author a").text(), ",", "Tác giả:");
