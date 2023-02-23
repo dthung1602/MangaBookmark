@@ -30,7 +30,7 @@ async function parseManga(url) {
 }
 
 export default {
-  active: true,
+  active: false,
   lang: "vi",
   site: "TruyenVN",
   homepage: "https://truyenvn.vip/",

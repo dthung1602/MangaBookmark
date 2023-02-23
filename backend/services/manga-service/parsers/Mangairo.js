@@ -1,6 +1,6 @@
 import { fetchAndLoad } from "../../scraping-service.js";
 
-const URLRegex = /^https?:\/\/chap\.mangairo\.com\/story-.+$/;
+const URLRegex = /^https?:\/\/(chap|w)\.mangairo\.com\/story-.+$/;
 
 async function parseChapters($) {
   const rows = $("#chapter_list a");

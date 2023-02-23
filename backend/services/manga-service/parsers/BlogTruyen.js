@@ -107,7 +107,7 @@ const availableTags = [
 ];
 
 export default {
-  active: true,
+  active: false,
   lang: "vi",
   site: "BlogTruyen",
   homepage: "https://blogtruyen.vn/",

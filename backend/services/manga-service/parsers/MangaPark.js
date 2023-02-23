@@ -17,6 +17,7 @@ query get_content_comicChapterRangeList(
       chapterNodes {
         data {
           lang
+          dname
           title
           urlPath
         }
@@ -73,7 +74,7 @@ async function parseChapters(url) {
     .map((chap) => chap.chapterNodes.filter((n) => n.data.lang === "en")[0])
     .filter(Boolean)
     .map((chap) => ({
-      name: chap.data.title,
+      name: chap.data.dname || chap.data.title,
       link: baseURL + chap.data.urlPath,
     }));
 }

@@ -1,10 +1,10 @@
 import lodash from "lodash";
 
 import {
-  fetchAndLoad,
-  extractNamesFromText,
   extractAuthorsFromNode,
+  extractNamesFromText,
   extractTagsFromNode,
+  fetchAndLoad
 } from "../../scraping-service.js";
 
 const { uniq } = lodash;
@@ -42,10 +42,13 @@ function parseAdditionalInfo($) {
 async function parseManga(url) {
   const $ = await fetchAndLoad(url);
 
+  const img = $(".manga-top-img img").attr("src");
+  const idxImgUrl = img.indexOf(":url(")
+
   return {
     name: extractName($),
     link: url,
-    image: $(".manga-top-img img").attr("src"),
+    image: img.slice(idxImgUrl + 6, -1),
     isCompleted: $(".manga-top .table-info").text().includes("Done"),
     chapters: await parseChapters($),
     ...parseAdditionalInfo($),

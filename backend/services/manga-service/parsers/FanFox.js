@@ -1,5 +1,5 @@
 import { fetchAndLoad, extractTagsFromNode, extractAuthorsFromNode } from "../../scraping-service.js";
-import { stripQuery } from "../../utils/index.js";
+import { useImageProxy } from "../../scraping-service.js";
 
 const URLRegex = /^https?:\/\/fanfox\.net\/manga\/.+/;
 const BaseURL = "http://fanfox.net";
@@ -33,7 +33,7 @@ async function parseManga(url) {
   return {
     name: $(".detail-info-right-title-font").text(),
     link: url,
-    image: stripQuery($(".detail-info-cover-img").attr("src")),
+    image: useImageProxy($(".detail-info-cover-img").attr("src"), "FanFox"),
     isCompleted: $(".detail-info-right-title-tip").text().includes("Completed"),
     chapters: await parseChapters($),
     ...parseAdditionalInfo($),

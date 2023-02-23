@@ -29,7 +29,7 @@ async function parseManga(url) {
 }
 
 export default {
-  active: true,
+  active: false,
   lang: "vi",
   site: "TruyenTranhTuan",
   homepage: "http://truyentranhtuan.com/",
