@@ -32,6 +32,7 @@ if (config.NODE_ENV === "production") {
   app.use(
     helmet({
       contentSecurityPolicy: false,
+      crossOriginEmbedderPolicy: false
     }),
   );
 }
