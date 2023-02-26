@@ -11,7 +11,7 @@ const DefaultLayout = ({ children, showFooter = true, showNavBar = true, fabConf
   return (
     <Layout className={`default-layout ${containerClass}`}>
       {showNavBar ? <NavBar key="navbar" /> : null}
-      {children}
+      <Layout>{children}</Layout>
       <FAB config={fabConfig} />
       {showFooter ? <Footer key="footer" /> : null}
     </Layout>
