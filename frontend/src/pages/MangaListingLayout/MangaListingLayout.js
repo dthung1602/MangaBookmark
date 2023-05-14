@@ -137,7 +137,7 @@ MangaListingLayout.propTypes = {
   loadMode: PropTypes.oneOf(["append", "replace"]).isRequired,
   filterNode: PropTypes.node.isRequired,
   updateMangaFilters: PropTypes.object.isRequired,
-  updateButtonText: PropTypes.string.isRequired,
+  updateButtonText: PropTypes.string,
   onReachedEndOfList: PropTypes.func,
 };
 

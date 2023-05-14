@@ -1,4 +1,4 @@
-import { useCallback, useContext } from "react";
+import { useCallback, useContext, useState } from "react";
 
 import { StringParam, useQueryParams, withDefault } from "use-query-params";
 import { Affix, Input, Space } from "antd";
@@ -13,6 +13,8 @@ import "./Search.less";
 const { DropDownFilter } = Filters;
 
 const Search = () => {
+  document.title = "Search | MangaBookmark";
+
   const [{ supportedSearchSites }] = useContext(GlobalContext);
 
   const [filters, setFilters] = useQueryParams({
@@ -26,8 +28,6 @@ const Search = () => {
     return OmniSearchAPI.searchScanlationSites(filters.term, 10, sites);
   }, [filters]);
 
-  document.title = "Search | MangaBookmark";
-
   const onSearch = (newTerm) => {
     setFilters({ ...filters, term: newTerm });
   };
@@ -40,7 +40,7 @@ const Search = () => {
     <Affix className="affix-container">
       <Space className="search-bar">
         <DropDownFilter
-          displayName={"Site"}
+          displayName="Site"
           options={supportedSearchSites}
           selected={filters.site}
           onSelect={onChangeSite}

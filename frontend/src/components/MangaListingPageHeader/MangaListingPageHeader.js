@@ -28,9 +28,11 @@ const MangaListingPageHeader = ({
       subTitle={mangaCountString}
       extra={
         <>
-          <Button icon={<ReloadOutlined />} onClick={updateMangas} loading={isUpdatingMangas}>
-            {desktop ? updateButtonText : null}
-          </Button>
+          {updateButtonText ? (
+            <Button icon={<ReloadOutlined />} onClick={updateMangas} loading={isUpdatingMangas}>
+              {desktop ? updateButtonText : null}
+            </Button>
+          ) : null}
           <Button icon={<FileTextOutlined />} onClick={openNoteModal}>
             {desktop ? "Note" : null}
           </Button>
@@ -48,7 +50,7 @@ const MangaListingPageHeader = ({
 
 MangaListingPageHeader.propTypes = {
   title: PropTypes.string.isRequired,
-  updateButtonText: PropTypes.string.isRequired,
+  updateButtonText: PropTypes.string,
   isUpdatingMangas: PropTypes.bool.isRequired,
   updateMangas: PropTypes.func.isRequired,
   openNoteModal: PropTypes.func.isRequired,

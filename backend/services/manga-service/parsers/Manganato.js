@@ -6,7 +6,7 @@ import {
   cleanText,
 } from "../../scraping-service.js";
 
-const URLRegex = /^https?:\/\/(read)?manganato\.com\/manga.+$/;
+const URLRegex = /^https?:\/\/(read|chap)?manganato\.com\/manga.+$/;
 
 async function parseChapters($) {
   const rows = $(".panel-story-chapter-list a");
@@ -32,8 +32,9 @@ function parseAdditionalInfo($) {
 }
 
 async function parseManga(url) {
+  url = url.replace("readmanganato.com", "chapmanganato.com");
   let $ = await fetchAndLoad(url);
-  if ($("title").text().trim().toLowerCase() === "404 not found") {
+  if ($("title").text().trim().toLowerCase() === "404 not found" && !url.includes("readmanganato")) {
     url = url.replace("manganato", "readmanganato");
   }
 

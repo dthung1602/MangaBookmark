@@ -1,13 +1,11 @@
 import {
-  load,
-  fetch,
   fetchAndLoad,
   extractNamesFromText,
   extractTagsFromNode,
   extractAuthorsFromText,
 } from "../../scraping-service.js";
 
-const URLRegex = /^https?:\/\/truyenqqhot\.com\/truyen-tranh\/.+$/;
+const URLRegex = /^https?:\/\/truyenqqq\.vn\/truyen-tranh\/.+$/;
 
 async function parseChapters($) {
   const rows = $(".works-chapter-list a");
@@ -31,42 +29,10 @@ function parseAdditionalInfo($) {
   return { description, alternativeNames, authors, tags };
 }
 
-const cookieRegex = /"VinaHost-Shield=([0-9a-f]+)"/;
-
-const headers = {
-  "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:92.0) Gecko/20100101 Firefox/92.0",
-  Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-  "Accept-Language": "en",
-  Host: "truyenqqhot.com",
-  Referer: "http://truyenqqhot.com/",
-  DNT: "1",
-  Connection: "keep-alive",
-};
-
-async function byPassCookieGuard(url) {
-  const response = await fetch(url, headers);
-  const match = response.body.match(cookieRegex);
-
-  if (!match) {
-    return load(url, response);
-  }
-
-  const cookie = `VinaHost-Shield=${match[1]}`;
-
-  return fetchAndLoad(url, {
-    ...headers,
-    Pragma: "no-cache",
-    "Cache-Control": "no-cache",
-    Referer: url,
-    Cookie: cookie,
-  });
-}
-
 async function parseManga(url) {
-  url = url.replace("truyenqqtop", "truyenqqhot");
-  url = url.replace("truyenqqvip", "truyenqqhot");
+  url = url.replace("truyenqqpro.com", "truyenqqq.vn");
 
-  const $ = await byPassCookieGuard(url);
+  const $ = await fetchAndLoad(url);
 
   return {
     name: $("h1").text().trim(),
@@ -82,7 +48,7 @@ export default {
   active: true,
   lang: "vi",
   site: "TruyenQQ",
-  homepage: "http://truyenqqhot.com/",
+  homepage: "https://truyenqqq.vn/",
   URLRegex,
   parseManga,
   parseChapters,
