@@ -3,7 +3,7 @@ import lodash from "lodash";
 const { uniqBy } = lodash;
 import { parseManga } from "./parsers/index.js";
 import { pickCopy } from "../utils/index.js";
-const additionalFields = ["authors", "description", "alternativeNames", "tags"];
+const additionalFields = ["authors", "description", "alternativeNames", "tags", "site"];
 
 export default async function (manga, additionalUpdate = false) {
   const result = await parseManga(manga.link);

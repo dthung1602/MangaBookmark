@@ -6,7 +6,7 @@ import {
   cleanText,
 } from "../../scraping-service.js";
 
-const URLRegex = /^https?:\/\/(read|chap)?manganato\.com\/manga.+$/;
+const URLRegex = /^https?:\/\/chapmanganato\.to\/manga.+$/;
 
 async function parseChapters($) {
   const rows = $(".panel-story-chapter-list a");
@@ -97,7 +97,7 @@ export default {
   active: true,
   lang: "en",
   site: "Manganato",
-  homepage: "https://manganato.com/",
+  homepage: "https://chapmanganato.com/",
   URLRegex,
   parseManga,
   parseChapters,

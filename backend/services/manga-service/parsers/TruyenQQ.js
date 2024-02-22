@@ -5,7 +5,7 @@ import {
   extractAuthorsFromText,
 } from "../../scraping-service.js";
 
-const URLRegex = /^https?:\/\/truyenqqq\.vn\/truyen-tranh\/.+$/;
+const URLRegex = /^https?:\/\/truyenqqvn\.com\/truyen-tranh\/.+$/;
 
 async function parseChapters($) {
   const rows = $(".works-chapter-list a");
@@ -30,7 +30,7 @@ function parseAdditionalInfo($) {
 }
 
 async function parseManga(url) {
-  url = url.replace("truyenqqpro.com", "truyenqqq.vn");
+  url = url.replace("https://", "http://");
 
   const $ = await fetchAndLoad(url);
 

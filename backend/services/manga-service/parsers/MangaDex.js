@@ -1,7 +1,7 @@
 import lodash from "lodash";
 import { fetch } from "../../scraping-service.js";
 
-const { uniq, uniqBy, flatten } = lodash;
+const { uniqBy, flatten } = lodash;
 const URLRegex = /^https?:\/\/mangadex\.org\/title\/([^/]+)(\/.*)?/;
 
 async function parseChapters(id) {
@@ -31,27 +31,26 @@ async function parseChapters(id) {
     }));
 }
 
-async function parseAdditionalInfo(data) {
+function parseAdditionalInfo(data) {
   const description = data.data.attributes.description.en;
   const alternativeNames = flatten(data.data.attributes.altTitles.map((x) => Object.values(x)));
   const tags = data.data.attributes.tags.map((x) => x.attributes.name.en.trim().toLowerCase());
-  const authorsIds = data.data.relationships.filter((x) => x.type === "author" || x.type === "artist").map((x) => x.id);
-  const authors = (
-    await Promise.all(uniq(authorsIds).map((aid) => fetch(`https://api.mangadex.org/author/${aid}`)))
-  ).map((res) => JSON.parse(res.body).data.attributes.name);
+
+  const authors = uniqBy(
+    data.data.relationships.filter((x) => x.type === "author" || x.type === "artist"),
+    "id",
+  ).map((author) => author.attributes.name);
   return { description, alternativeNames, authors, tags };
 }
 
 function buildAPIURL(id) {
-  return `https://api.mangadex.org/manga/${id}?includes[]=artist,author,cover_art`;
+  return `https://api.mangadex.org/manga/${id}?includes[]=artist&includes[]=author&includes[]=cover_art`;
 }
 
-async function extractImage(data, id) {
-  const imgId = data.data.relationships.find((x) => x.type === "cover_art").id;
-  const imgAPIURL = `https://api.mangadex.org/cover/${imgId}`;
-  const response = await fetch(imgAPIURL);
-  const fileName = JSON.parse(response.body).data.attributes.fileName;
-  return `https://uploads.mangadex.org/covers/${id}/${fileName}`;
+function extractImage(data, id) {
+  const coverArt = data.data.relationships.find((x) => x.type === "cover_art");
+  const fileName = coverArt.attributes.fileName;
+  return `https://mangadex.org/covers/${id}/${fileName}`;
 }
 
 async function parseManga(url) {
@@ -62,10 +61,10 @@ async function parseManga(url) {
   return {
     name: data.data.attributes.title.en,
     link: url,
-    image: await extractImage(data, id),
+    image: extractImage(data, id),
     isCompleted: data.data.attributes.status === "completed",
     chapters: await parseChapters(id),
-    ...(await parseAdditionalInfo(data)),
+    ...parseAdditionalInfo(data),
   };
 }
 
