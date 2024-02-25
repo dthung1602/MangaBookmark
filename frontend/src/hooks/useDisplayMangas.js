@@ -21,8 +21,8 @@ const useDisplayMangas = () => {
         isLoading === "replace"
           ? skeletonData
           : isLoading === "append"
-          ? [...mangasToShow, ...skeletonData]
-          : mangasToShow,
+            ? [...mangasToShow, ...skeletonData]
+            : mangasToShow,
       ),
     [mangasToShow, isLoading],
   );

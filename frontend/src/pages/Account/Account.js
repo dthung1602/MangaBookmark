@@ -10,7 +10,6 @@ import BoxLayout from "../BoxLayout";
 import "./Account.less";
 
 const { useBreakpoint } = Grid;
-const { TabPane } = Tabs;
 const { User, Password, General, Notification } = AccountSettings;
 const { Button } = VerticalButtonGroup;
 
@@ -58,19 +57,18 @@ const Account = () => {
       </VerticalButtonGroup>
     </div>
   ) : (
-    <Tabs activeKey={tab} onChange={setTab}>
-      {Object.entries(TAB_MAPPING).map(([key, { displayName, icon }]) => (
-        <TabPane
-          key={key}
-          tab={
-            <>
-              &nbsp;&nbsp;&nbsp;{icon}
-              {displayName}&nbsp;&nbsp;&nbsp;
-            </>
-          }
-        />
-      ))}
-    </Tabs>
+    <Tabs
+      activeKey={tab}
+      onChange={setTab}
+      items={Object.entries(TAB_MAPPING).map(([key, { displayName, icon }]) => ({
+        key,
+        label: (
+          <>
+            &nbsp;&nbsp;&nbsp;{icon} {displayName}&nbsp;&nbsp;&nbsp;
+          </>
+        ),
+      }))}
+    />
   );
 
   return (

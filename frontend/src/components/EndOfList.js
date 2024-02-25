@@ -12,6 +12,10 @@ function EndOfList({ onReached, disabled = false, yOffset = 300 }) {
   const target = useRef(null);
 
   useEffect(() => {
+    if (!target.current) {
+      return;
+    }
+
     const observer = new IntersectionObserver(() => {
       const { y } = target.current.getBoundingClientRect();
       if (prevY.current > y && !disabled) {

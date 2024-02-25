@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { Fragment, useContext } from "react";
 
 import { Descriptions, Grid, Space, Typography } from "antd";
 
@@ -28,9 +28,9 @@ const MangaNonEditableInfo = () => {
           <Paragraph ellipsis={{ rows: 2, expandable: true, symbol: "more" }}>
             {manga.alternativeNames.length > 1 ? "•" : ""} {manga.alternativeNames[0]}
             {manga.alternativeNames.slice(1).map((name) => (
-              <>
+              <Fragment key={name}>
                 <br />• {name}
-              </>
+              </Fragment>
             ))}
           </Paragraph>
         </Descriptions.Item>
