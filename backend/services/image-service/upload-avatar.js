@@ -27,7 +27,7 @@ export default (function (userId, filePath) {
         resolve({
           status: "error",
           url: "",
-          error: error.toString(),
+          error: error.message ?? error.toString(),
         });
       }
     });
