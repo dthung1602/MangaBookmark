@@ -8,7 +8,6 @@ import mongoose from "mongoose";
 import { NODE_ENV, DB_URL, GOOGLE_AUTH_ID, GOOGLE_AUTH_PASSWORD } from "../config.js";
 import { ApplicationMeta } from "../models/index.js";
 
-mongoose.set("useNewUrlParser", true);
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 

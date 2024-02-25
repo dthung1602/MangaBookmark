@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import { DB_URL } from "../config.js";
 
 const DB_DEFAULT_OPTIONS = {
-  useNewUrlParser: true,
   useUnifiedTopology: true,
 };
 mongoose.set("strictQuery", true);
