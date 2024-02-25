@@ -1,6 +1,6 @@
 {
   "name": "mangabookmark-frontend",
-  "version": "4.4.1",
+  "version": "4.5.0",
   "private": true,
   "scripts": {
     "dev": "PORT=3001 DISABLE_ESLINT_PLUGIN=true react-app-rewired start",

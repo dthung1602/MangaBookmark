@@ -1,7 +1,7 @@
 const openapi = "3.0.0";
 const info = {
   title: "MangaBookmark API",
-  version: "4.4.1",
+  version: "4.5.0",
   description: "API for MangaBookmark client",
 };
 const components = {
