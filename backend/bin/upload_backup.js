@@ -8,14 +8,11 @@ import mongoose from "mongoose";
 import { NODE_ENV, DB_URL, GOOGLE_AUTH_ID, GOOGLE_AUTH_PASSWORD } from "../config.js";
 import { ApplicationMeta } from "../models/index.js";
 
-mongoose.set("useFindAndModify", false);
-mongoose.set("useCreateIndex", true);
-
 const BACKUP_DIR = "mangabookmark-backup";
 const SCOPES = ["https://www.googleapis.com/auth/drive.file"];
 
 async function main() {
-  await mongoose.connect(DB_URL, { useUnifiedTopology: true });
+  await mongoose.connect(DB_URL);
   const { fileToBackup, allowNewAccessToken } = parseArgs();
 
   let redirectUrl;
