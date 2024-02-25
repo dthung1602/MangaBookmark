@@ -4,13 +4,10 @@
  Migrate from version 4.4.1 to version 4.5.0
  */
 
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const { Manga } = require("../models");
-const { DB_URL } = require("../config");
-
-mongoose.set("useFindAndModify", false);
-mongoose.set("useCreateIndex", true);
+import { Manga } from "../models/index.js";
+import { DB_URL } from "../config.js";
 
 async function main() {
   console.log("Connecting to database");
@@ -38,12 +35,14 @@ async function main() {
     }
   }
 
-  console.log("Updating Manganato");
+  console.log("Updating TruyenQQ");
   cursor = await Manga.find({ site: "TruyenQQ" });
   for await (const manga of cursor) {
     try {
-      manga.link.replace("truyenqqpro.com", "truyenqqvn.com");
+      const oldLink = manga.link;
+      manga.link = manga.link.replace("truyenqqpro.com", "truyenqqvn.com").replace("https://", "http://");
       await manga.save();
+      console.log(`Convert link: ${oldLink} ===> ${manga.link}`);
     } catch (e) {
       console.log(`Fail to update manga `, manga.id);
       console.error(e);

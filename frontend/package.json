@@ -9,7 +9,8 @@
     "test": "react-app-rewired test",
     "lint": "eslint . --fix",
     "watch-assets": "watch 'node build-assets.js' --wait=8 --interval=8 src/assets/manga-site-logo",
-    "build-assets": "node build-assets.js"
+    "build-assets": "node build-assets.js",
+    "analyze": "source-map-explorer 'build/static/js/*.js' --html source_map.html"
   },
   "proxy": "http://localhost:3000",
   "dependencies": {
@@ -49,6 +50,7 @@
     "eslint-plugin-react": "^7.20.4",
     "eslint-plugin-react-hooks": "^4.0.8",
     "prettier": "^3.2.5",
+    "source-map-explorer": "^2.5.3",
     "spritesmith": "^3.4.0",
     "watch": "^1.0.2",
     "webp-converter": "^2.3.3"
