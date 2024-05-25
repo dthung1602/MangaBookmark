@@ -1,6 +1,5 @@
-import got from "got";
+import { HTTPError } from "got";
 import { getLogger, INTERNAL_SERVER_ERROR } from "./services/log-service.js";
-const { HTTPError } = got;
 const logger = getLogger("error-handler");
 class CustomError extends Error {
   constructor(errors, statusCode) {

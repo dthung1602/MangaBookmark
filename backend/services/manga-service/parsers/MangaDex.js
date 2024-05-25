@@ -59,7 +59,7 @@ async function parseManga(url) {
   const data = JSON.parse(response.body);
 
   return {
-    name: data.data.attributes.title.en,
+    name: data.data.attributes.title.en || data.data.attributes.title.ja || data.data.attributes.title.vi || "",
     link: url,
     image: extractImage(data, id),
     isCompleted: data.data.attributes.status === "completed",
