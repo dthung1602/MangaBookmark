@@ -5,7 +5,7 @@ import {
   extractAuthorsFromText,
 } from "../../scraping-service.js";
 
-const URLRegex = /^https?:\/\/truyenqqvn\.com\/truyen-tranh\/.+$/;
+const URLRegex = /^https?:\/\/truyenqqto\.com\/truyen-tranh\/.+$/;
 
 async function parseChapters($) {
   const rows = $(".works-chapter-list a");
@@ -48,7 +48,7 @@ export default {
   active: true,
   lang: "vi",
   site: "TruyenQQ",
-  homepage: "https://truyenqqq.vn/",
+  homepage: "https://truyenqqto.com/",
   URLRegex,
   parseManga,
   parseChapters,

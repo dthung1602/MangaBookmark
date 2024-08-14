@@ -47,7 +47,7 @@ async function parseManga(url) {
 const availableTags = [];
 
 export default {
-  active: true,
+  active: false,
   lang: "en",
   site: "ReadM",
   homepage: "https://www.readm.org/",

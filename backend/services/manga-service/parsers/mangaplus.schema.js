@@ -98,6 +98,15 @@ export default {
               },
             ],
           },
+          32: {
+            name: "status",
+            subType: {
+              3: {
+                name: "status",
+                subType: "String",
+              },
+            },
+          },
         },
       },
     },

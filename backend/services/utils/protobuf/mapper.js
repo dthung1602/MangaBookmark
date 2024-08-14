@@ -17,7 +17,7 @@ const { isString } = lodash;
 
 function mapProtoToSchema(proto, schema, skipUndefined = true) {
   const obj = {};
-  for (let { index, type, value } of proto.parts) {
+  for (let { index, type, value, asStringValue } of proto.parts) {
     const schemaOfIndex = schema[index];
     if (schemaOfIndex === undefined) {
       if (skipUndefined) {
@@ -35,8 +35,8 @@ function mapProtoToSchema(proto, schema, skipUndefined = true) {
 
     let normalizedValue;
     if (type === TYPES.STRING) {
-      if (isString(value)) {
-        normalizedValue = value;
+      if (subType === "String") {
+        normalizedValue = asStringValue || value;
       } else {
         normalizedValue = mapProtoToSchema(value, subType);
       }

@@ -105,6 +105,7 @@ function decodeProto(buffer) {
       const index = indexType >> 3;
 
       let value;
+      let asStringValue;
       if (type === TYPES.VARINT) {
         value = decodeVarintParts(reader.readVarInt().toString());
       } else if (type === TYPES.STRING) {
@@ -113,6 +114,7 @@ function decodeProto(buffer) {
         const nestedValue = decodeProto(buffer);
         if (length > 0 && nestedValue.leftOver.length === 0) {
           value = nestedValue;
+          asStringValue = buffer.toString();
         } else {
           value = buffer.toString();
         }
@@ -128,6 +130,7 @@ function decodeProto(buffer) {
         index,
         type,
         value,
+        asStringValue,
       });
     }
   } catch (err) {
