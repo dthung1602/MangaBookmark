@@ -124,7 +124,7 @@ const availableTags = [
 ];
 
 export default {
-  active: true,
+  active: false,
   lang: "en",
   site: "Manga4Life",
   homepage: "https://manga4life.com",
