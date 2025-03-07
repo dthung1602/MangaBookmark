@@ -1,6 +1,6 @@
 {
   "name": "mangabookmark-backend",
-  "version": "4.5.3",
+  "version": "4.6.0",
   "private": true,
   "type": "module",
   "scripts": {

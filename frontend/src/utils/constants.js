@@ -1,7 +1,7 @@
 // ------------------------------------------
 //       General
 // ------------------------------------------
-export const FRONTEND_VERSION = "4.5.3";
+export const FRONTEND_VERSION = "4.6.0";
 export const ANY = "any";
 export const MANGA_PER_PAGE = 7;
 export const RIGHT_PANEL_TABLE_PAGE_SIZE = 20; // TODO decrease to improve performance
