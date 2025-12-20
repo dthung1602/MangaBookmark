@@ -19,6 +19,9 @@ steps:
   - 'REDIS_URL=${_REDIS_URL}'
   - 'WEB_PUSH_CONTACT=${_WEB_PUSH_CONTACT}'
   - 'SERVICE_API_TOKEN=${_SERVICE_API_TOKEN}'
+  - 'PROXY_ENABLED=${_PROXY_ENABLED}'
+  - 'PROXY_HOST=${_PROXY_HOST}'
+  - 'PROXY_PORT=${_PROXY_PORT}'
 - name: "gcr.io/cloud-builders/gcloud"
   args: ["app", "deploy"]
 timeout: "1200s"
