@@ -44,7 +44,7 @@ async function parseManga(url) {
   if (url.endsWith("/")) {
     url = url.slice(0, url.length - 1);
   }
-  const $ = await fetchAndLoad(url);
+  const $ = await fetchAndLoad(url, {}, {}, false, true);
 
   return {
     name: $("main section:first-child section:nth-child(2) h1").text(),

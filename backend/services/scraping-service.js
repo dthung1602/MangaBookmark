@@ -17,19 +17,18 @@ function getDefaultHeaders() {
 const proxyConfig = PROXY_ENABLED
   ? {
       agent: {
-        https: tunnel.httpsOverHttp({ proxy: { host: PROXY_HOST, port: PROXY_PORT } }),
         http: tunnel.httpOverHttp({ proxy: { host: PROXY_HOST, port: PROXY_PORT } }),
       },
     }
   : {};
 
-async function fetch(url, headers = {}, option = {}) {
+async function fetch(url, headers = {}, option = {}, useProxy = false) {
   return got(url, {
     headers: {
       ...getDefaultHeaders(),
       ...headers,
     },
-    ...proxyConfig,
+    ...(useProxy ? proxyConfig : {}),
     ...option,
   });
 }
@@ -52,8 +51,8 @@ function load(url, response, raiseOnHostChanged = false) {
   return cheerioLoad(response.body);
 }
 
-async function fetchAndLoad(url, headers = {}, option = {}, raiseOnHostChanged = false) {
-  const response = await fetch(url, headers, option);
+async function fetchAndLoad(url, headers = {}, option = {}, raiseOnHostChanged = false, useProxy = false) {
+  const response = await fetch(url, headers, option, useProxy);
   return load(url, response, raiseOnHostChanged);
 }
 
