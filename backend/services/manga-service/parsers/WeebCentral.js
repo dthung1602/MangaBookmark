@@ -10,7 +10,7 @@ const URLRegex = /^https?:\/\/weebcentral\.com\/series\/.+$/;
 async function parseChapters(link) {
   const lastPartIdx = link.lastIndexOf("/");
   const chapterLink = link.substring(0, lastPartIdx) + "/full-chapter-list";
-  const $ = await fetchAndLoad(chapterLink);
+  const $ = await fetchAndLoad(chapterLink, {}, {}, false, true);
 
   const links = $("a")
     .toArray()

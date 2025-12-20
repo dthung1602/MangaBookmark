@@ -3,6 +3,7 @@ import * as tunnel from "tunnel";
 import { load as cheerioLoad } from "cheerio";
 import lodash from "lodash";
 import { PROXY_HOST, PROXY_PORT, PROXY_ENABLED, BASE_URL } from "../config.js";
+import { getLogger } from "./log-service.js";
 
 const { startCase } = lodash;
 
@@ -21,6 +22,10 @@ const proxyConfig = PROXY_ENABLED
       },
     }
   : {};
+
+if (PROXY_ENABLED) {
+  getLogger("scraping-service").info(`Use proxy: ${PROXY_HOST}:${PROXY_PORT}`);
+}
 
 async function fetch(url, headers = {}, option = {}, useProxy = false) {
   return got(url, {
