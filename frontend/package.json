@@ -34,6 +34,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.0",
     "react-scripts": "^5.0.1",
+    "update-browserslist-db": "^1.2.3",
     "use-query-params": "^2.1.2",
     "workbox-core": "^7.0.0",
     "workbox-precaching": "^7.0.0",
