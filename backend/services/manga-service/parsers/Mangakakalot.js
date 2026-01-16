@@ -49,7 +49,7 @@ async function parseManga(url) {
     name: $("h1").text().trim(),
     link: url,
     image: $(".manga-info-pic img").attr("src").trim(),
-    isCompleted: $(".manga-info-text li")[2].children[0].data === "Status : Completed",
+    isCompleted: false,
     chapters: await parseChapters($),
     ...parseAdditionalInfo($),
   };
