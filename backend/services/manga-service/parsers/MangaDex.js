@@ -58,8 +58,16 @@ async function parseManga(url) {
   const response = await fetch(buildAPIURL(id));
   const data = JSON.parse(response.body);
 
+  let name = data.data.attributes.title.en || data.data.attributes.title.ja || data.data.attributes.title.vi || "";
+  if (!name) {
+    const firstLang = Object.keys(data.data.attributes.title)[0];
+    if (firstLang) {
+      name = data.data.attributes.title[firstLang];
+    }
+  }
+
   return {
-    name: data.data.attributes.title.en || data.data.attributes.title.ja || data.data.attributes.title.vi || "",
+    name,
     link: url,
     image: extractImage(data, id),
     isCompleted: data.data.attributes.status === "completed",
