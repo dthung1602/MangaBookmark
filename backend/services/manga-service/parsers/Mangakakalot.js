@@ -5,6 +5,7 @@ import {
   extractTagsFromNode,
   MangaSiteRedirectedException,
 } from "../../scraping-service.js";
+import ApplicationMeta from "../../../models/ApplicationMeta.js";
 
 const URLRegex = /^https?:\/\/mangakakalot\.com\/(read-|manga\/).+$/;
 
@@ -42,7 +43,18 @@ function checkRedirect($) {
 }
 
 async function parseManga(url) {
-  const $ = await fetchAndLoad(url);
+  const cookieQuery = ApplicationMeta.find({ key: ApplicationMeta.Keys.MANGAKAKALOT_CF_COOKIE });
+  const useragentQuery = ApplicationMeta.find({ key: ApplicationMeta.Keys.MANGAKAKALOT_USER_AGENT });
+  const [cookieRes, useragentRes] = await Promise.all([cookieQuery, useragentQuery]);
+  const cookie = cookieRes[0].value;
+  const userAgent = useragentRes[0].value;
+
+  console.info("Using cookie & user agent for Mangakakalot", cookie, userAgent);
+
+  const $ = await fetchAndLoad(url, {
+    "User-Agent": userAgent,
+    Cookie: cookie,
+  });
   checkRedirect($);
 
   return {

@@ -18,6 +18,7 @@ async function main() {
   const filters = {
     shelf: { $in: [TO_READ, READING, WAITING, REREAD] },
     isCompleted: false,
+    site: { $in: ["Mangakakalot", "Manganato", "WeebCentral"] },
   };
   await pushToQueue(QueueTypes.SCHEDULED, filters, true);
   await consumeFromQueue(QueueTypes.SCHEDULED, true, true);
