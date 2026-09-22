@@ -15,7 +15,13 @@ async function parseChapters(link) {
   const links = $("a")
     .toArray()
     .map((x) => $(x).attr("href"))
-    .filter((x) => x !== "#top");
+    .filter((x) => x !== "#top")
+    .map((x) => {
+      if (x.startsWith("http")) {
+        return x;
+      }
+      return "https://weebcentral.com" + x;
+    });
   const names = $("a > span:nth-child(2) > span:first-child")
     .toArray()
     .map((x) => $(x).text());
