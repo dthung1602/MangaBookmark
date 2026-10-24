@@ -54,10 +54,6 @@ function getHeader() {
 
 async function parseManga(url) {
   const res = await fetch(buildAPI(url), getHeader());
-  const hexString = Buffer.from(res.rawBody).toString('hex');
-  const f = fs.openSync("foo", "w");
-  fs.writeSync(f, hexString);
-  fs.closeSync(f);
   const proto = protobuf.decodeProto(res.rawBody);
   const data = protobuf.mapProtoToSchema(proto, schema);
 
