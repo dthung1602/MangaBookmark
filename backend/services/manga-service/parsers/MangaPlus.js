@@ -1,7 +1,8 @@
 import { fetch, extractNamesFromText } from "../../scraping-service.js";
 import { protobuf } from "../../utils/index.js";
-
+import { v1 as uuidV1 } from "uuid";
 import schema from "./mangaplus.schema.js";
+import fs from "fs";
 
 const URLRegex = /^https?:\/\/mangaplus\.shueisha\.co\.jp\/titles\/\d+/;
 const BaseURL = "https://mangaplus.shueisha.co.jp";
@@ -21,7 +22,7 @@ function parseAdditionalInfo(data) {
 
 function buildAPI(url) {
   const titleId = url.trim().replace(/\/$/, "").split("/").slice(-1)[0];
-  return `https://jumpg-webapi.tokyo-cdn.com/api/title_detailV3?title_id=${titleId}`;
+  return `https://jumpg-webapi.tokyo-cdn.com/api/title_detailV4?title_id=${titleId}&clang=eng`;
 }
 
 function mergeChapterListGroup(chapterListGroup) {
@@ -34,8 +35,29 @@ function mergeChapterListGroup(chapterListGroup) {
   return [].concat(...list.filter(Boolean)).reverse();
 }
 
+let globalHeader = {
+  "SESSION-TOKEN": uuidV1(),
+  "Sec-Fetch-Dest": "empty",
+  "Sec-Fetch-Mode": "cors",
+  "Sec-Fetch-Site": "cross-site",
+  Pragma: "no-cache",
+  "Cache-Control": "no-cache",
+};
+
+function getHeader() {
+  // randomly switch to new session
+  if (Math.random() < 0.3) {
+    globalHeader["SESSION-TOKEN"] = uuidV1();
+  }
+  return globalHeader;
+}
+
 async function parseManga(url) {
-  const res = await fetch(buildAPI(url));
+  const res = await fetch(buildAPI(url), getHeader());
+  const hexString = Buffer.from(res.rawBody).toString('hex');
+  const f = fs.openSync("foo", "w");
+  fs.writeSync(f, hexString);
+  fs.closeSync(f);
   const proto = protobuf.decodeProto(res.rawBody);
   const data = protobuf.mapProtoToSchema(proto, schema);
 
@@ -63,74 +85,3 @@ export default {
   parseChapters,
   parseAdditionalInfo,
 };
-/**
- * NOT COMPLETED
- *
- * Field #30: F2-01 String Length = 2, Hex = 02, UTF8 = "VN"
- * Field #32: 82-02 String Length = 14, Hex = 0E, UTF8 = "standard"
- * As sub-object :
- * Field #1: 08 Varint Value = 2, Hex = 02
- * Field #2: 10 Varint Value = 1, Hex = 01
- * Field #3: 1A String Length = 8, Hex = 08, UTF8 = "standard"
- * Field #34: 92-02 String Length = 2, Hex = 02, UTF8 = ""
- * As sub-object :
- * Field #1: 08 Varint Value = 4, Hex = 04
- * Field #35: 98-02 Varint Value = 1, Hex = 01
- * Field #36: A2-02 String Length = 0, Hex = 00, UTF8 = ""
- *
- *
- * Field #30: F2-01 String Length = 2, Hex = 02, UTF8 = "VN"
- * Field #32: 82-02 String Length = 14, Hex = 0E, UTF8 = "standard"
- * As sub-object :
- * Field #1: 08 Varint Value = 2, Hex = 02
- * Field #2: 10 Varint Value = 1, Hex = 01
- * Field #3: 1A String Length = 8, Hex = 08, UTF8 = "standard"
- * Field #34: 92-02 String Length = 2, Hex = 02, UTF8 = ""
- * As sub-object :
- * Field #1: 08 Varint Value = 4, Hex = 04
- * Field #35: 98-02 Varint Value = 1, Hex = 01
- * Field #36: A2-02 String Length = 0, Hex = 00, UTF8 = ""
- *
- * Field #30: F2-01 String Length = 2, Hex = 02, UTF8 = "VN"
- * Field #32: 82-02 String Length = 14, Hex = 0E, UTF8 = "standard"
- * As sub-object :
- * Field #1: 08 Varint Value = 2, Hex = 02
- * Field #2: 10 Varint Value = 1, Hex = 01
- * Field #3: 1A String Length = 8, Hex = 08, UTF8 = "standard"
- * Field #34: 92-02 String Length = 0, Hex = 00, UTF8 = ""
- * Field #35: 98-02 Varint Value = 1, Hex = 01
- * Field #36: A2-02 String Length = 0, Hex = 00, UTF8 = ""
- *
- * COMPLETED
- *
- * Field #30: F2-01 String Length = 2, Hex = 02, UTF8 = "VN"
- * Field #32: 82-02 String Length = 12, Hex = 0C, UTF8 = "deluxe"
- * As sub-object :
- * Field #1: 08 Varint Value = 8, Hex = 08
- * Field #2: 10 Varint Value = 1, Hex = 01
- * Field #3: 1A String Length = 6, Hex = 06, UTF8 = "deluxe"
- * Field #34: 92-02 String Length = 0, Hex = 00, UTF8 = ""
- * Field #36: A2-02 String Length = 0, Hex = 00, UTF8 = ""
- *
- * Field #30: F2-01 String Length = 2, Hex = 02, UTF8 = "VN"
- * Field #32: 82-02 String Length = 12, Hex = 0C, UTF8 = "deluxe"
- * As sub-object :
- * Field #1: 08 Varint Value = 8, Hex = 08
- * Field #2: 10 Varint Value = 1, Hex = 01
- * Field #3: 1A String Length = 6, Hex = 06, UTF8 = "deluxe"
- * Field #34: 92-02 String Length = 2, Hex = 02, UTF8 = ""
- * As sub-object :
- * Field #1: 08 Varint Value = 4, Hex = 04
- * Field #36: A2-02 String Length = 0, Hex = 00, UTF8 = ""
- *
- * Field #30: F2-01 String Length = 2, Hex = 02, UTF8 = "VN"
- * Field #32: 82-02 String Length = 12, Hex = 0C, UTF8 = "deluxe"
- * As sub-object :
- * Field #1: 08 Varint Value = 8, Hex = 08
- * Field #2: 10 Varint Value = 1, Hex = 01
- * Field #3: 1A String Length = 6, Hex = 06, UTF8 = "deluxe"
- * Field #34: 92-02 String Length = 2, Hex = 02, UTF8 = ""
- * As sub-object :
- * Field #1: 08 Varint Value = 4, Hex = 04
- * Field #36: A2-02 String Length = 0, Hex = 00, UTF8 = ""
- */

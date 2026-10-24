@@ -34,11 +34,11 @@ export default {
             name: "status",
             subType: "String",
           },
-          28: {
+          47: {
             name: "chapterListGroup",
             subType: [
               {
-                2: {
+                1: {
                   name: "firstChapterList",
                   subType: [
                     {

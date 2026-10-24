@@ -58,6 +58,7 @@
     "slugify": "^1.6.6",
     "swagger-ui-express": "^4.1.4",
     "tunnel": "^0.0.6",
+    "uuid": "^14.0.3",
     "web-push": "^3.4.4"
   },
   "devDependencies": {
